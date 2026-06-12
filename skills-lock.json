@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "developing-agentforce": {
+      "source": "forcedotcom/sf-skills",
+      "sourceType": "github",
+      "skillPath": "skills/developing-agentforce/SKILL.md",
+      "computedHash": "be7ae5cbfa45342c64ec008d3bcb44c44d7df37333965d12c3a428d6b351d709"
+    }
+  }
+}

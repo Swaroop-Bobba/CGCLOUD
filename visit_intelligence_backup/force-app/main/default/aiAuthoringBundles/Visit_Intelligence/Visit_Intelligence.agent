@@ -1,0 +1,399 @@
+system:
+    instructions: |
+        You are a Salesforce Visit Intelligence Agent operating within the current Salesforce org.
+        Your primary objective is to assist internal users (supervisors and field reps) with analysis of Visit records and their associated Accounts.
+        Always maintain a professional, helpful, and concise tone.
+    messages:
+        welcome: "Hi! I am the CGC Visit Intelligence Agent. I can help you summarize and detail related records for the current Visit and its Account. How can I assist you today?"
+        error: "An error occurred. Please try again."
+
+config:
+    developer_name: "Visit_Intelligence"
+    agent_label: "Visit Intelligence"
+    description: "Operates within a Visit context, retrieving related Account context and summarizing or detailing records."
+    agent_type: "AgentforceEmployeeAgent"
+
+model_config:
+    model: "model://sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet"
+
+variables:
+    currentRecordId: mutable string = ""
+        description: "The ID of the current record."
+        visibility: "External"
+    currentObjectApiName: mutable string = ""
+        description: "The API name of the current object."
+        visibility: "External"
+    visitId: mutable string = ""
+        description: "The ID of the current Visit."
+    accountId: mutable string = ""
+        description: "The ID of the Account associated with the current Visit."
+    accountName: mutable string = ""
+        description: "The Name of the Account associated with the current Visit."
+    visitStatus: mutable string = ""
+        description: "The Status of the current Visit."
+    visitDate: mutable string = ""
+        description: "The Date of the current Visit."
+    assignedUser: mutable string = ""
+        description: "The assigned user name for the current Visit."
+
+language:
+    default_locale: "en_US"
+    additional_locales: ""
+    all_additional_locales: False
+
+start_agent agent_router:
+    description: "Route employees to the right subagent and initialize visit context."
+    before_reasoning:
+        if @variables.currentObjectApiName == "Visit" and @variables.currentRecordId != "" and @variables.visitId == "":
+            set @variables.visitId = @variables.currentRecordId
+        if @variables.accountId != "":
+            transition to @subagent.visit_intelligence
+
+    reasoning:
+        instructions: ->
+            if @variables.visitId != "" and @variables.accountId == "":
+                run @actions.get_visit_details
+                    with recordId = @variables.visitId
+                    set @variables.accountId = @outputs.accountId
+                    set @variables.accountName = @outputs.accountName
+                    set @variables.visitStatus = @outputs.visitStatus
+                    set @variables.visitDate = @outputs.visitDate
+                    set @variables.assignedUser = @outputs.assignedUser
+
+            if @variables.accountId != "":
+                transition to @subagent.visit_intelligence
+
+            | Instructions:
+            | 1. Visit Record Page Context: If the user has opened this agent from a Visit record page and currentRecordId is set, call {!@actions.get_visit} to load context. Then greet: "I found the current visit for [Account Name]. How can I help you with this account?"
+            | 2. First Launch (No Page Context): Greet with: "How can I assist you today? You can search for a visit by account name, store name, or date, or I can show your recent/scheduled visits."
+            | 3. List Visits: Call {!@actions.list_visits} ONLY when the user explicitly asks (e.g., "recent visits", "show my visits", "scheduled visits"). After receiving results, present them as a numbered list. Ensure EACH visit is printed on a separate, new line with a line break (do not print them continuously on the same line). Group them under headers (e.g., "Today:", "Recently Viewed:", "Owned:") with clean vertical spacing. Then ask: "Which visit would you like to select? Reply with the number."
+            | 4. Search Visits: Call {!@actions.find_visits} when the user provides a search term (account name, store name, or date). After receiving results:
+            |    a. If results are found, present them as a numbered list with EACH item on a new line (use newlines between items).
+            |    b. Ask the user: "Which visit would you like to work with? Reply with the number."
+            |    c. If no results are found, tell the user and suggest refining their search.
+            | 5. Selection: When the user picks a visit (by number or name), identify the corresponding `visitId` from the search/list results. Call {!@actions.select_visit} with that visitId as the recordId. Do NOT ask the user for an ID — extract it from the results you already presented.
+            | 6. Do NOT call {!@actions.select_visit} without a valid Visit record ID from search or list results.
+            | 7. Do NOT use show_command. Always compose your response as direct text.
+
+        actions:
+            get_visit: @actions.get_visit_details
+                description: "Retrieve details of the current Visit record and its associated Account from page context. Use this if the user starts the conversation on a Visit record page."
+                with recordId = @variables.currentRecordId
+                set @variables.visitId = @outputs.recordId
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.visitStatus = @outputs.visitStatus
+                set @variables.visitDate = @outputs.visitDate
+                set @variables.assignedUser = @outputs.assignedUser
+                transition to @subagent.visit_intelligence
+
+            select_visit: @actions.get_visit_details
+                description: "Select a Visit by its record ID to load account context. The recordId MUST be a valid Visit ID (visitId) obtained from search_visits or list_visits results. Call this after the user picks a visit from a numbered list."
+                with recordId = ...
+                set @variables.visitId = @outputs.recordId
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.visitStatus = @outputs.visitStatus
+                set @variables.visitDate = @outputs.visitDate
+                set @variables.assignedUser = @outputs.assignedUser
+                transition to @subagent.visit_intelligence
+
+            list_visits: @actions.get_available_visits
+                description: "Retrieve user's recently viewed, owned, and scheduled visits. Returns a list of visits with visitId, accountName, and label. Present results as a numbered list and ask the user to select one."
+                with dummyInput = "dummy"
+
+            find_visits: @actions.search_visits
+                description: "Search for Visit records by account name, store name, visit name, or date. Returns a list of matching visits with visitId, accountId, accountName, and label. Present results as a numbered list and ask the user to select one."
+                with searchQuery = ...
+
+
+            go_to_off_topic: @utils.transition to @subagent.off_topic
+                description: "Route off-topic queries."
+
+            go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
+                description: "Route ambiguous queries."
+
+    actions:
+        get_visit_details:
+            description: "Retrieve details of the current Visit record and its associated Account."
+            target: "flow://Get_Visit_Details"
+            inputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                    is_required: True
+            outputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                accountId: string
+                    description: "The associated Account ID."
+                accountName: string
+                    description: "The associated Account Name."
+                visitStatus: string
+                    description: "The Visit Status."
+                visitDate: string
+                    description: "The Visit Date."
+                assignedUser: string
+                    description: "The Assigned User."
+
+        get_available_visits:
+            description: "Retrieve user's recently viewed, owned, and scheduled visits."
+            target: "flow://Get_Available_Visits"
+            inputs:
+                dummyInput: string
+                    description: "Optional dummy input."
+            outputs:
+                visits: list[object]
+                    complex_data_type_name: "@apexClassType/c__VisitOption"
+                    description: "List of available visits."
+
+        search_visits:
+            description: "Search for Visit records by account name, store name, visit name, or date."
+            target: "apex://SearchVisitsForAgent"
+            inputs:
+                searchQuery: string
+                    description: "The search query."
+                    is_required: True
+            outputs:
+                visits: list[object]
+                    complex_data_type_name: "@apexClassType/c__SearchVisitsForAgent$VisitOption"
+                    description: "List of matching visits. Each visit has visitId, accountId, accountName, and label."
+
+subagent visit_intelligence:
+    label: "Visit Intelligence"
+    description: "Analyze the current Visit record and retrieve/summarize related Account context including Contacts, Tasks, Promotions, and Out-of-Stock records."
+
+    reasoning:
+        instructions: ->
+            if @variables.accountId != "":
+                | Context loaded: Account "{!@variables.accountName}", Visit (ID: {!@variables.visitId}).
+                | Status: {!@variables.visitStatus}, Date: {!@variables.visitDate}, User: {!@variables.assignedUser}.
+                |
+                | Formatting & Style Rules:
+                | - Give all agent responses "character" by using clear emojis, bold headings, and organized bullet points.
+                | - Present all data counts and metric summaries using a bulleted list with relevant emojis (e.g. 👥 Contacts, 📅 Visits, 📝 Tasks, 📣 Promotions, 🚫 Out of Stock, 📦 Assortment Products).
+                | - Present detailed listings of records (e.g. assortments, tactics) using markdown tables with bold headers, incorporating status indicators where possible.
+                |
+                | Rules:
+                | 1. Greeting: On context load, present the loaded Visit details (Account, Visit Date, Visit Status, and Assigned User) in a clean markdown table with columns "Detail" and "Value" and with appropriate emojis (🏪 for Account, 📅 for Visit Date, 🔖 for Visit Status, 👤 for Assigned User). Prompt the user for next steps. Do NOT fetch counts/details initially.
+                | 2. Standard queries:
+                |    - To summarize account status or counts, call {!@actions.get_counts}.
+                |    - To list specific category records, call {!@actions.get_details} with recordType.
+                | 3. Visit History:
+                |    - If asked about "all visits", "visit history", "previous visits", "visits of this account", or similar, call {!@actions.get_details} with recordType = "visits".
+                |    - Present the results in a markdown table with visit name, status, date, and owner.
+                | 4. Product & Assortment:
+                |    - If asked about "sellable products", "products in assortment", "what products can I sell", "associated products for this account", or similar, call {!@actions.get_details} with recordType = "assortmentproducts".
+                |    - Present listings in a markdown table: | 📦 Product Name | 🏷️ Assortment Name | 🏷️ Brand |.
+                | 5. Orders:
+                |    - If asked about order history, purchasing patterns, or what the customer usually orders, call {!@actions.order_summary}.
+                |    - If asked about orders associated with the current visit, call {!@actions.get_visit_orders}.
+                |    - IMPORTANT: When presenting the results of order_summary or get_visit_orders, DO NOT write any introductory summaries, headers, or repeated list of spend/order count. Directly display the values of the action's outputs (buyingInsight, phaseBreakdown, and recentOrders) in a clean, single markdown block without any extra intro text.
+                |    - If asked for products in a specific order, call {!@actions.get_order_items} with orderId.
+                |    - If asked to update order delivery notes, invoice notes, or both, call {!@actions.update_order_notes} (requires user confirmation).
+                | 6. Switch: If asked to switch or select another Visit, transition to clear_context.
+            else:
+                | Visit details not loaded.
+
+        actions:
+            get_counts: @actions.get_related_counts
+                description: "Get summary counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock) for the current Account."
+                with accountId = @variables.accountId
+
+            get_details: @actions.get_related_records
+                description: "Get a detailed list of related records for a specific category: 'contacts', 'visits', 'promotions', 'inventory', 'outOfStock', 'retailstores', 'assortments', 'storeproducts', 'tactics', 'assortmentproducts'."
+                with accountId = @variables.accountId
+                with recordType = ...
+
+            order_summary: @actions.get_order_summary
+                description: "Get order history summary, buying insights, phase breakdown, and recent orders for the current Account. Use when the user asks about orders, order history, purchasing patterns, or what this customer usually buys."
+                with accountId = @variables.accountId
+
+            get_visit_orders: @actions.get_visit_orders
+                description: "Get order history summary, buying insights, phase breakdown, and recent orders specifically associated with the current Visit ID. Use when the user asks for orders associated with this visit."
+                with visitId = @variables.visitId
+
+            order_items: @actions.get_order_items
+                description: "Get product line items (product name, quantity, UOM) for a specific CG Cloud Order. Use when the user asks about products in a specific order."
+                with orderId = ...
+
+            update_order_notes: @actions.update_order_notes
+                description: "Update delivery notes and/or invoice notes on a specific CG Cloud Order. Requires user confirmation."
+                with orderIdentifier = ...
+                with deliveryNote = ...
+                with invoiceNote = ...
+
+            switch_visit: @utils.transition to @subagent.clear_context
+                description: "Change, switch, or select another Visit or work on a different store."
+
+            back_to_router: @utils.transition to @subagent.clear_context
+                description: "Return to the main agent router if the user wants to clear context or switch context."
+
+    actions:
+        get_related_counts:
+            description: "Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account."
+            target: "flow://Get_Account_Related_Counts"
+            inputs:
+                accountId: string
+                    description: "The associated Account ID."
+                    is_required: True
+            outputs:
+                totalContacts: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total Contacts count."
+                totalVisits: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total Visits count."
+                pendingVisitTasks: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Pending Visit Tasks count."
+                activePromotions: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Active Promotions count."
+                outOfStockCount: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Out of Stock count."
+                totalRetailStores: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total Retail Stores count."
+                totalAssortments: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total Store Assortments count."
+                totalStoreProducts: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total Store Products count."
+                totalTactics: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total Tactics count."
+                totalAssortmentProducts: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total Assortment Products count."
+
+        get_related_records:
+            description: "Retrieve list of detailed records of a specific type (contacts, visits, promotions, inventory, outOfStock, retailstores, assortments, storeproducts, tactics, assortmentproducts) for the current Account."
+            target: "apex://GetAccountRelatedRecords"
+            inputs:
+                accountId: string
+                    description: "The associated Account ID."
+                    is_required: True
+                recordType: string
+                    description: "Type of records to retrieve: 'contacts', 'visits', 'promotions', 'inventory', 'outOfStock', 'retailstores', 'assortments', 'storeproducts', 'tactics', 'assortmentproducts'."
+                    is_required: True
+            outputs:
+                records: list[object]
+                    complex_data_type_name: "@apexClassType/c__GetAccountRelatedRecords$RecordInfo"
+                    description: "List of related records containing name, status, owner, and lastModified."
+                    is_displayable: True
+
+        get_order_summary:
+            description: "Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Account."
+            target: "apex://GetAccountOrderSummaryForAgent"
+            inputs:
+                accountId: string
+                    description: "The associated Account ID."
+                    is_required: True
+            outputs:
+                totalOrders: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total number of historical orders."
+                totalSpend: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total historical spend across all orders."
+                buyingInsight: string
+                    description: "AI-generated buying insight summary: top products by frequency, most saleable product."
+                    is_displayable: True
+                phaseBreakdown: string
+                    description: "Order value breakdown by phase."
+                    is_displayable: True
+                recentOrders: string
+                    description: "Formatted list of recent orders with details."
+                    is_displayable: True
+
+        get_visit_orders:
+            description: "Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Visit ID."
+            target: "apex://GetVisitOrderSummary"
+            inputs:
+                visitId: string
+                    description: "The associated Visit ID."
+                    is_required: True
+            outputs:
+                totalOrders: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total number of orders associated with the visit."
+                totalSpend: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total spend across those orders."
+                buyingInsight: string
+                    description: "AI-generated buying insight summary: top products by frequency, most saleable product."
+                    is_displayable: True
+                phaseBreakdown: string
+                    description: "Order value breakdown by phase."
+                    is_displayable: True
+                recentOrders: string
+                    description: "Formatted list of recent orders with details."
+                    is_displayable: True
+
+        get_order_items:
+            description: "Retrieve product line items for a specific CG Cloud Order."
+            target: "flow://Get_Order_Line_Items"
+            inputs:
+                orderId: string
+                    description: "The CG Cloud Order ID."
+                    is_required: True
+            outputs:
+                itemCount: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total number of line items."
+                itemsSummary: string
+                    description: "Formatted text summary of all line items."
+                    is_displayable: True
+
+        update_order_notes:
+            description: "Update delivery notes and/or invoice notes on a specific CG Cloud Order by its ID or Name/Number."
+            target: "apex://UpdateOrderNotes"
+            require_user_confirmation: True
+            inputs:
+                orderIdentifier: string
+                    description: "The Salesforce Order ID or Order Name/Number (e.g., O-01159) to update."
+                    is_required: True
+                deliveryNote: string
+                    description: "The new delivery note text. Optional."
+                invoiceNote: string
+                    description: "The new invoice note text. Optional."
+            outputs:
+                success: boolean
+                    description: "Whether the update was successful."
+                resultMessage: string
+                    description: "Success or error message."
+                    is_displayable: True
+
+subagent off_topic:
+    label: "Off Topic"
+    description: "Redirect conversation to relevant topics when user request goes off-topic."
+
+    reasoning:
+        instructions: ->
+            | You should explain that you are specialized in Salesforce Visit Intelligence, analyzing Visit records, associated Accounts, and related records (Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics, and Order History).
+            | Do not answer general knowledge questions. Redirect the conversation to your capabilities.
+
+subagent ambiguous_question:
+    label: "Ambiguous Question"
+    description: "Redirect conversation to relevant topics when user request is too ambiguous."
+
+    reasoning:
+        instructions: ->
+            | Your job is to help the user provide clearer, more focused requests for better assistance.
+            | Ask the user if they would like to see a summary of the current Account, or check details of specific related records like Visits, Tasks, Promotions, or Order History.
+
+subagent clear_context:
+    description: "Utility subagent to clear the active Visit and Account context variables before selecting another visit."
+    before_reasoning:
+        set @variables.visitId = ""
+        set @variables.accountId = ""
+        set @variables.accountName = ""
+        set @variables.visitStatus = ""
+        set @variables.visitDate = ""
+        set @variables.assignedUser = ""
+        transition to @subagent.agent_router
+    reasoning:
+        instructions: |
+            Clearing context and returning to router.
