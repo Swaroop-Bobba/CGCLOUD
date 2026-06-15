@@ -38,17 +38,10 @@ public with sharing class User_Agent_Handler {
         List<Result> results = new List<Result>();
         for (Request req : requests) {
             Result res = new Result();
-            String agent = req.agentName != null ? req.agentName.trim() : '';
             String action = req.actionType != null ? req.actionType.toLowerCase().trim() : '';
 
-            if (agent.equalsIgnoreCase('CGC_Intelligence')) {
-                if (action == 'search') {
-                    res.users = CGC_Intelligence_Service2.searchUsers(req.searchQuery);
-                }
-            } else if (agent.equalsIgnoreCase('Visit_Intelligence')) {
-                if (action == 'search') {
-                    res.users = Visit_Intelligence_Service2.searchUsers(req.searchQuery);
-                }
+            if (action == 'search') {
+                res.users = User_Agent_Service.searchUsers(req.searchQuery);
             }
             results.add(res);
         }

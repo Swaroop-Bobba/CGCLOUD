@@ -111,29 +111,18 @@ public with sharing class Account_Agent_Handler {
         List<Result> results = new List<Result>();
         for (Request req : requests) {
             Result res = new Result();
-            String agent = req.agentName != null ? req.agentName.trim() : '';
             String action = req.actionType != null ? req.actionType.toLowerCase().trim() : '';
 
-            if (agent.equalsIgnoreCase('CGC_Intelligence')) {
-                if (action == 'getdetails') {
-                    res = CGC_Intelligence_Service.getAccountDetails(req.accountId);
-                } else if (action == 'search') {
-                    res.accounts = CGC_Intelligence_Service.searchAccounts(req.searchQuery);
-                } else if (action == 'getcounts') {
-                    res = CGC_Intelligence_Service.getRelatedCounts(req.accountId);
-                } else if (action == 'getrecords') {
-                    res.records = CGC_Intelligence_Service.getRelatedRecords(req.accountId, req.recordType);
-                } else if (action == 'suggestproducts') {
-                    res.recommendations = CGC_Intelligence_Service.suggestProducts(req.accountId);
-                }
-            } else if (agent.equalsIgnoreCase('Visit_Intelligence')) {
-                if (action == 'getcounts') {
-                    res = Visit_Intelligence_Service.getRelatedCounts(req.accountId);
-                } else if (action == 'getrecords') {
-                    res.records = Visit_Intelligence_Service.getRelatedRecords(req.accountId, req.recordType);
-                } else if (action == 'suggestproducts') {
-                    res.recommendations = Visit_Intelligence_Service.suggestProducts(req.accountId);
-                }
+            if (action == 'getdetails') {
+                res = Account_Agent_Service.getAccountDetails(req.accountId);
+            } else if (action == 'search') {
+                res.accounts = Account_Agent_Service.searchAccounts(req.searchQuery);
+            } else if (action == 'getcounts') {
+                res = Account_Agent_Service.getRelatedCounts(req.accountId);
+            } else if (action == 'getrecords') {
+                res.records = Account_Agent_Service.getRelatedRecords(req.accountId, req.recordType);
+            } else if (action == 'suggestproducts') {
+                res.recommendations = Account_Agent_Service.suggestProducts(req.accountId);
             }
             results.add(res);
         }

@@ -123,33 +123,20 @@ public with sharing class Order_Agent_Handler {
         List<Result> results = new List<Result>();
         for (Request req : requests) {
             Result res = new Result();
-            String agent = req.agentName != null ? req.agentName.trim() : '';
             String action = req.actionType != null ? req.actionType.toLowerCase().trim() : '';
 
-            if (agent.equalsIgnoreCase('CGC_Intelligence')) {
-                if (action == 'getdetails') {
-                    res = CGC_Intelligence_Service.getOrderDetails(req.orderId);
-                } else if (action == 'search') {
-                    res.orders = CGC_Intelligence_Service.searchOrders(req.searchQuery);
-                } else if (action == 'getaccountsummary') {
-                    res = CGC_Intelligence_Service.getAccountOrderSummary(req.accountId);
-                } else if (action == 'getvisitsummary') {
-                    res = CGC_Intelligence_Service.getVisitOrderSummary(req.visitId);
-                } else if (action == 'getlineitems') {
-                    res = CGC_Intelligence_Service.getOrderLineItems(req.orderId);
-                } else if (action == 'updatenotes') {
-                    res = CGC_Intelligence_Service.updateOrderNotes(req.orderIdentifier, req.deliveryNote, req.invoiceNote);
-                }
-            } else if (agent.equalsIgnoreCase('Visit_Intelligence')) {
-                if (action == 'getaccountsummary') {
-                    res = Visit_Intelligence_Service.getAccountOrderSummary(req.accountId);
-                } else if (action == 'getvisitsummary') {
-                    res = Visit_Intelligence_Service.getVisitOrderSummary(req.visitId);
-                } else if (action == 'getlineitems') {
-                    res = Visit_Intelligence_Service.getOrderLineItems(req.orderId);
-                } else if (action == 'updatenotes') {
-                    res = Visit_Intelligence_Service.updateOrderNotes(req.orderIdentifier, req.deliveryNote, req.invoiceNote);
-                }
+            if (action == 'getdetails') {
+                res = Order_Agent_Service.getOrderDetails(req.orderId);
+            } else if (action == 'search') {
+                res.orders = Order_Agent_Service.searchOrders(req.searchQuery);
+            } else if (action == 'getaccountsummary') {
+                res = Order_Agent_Service.getAccountOrderSummary(req.accountId);
+            } else if (action == 'getvisitsummary') {
+                res = Order_Agent_Service.getVisitOrderSummary(req.visitId);
+            } else if (action == 'getlineitems') {
+                res = Order_Agent_Service.getOrderLineItems(req.orderId);
+            } else if (action == 'updatenotes') {
+                res = Order_Agent_Service.updateOrderNotes(req.orderIdentifier, req.deliveryNote, req.invoiceNote);
             }
             results.add(res);
         }
