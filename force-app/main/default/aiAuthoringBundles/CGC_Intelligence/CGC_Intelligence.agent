@@ -643,3 +643,4 @@ subagent clear_context:
     reasoning:
         instructions: |
             Clearing context and returning to router.
+            
