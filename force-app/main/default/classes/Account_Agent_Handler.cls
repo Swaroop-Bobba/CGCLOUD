@@ -116,23 +116,23 @@ public with sharing class Account_Agent_Handler {
 
             if (agent.equalsIgnoreCase('CGC_Intelligence')) {
                 if (action == 'getdetails') {
-                    res = CGC_Intelligence_Helper.getAccountDetails(req.accountId);
+                    res = CGC_Intelligence_Service.getAccountDetails(req.accountId);
                 } else if (action == 'search') {
-                    res.accounts = CGC_Intelligence_Helper.searchAccounts(req.searchQuery);
+                    res.accounts = CGC_Intelligence_Service.searchAccounts(req.searchQuery);
                 } else if (action == 'getcounts') {
-                    res = CGC_Intelligence_Helper.getRelatedCounts(req.accountId);
+                    res = CGC_Intelligence_Service.getRelatedCounts(req.accountId);
                 } else if (action == 'getrecords') {
-                    res.records = CGC_Intelligence_Helper.getRelatedRecords(req.accountId, req.recordType);
+                    res.records = CGC_Intelligence_Service.getRelatedRecords(req.accountId, req.recordType);
                 } else if (action == 'suggestproducts') {
-                    res.recommendations = CGC_Intelligence_Helper.suggestProducts(req.accountId);
+                    res.recommendations = CGC_Intelligence_Service.suggestProducts(req.accountId);
                 }
             } else if (agent.equalsIgnoreCase('Visit_Intelligence')) {
                 if (action == 'getcounts') {
-                    res = Visit_Intelligence_Helper.getRelatedCounts(req.accountId);
+                    res = Visit_Intelligence_Service.getRelatedCounts(req.accountId);
                 } else if (action == 'getrecords') {
-                    res.records = Visit_Intelligence_Helper.getRelatedRecords(req.accountId, req.recordType);
+                    res.records = Visit_Intelligence_Service.getRelatedRecords(req.accountId, req.recordType);
                 } else if (action == 'suggestproducts') {
-                    res.recommendations = Visit_Intelligence_Helper.suggestProducts(req.accountId);
+                    res.recommendations = Visit_Intelligence_Service.suggestProducts(req.accountId);
                 }
             }
             results.add(res);

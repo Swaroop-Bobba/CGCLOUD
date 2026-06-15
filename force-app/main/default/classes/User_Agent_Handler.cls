@@ -43,11 +43,11 @@ public with sharing class User_Agent_Handler {
 
             if (agent.equalsIgnoreCase('CGC_Intelligence')) {
                 if (action == 'search') {
-                    res.users = CGC_Intelligence_Helper2.searchUsers(req.searchQuery);
+                    res.users = CGC_Intelligence_Service2.searchUsers(req.searchQuery);
                 }
             } else if (agent.equalsIgnoreCase('Visit_Intelligence')) {
                 if (action == 'search') {
-                    res.users = Visit_Intelligence_Helper2.searchUsers(req.searchQuery);
+                    res.users = Visit_Intelligence_Service2.searchUsers(req.searchQuery);
                 }
             }
             results.add(res);

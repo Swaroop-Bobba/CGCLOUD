@@ -1,4 +1,4 @@
-public with sharing class CGC_Intelligence_Helper2 {
+public with sharing class Visit_Intelligence_Service2 {
 
     // --- VISIT METHODS ---
 

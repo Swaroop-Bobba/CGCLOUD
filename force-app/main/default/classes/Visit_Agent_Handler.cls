@@ -104,27 +104,27 @@ public with sharing class Visit_Agent_Handler {
 
             if (agent.equalsIgnoreCase('CGC_Intelligence')) {
                 if (action == 'getavailable') {
-                    res.visits = CGC_Intelligence_Helper2.getAvailableVisits();
+                    res.visits = CGC_Intelligence_Service2.getAvailableVisits();
                 } else if (action == 'search') {
-                    res.visits = CGC_Intelligence_Helper2.searchVisits(req.searchQuery);
+                    res.visits = CGC_Intelligence_Service2.searchVisits(req.searchQuery);
                 } else if (action == 'getstorebrief') {
-                    res.summary = CGC_Intelligence_Helper2.getStoreBrief(req.visitId, req.accountId);
+                    res.summary = CGC_Intelligence_Service2.getStoreBrief(req.visitId, req.accountId);
                 } else if (action == 'generatesummary') {
-                    res.visitSummary = CGC_Intelligence_Helper2.generateVisitSummary(req.visitId);
+                    res.visitSummary = CGC_Intelligence_Service2.generateVisitSummary(req.visitId);
                 } else if (action == 'updatevisit') {
-                    res = CGC_Intelligence_Helper2.updateVisit(req);
+                    res = CGC_Intelligence_Service2.updateVisit(req);
                 }
             } else if (agent.equalsIgnoreCase('Visit_Intelligence')) {
                 if (action == 'getavailable') {
-                    res.visits = Visit_Intelligence_Helper2.getAvailableVisits();
+                    res.visits = Visit_Intelligence_Service2.getAvailableVisits();
                 } else if (action == 'search') {
-                    res.visits = Visit_Intelligence_Helper2.searchVisits(req.searchQuery);
+                    res.visits = Visit_Intelligence_Service2.searchVisits(req.searchQuery);
                 } else if (action == 'getstorebrief') {
-                    res.summary = Visit_Intelligence_Helper2.getStoreBrief(req.visitId, req.accountId);
+                    res.summary = Visit_Intelligence_Service2.getStoreBrief(req.visitId, req.accountId);
                 } else if (action == 'generatesummary') {
-                    res.visitSummary = Visit_Intelligence_Helper2.generateVisitSummary(req.visitId);
+                    res.visitSummary = Visit_Intelligence_Service2.generateVisitSummary(req.visitId);
                 } else if (action == 'updatevisit') {
-                    res = Visit_Intelligence_Helper2.updateVisit(req);
+                    res = Visit_Intelligence_Service2.updateVisit(req);
                 }
             }
             results.add(res);

@@ -128,27 +128,27 @@ public with sharing class Order_Agent_Handler {
 
             if (agent.equalsIgnoreCase('CGC_Intelligence')) {
                 if (action == 'getdetails') {
-                    res = CGC_Intelligence_Helper.getOrderDetails(req.orderId);
+                    res = CGC_Intelligence_Service.getOrderDetails(req.orderId);
                 } else if (action == 'search') {
-                    res.orders = CGC_Intelligence_Helper.searchOrders(req.searchQuery);
+                    res.orders = CGC_Intelligence_Service.searchOrders(req.searchQuery);
                 } else if (action == 'getaccountsummary') {
-                    res = CGC_Intelligence_Helper.getAccountOrderSummary(req.accountId);
+                    res = CGC_Intelligence_Service.getAccountOrderSummary(req.accountId);
                 } else if (action == 'getvisitsummary') {
-                    res = CGC_Intelligence_Helper.getVisitOrderSummary(req.visitId);
+                    res = CGC_Intelligence_Service.getVisitOrderSummary(req.visitId);
                 } else if (action == 'getlineitems') {
-                    res = CGC_Intelligence_Helper.getOrderLineItems(req.orderId);
+                    res = CGC_Intelligence_Service.getOrderLineItems(req.orderId);
                 } else if (action == 'updatenotes') {
-                    res = CGC_Intelligence_Helper.updateOrderNotes(req.orderIdentifier, req.deliveryNote, req.invoiceNote);
+                    res = CGC_Intelligence_Service.updateOrderNotes(req.orderIdentifier, req.deliveryNote, req.invoiceNote);
                 }
             } else if (agent.equalsIgnoreCase('Visit_Intelligence')) {
                 if (action == 'getaccountsummary') {
-                    res = Visit_Intelligence_Helper.getAccountOrderSummary(req.accountId);
+                    res = Visit_Intelligence_Service.getAccountOrderSummary(req.accountId);
                 } else if (action == 'getvisitsummary') {
-                    res = Visit_Intelligence_Helper.getVisitOrderSummary(req.visitId);
+                    res = Visit_Intelligence_Service.getVisitOrderSummary(req.visitId);
                 } else if (action == 'getlineitems') {
-                    res = Visit_Intelligence_Helper.getOrderLineItems(req.orderId);
+                    res = Visit_Intelligence_Service.getOrderLineItems(req.orderId);
                 } else if (action == 'updatenotes') {
-                    res = Visit_Intelligence_Helper.updateOrderNotes(req.orderIdentifier, req.deliveryNote, req.invoiceNote);
+                    res = Visit_Intelligence_Service.updateOrderNotes(req.orderIdentifier, req.deliveryNote, req.invoiceNote);
                 }
             }
             results.add(res);

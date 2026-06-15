@@ -1,4 +1,4 @@
-public with sharing class CGC_Intelligence_Helper {
+public with sharing class CGC_Intelligence_Service {
 
     // --- ACCOUNT METHODS ---
 
