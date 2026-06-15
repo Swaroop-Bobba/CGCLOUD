@@ -99,10 +99,14 @@ start_agent agent_router:
 
             list_visits: @actions.get_available_visits
                 description: "Retrieve user's recently viewed, owned, and scheduled visits. Returns a list of visits with visitId, accountName, and label. Present results as a numbered list and ask the user to select one."
+                with agentName = "Visit_Intelligence"
+                with actionType = "getAvailable"
                 with dummyInput = "dummy"
 
             find_visits: @actions.search_visits
                 description: "Search for Visit records by account name, store name, visit name, or date. Returns a list of matching visits with visitId, accountId, accountName, and label. Present results as a numbered list and ask the user to select one."
+                with agentName = "Visit_Intelligence"
+                with actionType = "search"
                 with searchQuery = ...
 
 
@@ -136,25 +140,37 @@ start_agent agent_router:
 
         get_available_visits:
             description: "Retrieve user's recently viewed, owned, and scheduled visits."
-            target: "apex://GetAvailableVisits"
+            target: "apex://Visit_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 dummyInput: string
                     description: "Optional dummy input."
             outputs:
                 visits: list[object]
-                    complex_data_type_name: "@apexClassType/c__GetAvailableVisits$VisitOption"
+                    complex_data_type_name: "@apexClassType/c__Visit_Agent_Handler$VisitOption"
                     description: "List of available visits."
 
         search_visits:
             description: "Search for Visit records by account name, store name, visit name, or date."
-            target: "apex://SearchVisitsForAgent"
+            target: "apex://Visit_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 searchQuery: string
                     description: "The search query."
                     is_required: True
             outputs:
                 visits: list[object]
-                    complex_data_type_name: "@apexClassType/c__SearchVisitsForAgent$VisitOption"
+                    complex_data_type_name: "@apexClassType/c__Visit_Agent_Handler$VisitOption"
                     description: "List of matching visits. Each visit has visitId, accountId, accountName, and label."
 
 subagent visit_intelligence:
@@ -202,27 +218,39 @@ subagent visit_intelligence:
         actions:
             get_counts: @actions.get_related_counts
                 description: "Get summary counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock) for the current Account."
+                with agentName = "Visit_Intelligence"
+                with actionType = "getCounts"
                 with accountId = @variables.accountId
 
             get_details: @actions.get_related_records
                 description: "Get a detailed list of related records for a specific category: 'contacts', 'visits', 'promotions', 'inventory', 'outOfStock', 'retailstores', 'assortments', 'storeproducts', 'tactics', 'assortmentproducts'."
+                with agentName = "Visit_Intelligence"
+                with actionType = "getRecords"
                 with accountId = @variables.accountId
                 with recordType = ...
 
             order_summary: @actions.get_order_summary
                 description: "Get order history summary, buying insights, phase breakdown, and recent orders for the current Account. Use when the user asks about orders, order history, purchasing patterns, or what this customer usually buys."
+                with agentName = "Visit_Intelligence"
+                with actionType = "getAccountSummary"
                 with accountId = @variables.accountId
 
             get_visit_orders: @actions.get_visit_orders
                 description: "Get order history summary, buying insights, phase breakdown, and recent orders specifically associated with the current Visit ID. Use when the user asks for orders associated with this visit."
+                with agentName = "Visit_Intelligence"
+                with actionType = "getVisitSummary"
                 with visitId = @variables.visitId
 
             get_order_items: @actions.get_order_items
                 description: "Get product line items (product name, quantity, UOM) for a specific CG Cloud Order. Use when the user asks about products in a specific order."
+                with agentName = "Visit_Intelligence"
+                with actionType = "getLineItems"
                 with orderId = ...
 
             update_order_notes: @actions.update_order_notes
                 description: "Update delivery notes and/or invoice notes on a specific CG Cloud Order. Requires user confirmation."
+                with agentName = "Visit_Intelligence"
+                with actionType = "updateNotes"
                 with orderIdentifier = ...
                 with deliveryNote = ...
                 with invoiceNote = ...
@@ -235,19 +263,27 @@ subagent visit_intelligence:
 
             store_brief: @actions.get_store_brief
                 description: "Retrieve a consolidated store brief and audit summary for the current visit and account context."
+                with agentName = "Visit_Intelligence"
+                with actionType = "getStoreBrief"
                 with visitId = @variables.visitId
                 with accountId = @variables.accountId
 
             suggest_products: @actions.suggest_products
                 description: "Analyze the store's product catalogs and recent order history to generate a prioritized list of suggested or recommended products."
+                with agentName = "Visit_Intelligence"
+                with actionType = "suggestProducts"
                 with accountId = @variables.accountId
 
             generate_visit_summary: @actions.generate_visit_summary
                 description: "Generate a structured visit report summarizing completed/pending tasks, promotions audited, and orders created."
+                with agentName = "Visit_Intelligence"
+                with actionType = "generateSummary"
                 with visitId = @variables.visitId
 
             update_visit: @actions.update_visit
                 description: "Update the status, notes, timing, or owner of the active Visit record. Requires user confirmation."
+                with agentName = "Visit_Intelligence"
+                with actionType = "updateVisit"
                 with visitId = @variables.visitId
                 with status = ...
                 with notes = ...
@@ -260,13 +296,21 @@ subagent visit_intelligence:
 
             search_users: @actions.search_users
                 description: "Search for a user by name to get their details before assigning a visit."
+                with agentName = "Visit_Intelligence"
+                with actionType = "search"
                 with searchQuery = ...
 
     actions:
         get_related_counts:
             description: "Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account."
-            target: "apex://GetAccountRelatedCounts"
+            target: "apex://Account_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 accountId: string
                     description: "The associated Account ID."
                     is_required: True
@@ -304,8 +348,14 @@ subagent visit_intelligence:
 
         get_related_records:
             description: "Retrieve list of detailed records of a specific type (contacts, visits, promotions, inventory, outOfStock, retailstores, assortments, storeproducts, tactics, assortmentproducts) for the current Account."
-            target: "apex://GetAccountRelatedRecords"
+            target: "apex://Account_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 accountId: string
                     description: "The associated Account ID."
                     is_required: True
@@ -314,14 +364,20 @@ subagent visit_intelligence:
                     is_required: True
             outputs:
                 records: list[object]
-                    complex_data_type_name: "@apexClassType/c__GetAccountRelatedRecords$RecordInfo"
+                    complex_data_type_name: "@apexClassType/c__Account_Agent_Handler$RecordInfo"
                     description: "List of related records containing name, status, owner, and lastModified."
                     is_displayable: True
 
         get_order_summary:
             description: "Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Account."
-            target: "apex://GetAccountOrderSummaryForAgent"
+            target: "apex://Order_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 accountId: string
                     description: "The associated Account ID."
                     is_required: True
@@ -344,8 +400,14 @@ subagent visit_intelligence:
 
         get_visit_orders:
             description: "Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Visit ID."
-            target: "apex://GetVisitOrderSummary"
+            target: "apex://Order_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 visitId: string
                     description: "The associated Visit ID."
                     is_required: True
@@ -368,8 +430,14 @@ subagent visit_intelligence:
 
         get_order_items:
             description: "Retrieve product line items for a specific CG Cloud Order."
-            target: "apex://GetOrderLineItems"
+            target: "apex://Order_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 orderId: string
                     description: "The CG Cloud Order ID."
                     is_required: True
@@ -383,9 +451,15 @@ subagent visit_intelligence:
 
         update_order_notes:
             description: "Update delivery notes and/or invoice notes on a specific CG Cloud Order by its ID or Name/Number."
-            target: "apex://UpdateOrderNotes"
+            target: "apex://Order_Agent_Handler"
             require_user_confirmation: True
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 orderIdentifier: string
                     description: "The Salesforce Order ID or Order Name/Number (e.g., O-01159) to update."
                     is_required: True
@@ -402,8 +476,14 @@ subagent visit_intelligence:
 
         get_store_brief:
             description: "Get store brief data including order totals, top products, active promotions, and open tasks."
-            target: "apex://GetStoreBrief"
+            target: "apex://Visit_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 visitId: string
                     description: "The current Visit ID."
                     is_required: True
@@ -417,8 +497,14 @@ subagent visit_intelligence:
 
         suggest_products:
             description: "Get product recommendations for the active store based on catalog gaps and order history."
-            target: "apex://SuggestProductsForStore"
+            target: "apex://Account_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 accountId: string
                     description: "The associated Account ID."
                     is_required: True
@@ -429,8 +515,14 @@ subagent visit_intelligence:
 
         generate_visit_summary:
             description: "Collect visit execution metrics and return a formatted visit report."
-            target: "apex://GenerateVisitSummary"
+            target: "apex://Visit_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 visitId: string
                     description: "The current Visit ID."
                     is_required: True
@@ -441,9 +533,15 @@ subagent visit_intelligence:
 
         update_visit:
             description: "Update fields on the current Visit record. Requires user confirmation."
-            target: "apex://UpdateVisitDetails"
+            target: "apex://Visit_Agent_Handler"
             require_user_confirmation: True
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 visitId: string
                     description: "The active Visit record ID."
                     is_required: True
@@ -474,14 +572,20 @@ subagent visit_intelligence:
 
         search_users:
             description: "Search for users by name."
-            target: "apex://SearchUsersForAgent"
+            target: "apex://User_Agent_Handler"
             inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
                 searchQuery: string
                     description: "The name of the user to search for."
                     is_required: True
             outputs:
                 users: list[object]
-                    complex_data_type_name: "@apexClassType/c__SearchUsersForAgent$UserOption"
+                    complex_data_type_name: "@apexClassType/c__User_Agent_Handler$UserOption"
                     description: "List of matching users containing name, userId, alias, and profileName."
                     is_displayable: True
 

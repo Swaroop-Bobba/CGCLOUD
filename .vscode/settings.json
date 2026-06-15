@@ -7,5 +7,11 @@
   },
   "xml.preferences.showSchemaDocumentationType": "none",
   "xml.validation.schema": "never",
+  "xml.validation.filters": [
+    {
+      "pattern": "**/*-meta.xml",
+      "enabled": false
+    }
+  ],
   "git.ignoreLimitWarning": true
 }
