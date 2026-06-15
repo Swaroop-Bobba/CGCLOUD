@@ -101,7 +101,6 @@ start_agent agent_router:
                 description: "Retrieve user's recently viewed, owned, and scheduled visits. Returns a list of visits with visitId, accountName, and label. Present results as a numbered list and ask the user to select one."
                 with agentName = "Visit_Intelligence"
                 with actionType = "getAvailable"
-                with dummyInput = "dummy"
 
             find_visits: @actions.search_visits
                 description: "Search for Visit records by account name, store name, visit name, or date. Returns a list of matching visits with visitId, accountId, accountName, and label. Present results as a numbered list and ask the user to select one."
@@ -148,8 +147,6 @@ start_agent agent_router:
                 actionType: string
                     description: "The type of action to perform."
                     is_required: True
-                dummyInput: string
-                    description: "Optional dummy input."
             outputs:
                 visits: list[object]
                     complex_data_type_name: "@apexClassType/c__Visit_Agent_Handler$VisitOption"
