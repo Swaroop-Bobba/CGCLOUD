@@ -1,8 +1,8 @@
 system:
     instructions: "You are an intelligent Customer Account Onboarding Agent. Your primary goal is to ensure all required customer information is collected, validated, and processed so that a new customer account can be activated quickly and accurately. Always ask one question at a time and be professional."
     messages:
-        welcome: "Hello! I am here to help you onboard a new customer account."
-        error: "Sorry, it looks like something has gone wrong."
+        welcome: "Hello. I am your **Customer Account Onboarding Assistant**. How may I assist you today?"
+        error: "⚠️ **Oops!** Something went wrong. Please try again."
 
 config:
     developer_name: "Customer_Account_Onboarding_Agent"
@@ -14,6 +14,8 @@ variables:
     contact_id: mutable string = ""
     account_extension_status: mutable string = ""
     account_manager_id: mutable string = ""
+    tasks_created: mutable boolean = False
+
 start_agent agent_router:
     description: "Main routing subagent for the onboarding process."
     reasoning:
@@ -28,9 +30,15 @@ start_agent agent_router:
             go_to_contact: @utils.transition to @subagent.create_contact
                 description: "Start or continue contact creation."
                 available when @variables.account_id != "" and @variables.contact_id == ""
+            go_to_manager: @utils.transition to @subagent.assign_account_manager
+                description: "Assign an account manager."
+                available when @variables.account_extension_status == "Success" and @variables.account_manager_id == ""
+            go_to_tasks: @utils.transition to @subagent.create_tasks
+                description: "Create onboarding tasks."
+                available when @variables.account_manager_id != "" and @variables.tasks_created == False
             go_to_summary: @utils.transition to @subagent.activation_summary
                 description: "Show the final summary."
-                available when @variables.account_extension_status == "Success"
+                available when @variables.tasks_created == True
             go_to_off_topic: @utils.transition to @subagent.off_topic
                 description: "Handle off-topic requests."
             go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
@@ -41,18 +49,15 @@ subagent create_account:
     reasoning:
         instructions: ->
             | Your STRICT goal is to collect EXACTLY the following 4 pieces of information one field at a time:
-              WARNING: You must NEVER ask the user to provide an Account Type (such as individual or business). Do not invent or ask for any fields not in the 4-item list below.
-              1. Account Name
-              2. Mobile Number (validate format)
-              3. Email Address (validate format)
-              4. Complete Address
-              
-              When asking for the Complete Address, ask the user to provide it using the following template. You MUST present these exact placeholders to the user as a bulleted list so they render on separate lines:
-              - Street
-              - City
-              - State/Province
-              - Zip/Postal Code
-              - Country
+              1. 📂 **Account Name**
+              2. 📞 **Mobile Number** (validate format)
+              3. 📧 **Email Address** (must match pattern .+@.+\..+; if not, ask user to re‑enter a valid email)
+              4. 🏢 **Complete Address** – reply with each item on a new line:
+                - **Street**
+                - **City**
+                - **State/Province**
+                - **Zip/Postal Code**
+                - **Country**
               
               Once the user provides the address, parse it into the individual components: Street (address), City, State, Postal Code, and Country.
               
@@ -158,11 +163,7 @@ subagent account_extension:
             run @actions.trigger_account_extension_action
                 with accountId = @variables.account_id
                 set @variables.account_extension_status = "Success"
-            run @actions.search_and_assign_manager_action
-                with accountId = @variables.account_id
-                with searchName = ""
-                set @variables.account_manager_id = @outputs.assignedUserId
-            transition to @subagent.activation_summary
+            transition to @subagent.assign_account_manager
 
     actions:
         trigger_account_extension_action:
@@ -177,6 +178,29 @@ subagent account_extension:
                     filter_from_agent: False
                 errorMessage: string
                     filter_from_agent: False
+
+subagent assign_account_manager:
+    description: "Collects Account Manager info and assigns it."
+    reasoning:
+        instructions: ->
+            | You need to assign an Account Manager.
+              Ask the user to search for a user or use themselves.
+              Call search_and_assign_manager action. Only active users can be assigned.
+              If it fails, ask the user to select another user.
+              
+              Once assigned successfully, transition to create_tasks.
+        actions:
+            search_and_assign_manager: @actions.search_and_assign_manager_action
+                description: "Search and assign an Account Manager."
+                with accountId = @variables.account_id
+                with searchName = ...
+                set @variables.account_manager_id = @outputs.assignedUserId
+
+    after_reasoning:
+        if @variables.account_manager_id != "":
+            transition to @subagent.create_tasks
+
+    actions:
         search_and_assign_manager_action:
             target: "apex://AssignAccountManagerAction"
             description: "Search and assign an Account Manager."
@@ -191,6 +215,34 @@ subagent account_extension:
                 success: boolean
                     filter_from_agent: True
                 errorMessage: string
+                    filter_from_agent: False
+
+subagent create_tasks:
+    description: "Generates onboarding tasks."
+    reasoning:
+        instructions: ->
+            | Call the create_onboarding_tasks action to generate sales, finance, and distribution tasks.
+              After completion, transition to activation_summary.
+        actions:
+            create_onboarding_tasks: @actions.create_onboarding_tasks_action
+                description: "Create onboarding tasks for relevant teams."
+                with accountId = @variables.account_id
+                set @variables.tasks_created = @outputs.success
+
+    after_reasoning:
+        if @variables.tasks_created == True:
+            transition to @subagent.activation_summary
+
+    actions:
+        create_onboarding_tasks_action:
+            target: "apex://CreateOnboardingTasksAction"
+            description: "Create onboarding tasks for relevant teams."
+            inputs:
+                accountId: string
+            outputs:
+                success: boolean
+                    filter_from_agent: True
+                tasksCreated: number
                     filter_from_agent: False
 
 subagent activation_summary:
