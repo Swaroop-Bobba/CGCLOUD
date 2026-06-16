@@ -13,5 +13,6 @@
       "enabled": false
     }
   ],
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "salesforcedx-vscode-core.show-cli-success-msg": false
 }
