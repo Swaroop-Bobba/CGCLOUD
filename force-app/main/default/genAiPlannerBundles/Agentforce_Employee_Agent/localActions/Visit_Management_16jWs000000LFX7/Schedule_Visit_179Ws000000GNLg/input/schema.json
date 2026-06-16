@@ -1,0 +1,29 @@
+{
+  "required" : [ "AccountId", "VisitDateandTime", "VisitTemplateId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "AccountId" : {
+      "title" : "AccountId",
+      "description" : "The account ID for which a visit is to be created.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "VisitDateandTime" : {
+      "title" : "VisitDateandTime",
+      "description" : "The date and time for which a visit is to be created.",
+      "lightning:type" : "lightning__dateTimeStringType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "VisitTemplateId" : {
+      "title" : "VisitTemplateId",
+      "description" : "The visit template ID that’s used to create visits.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

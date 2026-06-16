@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Fund_Role_State_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(
+      OR(
+      AND(
+      ISBLANK(cgcloud__Fund_Valid_From__c),
+      ISBLANK(cgcloud__Fund_Valid_Thru__c)
+      ),
+      AND(
+      NOT ISBLANK(cgcloud__Fund_Valid_From__c),
+      NOT ISBLANK(cgcloud__Fund_Valid_Thru__c),
+      (cgcloud__Fund_Valid_From__c &lt;= cgcloud__Fund_Valid_Thru__c)
+      )
+      )
+      )</errorConditionFormula>
+    <errorDisplayField>cgcloud__Fund_Valid_From__c</errorDisplayField>
+    <errorMessage>Valid From and Valid Thru can&apos;t be empty and Valid From can&apos;t be later than Valid Thru if the Product State &apos;Fund&apos; is assigned to the Product.</errorMessage>
+</ValidationRule>

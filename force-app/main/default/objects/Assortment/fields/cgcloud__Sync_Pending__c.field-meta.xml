@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sync_Pending__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Flagged to be relevant for this sync process.</description>
+    <formula>IF( cgcloud__Version__c &lt;&gt;  cgcloud__Version_Off_Platform_APL__c , cgcloud__Product_Assortment_Template__r.cgcloud__Consider_For_APL_Generation__c, false )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Sync Pending</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

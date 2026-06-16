@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tag_Number__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <deprecated>false</deprecated>
+    <description>Auxiliary hidden field, fulfilled by WF field update, in order to avoid duplicate records in standard SerialNumber field in the same Sales Org</description>
+    <externalId>false</externalId>
+    <label>Tag Number</label>
+    <length>85</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

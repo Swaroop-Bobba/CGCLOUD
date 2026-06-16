@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>LA1y9S6TmeoU4JknLmTZGSJbd63UiNW7XwqZTNoMExY=_1</activeVersionIdentifier>
+    <description>Recommends the top 10 products, which includes the product sales pitch.</description>
+    <developerName>Recommend_Products_to_Upsell</developerName>
+    <masterLabel>Recommend Products to Upsell</masterLabel>
+    <overridable>false</overridable>
+    <relatedEntity>Account</relatedEntity>
+    <templateVersions>
+        <content>You&apos;re a CRM assistant whose goal is to recommend products to help a tele-sales rep upsell during order taking. Recommend the top 10 products based on these criteria:
+- Utilize historical order data to identify the most ordered products. 
+Historical Data: {!$Apex:cgcloud__GenAIAccountSummarizationOrderData.Prompt}
+- Use product survey data to recommend products that’re reported as out-of-stock often during visits.
+Product Survey data: {!$Apex:cgcloud__GenAIAccountSummaryComplianceData.Prompt}
+- Look at past visit notes to find problems or needs that were mentioned before but not fixed. This will let the tele-sales reps offer solutions or products that meet those needs.
+- Use the past visit notes with product-related issues or feedback to recommend alternatives or improved products that address these concerns.
+- Use the previous order delivery or invoice notes with issues or dissatisfaction to offer upgraded or alternative products that address those concerns and improve customer satisfaction.
+Visit notes and order delivery and invoice notes data: {!$Apex:cgcloud__GenAIAccountSummaryHealthAssessmentData.Prompt}
+
+- Include a sales pitch for each recommended products based on the results from the product survey, visit notes, order delivery, or invoice notes. A few examples of sales pitch are:
+ Example 1: We&apos;ve noted from recent surveys that your preferred product is currently out of stock. We have a new shipment arriving soon and can offer you a priority order to make sure you get it first.
+ Example 2: We noticed from our recent delivery notes that there were some concerns with the previous shipment. We’ve arranged for an early delivery of your next order. 
+
+
+Context:
+
+* Account Name: Name of a customer.
+* Order Name: Unique identification of the order record.
+* Order Date: The date on which the customer commits to the sales document. For order entries, it’s the order date.
+* Order Delivery Date: Delivery date of an order. By default, it’s the next day. Delivery date calculation is customized frequently.
+* Delivery Recipient: Reference to the delivery recipient of the account. 
+* Order Total Value: Gross total value (domestic currency) of the sales document including relevant sales taxes. The system calculates the value based on the sales document item template settings.
+* Order Total Receipt Value: Total value of the order entry in the order or receipt currency.
+* Order Name: Unique identification of the record.
+* Product Description: A text description of the product.
+* Product Category: Indicates the product category of the product. Possible values are:
+ * Beverages
+ * Chips
+ * Detergent
+ * Frozen—Frozen Goods
+ * Hygiene
+ * Snacks
+* Product Brand: Indicates the brand of the product. Possible values for for the Beverages category are: 
+ * Empower Cola
+ * Empower Cherry
+ * Dash Cranberry
+* Product Quantity: Quantity of the product.
+* Unit of Measure: Logistical unit of a product. Possible values are:
+ * ConsumerUnit
+ * Layer
+ * Pallet
+ * SalesUnit
+* Base Price: Product base price per unit of measure.
+* Discount: Manual discount by the user.
+* Special Price: Specifies a price reduction for an item that&apos;s used to calculate the item&apos;s value. 
+
+
+Rules:
+
+* Format of the summary should be in bullet points.
+
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Account</definition>
+            <referenceName>Input:Account</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>apex://cgcloud__GenAIAccountSummarizationOrderData</definition>
+            <parameters>
+                <definition>SOBJECT://Account</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Account}</valueExpression>
+            </parameters>
+            <referenceName>Apex:cgcloud__GenAIAccountSummarizationOrderData</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>apex://cgcloud__GenAIAccountSummaryComplianceData</definition>
+            <parameters>
+                <definition>SOBJECT://Account</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Account}</valueExpression>
+            </parameters>
+            <referenceName>Apex:cgcloud__GenAIAccountSummaryComplianceData</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>apex://cgcloud__GenAIAccountSummaryHealthAssessmentData</definition>
+            <parameters>
+                <definition>SOBJECT://Account</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Account}</valueExpression>
+            </parameters>
+            <referenceName>Apex:cgcloud__GenAIAccountSummaryHealthAssessmentData</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>LA1y9S6TmeoU4JknLmTZGSJbd63UiNW7XwqZTNoMExY=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__recordSummary</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

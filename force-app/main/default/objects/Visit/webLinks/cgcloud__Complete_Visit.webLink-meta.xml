@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Complete_Visit</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <linkType>page</linkType>
+    <masterLabel>Complete Visit</masterLabel>
+    <openType>replace</openType>
+    <page>cgcloud__CompleteCall</page>
+    <protected>false</protected>
+</WebLink>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_should_be_same_for_all_lookups</fullName>
+    <active>true</active>
+    <description>The Customer and the Visit must have the same Sales Org.</description>
+    <errorConditionFormula>OR(AND(Account.cgcloud__Account_Template__c  &lt;&gt; null,cgcloud__Visit_Template__c &lt;&gt; null, TEXT(cgcloud__Visit_Template__r.cgcloud__Sales_Org__c) &lt;&gt; Account.cgcloud__Sales_Org__c)
+        , AND(Account.cgcloud__Account_Template__c  = null,cgcloud__Visit_Template__c &lt;&gt; null ))</errorConditionFormula>
+    <errorMessage>The Customer and the Visit must have the same Sales Org.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SDO_Service_Urgency__c</fullName>
+    <description>What: Used in multiple reports for case urgency.</description>
+    <externalId>false</externalId>
+    <formula>IMAGE( SDO_URLsrc__c&amp;&quot;/servlet/servlet.ImageServer?id=&quot;&amp;CASE( Priority, 
+&quot;Critical&quot;, &quot;015f6000003lVrR&amp;oid=&quot;&amp;$Organization.Id, 
+&quot;High&quot;, &quot;015f6000003lVrS&amp;oid=&quot;&amp;$Organization.Id, 
+&quot;Medium&quot;, &quot;015f6000003lVrT&amp;oid=&quot;&amp;$Organization.Id, 
+&quot;Low&quot;, &quot;015f6000003lVrU&amp;oid=&quot;&amp;$Organization.Id, 
+&quot;015f6000003lVrU&amp;oid=&quot;&amp;$Organization.Id),&quot;&quot;,22,22)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Urgency</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

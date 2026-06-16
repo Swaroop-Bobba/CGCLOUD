@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Prevent_Product_Template_Change</fullName>
+    <active>true</active>
+    <description>The Product Template can&apos;t be edited after Product creation.</description>
+    <errorConditionFormula>!ISBLANK(PRIORVALUE(cgcloud__Product_Template__c)) &amp;&amp; ISCHANGED(cgcloud__Product_Template__c )</errorConditionFormula>
+    <errorDisplayField>cgcloud__Product_Template__c</errorDisplayField>
+    <errorMessage>The Product Template can&apos;t be edited after Product creation.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Date_From_Has_To_Be_Before_Date_To</fullName>
+    <active>true</active>
+    <errorConditionFormula>PlannedVisitStartTime &gt; PlannedVisitEndTime</errorConditionFormula>
+    <errorMessage>Start Date Time can&apos;t be later than End Date Time.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Obligatory__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Denotes whether this is a closed listing. Used by the system.</description>
+    <inlineHelpText>Relevant only for Assortment List, to define closed listing.</inlineHelpText>
+    <label>Obligatory</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

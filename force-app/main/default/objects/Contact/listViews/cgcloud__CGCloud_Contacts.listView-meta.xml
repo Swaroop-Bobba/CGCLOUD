@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__CGCloud_Contacts</fullName>
+    <columns>CONTACT.SALUTATION</columns>
+    <columns>CONTACT.LAST_NAME</columns>
+    <columns>CONTACT.FIRST_NAME</columns>
+    <columns>CONTACT.PHONE1</columns>
+    <columns>CONTACT.PHONE3</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CONTACT.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Contact.cgcloud__Contact</value>
+    </filters>
+    <label>CGCloud Contacts</label>
+    <language>en_US</language>
+</ListView>

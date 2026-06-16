@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Main_Function__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Main Function.</description>
+    <label>Main Function</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>PO</fullName>
+                <default>false</default>
+                <label>PO</label>
+            </value>
+            <value>
+                <fullName>Secretary</fullName>
+                <default>false</default>
+                <label>Secretary</label>
+            </value>
+            <value>
+                <fullName>CategoryManager</fullName>
+                <default>false</default>
+                <label>CategoryManager</label>
+            </value>
+            <value>
+                <fullName>KAM</fullName>
+                <default>false</default>
+                <label>KAM</label>
+            </value>
+            <value>
+                <fullName>BuyingAgent</fullName>
+                <default>false</default>
+                <label>BuyingAgent</label>
+            </value>
+            <value>
+                <fullName>StoreManager</fullName>
+                <default>false</default>
+                <label>StoreManager</label>
+            </value>
+            <value>
+                <fullName>Owner</fullName>
+                <default>false</default>
+                <label>Owner</label>
+            </value>
+            <value>
+                <fullName>Tenant</fullName>
+                <default>false</default>
+                <label>Tenant</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Asset_Compact_Layout</fullName>
+    <fields>cgcloud__Description__c</fields>
+    <fields>Name</fields>
+    <fields>SerialNumber</fields>
+    <fields>cgcloud__Asset_Template__c</fields>
+    <fields>cgcloud__Asset_Type__c</fields>
+    <fields>AccountId</fields>
+    <fields>Status</fields>
+    <label>Asset Compact Layout</label>
+</CompactLayout>

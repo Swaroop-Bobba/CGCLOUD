@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Get account performance and compliance reviews in Consumer Goods Cloud. Additionally, analyze product recommendations for top and bottom-performing products and manage visit schedules</description>
+    <localActionLinks>
+        <genAiFunctionName>AnswerQuestionsWithKnowledge_16jWs000000LFX7</genAiFunctionName>
+    </localActionLinks>
+    <localTopicLinks>
+        <genAiPluginName>Account_Summary_16jWs000000LFX7</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>CaseManagement_16jWs000000LFX7</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>GeneralFAQ_16jWs000000LFX7</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>Product_Recommendations_16jWs000000LFX7</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>Visit_Management_16jWs000000LFX7</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>Visit_Management_16jWs000000LFX7</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Manages visits for an account using a visit template, such as creating visits using the available time slots.</description>
+        <developerName>Visit_Management_16jWs000000LFX7</developerName>
+        <genAiPluginInstructions>
+            <description>First use the identifyRecordByName action to find the Account ID , then ask for Visit template name from user. Use identifyRecordByName action to find the visit template id . Finally, use both the Account ID and the Visit Template ID to execute the ScheduleVisit action, scheduling a visit for the identified account.
+Convert the requested schedule to a date and time format.
+Ask for visit template name if the visit template details aren’t provided.
+Use Identify Record By name to identify visit template record and give the id as input to Schedule visit action.
+Find the visit template name from the visit_template__c.
+Return the URL for the visit created.</description>
+            <developerName>instruction_firstuseth0</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_firstuseth0</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>IdentifyRecordByName_179Ws000000GNLg</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Schedule_Visit_179Ws000000GNLg</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>IdentifyRecordByName_179Ws000000GNLg</fullName>
+            <description>Searches for Salesforce CRM records by name and returns a list of matching Salesforce CRM record IDs.</description>
+            <developerName>IdentifyRecordByName_179Ws000000GNLg</developerName>
+            <invocationTarget>identifyRecordByName</invocationTarget>
+            <invocationTargetType>standardInvocableAction</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>IdentifyRecordByName</localDeveloperName>
+            <masterLabel>Identify Record by Name</masterLabel>
+            <source>EmployeeCopilot__IdentifyRecordByName</source>
+        </localActions>
+        <localActions>
+            <fullName>Schedule_Visit_179Ws000000GNLg</fullName>
+            <description>Creates a visit using the Account ID and visit template name.</description>
+            <developerName>Schedule_Visit_179Ws000000GNLg</developerName>
+            <invocationTarget>cgcloud__Create_Visit_By_Agent</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Schedule_Visit</localDeveloperName>
+            <masterLabel>Schedule Visit</masterLabel>
+            <progressIndicatorMessage>Creating visit….</progressIndicatorMessage>
+            <source>Schedule_Visit</source>
+        </localActions>
+        <localDeveloperName>Visit_Management</localDeveloperName>
+        <masterLabel>Visit Management</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to use a visit template and only create visits for a user, including setting up appointments using the available time slots. Don&apos;t handle any other inquiries or issues.</scope>
+    </localTopics>
+    <localTopics>
+        <fullName>Product_Recommendations_16jWs000000LFX7</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Gives ‌customer care executives recommendations for upselling while they&apos;re taking a customer&apos;s order. The recommendations also include information about frequently ordered products, top and low performance products.</description>
+        <developerName>Product_Recommendations_16jWs000000LFX7</developerName>
+        <genAiPluginInstructions>
+            <description>Find the customer&apos;s information using the account ID and then call the Recommend Products To Upsell action to get the top 10 product recommendations, which includes the product sales pitch.</description>
+            <developerName>instruction_findthecus0</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_findthecus0</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>IdentifyRecordByName_179Ws000000GNLf</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Recommend_Products_to_Upsell_179Ws000000GNLf</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Recommend_Products_to_Upsell_179Ws000000GNLf</fullName>
+            <description>Recommends the top 10 products, which includes the product sales pitch. The recommendations are based on these insights from historical visit and order data, such as: Most ordered products, and Products that are often reported as out-of-stock during visits.</description>
+            <developerName>Recommend_Products_to_Upsell_179Ws000000GNLf</developerName>
+            <invocationTarget>Recommend_Products_to_Upsell</invocationTarget>
+            <invocationTargetType>generatePromptResponse</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Recommend_Products_to_Upsell</localDeveloperName>
+            <masterLabel>Recommend Products to Upsell</masterLabel>
+            <progressIndicatorMessage>Recommending products….</progressIndicatorMessage>
+            <source>Recommend_Products_to_Upsell</source>
+        </localActions>
+        <localActions>
+            <fullName>IdentifyRecordByName_179Ws000000GNLf</fullName>
+            <description>Searches for Salesforce CRM records by name and returns a list of matching Salesforce CRM record IDs.</description>
+            <developerName>IdentifyRecordByName_179Ws000000GNLf</developerName>
+            <invocationTarget>identifyRecordByName</invocationTarget>
+            <invocationTargetType>standardInvocableAction</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>IdentifyRecordByName</localDeveloperName>
+            <masterLabel>Identify Record by Name</masterLabel>
+            <source>EmployeeCopilot__IdentifyRecordByName</source>
+        </localActions>
+        <localDeveloperName>Product_Recommendations</localDeveloperName>
+        <masterLabel>Product Recommendations</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to take the accountId to get the customer&apos;s information and only recommend the top 10 products, which includes the product sales pitch.</scope>
+    </localTopics>
+    <localTopics>
+        <fullName>CaseManagement_16jWs000000LFX7</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Handles customer inquiries and actions related to support cases, including providing case information, updating existing cases, and creating new cases.</description>
+        <developerName>CaseManagement_16jWs000000LFX7</developerName>
+        <genAiPluginInstructions>
+            <description>Always format any dates in a human readable format</description>
+            <developerName>Instruction1</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction1</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Do not ever show the Case Id to a customer</description>
+            <developerName>Instruction2</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction2</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If the customer is not known, always ask for their email address and get their Contact record before running any other actions.</description>
+            <developerName>Instruction3</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction3</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When adding a comment to a case, first retrieve the case details using the case number, ask the user for the exact comment they would like to add and only then add it.</description>
+            <developerName>Instruction4</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction4</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When sharing case details with the customer, show the following properties as an itemized list :Case number, Subject, Description, and Status. The Subject must exactly match the value stored in the case record. Do not rephrase or regenerate it.</description>
+            <developerName>Instruction5</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction5</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>A case is a record used to help track a customer&apos;s issues. Customers may have questions about the status of the issue or want to provide more information for the case. Cases are usually associated with a contact. Comments are added to provide new information.</description>
+            <developerName>Instruction6</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction6</masterLabel>
+            <sortOrder>6</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Use the Answer Questions with Knowledge action to answer troubleshooting questions.</description>
+            <developerName>Instruction7</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction7</masterLabel>
+            <sortOrder>7</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Acknowledge and validate user concerns with empathy and professionalism.</description>
+            <developerName>Instruction8</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction8</masterLabel>
+            <sortOrder>8</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When a customer asks you to create a case, please summarize the current conversation. The subject should be less than 7 words and function as a high level overview of what the customer inquired about. The description should be no more than 3 sentences and should provide more depth about what exactly the customer asked, important data, and any other relevant information to help a customer service representative understand the context of this conversation.</description>
+            <developerName>Instruction9</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction9</masterLabel>
+            <sortOrder>9</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When sharing the Description field from a case record with the customer, summarize it into a condensed, conversational version that is no more than 3 sentences. The summary must preserve all important factual content and intent from the original case description, and must not introduce any new or misleading information.</description>
+            <developerName>Instruction10</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction10</masterLabel>
+            <sortOrder>10</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>CreateCaseEnhancedData_179Ws000000GNNF</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>AddCaseComment_179Ws000000GNNF</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>AnswerQuestionsWithKnowledge_179Ws000000GNNF</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetAllCasesForContact_179Ws000000GNNF</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>IdentifyRecordByName_179Ws000000GNNF</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>AddCaseComment_179Ws000000GNNF</fullName>
+            <description>Let a customer add a comment to an existing case.</description>
+            <developerName>AddCaseComment_179Ws000000GNNF</developerName>
+            <invocationTarget>SvcCopilotTmpl__AddCaseComment</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>AddCaseComment</localDeveloperName>
+            <masterLabel>Add Case Comment</masterLabel>
+            <source>SvcCopilotTmpl__AddCaseComment</source>
+        </localActions>
+        <localActions>
+            <fullName>AnswerQuestionsWithKnowledge_179Ws000000GNNF</fullName>
+            <description>Answers questions about company policies and procedures, troubleshooting steps, or product information. For example: “What is your return policy?” “How do I fix an issue?” or “What features does a product have?”</description>
+            <developerName>AnswerQuestionsWithKnowledge_179Ws000000GNNF</developerName>
+            <invocationTarget>streamKnowledgeSearch</invocationTarget>
+            <invocationTargetType>standardInvocableAction</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>AnswerQuestionsWithKnowledge</localDeveloperName>
+            <masterLabel>Answer Questions with Knowledge</masterLabel>
+            <progressIndicatorMessage>Getting answers</progressIndicatorMessage>
+            <source>EmployeeCopilot__AnswerQuestionsWithKnowledge</source>
+        </localActions>
+        <localActions>
+            <fullName>GetAllCasesForContact_179Ws000000GNNF</fullName>
+            <description>Returns a list of cases related to a given Contact record.</description>
+            <developerName>GetAllCasesForContact_179Ws000000GNNF</developerName>
+            <invocationTarget>SvcCopilotTmpl__GetCasesForContact</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetAllCasesForContact</localDeveloperName>
+            <masterLabel>Get All Cases For Contact</masterLabel>
+            <source>SvcCopilotTmpl__GetAllCasesForContact</source>
+        </localActions>
+        <localActions>
+            <fullName>IdentifyRecordByName_179Ws000000GNNF</fullName>
+            <description>Searches for Salesforce CRM records by name and returns a list of matching Salesforce CRM record IDs.</description>
+            <developerName>IdentifyRecordByName_179Ws000000GNNF</developerName>
+            <invocationTarget>identifyRecordByName</invocationTarget>
+            <invocationTargetType>standardInvocableAction</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>IdentifyRecordByName</localDeveloperName>
+            <masterLabel>Identify Record by Name</masterLabel>
+            <source>EmployeeCopilot__IdentifyRecordByName</source>
+        </localActions>
+        <localActions>
+            <fullName>CreateCaseEnhancedData_179Ws000000GNNF</fullName>
+            <description>Create a case for the customer that&apos;s transferred from the AI agent to a service rep. The case includes all information gathered from the customer, a summary of the progress made by the AI agent, a link to the conversation, and any attachments.</description>
+            <developerName>CreateCaseEnhancedData_179Ws000000GNNF</developerName>
+            <invocationTarget>SvcCopilotTmpl__CreateCaseEnhancedData</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>CreateCaseEnhancedData</localDeveloperName>
+            <masterLabel>Create Case with Enhanced Data</masterLabel>
+            <source>SvcCopilotTmpl__CreateCaseEnhancedData</source>
+        </localActions>
+        <localDeveloperName>CaseManagement</localDeveloperName>
+        <masterLabel>Case Management</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to help customers retrieve case information, update case comments, and create new cases based on customer requests.</scope>
+        <source>SvcCopilotTmpl__CaseManagement</source>
+    </localTopics>
+    <localTopics>
+        <fullName>Account_Summary_16jWs000000LFX7</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Summarizes a record for the user in the absence of any additional or specific filtering instructions.</description>
+        <developerName>Account_Summary_16jWs000000LFX7</developerName>
+        <genAiPluginInstructions>
+            <description>Always clarify the record details of the account for which a summary is required.</description>
+            <developerName>instruction_alwaysclar0</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>instruction_alwaysclar0</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>IdentifyRecordByName_179Ws000000GNLe</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Summarize_Account_Record_179Ws000000GNLe</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>IdentifyRecordByName_179Ws000000GNLe</fullName>
+            <description>Searches for Salesforce CRM records by name and returns a list of matching Salesforce CRM record IDs.</description>
+            <developerName>IdentifyRecordByName_179Ws000000GNLe</developerName>
+            <invocationTarget>identifyRecordByName</invocationTarget>
+            <invocationTargetType>standardInvocableAction</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>IdentifyRecordByName</localDeveloperName>
+            <masterLabel>Identify Record by Name</masterLabel>
+            <source>EmployeeCopilot__IdentifyRecordByName</source>
+        </localActions>
+        <localActions>
+            <fullName>Summarize_Account_Record_179Ws000000GNLe</fullName>
+            <description>Summarizes an account record, which includes these insights:Account performance with top 20% selling products, bottom 20% selling products, and revenue based on historical orders.Account compliance based on store audits and product surveys, such as promotional compliance, facing compliance, out-of-stock products, and product distribution status. Upsell product recommendations.</description>
+            <developerName>Summarize_Account_Record_179Ws000000GNLe</developerName>
+            <invocationTarget>Summarize_Account_Record</invocationTarget>
+            <invocationTargetType>generatePromptResponse</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Summarize_Account_Record</localDeveloperName>
+            <masterLabel>Summarize Account Record</masterLabel>
+            <progressIndicatorMessage>Summarizing account record....</progressIndicatorMessage>
+            <source>Summarize_Account_Record</source>
+        </localActions>
+        <localDeveloperName>Account_Summary</localDeveloperName>
+        <masterLabel>Account Summary</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to only create a rich-text summary of an account record if there are no additional or specific filtering instructions from the user.</scope>
+    </localTopics>
+    <localTopics>
+        <fullName>GeneralFAQ_16jWs000000LFX7</fullName>
+        <canEscalate>false</canEscalate>
+        <description>This topic is for helping answer customer&apos;s questions by searching through the knowledge articles and providing information from those articles. The questions can be about the company and its products, policies or business procedures</description>
+        <developerName>GeneralFAQ_16jWs000000LFX7</developerName>
+        <genAiPluginInstructions>
+            <description>If the customer&apos;s question is too vague or general, ask for more details and clarification to give a better answer.</description>
+            <developerName>requestmoredetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>request-more-details</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If you are unable to help the customer even after asking clarifying questions, ask if they want to escalate this issue to a live agent.</description>
+            <developerName>unabletohelpafterclarifying</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>unable-to-help-after-clarifying</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If you are unable to answer customer&apos;s questions, ask if they want to escalate this issue to a live agent.</description>
+            <developerName>unabletoanswerquestions</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>unable-to-answer-questions</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Never provide generic information, advice or troubleshooting steps, unless retrieved from searching knowledge articles.</description>
+            <developerName>avoidgenericinformation</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>avoid-generic-information</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Include sources in your response when available from the knowledge articles, otherwise proceed without them.</description>
+            <developerName>includearticlesources</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>include-article-sources</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>AnswerQuestionsWithKnowledge_179Ws000000GNLd</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>AnswerQuestionsWithKnowledge_179Ws000000GNLd</fullName>
+            <description>Answers questions about company policies and procedures, troubleshooting steps, or product information. For example: “What is your return policy?” “How do I fix an issue?” or “What features does a product have?”</description>
+            <developerName>AnswerQuestionsWithKnowledge_179Ws000000GNLd</developerName>
+            <invocationTarget>streamKnowledgeSearch</invocationTarget>
+            <invocationTargetType>standardInvocableAction</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>AnswerQuestionsWithKnowledge</localDeveloperName>
+            <masterLabel>Answer Questions with Knowledge</masterLabel>
+            <progressIndicatorMessage>Getting answers</progressIndicatorMessage>
+            <source>EmployeeCopilot__AnswerQuestionsWithKnowledge</source>
+        </localActions>
+        <localDeveloperName>GeneralFAQ</localDeveloperName>
+        <masterLabel>General FAQ</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is solely to help with issues and answer questions about the company, its products, procedures, or policies by searching knowledge articles.</scope>
+        <source>SvcCopilotTmpl__GeneralFAQ</source>
+    </localTopics>
+    <masterLabel>Customer Service Assistance</masterLabel>
+    <plannerActions>
+        <fullName>AnswerQuestionsWithKnowledge_16jWs000000LFX7</fullName>
+        <description>Answers questions about company policies and procedures, troubleshooting steps, or product information. For example: “What is your return policy?” “How do I fix an issue?” or “What features does a product have?”</description>
+        <developerName>AnswerQuestionsWithKnowledge_16jWs000000LFX7</developerName>
+        <invocationTarget>streamKnowledgeSearch</invocationTarget>
+        <invocationTargetType>standardInvocableAction</invocationTargetType>
+        <isConfirmationRequired>false</isConfirmationRequired>
+        <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+        <localDeveloperName>AnswerQuestionsWithKnowledge</localDeveloperName>
+        <masterLabel>Answer Questions with Knowledge</masterLabel>
+        <progressIndicatorMessage>Getting answers</progressIndicatorMessage>
+        <source>EmployeeCopilot__AnswerQuestionsWithKnowledge</source>
+    </plannerActions>
+    <plannerType>AiCopilot__ReAct</plannerType>
+</GenAiPlannerBundle>

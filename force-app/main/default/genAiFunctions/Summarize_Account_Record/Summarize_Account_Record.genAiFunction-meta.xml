@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Summarizes an account record, which includes these insights:Account performance with top 20% selling products, bottom 20% selling products, and revenue based on historical orders.Account compliance based on store audits and product surveys, such as promotional compliance, facing compliance, out-of-stock products, and product distribution status. Upsell product recommendations.</description>
+    <developerName>Summarize_Account_Record</developerName>
+    <invocationTarget>Summarize_Account_Record</invocationTarget>
+    <invocationTargetType>generatePromptResponse</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <masterLabel>Summarize Account Record</masterLabel>
+    <progressIndicatorMessage>Summarizing account record....</progressIndicatorMessage>
+</GenAiFunction>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IndustriesSettings xmlns="http://soap.sforce.com/2006/04/metadata">
+    <enableAIAccelerator>false</enableAIAccelerator>
+    <enableAccountScoreEnabled>false</enableAccountScoreEnabled>
+    <enableActionPlanTaskComment>false</enableActionPlanTaskComment>
+    <enableActionableList>false</enableActionableList>
+    <enableCBSFAnyWordSearch>false</enableCBSFAnyWordSearch>
+    <enableCdpSalesExcellence>false</enableCdpSalesExcellence>
+    <enableCriteriaBasedSearchAndFilter>false</enableCriteriaBasedSearchAndFilter>
+    <enableDiscoveryFrameworkMetadata>false</enableDiscoveryFrameworkMetadata>
+    <enableDisplaySummaryOnTimeline>false</enableDisplaySummaryOnTimeline>
+    <enableDontSharePartyprofWPortalOrgPref>false</enableDontSharePartyprofWPortalOrgPref>
+    <enableEinsteinVisits>false</enableEinsteinVisits>
+    <enableEnhancedQuestionCreation>true</enableEnhancedQuestionCreation>
+    <enableEpcDeleteAccess>false</enableEpcDeleteAccess>
+    <enableIndustriesAssessment>false</enableIndustriesAssessment>
+    <enableIndustriesAssessmentPrefill>false</enableIndustriesAssessmentPrefill>
+    <enableNewTimelineSetupFlow>false</enableNewTimelineSetupFlow>
+    <enablePCMConfigRules>false</enablePCMConfigRules>
+    <enablePartyProfileParentSharingOrgPref>false</enablePartyProfileParentSharingOrgPref>
+    <enablePartyprofParentMultiSharingOrgPref>false</enablePartyprofParentMultiSharingOrgPref>
+    <enableRecordAlertCustomSharingPref>false</enableRecordAlertCustomSharingPref>
+    <enableScoringFrameworkCRMAPref>false</enableScoringFrameworkCRMAPref>
+    <enableScoringFrameworkOrgPref>false</enableScoringFrameworkOrgPref>
+    <enableTimelineCachePref>true</enableTimelineCachePref>
+    <enableTimelinePref>true</enableTimelinePref>
+    <enableVisitCalendarSync>true</enableVisitCalendarSync>
+    <enableVisitInventoryEnabled>false</enableVisitInventoryEnabled>
+    <participantRecordDeactivateUser>PreventDeactivateUserWithParticipantRecords</participantRecordDeactivateUser>
+    <partyProfMultiShrPrtnrsOrgPref>false</partyProfMultiShrPrtnrsOrgPref>
+    <rlaEditIfAccHasEdit>false</rlaEditIfAccHasEdit>
+</IndustriesSettings>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_should_be_same_for_all_lookups</fullName>
+    <active>true</active>
+    <description>The Product and the Product Template must have the same Sales Org.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(cgcloud__Criterion_1_Product__c)),  cgcloud__Criterion_1_Product__r.cgcloud__Sales_Org__c &lt;&gt; TEXT(cgcloud__Product_Template__r.cgcloud__Sales_Org__c ))||
+        AND(NOT(ISBLANK(cgcloud__Criterion_2_Product__c)), cgcloud__Criterion_2_Product__r.cgcloud__Sales_Org__c  &lt;&gt; TEXT(cgcloud__Product_Template__r.cgcloud__Sales_Org__c ))||
+        AND(NOT(ISBLANK(cgcloud__Criterion_3_Product__c )), cgcloud__Criterion_3_Product__r.cgcloud__Sales_Org__c  &lt;&gt; TEXT(cgcloud__Product_Template__r.cgcloud__Sales_Org__c )) ||
+        AND(NOT(ISBLANK(cgcloud__Criterion_4_Product__c )), cgcloud__Criterion_4_Product__r.cgcloud__Sales_Org__c  &lt;&gt; TEXT(cgcloud__Product_Template__r.cgcloud__Sales_Org__c ))||
+        AND(NOT(ISBLANK( cgcloud__Criterion_5_Product__c )), cgcloud__Criterion_5_Product__r.cgcloud__Sales_Org__c  &lt;&gt; TEXT(cgcloud__Product_Template__r.cgcloud__Sales_Org__c ))||
+        AND(NOT(ISBLANK( cgcloud__Criterion_6_Product__c )), cgcloud__Criterion_6_Product__r.cgcloud__Sales_Org__c  &lt;&gt; TEXT(cgcloud__Product_Template__r.cgcloud__Sales_Org__c ))</errorConditionFormula>
+    <errorMessage>The Product and the Product Template must have the same Sales Org.</errorMessage>
+</ValidationRule>

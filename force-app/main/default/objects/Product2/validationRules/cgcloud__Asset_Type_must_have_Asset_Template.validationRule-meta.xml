@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Asset_Type_must_have_Asset_Template</fullName>
+    <active>true</active>
+    <description>Asset Template can&apos;t be empty if the Product is an Asset Type.</description>
+    <errorConditionFormula>ISPICKVAL(cgcloud__Product_Type__c, &apos;AssetType&apos;)
+
+      &amp;&amp;
+
+      ISBLANK (cgcloud__Asset_Template__c)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Asset_Template__c</errorDisplayField>
+    <errorMessage>Asset Template can&apos;t be empty if the Product is an Asset Type.</errorMessage>
+</ValidationRule>

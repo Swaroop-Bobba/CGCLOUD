@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Is_Date_Range_Valid_For_TPM_Assortment</fullName>
+    <active>true</active>
+    <description>Checks whether the assortment-product&apos;s validity period is within the assortment&apos;s validity period.</description>
+    <errorConditionFormula>AND(Assortment.cgcloud__Product_Assortment_Template__r.cgcloud__Consider_For_APL_Generation__c,OR( cgcloud__Valid_From__c &lt; Assortment.cgcloud__Valid_From__c ,cgcloud__Valid_Thru__c &gt;Assortment.cgcloud__Valid_Thru__c)
+)</errorConditionFormula>
+    <errorMessage>The date range defined in the assortment product doesn&apos;t fall within the date range defined in its assortment.</errorMessage>
+</ValidationRule>

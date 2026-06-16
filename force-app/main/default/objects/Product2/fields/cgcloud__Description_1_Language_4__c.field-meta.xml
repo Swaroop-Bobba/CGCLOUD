@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Description_1_Language_4__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Holds the first description of language 4.</description>
+    <externalId>false</externalId>
+    <label>Description 1 Language 4</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

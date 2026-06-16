@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>LA1y9S6TmeoU4JknLmTZGSJbd63UiNW7XwqZTNoMExY=_1</activeVersionIdentifier>
+    <description>Creates a rich-text summary of an account record, including account performance, account compliance, and cross-selling recommendations.</description>
+    <developerName>Summarize_Account_Record</developerName>
+    <masterLabel>Summarize Account Record</masterLabel>
+    <overridable>false</overridable>
+    <relatedEntity>Account</relatedEntity>
+    <templateVersions>
+        <content>You&apos;re a CRM assistant whose goal is to create helpful summaries of a Consumer Goods retailer&apos;s account to help a ‌tele-sales rep. 
+
+* Understand the account and answer incoming queries from a store manager. 
+* Act on account compliance data insights. For example, recommend order placement for product with out-of-stock compliance issues to better match demand, or provide incentives for maintaining facing compliance, and so on
+* Act on account performance data insights such as order recommendation based on top-selling products for the customer.
+* Provide update on open customer tasks.
+* Help reps upsell and cross-sell products based on a store’s past performance, store audit, and product survey results from the historical visits.
+
+Rules:
+The format of the summary must be in short bullet points.
+
+Context:
+
+* Account Name: Name of a customer.
+* Product Name: Name of a product.
+* Survey Value: Metrics used in product survey. Here’s a few examples:
+ * Facings: Product facing on the shelf
+ * Distribution: Distribution status of the product
+ * POS Facings: Product facing on point-of-sales
+ * POS Price: Product price at point-of-sales
+* Visit Date: Creation date of a visit.
+* Job Definition Template Description: Description of a job template in languages configured for the sales organization.
+* Job Template Description: Description of a job template in languages configured for the sales organization.
+* Survey Target Value: Represents the target value of primary surveys. 
+* Asset Description: Description of an asset.
+* Asset Serial Number: The serial number of an asset given by the manufacturer.
+* Asset Name: Name of an asset.
+* Asset Note: Additional information about an asset.
+* Customer Task Description: Description of a customer task.
+* Customer Task Responsible: Reference to the user responsible for the customer task. 
+* Customer Task Priority: Priority of the customer task:
+ * A
+ * B
+ * C
+* Customer Task Due Date: The date by which a user must complete the task.
+* Store Audit Value: Response to the store audit question.
+* Visit Date: Creation date of the visit.
+* Job Definition Template Description: Store audit question.
+* Store Audit Target Value: Target value for the response to the store audit question.
+* Visit Start Date: The date and time when the visit started.
+* Visit Note: Additional information about the visit.
+* Visit End Date: The date and time when the visit ended.
+* Order Name: Unique identification of an order record.
+* Order Date: The date on which the customer commits to a sales document. For order entries, it’s the order date.
+* Order Delivery Date: Delivery date of an order. By default: Next Day. Delivery date calculation is customized frequently.
+* Delivery Recipient: Reference to the delivery recipient of the account. 
+* Order Total Value: Gross total value (domestic currency) of the sales document including relevant sales taxes. The system calculates the value based on the sales document item template settings.
+* Order Total Receipt Value: Total value of the order entry in the order or receipt currency.
+* Order Name: Unique identification of the record.
+* Product Description: A text description of the product.
+* Product Category: The product category of the product. Possible values are:
+ * Beverages
+ * Chips
+ * Detergent
+ * Frozen—Frozen Goods
+ * Hygiene
+ * Snacks
+* Product Quantity: Quantity of the product.
+* Unit of Measure: Logistical unit of a product. Possible values are:
+ * ConsumerUnit
+ * Layer
+ * Pallet
+ * SalesUnit
+* Base Price: Product base price per unit of measure.
+* Discount: Manual discount given by the user.
+* Special Price: Specifies a price reduction for an item that&apos;s used to calculate the item&apos;s value. 
+
+Based on historical data, summarize the account, providing performance insights, compliance insights from store audits, and product surveys, and other useful insights. Generate the output with the keys: 
+[&apos;Performance insights&apos;, &apos;compliance insights from store audits and product surveys, &apos;other useful insights&apos; &apos;&apos;
+Include these details:
+
+1. Recommendation for cross-selling or upselling opportunities.
+2. Summary of the account’s performance report, compliance report , out-of-stock analysis, insights from product surveys, and other useful insights.
+
+Example of a helpful recommendation:
+For a customer who purchases beverages, we recommend new beverage products that we&apos;ve launched to this customer.
+
+{!$Apex:cgcloud__GenAIAccountSummaryComplianceData.Prompt}
+{!$Apex:cgcloud__GenAIAccountSummaryPerformanceData.Prompt}
+{!$Apex:cgcloud__GenAIAccountSummarizationOrderData.Prompt}
+
+</content>
+        <inputs>
+            <apiName>objectToSummarize</apiName>
+            <definition>SOBJECT://Account</definition>
+            <referenceName>Input:Account</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>apex://cgcloud__GenAIAccountSummaryComplianceData</definition>
+            <parameters>
+                <definition>SOBJECT://Account</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Account}</valueExpression>
+            </parameters>
+            <referenceName>Apex:cgcloud__GenAIAccountSummaryComplianceData</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>apex://cgcloud__GenAIAccountSummaryPerformanceData</definition>
+            <parameters>
+                <definition>SOBJECT://Account</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Account}</valueExpression>
+            </parameters>
+            <referenceName>Apex:cgcloud__GenAIAccountSummaryPerformanceData</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>apex://cgcloud__GenAIAccountSummarizationOrderData</definition>
+            <parameters>
+                <definition>SOBJECT://Account</definition>
+                <isRequired>true</isRequired>
+                <parameterName>objectToSummarize</parameterName>
+                <valueExpression>{!$Input:Account}</valueExpression>
+            </parameters>
+            <referenceName>Apex:cgcloud__GenAIAccountSummarizationOrderData</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>LA1y9S6TmeoU4JknLmTZGSJbd63UiNW7XwqZTNoMExY=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__recordSummary</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

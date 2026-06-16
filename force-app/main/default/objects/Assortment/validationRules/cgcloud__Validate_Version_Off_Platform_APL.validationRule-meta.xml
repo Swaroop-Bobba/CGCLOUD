@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Version_Off_Platform_APL</fullName>
+    <active>true</active>
+    <description>Validates new Version Off Platform should not be less than the existing Version Off Platform.</description>
+    <errorConditionFormula>OR(cgcloud__Version_Off_Platform_APL__c &lt; PRIORVALUE(cgcloud__Version_Off_Platform_APL__c),
+          AND(ISBLANK(cgcloud__Version_Off_Platform_APL__c), NOT(ISBLANK(PRIORVALUE(cgcloud__Version_Off_Platform_APL__c)))))</errorConditionFormula>
+    <errorMessage>Updating Version Off Platform should not be prior to the existing Version Off Platform.</errorMessage>
+</ValidationRule>

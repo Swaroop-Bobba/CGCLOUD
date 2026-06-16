@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Recommends the top 10 products, which includes the product sales pitch. The recommendations are based on these insights from historical visit and order data, such as: Most ordered products, and Products that are often reported as out-of-stock during visits.</description>
+    <developerName>Recommend_Products_to_Upsell</developerName>
+    <invocationTarget>Recommend_Products_to_Upsell</invocationTarget>
+    <invocationTargetType>generatePromptResponse</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <masterLabel>Recommend Products to Upsell</masterLabel>
+    <progressIndicatorMessage>Recommending products….</progressIndicatorMessage>
+</GenAiFunction>

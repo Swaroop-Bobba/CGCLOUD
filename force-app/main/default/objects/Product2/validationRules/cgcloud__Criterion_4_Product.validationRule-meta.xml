@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Criterion_4_Product</fullName>
+    <active>true</active>
+    <description>Only products with &apos;Package&apos; Product Level can be selected.</description>
+    <errorConditionFormula>NOT(ISBLANK(cgcloud__Criterion_4_Product__c)) &amp;&amp; NOT(ISPICKVAL(cgcloud__Criterion_4_Product__r.cgcloud__Product_Level__c, &apos;Flavor&apos;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Criterion_4_Product__c</errorDisplayField>
+    <errorMessage>Only products with &apos;Flavor&apos; Product Level can be selected.</errorMessage>
+</ValidationRule>

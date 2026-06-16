@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All1</fullName>
+    <columns>NAME</columns>
+    <columns>cgcloud__Inventory_Control_Template__c</columns>
+    <columns>cgcloud__Inventory_Transaction_Template__c</columns>
+    <columns>cgcloud__Order_Item_Template__c</columns>
+    <columns>cgcloud__Unique_Inventory_Templates__c</columns>
+    <filterScope>Mine</filterScope>
+    <label>All</label>
+</ListView>

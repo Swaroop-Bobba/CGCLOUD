@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_should_be_same</fullName>
+    <active>true</active>
+    <description>The Product and the Product Assortment must have the same Sales Org.</description>
+    <errorConditionFormula>Product.cgcloud__Sales_Org__c &lt;&gt;  Assortment.cgcloud__Sales_Org__c</errorConditionFormula>
+    <errorMessage>The Product and the Product Assortment must have the same Sales Org.</errorMessage>
+</ValidationRule>

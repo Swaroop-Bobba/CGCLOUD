@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Description_Mandatory_Validation</fullName>
+    <active>true</active>
+    <description>Product Description can&apos;t be empty if it&apos;s used by CG Cloud Application.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(cgcloud__Product_Template__c)), ISBLANK(cgcloud__Description_1_Language_1__c))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Description_1_Language_1__c</errorDisplayField>
+    <errorMessage>Product Description can&apos;t be empty if it&apos;s used by CG Cloud Application.</errorMessage>
+</ValidationRule>

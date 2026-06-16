@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Compact_Layout</fullName>
+    <fields>cgcloud__Description_1__c</fields>
+    <fields>Name</fields>
+    <fields>cgcloud__Consumer_Goods_Product_Code__c</fields>
+    <fields>cgcloud__GTIN__c</fields>
+    <fields>cgcloud__Competitive_Product__c</fields>
+    <fields>cgcloud__Product_Template__c</fields>
+    <label>Product Compact Layout</label>
+</CompactLayout>

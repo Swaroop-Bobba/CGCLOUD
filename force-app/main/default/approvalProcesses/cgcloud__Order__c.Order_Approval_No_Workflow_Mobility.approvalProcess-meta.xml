@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowRecall>false</allowRecall>
+    <allowedSubmitters>
+        <type>allInternalUsers</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>Owner</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <type>userHierarchyField</type>
+            </approver>
+        </assignedApprover>
+        <entryCriteria>
+            <criteriaItems>
+                <field>cgcloud__Order__c.cgcloud__Phase__c</field>
+                <operation>notEqual</operation>
+                <value>Ready</value>
+            </criteriaItems>
+        </entryCriteria>
+        <ifCriteriaNotMet>ApproveRecord</ifCriteriaNotMet>
+        <label>Mobility No Workflow Order</label>
+        <name>Mobility_No_Workflow_Order</name>
+    </approvalStep>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <entryCriteria>
+        <booleanFilter>1 AND (2 OR (3 AND 4))</booleanFilter>
+        <criteriaItems>
+            <field>cgcloud__Order__c.cgcloud__Phase__c</field>
+            <operation>equals</operation>
+            <value>Released</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>cgcloud__Order__c.cgcloud__Workflow__c</field>
+            <operation>equals</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>cgcloud__Order__c.cgcloud__Workflow__c</field>
+            <operation>notEqual</operation>
+            <value>Direct Approval</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>cgcloud__Order__c.cgcloud__Workflow__c</field>
+            <operation>notEqual</operation>
+            <value>Order Workflow</value>
+        </criteriaItems>
+    </entryCriteria>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>cgcloud__Mobility_Order_Phase_Released_to_Ready</name>
+            <type>FieldUpdate</type>
+        </action>
+    </initialSubmissionActions>
+    <label>Order Approval No Workflow Mobility</label>
+    <nextAutomatedApprover>
+        <useApproverFieldOfRecordOwner>false</useApproverFieldOfRecordOwner>
+        <userHierarchyField>Manager</userHierarchyField>
+    </nextAutomatedApprover>
+    <processOrder>1</processOrder>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>
