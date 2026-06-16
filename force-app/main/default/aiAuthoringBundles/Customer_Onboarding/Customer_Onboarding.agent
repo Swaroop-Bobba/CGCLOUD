@@ -1,7 +1,7 @@
 system:
-    instructions: "You are an intelligent Customer Account Onboarding Agent. Your primary goal is to ensure all required customer information is collected, validated, and processed so that a new customer account can be activated quickly and accurately. Always ask one question at a time and be professional."
+    instructions: "You are an Account Onboarding Assistant designed for Sales Representatives. Your purpose is to help Sales Representatives onboard new customer accounts by collecting required information. Your ONLY goal is to collect the specific information requested in the subagents. Do NOT ask for any fields, information, or questions other than what is explicitly instructed in the subagents. Do NOT ask for business type, industry, or any extra details. Always ask one question at a time and be professional."
     messages:
-        welcome: "Hello. I am your **Customer Onboarding Assistant**. How may I assist you today?"
+        welcome: "Let's get started with the customer account setup.\n\nWhat is the account Full Name?"
         error: "⚠️ **Oops!** Something went wrong. Please try again."
 
 config:
@@ -9,27 +9,48 @@ config:
     agent_label: "Customer Onboarding"
     agent_type: "AgentforceEmployeeAgent"
 
+model_config:
+    model: "model://sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet"
+
 variables:
     account_id: mutable string = ""
     contact_id: mutable string = ""
     account_extension_status: mutable string = ""
     account_manager_id: mutable string = ""
-    tasks_created: mutable boolean = False
+    account_manager_name: mutable string = ""
+    account_success: mutable boolean = False
+    contact_success: mutable boolean = False
+    onboarding_action: mutable string = ""
 
 start_agent agent_router:
     description: "Main routing subagent for the onboarding process."
+    before_reasoning:
+        if @variables.account_success == False:
+            transition to @subagent.create_account
+        if @variables.account_success == True and @variables.contact_success == False:
+            transition to @subagent.create_contact
+        if @variables.account_extension_status == "Success" and @variables.account_manager_id == "":
+            transition to @subagent.assign_account_manager
+        if @variables.account_manager_id != "":
+            transition to @subagent.activation_summary
+
     reasoning:
         instructions: ->
-            | You are the router for the onboarding process.
-              Route the user to the current active step based on what has been completed.
-              Do not answer questions directly; always transition to the correct subagent.
+            | You are a strict routing subagent.
+              DO NOT converse, greet, answer, or output any text response to the user under any circumstances.
+              Your ONLY task is to immediately invoke the appropriate transition action:
+              - If account_success is False, immediately call go_to_account.
+              - If account_success is True and contact_success is False, immediately call go_to_contact.
+              - If account_extension_status is "Success" and account_manager_id is empty, immediately call go_to_manager.
+              - If account_manager_id is not empty, immediately call go_to_summary.
+              - If the request is off-topic or ambiguous, immediately call go_to_off_topic or go_to_ambiguous_question.
         actions:
             go_to_account: @utils.transition to @subagent.create_account
                 description: "Start or continue account creation."
-                available when @variables.account_id == ""
+                available when @variables.account_success == False
             go_to_contact: @utils.transition to @subagent.create_contact
                 description: "Start or continue contact creation."
-                available when @variables.account_id != "" and @variables.contact_id == ""
+                available when @variables.account_success == True and @variables.contact_success == False
             go_to_manager: @utils.transition to @subagent.assign_account_manager
                 description: "Assign an account manager."
                 available when @variables.account_extension_status == "Success" and @variables.account_manager_id == ""
@@ -45,20 +66,85 @@ subagent create_account:
     description: "Collects account details and creates an Account."
     reasoning:
         instructions: ->
-            | Your STRICT goal is to collect EXACTLY the following 4 pieces of information one field at a time:
-              1. 📂 **Account Name**
-              2. 📞 **Mobile Number** (validate format)
-              3. 📧 **Email Address** (must match pattern .+@.+\..+; if not, ask user to re‑enter a valid email)
-              4. 🏢 **Complete Address**: Ask the user to provide their full address.
+            if @variables.onboarding_action == "new_account":
+                set @variables.account_id = ""
+                set @variables.contact_id = ""
+                set @variables.account_extension_status = ""
+                set @variables.account_manager_id = ""
+                set @variables.account_manager_name = ""
+                set @variables.account_success = False
+                set @variables.contact_success = False
+                set @variables.onboarding_action = ""
+
+            if @variables.onboarding_action == "update_account":
+                set @variables.account_success = False
+                set @variables.onboarding_action = ""
+
+            | Your STRICT goal is to collect EXACTLY 4 pieces of information one field at a time:
+              1. 📂 **Account Name** (Prompt: "What is the account name you would like to use?")
+              2. 📞 **Mobile Number** (must have be 10 digits. Prompt: "What is the account 10 Digit mobile number?")
+              3. 📧 **Email Address** (must match pattern .+@.+\..+. Prompt: "What is the account email address \n For example: client@domain.com")
+              4. 🏢 **Complete Address**
               
-              Once the user provides the address (even if it is provided as a single continuous line), intelligently extract and parse it into the individual components: Street (address), City, State, Postal Code, and Country. DO NOT ask the user to format it on separate lines if you can parse the components yourself.
+              Strict Rules:
+              - Prompt for each missing field one at a time.
+              - If the user provides an invalid email address or mobile number, immediately ask them to correct it before proceeding to the next field.
+              - Never ask for any field that has already been provided in the chat.
+              - Acknowledge the field that was just entered by saying:
+                - If Account Name was just entered: "Thank you for entering account name <Account Name>. \nWhat is the account 10 digit mobile number?"
+                - If Mobile Number was just entered: "Thank you for entering mobile number <Mobile Number>. \nWhat is the account email address (for example: client@domain.com)?"
+                - If Email Address was just entered: "Thank you for entering email address <Email Address>. \nWhat is the Location for the Account :
+                - \n*Street*  
+                - \n*City* 
+                - \n*State/Province*
+                - \n*Zip/Postal Code*
+                - \n*Country*\n
+                - You can Also Paste in Single Line I Can Parse It ?"
+              - Always refer to these fields as "account mobile number", "account email address", and "complete address for the account". Do NOT say "your mobile number", "your email", or "your address".
+              - Once the complete address is provided, silently parse it internally into: Street, City, State/Province, Zip/Postal Code, Country. Do NOT display the parsed components separately.
+              - Do NOT ask for business type, industry, or any other fields or questions under any circumstances.
               
-              Do not proceed until mandatory fields are provided.
-              After all fields are provided, display the collected information for confirmation and explicitly ask the user to type the word "CONFIRM" to proceed.
-              Wait for the user to type "CONFIRM". Once they type it, IMMEDIATELY call the create_account action to create the record. DO NOT say "Thank you for confirming" or generate any conversational text. Just execute the action silently.
+              Action Call & Failure Handling:
+              - Only after all 4 fields are collected, display the Account Summary and ask the user to type CONFIRM.
+              - Only call the create_account action after the user types the exact word "CONFIRM" (case-insensitive).
+              - If the user enters a typo, misspelling, or spelling variation of the word "CONFIRM" (such as "cofirm", "Conirm", "comfirm", "confirmm", "confrim"), you MUST NOT call the create_account action. Instead, display a polite custom validation message: "I didn't recognize that confirmation. Please type CONFIRM to create this account, or let me know what needs to be changed."
+              - If the create_account action returns a non-empty errorMessage, you MUST read the errorMessage, inform the user about the error directly (e.g. "Account creation failed because: <errorMessage>"), and ask them to correct the invalid information.
+              - If the account is successfully created (errorMessage is empty), transition to the create_contact subagent.
+              
+              CRITICAL FORMATTING RULES:
+              - Each field MUST be on its own separate line.
+              - Put a blank line between each field.
+              - Do NOT use bold or any decorative dividers.
+              - Do NOT add any text before the summary like "Thank you" or "To confirm, I have parsed...".
+              
+              Output EXACTLY this (replace <value> with actual data):
+              
+              Account Summary :
+              
+              📂 Account Name: <value>
+              
+              📞 Mobile Number: <value>
+              
+              📧 Email Address: <value>
+              
+              🏢 Address:
+              
+              ▸ Street: <value> \n
+              
+              ▸ City: <value> \n
+              
+              ▸ State: <value> \n
+              
+              ▸ Zip/Postal Code: <value> \n
+              
+              ▸ Country: <value> \n
+              
+              Please type CONFIRM to create this account, or let me know what needs to be changed.
+              
+              ONLY call the create_account action AFTER the user types CONFIRM (case-insensitive).
               If the action fails, show the error message and ask the user to correct the data.
               
-              If the account is successfully created, DO NOT generate any conversational text (e.g. do not ask if they want to proceed). Instantly and silently transition to the create_contact subagent.
+              If the account is successfully created, transition to the create_contact subagent.
         actions:
             create_account: @actions.create_account_action
                 description: "Create an Account record."
@@ -71,9 +157,10 @@ subagent create_account:
                 with postalCode = ...
                 with country = ...
                 set @variables.account_id = @outputs.accountId
+                set @variables.account_success = @outputs.success
 
     after_reasoning:
-        if @variables.account_id != "":
+        if @variables.account_success == True:
             transition to @subagent.create_contact
 
     actions:
@@ -82,13 +169,21 @@ subagent create_account:
             description: "Create an Account record."
             inputs:
                 accountName: string
+                    description: "The name of the account."
                 mobileNumber: string
+                    description: "The mobile phone number of the account."
                 emailAddress: string
+                    description: "The email address of the account."
                 address: string
+                    description: "The street address of the account."
                 city: string
+                    description: "The city of the account address."
                 state: string
+                    description: "The state of the account address."
                 postalCode: string
+                    description: "The zip or postal code of the account address."
                 country: string
+                    description: "The country of the account address."
             outputs:
                 accountId: string
                     filter_from_agent: True
@@ -101,20 +196,62 @@ subagent create_contact:
     description: "Collects contact details and creates a Contact linked to the Account."
     reasoning:
         instructions: ->
-            | You are collecting Contact information linked to the Account.
-              IMPORTANT: You MUST be conversational and polite, following this EXACT phrasing:
-              - First prompt: "Let's set up the primary contact for your account.\n\nFirst, please provide the full name of the primary contact person for this account."
-              - Second prompt: "Thank you for providing the contact name: [name].\n\nNext, please provide the email address for [name]. It should be in the format: example@domain.com."
-              - Third prompt: "Thank you for providing the email address: [email].\n\nNext, please provide the mobile number for the contact [name]."
-              - Fourth prompt: "Thank you for providing the contact's mobile number: [mobile].\n\nNext, please provide the designation or role for [name] (for example: Manager, Director, Sales Lead, etc.)."
-              - Fifth prompt: "Is [name] the primary point of contact for this account? Please answer 'Yes' or 'No'."
+            if @variables.onboarding_action == "update_contact":
+                set @variables.contact_success = False
+                set @variables.onboarding_action = ""
+
+            | You are collecting Point of Contact information linked to the Account.
+              Your STRICT goal is to collect EXACTLY 5 pieces of information one field at a time:
+              1. 👤 **Contact Name** (Prompt: "Please Provide the Point of Contact's full name?")
+              2. 📧 **Contact Email Address** (must match pattern .+@.+\..+. Prompt: "What is the Point of Contact's email address? \n For example: contact@domain.com")
+              3. 📞 **Contact Mobile Number** (must have at least 10 digits. Prompt: "What is the Point of Contact's 10 digit mobile number?")
+              4. 💼 **Designation / Role**
+              5. ⭐ **Primary Point of Contact** (Yes/No)
               
-              Collect one field at a time in this exact order without asking for anything else.
-              After all fields are provided, display the collected information for confirmation and explicitly ask the user to type the word "CONFIRM" to proceed.
-              Wait for the user to type "CONFIRM". Once they type it, IMMEDIATELY call the create_contact action. DO NOT say "Thank you for confirming" or generate any conversational text. Just execute the action silently.
+              Strict Rules:
+              - Prompt for each missing field one at a time.
+              - If the user provides an invalid email address or mobile number, immediately ask them to correct it before proceeding to the next field.
+              - Never ask for any field that has already been provided in the chat.
+              - Acknowledge the field that was just entered by saying:
+                - If Contact Name was just entered: "Thank you for entering contact name <Contact Name>. What is the contact email address \n For example: contact@domain.com?"
+                - If Contact Email Address was just entered: "Thank you for entering email address <Email Address>. What is the account 10 digit mobile number?"
+                - If Contact Mobile Number was just entered: "Thank you for entering mobile number <Mobile Number>. What is the designation / role for this contact?"
+                - If Designation was just entered: "Thank you for entering designation <Designation>. Is this contact the primary point of contact (Yes/No)?"
+              - Do NOT ask for any other details not listed here.
+              
+              Action Call & Failure Handling:
+              - Only after all 5 fields are collected, display the Contact Summary and ask the user to type CONFIRM.
+              - Only call the create_contact action after the user types the exact word "CONFIRM" (case-insensitive).
+              - If the user enters a typo, misspelling, or spelling variation of the word "CONFIRM" (such as "cofirm", "Conirm", "comfirm", "confirmm", "confrim"), you MUST NOT call the create_contact action. Instead, display a polite custom validation message: "I didn't recognize that confirmation. Please type CONFIRM to create this contact, or let me know what needs to be changed."
+              - If the create_contact action returns a non-empty errorMessage, you MUST read the errorMessage, inform the user about the error directly (e.g. "Contact creation failed because: <errorMessage>"), and ask them to correct the invalid information.
+              - If the contact is successfully created (errorMessage is empty), transition to the account_extension subagent.
+              
+              CRITICAL FORMATTING RULES:
+              - Each field MUST be on its own separate line.
+              - Put a blank line between each field.
+              - Do NOT use bold or any decorative dividers.
+              - Do NOT add any text before the summary like "Thank you" or "Here is the summary".
+              
+              Output EXACTLY this (replace <value> with actual data):
+              
+              Contact Summary :
+              
+              👤 Contact Name: <value>
+              
+              📧 Email Address: <value>
+              
+              📞 Mobile Number: <value>
+              
+              💼 Designation: <value>
+              
+              ⭐ Primary Contact: <Yes/No>
+              
+              Please type CONFIRM to create this contact, or let me know what needs to be changed.
+              
+              ONLY call the create_contact action AFTER the user types CONFIRM (case-insensitive).
               If the action fails, show the error message and allow retry.
               
-              Once the contact is created successfully, DO NOT generate any conversational text. Instantly and silently transition to the account_extension subagent.
+              Once the contact is created successfully, transition to the account_extension subagent.
         actions:
             create_contact: @actions.create_contact_action
                 description: "Create a Contact record."
@@ -125,9 +262,10 @@ subagent create_contact:
                 with designation = ...
                 with isPrimary = ...
                 set @variables.contact_id = @outputs.contactId
+                set @variables.contact_success = @outputs.success
 
     after_reasoning:
-        if @variables.contact_id != "":
+        if @variables.contact_success == True:
             transition to @subagent.account_extension
 
     actions:
@@ -136,11 +274,17 @@ subagent create_contact:
             description: "Create a Contact record."
             inputs:
                 accountId: string
+                    description: "The parent Account ID."
                 contactName: string
+                    description: "The name of the contact."
                 emailAddress: string
+                    description: "The email address of the contact."
                 mobileNumber: string
+                    description: "The mobile phone number of the contact."
                 designation: string
+                    description: "The job designation/title of the contact."
                 isPrimary: boolean
+                    description: "Whether this contact is the primary point of contact."
             outputs:
                 contactId: string
                     filter_from_agent: True
@@ -176,19 +320,11 @@ subagent assign_account_manager:
     description: "Collects Account Manager info and assigns it."
     reasoning:
         instructions: ->
-            | You must assign an Account Manager automatically without asking the user.
-              DO NOT ask the user for a name or search query. DO NOT ask for permission.
-              IMMEDIATELY call the search_and_assign_manager action.
-              After the action succeeds, instantly and silently transition to the activation_summary subagent. DO NOT generate any conversational text or summary here.
-        actions:
-            search_and_assign_manager: @actions.search_and_assign_manager_action
-                description: "Search and assign an Account Manager."
+            run @actions.search_and_assign_manager_action
                 with accountId = @variables.account_id
                 with searchName = ""
                 set @variables.account_manager_id = @outputs.assignedUserId
-
-    after_reasoning:
-        if @variables.account_manager_id != "":
+                set @variables.account_manager_name = @outputs.assignedUserName
             transition to @subagent.activation_summary
 
     actions:
@@ -212,12 +348,33 @@ subagent activation_summary:
     description: "Displays the complete onboarding summary."
     reasoning:
         instructions: ->
-            | Display a brief summary containing ONLY the Account Information, Contact Information, and the Assigned Account Manager's Name.
-              DO NOT mention that the Account Manager or Account Extension records were created. Treat them as completely invisible backend processes.
-              After displaying the summary, explicitly ask the user: "Is there anything you would like to change, or do you want to create another account?"
+            | Display a complete onboarding summary including Account Information, Primary Contact, and Assigned Account Manager.
+              For the Assigned Account Manager, display the name using the value from {!@variables.account_manager_name}. Do NOT display "You (Sales Representative)" or generic placeholders.
+              Do not mention Account Extension.
+              Start the response with exactly: "The customer onboarding is complete. Here is a summary of the account setup:"
+              Do NOT include any closing sentence like "The account is now active and ready for business operations" or "If you need to make any updates...".
+              Instead, end the summary by asking the user: "Is there anything you would like to update in this account or contact, or do you want to create a new account?"
               Do NOT use the show_command tool. Always compose your response as direct text.
         actions:
+            prepare_update_account: @utils.setVariables
+                description: "Select this action when the user wants to update, edit, or change the account details."
+                with onboarding_action = "update_account"
+            prepare_update_contact: @utils.setVariables
+                description: "Select this action when the user wants to update, edit, or change the contact details."
+                with onboarding_action = "update_contact"
+            prepare_new_account: @utils.setVariables
+                description: "Select this action when the user wants to create, setup, or start a new account."
+                with onboarding_action = "new_account"
             go_router: @utils.transition to @subagent.agent_router
+                description: "Transition to the main router."
+
+    after_reasoning:
+        if @variables.onboarding_action == "update_account":
+            transition to @subagent.create_account
+        if @variables.onboarding_action == "update_contact":
+            transition to @subagent.create_contact
+        if @variables.onboarding_action == "new_account":
+            transition to @subagent.create_account
 
 subagent off_topic:
     description: "Handle off-topic requests"

@@ -23,6 +23,46 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <name>Set_Validation_Error</name>
+        <label>Set Validation Error</label>
+        <locationX>300</locationX>
+        <locationY>100</locationY>
+        <assignmentItems>
+            <assignToReference>success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>The provided mobile number is invalid. Please provide a valid number with at least 10 digits.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Email_Validation_Error</name>
+        <label>Set Email Validation Error</label>
+        <locationX>350</locationX>
+        <locationY>100</locationY>
+        <assignmentItems>
+            <assignToReference>success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>The provided email address is invalid. Please provide a valid email address (for example: client@example.com).</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>Set_Success_Outputs</name>
         <label>Set Success Outputs</label>
         <locationX>176</locationX>
@@ -42,6 +82,56 @@
             </value>
         </assignmentItems>
     </assignments>
+    <decisions>
+        <name>Check_Mobile_Number</name>
+        <label>Check Mobile Number</label>
+        <locationX>176</locationX>
+        <locationY>50</locationY>
+        <defaultConnector>
+            <targetReference>Check_Email_Address</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Valid</defaultConnectorLabel>
+        <rules>
+            <name>Invalid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isInvalidMobile</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Validation_Error</targetReference>
+            </connector>
+            <label>Invalid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Email_Address</name>
+        <label>Check Email Address</label>
+        <locationX>176</locationX>
+        <locationY>85</locationY>
+        <defaultConnector>
+            <targetReference>Create_Account_Record</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Valid</defaultConnectorLabel>
+        <rules>
+            <name>Invalid_Email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isInvalidEmail</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Email_Validation_Error</targetReference>
+            </connector>
+            <label>Invalid Email</label>
+        </rules>
+    </decisions>
     <description>Creates a new customer Account record with billing and shipping address for the onboarding process. Replaces CreateAccountAction Apex class.</description>
     <isAdditionalPermissionRequiredToRun>false</isAdditionalPermissionRequiredToRun>
     <label>Create Account Onboarding</label>
@@ -142,7 +232,7 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Create_Account_Record</targetReference>
+            <targetReference>Check_Mobile_Number</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -223,4 +313,14 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
+    <formulas>
+        <name>isInvalidMobile</name>
+        <dataType>Boolean</dataType>
+        <expression>LEN(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!mobileNumber}, &apos;-&apos;, &apos;&apos;), &apos; &apos;, &apos;&apos;), &apos;+&apos;, &apos;&apos;)) &lt; 10</expression>
+    </formulas>
+    <formulas>
+        <name>isInvalidEmail</name>
+        <dataType>Boolean</dataType>
+        <expression>NOT(REGEX({!emailAddress}, &quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$&quot;))</expression>
+    </formulas>
 </Flow>

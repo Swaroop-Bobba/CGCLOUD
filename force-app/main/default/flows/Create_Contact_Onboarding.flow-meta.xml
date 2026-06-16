@@ -23,6 +23,46 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <name>Set_Validation_Error</name>
+        <label>Set Validation Error</label>
+        <locationX>300</locationX>
+        <locationY>100</locationY>
+        <assignmentItems>
+            <assignToReference>success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>The provided mobile number is invalid. Please provide a valid number with at least 10 digits.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Email_Validation_Error</name>
+        <label>Set Email Validation Error</label>
+        <locationX>350</locationX>
+        <locationY>100</locationY>
+        <assignmentItems>
+            <assignToReference>success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>The provided email address is invalid. Please provide a valid email address (for example: contact@example.com).</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>Set_Full_Name_As_LastName</name>
         <label>Set Full Name As LastName</label>
         <locationX>400</locationX>
@@ -89,6 +129,56 @@
         </assignmentItems>
     </assignments>
     <decisions>
+        <name>Check_Mobile_Number</name>
+        <label>Check Mobile Number</label>
+        <locationX>176</locationX>
+        <locationY>50</locationY>
+        <defaultConnector>
+            <targetReference>Check_Email_Address</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Valid</defaultConnectorLabel>
+        <rules>
+            <name>Invalid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isInvalidMobile</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Validation_Error</targetReference>
+            </connector>
+            <label>Invalid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Email_Address</name>
+        <label>Check Email Address</label>
+        <locationX>176</locationX>
+        <locationY>85</locationY>
+        <defaultConnector>
+            <targetReference>Has_Space_In_Name</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Valid</defaultConnectorLabel>
+        <rules>
+            <name>Invalid_Email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isInvalidEmail</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Email_Validation_Error</targetReference>
+            </connector>
+            <label>Invalid Email</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Has_Space_In_Name</name>
         <label>Has Space In Name?</label>
         <locationX>264</locationX>
@@ -128,6 +218,16 @@
         <name>formulaLastName</name>
         <dataType>String</dataType>
         <expression>MID({!contactName}, FIND(&quot; &quot;, {!contactName}) + 1, LEN({!contactName}))</expression>
+    </formulas>
+    <formulas>
+        <name>isInvalidMobile</name>
+        <dataType>Boolean</dataType>
+        <expression>LEN(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!mobileNumber}, &apos;-&apos;, &apos;&apos;), &apos; &apos;, &apos;&apos;), &apos;+&apos;, &apos;&apos;)) &lt; 10</expression>
+    </formulas>
+    <formulas>
+        <name>isInvalidEmail</name>
+        <dataType>Boolean</dataType>
+        <expression>NOT(REGEX({!emailAddress}, &quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$&quot;))</expression>
     </formulas>
     <isAdditionalPermissionRequiredToRun>false</isAdditionalPermissionRequiredToRun>
     <label>Create Contact Onboarding</label>
@@ -192,7 +292,7 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Has_Space_In_Name</targetReference>
+            <targetReference>Check_Mobile_Number</targetReference>
         </connector>
     </start>
     <status>Active</status>
