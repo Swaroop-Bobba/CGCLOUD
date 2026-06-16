@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Cannot_Remove_MI_Off_Platform</fullName>
+    <active>true</active>
+    <description>Elements for which manual inputs are allowed in Consumer Goods Processing Service
+        can’t be deselected.</description>
+    <errorConditionFormula>AND(
+        ISCHANGED(cgcloud__Manual_Inputs_Off_Platform__c),
+        AND(NOT(INCLUDES(cgcloud__Manual_Inputs_Off_Platform__c, &apos;CBP&apos;)),
+        INCLUDES(PRIORVALUE(cgcloud__Manual_Inputs_Off_Platform__c), &apos;CBP&apos;))
+        )</errorConditionFormula>
+    <errorDisplayField>cgcloud__Manual_Inputs_Off_Platform__c</errorDisplayField>
+    <errorMessage>Elements for which manual inputs are allowed in Consumer Goods Processing Service
+        can’t be deselected.</errorMessage>
+</ValidationRule>

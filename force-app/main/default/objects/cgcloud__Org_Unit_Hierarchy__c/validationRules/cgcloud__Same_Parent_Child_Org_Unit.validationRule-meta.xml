@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Same_Parent_Child_Org_Unit</fullName>
+    <active>true</active>
+    <description>The Child Org Unit and the Parent Org Unit can&apos;t be the same.</description>
+    <errorConditionFormula>cgcloud__Child_Org_Unit__c = cgcloud__Parent_Org_Unit__c</errorConditionFormula>
+    <errorMessage>The Child Org Unit and the Parent Org Unit can&apos;t be the same.</errorMessage>
+</ValidationRule>

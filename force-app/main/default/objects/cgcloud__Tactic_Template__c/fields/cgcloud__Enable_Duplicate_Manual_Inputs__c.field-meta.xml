@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Enable_Duplicate_Manual_Inputs__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Indicates whether the manual input is copied when creating a duplicate tactic.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates wether a tactic template using this template will have it&apos;s manual inputs copied when duplicating it.</inlineHelpText>
+    <label>Copy Manual input</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

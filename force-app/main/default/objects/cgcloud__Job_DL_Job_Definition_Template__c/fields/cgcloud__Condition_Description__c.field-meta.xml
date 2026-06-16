@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Condition_Description__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Description of Activity Job Definition Template of parent condition.</description>
+    <externalId>false</externalId>
+    <formula>cgcloud__Condition__r.cgcloud__Job_Definition_Template__r.cgcloud__Description__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Condition Description</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Cannot_Change_Custom_Calendar</fullName>
+    <active>true</active>
+    <description>You can’t make changes to an active custom calendar</description>
+    <errorConditionFormula>AND(ISCHANGED(cgcloud__Custom_Calendar__c),  NOT(ISBLANK( PRIORVALUE(cgcloud__Custom_Calendar__c))))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Custom_Calendar__c</errorDisplayField>
+    <errorMessage>You can’t make changes to an active custom calendar</errorMessage>
+</ValidationRule>

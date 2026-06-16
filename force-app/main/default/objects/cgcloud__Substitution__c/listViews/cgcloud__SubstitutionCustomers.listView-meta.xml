@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__SubstitutionCustomers</fullName>
+    <columns>cgcloud__Record_Link__c</columns>
+    <columns>cgcloud__Account__c</columns>
+    <columns>cgcloud__Substitute__c</columns>
+    <columns>cgcloud__Active__c</columns>
+    <columns>cgcloud__Valid_From__c</columns>
+    <columns>cgcloud__Valid_Thru__c</columns>
+    <columns>cgcloud__Substitution__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>cgcloud__Substitution__c.cgcloud__Substitution_Customer</value>
+    </filters>
+    <label>Substitution Customers</label>
+    <language>en_US</language>
+</ListView>

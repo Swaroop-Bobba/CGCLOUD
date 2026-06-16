@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Compare_From_Status_To_Status</fullName>
+    <active>true</active>
+    <description>The From Status and the To Status can&apos;t be the same.</description>
+    <errorConditionFormula>TEXT(cgcloud__From_Status__c) = TEXT(cgcloud__To_Status__c)</errorConditionFormula>
+    <errorMessage>The From Status and the To Status can&apos;t be the same.</errorMessage>
+</ValidationRule>

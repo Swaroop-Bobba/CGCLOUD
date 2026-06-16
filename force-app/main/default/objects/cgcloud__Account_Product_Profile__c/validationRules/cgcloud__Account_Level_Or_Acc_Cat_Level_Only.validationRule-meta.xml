@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account_Level_Or_Acc_Cat_Level_Only</fullName>
+    <active>true</active>
+    <description>Customer Category Profile Category must be empty or a Product of level &quot;Category&quot;</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(cgcloud__Product__c)), TEXT(cgcloud__Product__r.cgcloud__Product_Level__c) &lt;&gt; &apos;Category&apos;)</errorConditionFormula>
+    <errorMessage>Customer Category Profile Category must be empty or a Product of level &quot;Category&quot;</errorMessage>
+</ValidationRule>

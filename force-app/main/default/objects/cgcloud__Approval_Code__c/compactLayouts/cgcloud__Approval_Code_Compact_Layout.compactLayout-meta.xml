@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Approval_Code_Compact_Layout</fullName>
+    <fields>cgcloud__User__c</fields>
+    <fields>cgcloud__Code__c</fields>
+    <label>Approval Code Compact Layout</label>
+</CompactLayout>

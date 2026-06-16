@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Vehicle_Warehouse_Compact_Layout</fullName>
+    <fields>cgcloud__Warehouse__c</fields>
+    <fields>cgcloud__Vehicle__c</fields>
+    <fields>cgcloud__Active__c</fields>
+    <label>Vehicle Warehouse Compact Layout</label>
+</CompactLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__SubGroup__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines the subgroup the rewards belongs to.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Defines the subgroup the rewards belongs to (Rewards from same group are evaluated together).</inlineHelpText>
+    <label>SubGroup</label>
+    <length>30</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

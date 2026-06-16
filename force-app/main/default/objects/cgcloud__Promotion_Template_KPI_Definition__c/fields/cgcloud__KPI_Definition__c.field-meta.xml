@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__KPI_Definition__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>KPI Definition</description>
+    <externalId>false</externalId>
+    <label>KPI Definition</label>
+    <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
+    <relationshipLabel>Promotion Template KPI Definitions</relationshipLabel>
+    <relationshipName>Promotion_Template_KPI_Definitions2</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

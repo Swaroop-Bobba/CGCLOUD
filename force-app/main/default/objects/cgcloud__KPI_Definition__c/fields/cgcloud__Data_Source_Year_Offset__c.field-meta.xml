@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Data_Source_Year_Offset__c</fullName>
+    <defaultValue>0</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Number of years to go back in time. The data is fetched from the database for the timeframe that lies this number of years which can be 1 or 2 years before the promotion.
+      Applicable only for &apos;Read&apos; type.
+      It cannot be used in combination with week offset for one KPI at the same time.</description>
+    <externalId>false</externalId>
+    <label>Year Offset</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

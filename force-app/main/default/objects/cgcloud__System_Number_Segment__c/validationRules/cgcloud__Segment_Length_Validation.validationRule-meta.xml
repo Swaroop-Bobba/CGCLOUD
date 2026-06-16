@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Segment_Length_Validation</fullName>
+    <active>true</active>
+    <description>The Segment Lenght must be a number greater than 0 and equal or greater than the number of charachters of Pre Delimiter and Post Delimiter combined.</description>
+    <errorConditionFormula>OR((cgcloud__Segment_Length__c &lt;= 0 ),( (LEN( cgcloud__Pre_Delimiter__c )   +  LEN( cgcloud__Post_Delimiter__c )) &gt;  cgcloud__Segment_Length__c))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Segment_Length__c</errorDisplayField>
+    <errorMessage>The Segment Lenght must be a number greater than 0 and equal or greater than the number of charachters of Pre Delimiter and Post Delimiter combined.</errorMessage>
+</ValidationRule>

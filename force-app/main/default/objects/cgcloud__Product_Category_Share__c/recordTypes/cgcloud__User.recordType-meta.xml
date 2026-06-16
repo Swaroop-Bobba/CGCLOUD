@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__User</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>cgcloud__Product_Manager_Compact_Layout</compactLayoutAssignment>
+    <description>Add User to Product</description>
+    <label>User</label>
+    <picklistValues>
+        <picklist>cgcloud__Access__c</picklist>
+        <values>
+            <fullName>Read</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Read%2FWrite</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>cgcloud__Active__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inactive</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>ToBeActivated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ToBeDeactivated</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

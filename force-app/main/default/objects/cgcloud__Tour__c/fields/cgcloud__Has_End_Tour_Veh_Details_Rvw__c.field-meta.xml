@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Has_End_Tour_Veh_Details_Rvw__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Indicates whether the vehicle details are reviewed during the end tour activities (true) or not (false).</description>
+    <externalId>false</externalId>
+    <label>End Tour Vehicle Details Reviewed</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

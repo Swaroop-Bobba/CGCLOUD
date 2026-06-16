@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Field_Name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines the field which belongs to SObject Type and it is used for KPI Mapping.</description>
+    <externalId>false</externalId>
+    <label>Field Name</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

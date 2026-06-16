@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Writeback_True_MeasureCod_NoEmpty</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(cgcloud__Storage_Options_Writeback__c = TRUE, ISBLANK(cgcloud__Storage_Options_Measure_Code__c))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Storage_Options_Measure_Code__c</errorDisplayField>
+    <errorMessage>Measure Code can&apos;t be empty if the Write Back is enabled.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Asset_Audit_Compact_Layout</fullName>
+    <fields>cgcloud__Asset__c</fields>
+    <fields>cgcloud__Sighted__c</fields>
+    <fields>cgcloud__Condition__c</fields>
+    <fields>cgcloud__Location__c</fields>
+    <fields>cgcloud__Location_Rating__c</fields>
+    <fields>cgcloud__Usage__c</fields>
+    <fields>cgcloud__Creation_Date__c</fields>
+    <label>Asset Audit Compact Layout</label>
+</CompactLayout>

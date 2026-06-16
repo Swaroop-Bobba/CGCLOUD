@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Limit_To_One_Visit_In_Progress__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Indicates whether a user is limited to having one visit in progress.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Limits the user to having one visit in progress.</inlineHelpText>
+    <label>Limit to One Visit In Progress</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

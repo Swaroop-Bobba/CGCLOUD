@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Default_and_Max_Value_cannot_be_decimal</fullName>
+    <active>true</active>
+    <description>Default Value and Max Value can&apos;t be decimal if the Reward Type is &apos;Free Item&apos;.</description>
+    <errorConditionFormula>AND(cgcloud__Reward_Type__c = &apos;FreeItem&apos;, 
+				OR((MFLOOR(cgcloud__Default_Value__c) &lt;&gt; cgcloud__Default_Value__c),
+			     (MFLOOR(cgcloud__Max_Value__c) &lt;&gt; cgcloud__Max_Value__c)))</errorConditionFormula>
+    <errorMessage>Default Value and Max Value can&apos;t be decimal if the Reward Type is &apos;Free Item&apos;.</errorMessage>
+</ValidationRule>

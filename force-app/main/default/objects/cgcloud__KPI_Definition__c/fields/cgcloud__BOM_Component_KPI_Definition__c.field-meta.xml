@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__BOM_Component_KPI_Definition__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>KPI definition used to aggregate values for the Bill of Materials (BOM) component.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Select the KPI definition of the KPIs to aggregate values for the Bill of Materials (BOM) component.</inlineHelpText>
+    <label>BOM Component KPI Definition</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Select a KPI definition that has the same Object Scope and Time Scope as this one. Make sure that its BOM Scope is defined as Component.</errorMessage>
+        <filterItems>
+            <field>cgcloud__KPI_Definition__c.cgcloud__Scope__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.cgcloud__Scope__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>cgcloud__KPI_Definition__c.cgcloud__Has_Component_BoM_Scope__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>cgcloud__KPI_Definition__c.cgcloud__Time_Scope__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.cgcloud__Time_Scope__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
+    <relationshipLabel>Related BOM Component KPI Definition</relationshipLabel>
+    <relationshipName>Related_BOM_Component_KPI_Definition</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

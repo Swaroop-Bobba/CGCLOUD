@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__record_type_cannot_be_modified</fullName>
+    <active>true</active>
+    <description>The Record Type can&apos;t be edited after Pricing Condition Template creation.</description>
+    <errorConditionFormula>AND(NOT(ISNEW()), ISCHANGED(  RecordTypeId ))</errorConditionFormula>
+    <errorMessage>The Record Type can&apos;t be edited after Pricing Condition Template creation.</errorMessage>
+</ValidationRule>

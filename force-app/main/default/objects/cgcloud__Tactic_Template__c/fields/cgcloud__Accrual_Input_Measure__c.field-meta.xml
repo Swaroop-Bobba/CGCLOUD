@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Accrual_Input_Measure__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Specifies the KPI that holds the actual volume or quantity used in the dynamic accrual calculation method.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The records of this measure are matched against dynamic accrual rules. The match is based on account, product, measure code, and time. Only daily measure real values are allowed.</inlineHelpText>
+    <label>Accrual Input Measure</label>
+    <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
+    <relationshipLabel>Accrual Rule Input Measures</relationshipLabel>
+    <relationshipName>AccrualRuleInputMeasures</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Value_Type_For_Product_Hierarchy</fullName>
+    <active>true</active>
+    <description>If Value Type is &apos;Money&apos; or &apos;Volume&apos;, the KPI must not be set to consider Product Hierarchy.</description>
+    <errorConditionFormula>AND(
+      cgcloud__Data_Source_Consider_Product_Hierarchy__c,
+      OR(
+      ISPICKVAL(cgcloud__Value_Type__c, &quot;Money&quot;),
+      ISPICKVAL(cgcloud__Value_Type__c, &quot;Volume&quot;)))</errorConditionFormula>
+    <errorMessage>If Value Type is &apos;Money&apos; or &apos;Volume&apos;, the KPI must not be set to consider Product Hierarchy.</errorMessage>
+</ValidationRule>

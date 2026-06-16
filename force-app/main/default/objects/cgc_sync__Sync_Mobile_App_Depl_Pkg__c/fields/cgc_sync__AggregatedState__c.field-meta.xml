@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__AggregatedState__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Displays the deployment package state. Possible values are:
+        Initial
+        Revoked
+        Scheduled
+        Published
+        Published (partially)</description>
+    <externalId>false</externalId>
+    <formula>IF(cgc_sync__Revoked__c = True, &quot;Revoked&quot;,     
+				IF(cgc_sync__Assignment_to_All__c + cgc_sync__Assignment_to_User__c == 0, &apos;Initial&apos;, 
+				        IF(cgc_sync__MinPublishingDate__c &gt; NOW() &amp;&amp; cgc_sync__MaxPublishingDate__c &gt; NOW(), &apos;Scheduled&apos;, 
+            IF(cgc_sync__MinPublishingDate__c &lt;= NOW() &amp;&amp; cgc_sync__MaxPublishingDate__c &lt;= NOW(), &apos;Published&apos;, &apos;Published (partially)&apos;)																											
+        	)
+				)
+	)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>State</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

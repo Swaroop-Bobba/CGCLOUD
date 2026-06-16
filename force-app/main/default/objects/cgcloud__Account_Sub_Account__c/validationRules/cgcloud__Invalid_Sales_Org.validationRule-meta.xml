@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Invalid_Sales_Org</fullName>
+    <active>true</active>
+    <description>Account and Sub Account Sales Orgs must be equal.</description>
+    <errorConditionFormula>cgcloud__Account__r.cgcloud__Sales_Org__c &lt;&gt; cgcloud__Sub_Account__r.cgcloud__Sales_Org__c</errorConditionFormula>
+    <errorMessage>Account and Sub Account Sales Orgs must be equal.</errorMessage>
+</ValidationRule>

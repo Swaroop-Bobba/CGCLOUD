@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__PreventEditCoreMessageConfiguration</fullName>
+    <active>true</active>
+    <description>Prevent edit of core indices</description>
+    <errorConditionFormula>AND (PRIORVALUE(cgc_sync__IsCore__c), OR 
+					(ISCHANGED(cgc_sync__IsCore__c),
+					 ISCHANGED(cgc_sync__Category__c),
+					 ISCHANGED(cgc_sync__Code__c),
+					 ISCHANGED(cgc_sync__MappingType__c)))</errorConditionFormula>
+    <errorMessage>Core configuration change is not allowed!</errorMessage>
+</ValidationRule>

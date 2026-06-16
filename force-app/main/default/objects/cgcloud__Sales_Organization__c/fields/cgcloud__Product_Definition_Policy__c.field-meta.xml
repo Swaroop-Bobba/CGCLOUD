@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Definition_Policy__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Select the method to add products to the trade calendar and account plan.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Add products to your trade calendar and account plan using the Dynamic or Static method. The Dynamic method adds products automatically based on predefined criteria. The Static method requires you to manually add a fixed list of products. If no option is selected, both methods are available.</inlineHelpText>
+    <label>Product Definition Policy</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Dynamic</fullName>
+                <default>false</default>
+                <label>Dynamic</label>
+            </value>
+            <value>
+                <fullName>Static</fullName>
+                <default>false</default>
+                <label>Static</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

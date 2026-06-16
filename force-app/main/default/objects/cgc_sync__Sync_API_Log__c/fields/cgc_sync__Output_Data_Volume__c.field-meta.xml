@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Output_Data_Volume__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Stores the size/volume of output (resulting) data for the task/query that&apos;s being measured (if applicable). 
+For example if you are measuring a named query execution you could place here the number of records that is contained in the result set.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Stores the size/volume of output (resulting) data for the task/query that&apos;s being measured (if applicable). 
+For example if you are measuring a named query execution you could place here the number of records that is contained in the result set.</inlineHelpText>
+    <label>Output Data Volume</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

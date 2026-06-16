@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Total_API_Calls_Down__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Total number of API calls used during sync between Salesforce back-end and mobile device since the first installation. This value will not be affected by the Reset functionality.</description>
+    <externalId>false</externalId>
+    <label>#Total API Calls Down</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

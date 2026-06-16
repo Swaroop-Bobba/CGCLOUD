@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Storage_Subperiod</fullName>
+    <active>true</active>
+    <description>Storage Option Subperiod must not have a value if merge rule is other than Sum.</description>
+    <errorConditionFormula>AND(
+  NOT(ISBLANK(TEXT(cgcloud__Storage_Options_Subperiod__c))),
+  NOT(ISPICKVAL(cgcloud__Aggregation_Merge_Rule__c, &apos;sum&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Storage_Options_Subperiod__c</errorDisplayField>
+    <errorMessage>Storage Option Subperiod must not have a value if merge rule is other than Sum.</errorMessage>
+</ValidationRule>

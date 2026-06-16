@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account_Visit_Setting_Compact_Layout</fullName>
+    <fields>cgcloud__Account__c</fields>
+    <fields>cgcloud__Visit_Template__c</fields>
+    <fields>cgcloud__Day_Of_Week__c</fields>
+    <fields>cgcloud__Time_Of_Day__c</fields>
+    <fields>cgcloud__Valid_From__c</fields>
+    <fields>cgcloud__Valid_Thru__c</fields>
+    <fields>cgcloud__Active__c</fields>
+    <label>Account Visit Setting Compact Layout</label>
+</CompactLayout>

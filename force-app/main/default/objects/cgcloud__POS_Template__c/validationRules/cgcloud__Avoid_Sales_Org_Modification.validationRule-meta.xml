@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Avoid_Sales_Org_Modification</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISCHANGED(cgcloud__Sales_Org__c )</errorConditionFormula>
+    <errorMessage>The Sales Org can&apos;t be edited after POS Template creation.</errorMessage>
+</ValidationRule>

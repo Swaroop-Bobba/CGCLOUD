@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Rounding_Rule_Validation</fullName>
+    <active>true</active>
+    <description>Round Rule must be &apos;Never&apos; if the Unit of Measure has the highest Sort value.</description>
+    <errorConditionFormula>(cgcloud__Product__r.cgcloud__Rounding_Rule_Validation__c &lt;=  cgcloud__Sort__c  ||  ISBLANK( cgcloud__Product__r.cgcloud__Rounding_Rule_Validation__c )  )  &amp;&amp;  NOT(ISPICKVAL(cgcloud__Rounding_Rule__c, &apos;Never&apos;))</errorConditionFormula>
+    <errorMessage>Round Rule must be &apos;Never&apos; if the Unit of Measure has the highest Sort value.</errorMessage>
+</ValidationRule>

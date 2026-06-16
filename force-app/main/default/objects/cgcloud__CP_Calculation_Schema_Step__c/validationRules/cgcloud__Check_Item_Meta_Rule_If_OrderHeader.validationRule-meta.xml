@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Item_Meta_Rule_If_OrderHeader</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(
+AND(
+ ISPICKVAL( cgcloud__Pricing_Condition_Template__r.cgcloud__Condition_Level__c , &apos;OrderHeader&apos;),
+ NOT (ISPICKVAL( cgcloud__Pricing_Condition_Template__r.cgcloud__Meta_Type__c  , &apos;UserExit&apos;)),
+ ISPICKVAL(cgcloud__Item_Meta_Rule__c, &apos;&apos;)), 
+ true, 
+ false
+)</errorConditionFormula>
+    <errorMessage>Item Meta Rule can&apos;t be empty if the Condition Level is &apos;Order Header&apos; and the Meta Type of the Pricing Condition Template isn&apos;t &apos;User Exit Only&apos;.</errorMessage>
+</ValidationRule>

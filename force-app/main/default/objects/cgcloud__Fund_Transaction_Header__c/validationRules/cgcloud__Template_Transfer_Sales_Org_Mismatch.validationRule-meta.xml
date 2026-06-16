@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Template_Transfer_Sales_Org_Mismatch</fullName>
+    <active>true</active>
+    <description>The Transaction Template and Transfer Fund Transaction Source Fund must belong to the same Sales Org</description>
+    <errorConditionFormula>AND(ISNEW(),  RecordType.Name = &apos;Transfer&apos;,
+TEXT(cgcloud__Fund_Transaction_Template__r.cgcloud__Sales_Org__c) &lt;&gt;  cgcloud__Source_Fund__r.cgcloud__Sales_Org__c,
+!$Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c
+)</errorConditionFormula>
+    <errorMessage>The Transaction Template and Source Fund must belong to the same Sales Org</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Hurdle_with_PER</fullName>
+    <active>true</active>
+    <description>Only promotion hurdles with &apos;PER&apos; Operator can be selected if the Free Item is checked.</description>
+    <errorConditionFormula>AND(
+cgcloud__Free_Item__c = false,
+NOT(ISBLANK(cgcloud__Hurdle__c)), 
+ISPICKVAL(cgcloud__Hurdle__r.cgcloud__Operator__c, &apos;PER&apos;))</errorConditionFormula>
+    <errorMessage>Only promotion hurdles with &apos;PER&apos; Operator can be selected if the Free Item is checked.</errorMessage>
+</ValidationRule>

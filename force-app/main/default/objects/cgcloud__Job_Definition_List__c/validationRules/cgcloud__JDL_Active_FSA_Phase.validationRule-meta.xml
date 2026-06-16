@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__JDL_Active_FSA_Phase</fullName>
+    <active>true</active>
+    <description>Activity can&apos;t be activated if the Field Sales Activity Phase is &apos;Planning&apos; or &apos;Cancelled&apos;.</description>
+    <errorConditionFormula>AND(      
+OR(
+ISPICKVAL(cgcloud__Field_Sales_Activity__r.cgcloud__Phase__c, &quot;Planning&quot;),
+ISPICKVAL(cgcloud__Field_Sales_Activity__r.cgcloud__Phase__c, &quot;Canceled&quot;)),
+cgcloud__Active__c
+)</errorConditionFormula>
+    <errorMessage>Activity can&apos;t be activated if the Field Sales Activity Phase is &apos;Planning&apos; or &apos;Cancelled&apos;.</errorMessage>
+</ValidationRule>

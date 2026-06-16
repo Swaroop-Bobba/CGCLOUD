@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Name_cannot_be_changed_after_creation</fullName>
+    <active>true</active>
+    <description>The Listing Module Name can&apos;t be edited after Listing Module creation.</description>
+    <errorConditionFormula>AND(NOT(ISNEW()), ISCHANGED(Name))</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>The Listing Module Name can&apos;t be edited after Listing Module creation.</errorMessage>
+</ValidationRule>

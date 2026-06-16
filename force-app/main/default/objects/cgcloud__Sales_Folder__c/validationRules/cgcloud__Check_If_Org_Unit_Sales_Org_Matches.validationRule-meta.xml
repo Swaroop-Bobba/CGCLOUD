@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Org_Unit_Sales_Org_Matches</fullName>
+    <active>true</active>
+    <description>The Org Unit and the Sales Folder must have the same Sales Org.</description>
+    <errorConditionFormula>ISPICKVAL(cgcloud__Sales_Folder_Template__r.cgcloud__Anchor_Type__c, &apos;OrgUnit&apos;) &amp;&amp; NOT(ISBLANK(cgcloud__Org_Unit__c)) &amp;&amp; TEXT(cgcloud__Org_Unit__r.cgcloud__Sales_Org__c) &lt;&gt; TEXT(cgcloud__Sales_Org__c)</errorConditionFormula>
+    <errorMessage>The Org Unit and the Sales Folder must have the same Sales Org.</errorMessage>
+</ValidationRule>

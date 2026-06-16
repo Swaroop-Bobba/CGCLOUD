@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Invalid_Receiver_External_Id</fullName>
+    <active>true</active>
+    <description>Sub Account external Id cannot be Empty.</description>
+    <errorConditionFormula>ISBLANK(cgcloud__Sub_Account_External_Id__c)</errorConditionFormula>
+    <errorMessage>Sub Account external Id cannot be Empty.</errorMessage>
+</ValidationRule>

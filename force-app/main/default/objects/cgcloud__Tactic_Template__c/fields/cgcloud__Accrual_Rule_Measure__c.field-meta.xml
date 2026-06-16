@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Accrual_Rule_Measure__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Measure used to calculate accrual amounts at the product level for this tactic.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Measure used to calculate accrual amounts at the product level for this tactic.</inlineHelpText>
+    <label>Accrual Rule Measure</label>
+    <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
+    <relationshipLabel>Accrual Rule Measures</relationshipLabel>
+    <relationshipName>AccrualRuleMeasures</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

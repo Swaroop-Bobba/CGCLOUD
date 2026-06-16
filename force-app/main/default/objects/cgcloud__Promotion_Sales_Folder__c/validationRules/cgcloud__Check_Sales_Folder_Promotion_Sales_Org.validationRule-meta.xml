@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Sales_Folder_Promotion_Sales_Org</fullName>
+    <active>true</active>
+    <description>The Sales Folder and the Promotion must have the same Sales Org.</description>
+    <errorConditionFormula>TEXT(cgcloud__Sales_Folder__r.cgcloud__Sales_Org__c)!= cgcloud__Promotion__r.cgcloud__Sales_Org__c</errorConditionFormula>
+    <errorMessage>The Sales Folder and the Promotion must have the same Sales Org.</errorMessage>
+</ValidationRule>

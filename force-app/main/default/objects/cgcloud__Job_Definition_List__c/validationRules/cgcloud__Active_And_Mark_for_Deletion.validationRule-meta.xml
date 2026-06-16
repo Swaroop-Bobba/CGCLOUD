@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Active_And_Mark_for_Deletion</fullName>
+    <active>true</active>
+    <description>Mark for Deletion and Active can&apos;t be checked at the same time.</description>
+    <errorConditionFormula>AND(cgcloud__Active__c,cgcloud__Mark_for_Deletion__c)</errorConditionFormula>
+    <errorMessage>Mark for Deletion and Active can&apos;t be checked at the same time.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__InventoryReference</fullName>
+    <description>This Field Set is used in CreateEditOrderHelper class for
+			stamping Inventory Reference in Order</description>
+    <displayedFields>
+        <field>cgcloud__Inventory_Reference_1__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>cgcloud__Inventory_Reference_2__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>cgcloud__Inventory_Reference_3__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>cgcloud__Inventory_Reference_4__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>cgcloud__Inventory_Reference_5__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <label>InventoryReference</label>
+</FieldSet>

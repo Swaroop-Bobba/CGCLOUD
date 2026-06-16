@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Accrual_Output_Code__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Measure code to identify accruals by tactic type.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Measure code to identify accruals by tactic type (for example display vs. price reduction).</inlineHelpText>
+    <label>Accrual Output Code</label>
+    <length>10</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

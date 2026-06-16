@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_User_Is_Changed</fullName>
+    <active>true</active>
+    <description>The User can&apos;t be edited after Sales Organization User creation.</description>
+    <errorConditionFormula>ISCHANGED(cgcloud__User__c)</errorConditionFormula>
+    <errorMessage>The User can&apos;t be edited after Sales Organization User creation.</errorMessage>
+</ValidationRule>

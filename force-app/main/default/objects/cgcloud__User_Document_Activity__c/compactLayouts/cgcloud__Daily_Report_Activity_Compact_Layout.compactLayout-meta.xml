@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Daily_Report_Activity_Compact_Layout</fullName>
+    <fields>cgcloud__Activity__c</fields>
+    <fields>cgcloud__Duration__c</fields>
+    <label>Daily Report Activity Compact Layout</label>
+</CompactLayout>

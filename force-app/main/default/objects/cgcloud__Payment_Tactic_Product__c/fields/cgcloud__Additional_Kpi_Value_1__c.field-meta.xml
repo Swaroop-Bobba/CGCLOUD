@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Additional_Kpi_Value_1__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Kpi Value for measure defined in Payment_Template__c.Additional_Snapshot_Kpi_Definition_1__c</description>
+    <externalId>false</externalId>
+    <label>Additional_Kpi_Value_1</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>6</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

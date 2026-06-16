@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Can_Only_Go_to_Active_from_Initial</fullName>
+    <active>true</active>
+    <description>When changing the status from Initial, Active is the only valid choice.</description>
+    <errorConditionFormula>AND(
+  $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+  ISPICKVAL(PRIORVALUE(cgcloud__Status__c), &apos;Initial&apos;),
+  NOT(ISNEW()),
+  NOT(ISPICKVAL(cgcloud__Status__c, &apos;Initial&apos;) || ISPICKVAL(cgcloud__Status__c, &apos;Active&apos;))
+)</errorConditionFormula>
+    <errorMessage>Status can only be promoted to Active from Initial</errorMessage>
+</ValidationRule>

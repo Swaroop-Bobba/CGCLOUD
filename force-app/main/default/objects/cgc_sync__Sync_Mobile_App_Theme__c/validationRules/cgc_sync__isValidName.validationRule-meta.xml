@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__isValidName</fullName>
+    <active>true</active>
+    <description>Name must not exceed 80 characters and only contain letters, numbers, space, ampersand, dot and hyphen.</description>
+    <errorConditionFormula>!REGEX(Name, &apos;[a-zA-Z0-9 &amp;.-]{1,80}|&apos;)</errorConditionFormula>
+    <errorMessage>Invalid theme name. Only letters, numbers, space, ampersand, dot and hyphen are allowed.</errorMessage>
+</ValidationRule>

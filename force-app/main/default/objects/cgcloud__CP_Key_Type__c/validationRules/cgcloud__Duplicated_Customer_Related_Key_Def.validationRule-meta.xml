@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Duplicated_Customer_Related_Key_Def</fullName>
+    <active>true</active>
+    <errorConditionFormula>(cgcloud__Consider_Account__c &amp;&amp; (cgcloud__Consider_Account_Hierarchy__c  || cgcloud__Consider_Account_Set__c )) || (cgcloud__Consider_Account_Set__c 
+ &amp;&amp; (cgcloud__Consider_Account_Hierarchy__c  || cgcloud__Consider_Account__c )) || (cgcloud__Consider_Account_Hierarchy__c  &amp;&amp; (cgcloud__Consider_Account__c  || cgcloud__Consider_Account_Set__c ))</errorConditionFormula>
+    <errorMessage>You must select a maximum of one Customer Related settings in Key Definitions.</errorMessage>
+</ValidationRule>

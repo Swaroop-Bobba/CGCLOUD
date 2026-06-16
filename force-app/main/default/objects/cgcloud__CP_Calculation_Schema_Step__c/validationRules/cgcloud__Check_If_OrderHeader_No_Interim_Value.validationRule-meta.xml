@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_OrderHeader_No_Interim_Value</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(
+ ISPICKVAL( cgcloud__Pricing_Condition_Template__r.cgcloud__Condition_Level__c , &apos;OrderHeader&apos;), 
+ NOT ( ISPICKVAL(cgcloud__Interim_Value__c, &apos;&apos;)  ),
+false)</errorConditionFormula>
+    <errorMessage>Interim Value must be empty if the Condition Level is &apos;Order Header&apos;.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__SYNC_isValidRGB</fullName>
+    <active>true</active>
+    <description>Checks if value is a value RGBA string or valid color macro</description>
+    <errorConditionFormula>and (!REGEX( cgc_sync__Color__c , &apos;^rgba?\\((1?[0-9]{1,2}|2[0-4][0-9]|25[0-5]),\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5]),\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5]),\\s*(1?(0[.][0-9]{1,3})|[01])\\)&apos;) , !REGEX(cgc_sync__Color__c, &apos;(^#[0-9a-zA-Z]{1,80}(\\(((0[.][0-9]{1,3})|[01])\\))?#$)&apos;))</errorConditionFormula>
+    <errorMessage>This is not a valid RGBA string or a valid color macro</errorMessage>
+</ValidationRule>

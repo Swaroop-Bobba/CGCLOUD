@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Reporting_Type_For_Relevant</fullName>
+    <active>true</active>
+    <description>Reporting type must be set when KPI is reporting relevant.</description>
+    <errorConditionFormula>AND(
+      cgcloud__Reporting_Relevant__c,
+      ISBLANK(TEXT(cgcloud__Reporting_Type__c)))</errorConditionFormula>
+    <errorMessage>Reporting type must be set when KPI is reporting relevant.</errorMessage>
+</ValidationRule>

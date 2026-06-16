@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Cannot_Change_Status_from_Closed</fullName>
+    <active>true</active>
+    <description>Once the status has been changed to closed, it cannot be changed to any other status.</description>
+    <errorConditionFormula>AND(
+  $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+  ISPICKVAL(PRIORVALUE(cgcloud__Status__c), &apos;Closed&apos;),
+  NOT(ISPICKVAL(cgcloud__Status__c, &apos;Closed&apos;))
+)</errorConditionFormula>
+    <errorMessage>Once set to Closed, the status cannot be changed again.</errorMessage>
+</ValidationRule>

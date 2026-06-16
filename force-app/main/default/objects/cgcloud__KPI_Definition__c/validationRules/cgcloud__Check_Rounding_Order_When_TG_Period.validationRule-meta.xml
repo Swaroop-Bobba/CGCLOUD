@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Rounding_Order_When_TG_Period</fullName>
+    <active>true</active>
+    <description>If Time Granularity is period, only Default is allowed for Rounding Order (if rounding is enabled).</description>
+    <errorConditionFormula>AND(
+  ISPICKVAL(cgcloud__Time_Granularity__c, &apos;period&apos;),
+  NOT(ISPICKVAL(cgcloud__Rounding_Order__c, &apos;default&apos;)),
+  NOT(ISBLANK(TEXT(cgcloud__Rounding_Type__c)))
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Rounding_Order__c</errorDisplayField>
+    <errorMessage>If Time Granularity is period, only Default is allowed for Rounding Order.</errorMessage>
+</ValidationRule>

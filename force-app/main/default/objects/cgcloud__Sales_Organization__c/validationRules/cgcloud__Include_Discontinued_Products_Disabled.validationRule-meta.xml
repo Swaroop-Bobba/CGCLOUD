@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Include_Discontinued_Products_Disabled</fullName>
+    <active>true</active>
+    <description>Validates whether the Include Discontinued Products checkbox is selected when specifying a lookback period.</description>
+    <errorConditionFormula>AND(NOT(cgcloud__Should_Include_Discontinued_Products__c), NOT(ISPICKVAL(cgcloud__Lookback_Period_In_Years__c, &apos;&apos;)))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Lookback_Period_In_Years__c</errorDisplayField>
+    <errorMessage>You can&apos;t specify a Lookback Period for discontinued products. Make sure that you&apos;ve selected the Include Discontinued Products checkbox and try again.</errorMessage>
+</ValidationRule>

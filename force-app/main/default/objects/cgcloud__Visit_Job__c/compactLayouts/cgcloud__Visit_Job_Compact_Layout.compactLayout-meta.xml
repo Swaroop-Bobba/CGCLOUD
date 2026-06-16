@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Visit_Job_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>cgcloud__Visit__c</fields>
+    <fields>cgcloud__Job_List__c</fields>
+    <fields>cgcloud__Job_Definition__c</fields>
+    <fields>cgcloud__Product__c</fields>
+    <fields>cgcloud__Promotion__c</fields>
+    <label>Visit Job Compact Layout</label>
+</CompactLayout>

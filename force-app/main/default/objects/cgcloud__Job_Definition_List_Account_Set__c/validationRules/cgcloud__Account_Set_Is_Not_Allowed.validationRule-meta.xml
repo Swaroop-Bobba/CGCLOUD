@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account_Set_Is_Not_Allowed</fullName>
+    <active>true</active>
+    <description>Customer Set cannot be added if the Consider Customer on Activity Template is unchecked.</description>
+    <errorConditionFormula>cgcloud__Job_Definition_List__r.cgcloud__Job_Definition_List_Template__r.cgcloud__Consider_Account__c = false</errorConditionFormula>
+    <errorMessage>Customer Set can&apos;t be added if the Consider Customer on Activity Template is unchecked.</errorMessage>
+</ValidationRule>

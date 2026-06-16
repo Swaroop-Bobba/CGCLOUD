@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Postdate</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(cgcloud__User_Document_Template__r.cgcloud__Allow_Postdating__c) &amp;&amp; cgcloud__Date__c &gt; TODAY()</errorConditionFormula>
+    <errorMessage>Daily Reports aren&apos;t allowed for future dates.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_should_be_same_as_template</fullName>
+    <active>true</active>
+    <description>The Activity Template and Job Definition Template must have same Sales Org.</description>
+    <errorConditionFormula>TEXT (cgcloud__Job_Definition_List_Template__r.cgcloud__Sales_Org__c) &lt;&gt;  TEXT (cgcloud__Job_Definition_Template__r.cgcloud__Sales_Org__c)</errorConditionFormula>
+    <errorMessage>The Activity Template and Job Definition Template must have same Sales Org.</errorMessage>
+</ValidationRule>

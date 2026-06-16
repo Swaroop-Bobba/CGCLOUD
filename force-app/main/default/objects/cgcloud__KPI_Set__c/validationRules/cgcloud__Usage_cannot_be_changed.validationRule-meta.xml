@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Usage_cannot_be_changed</fullName>
+    <active>true</active>
+    <description>not allow to change usage</description>
+    <errorConditionFormula>ISCHANGED( cgcloud__Usage__c )</errorConditionFormula>
+    <errorDisplayField>cgcloud__Usage__c</errorDisplayField>
+    <errorMessage>Usage cannot be changed</errorMessage>
+</ValidationRule>

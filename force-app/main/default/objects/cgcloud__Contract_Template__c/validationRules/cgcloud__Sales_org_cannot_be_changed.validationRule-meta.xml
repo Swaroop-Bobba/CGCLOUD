@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_org_cannot_be_changed</fullName>
+    <active>false</active>
+    <errorConditionFormula>ISCHANGED( cgcloud__Sales_Org__c )</errorConditionFormula>
+    <errorDisplayField>cgcloud__Sales_Org__c</errorDisplayField>
+    <errorMessage>The Sales Org can&apos;t be edited after Contract Template creation.</errorMessage>
+</ValidationRule>

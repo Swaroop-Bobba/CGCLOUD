@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__PosTypeAndPosTemplateNotNecesary</fullName>
+    <active>true</active>
+    <errorConditionFormula>cgcloud__Measure_Type__c != &apos;POS&apos; &amp;&amp; (NOT(ISBLANK(TEXT(cgcloud__POS_Type__c))) || NOT(ISBLANK(cgcloud__POS_Template__c)))</errorConditionFormula>
+    <errorMessage>POS Type and POS Template must be selected if the Measure Type of the Job Definition Template is &apos;POS&apos;.</errorMessage>
+</ValidationRule>

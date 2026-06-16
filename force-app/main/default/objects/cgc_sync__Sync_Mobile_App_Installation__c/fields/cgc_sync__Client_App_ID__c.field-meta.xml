@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Client_App_ID__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Stores the client app ID used by the device and user combination related to a particular Cloud Synchronization App_Installation__c record.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Client App ID or Configuration which is assigned to the mobile device.</inlineHelpText>
+    <label>Client App Id</label>
+    <length>40</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

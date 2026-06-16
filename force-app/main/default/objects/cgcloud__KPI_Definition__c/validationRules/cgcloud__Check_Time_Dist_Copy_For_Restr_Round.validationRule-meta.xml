@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Time_Dist_Copy_For_Restr_Round</fullName>
+    <active>true</active>
+    <description>Restricted rounding is not allowed for KPIs that copy along the time hierarchy. Values should be preserved and ot rounded.</description>
+    <errorConditionFormula>AND(ISPICKVAL(cgcloud__Distribution_Time_Hierarchy_Dist_Type__c, &apos;copy&apos;), ISPICKVAL(cgcloud__Rounding_Type__c,&apos;carryoverrestrictedtoperiod&apos;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Rounding_Type__c</errorDisplayField>
+    <errorMessage>We couldn’t save the KPI. Select a value other than Copy for the Distribution Type (Time Hierarchy) setting when the rounding type is set as Rounding Within Period for the KPI.</errorMessage>
+</ValidationRule>

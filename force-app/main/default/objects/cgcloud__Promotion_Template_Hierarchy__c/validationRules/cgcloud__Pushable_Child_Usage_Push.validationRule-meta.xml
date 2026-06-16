@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Pushable_Child_Usage_Push</fullName>
+    <active>true</active>
+    <description>A child cannot be Pushable if Usage is Push</description>
+    <errorConditionFormula>AND(cgcloud__Child_Promotion_Template__r.cgcloud__Is_Pushable__c , ISPICKVAL(cgcloud__Usage__c,&quot;Push&quot;))</errorConditionFormula>
+    <errorMessage>A child cannot be Pushable if Usage is Push.</errorMessage>
+</ValidationRule>

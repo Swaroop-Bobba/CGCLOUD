@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Accrual_Rule_Time_Granularity__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies how KPI values are split for accrual calculations.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>* Total: Uses the total KPI value for the tactic product time frame.
+        * Period: Splits KPI value for the tactic product by week or period, to generate an accrual rule out of the total value on tactic product level or generate a value by period on the tactic product level.</inlineHelpText>
+    <label>Accrual Rule Time Granularity</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Total</fullName>
+                <default>false</default>
+                <label>Total</label>
+            </value>
+            <value>
+                <fullName>Period</fullName>
+                <default>false</default>
+                <label>Period</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

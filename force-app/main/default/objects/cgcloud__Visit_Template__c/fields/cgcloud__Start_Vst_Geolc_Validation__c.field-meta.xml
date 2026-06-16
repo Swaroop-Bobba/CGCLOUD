@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Start_Vst_Geolc_Validation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies the validation type when a user starts a visit, based on the comparison between their GPS location and the geolocation of the store.</description>
+    <externalId>false</externalId>
+    <label>Start Visit Geolocation Validation</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>None</fullName>
+                <default>true</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>Error</fullName>
+                <default>false</default>
+                <label>Error</label>
+            </value>
+            <value>
+                <fullName>Warning</fullName>
+                <default>false</default>
+                <label>Warning</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

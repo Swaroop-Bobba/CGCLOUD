@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Org_Unit_Is_Empty</fullName>
+    <active>true</active>
+    <description>If Sales_Folder_Template has field Anchor_Type as OrgUnit then Org_Unit__c cannot be empty.</description>
+    <errorConditionFormula>ISPICKVAL(cgcloud__Sales_Folder_Template__r.cgcloud__Anchor_Type__c, &apos;OrgUnit&apos;) &amp;&amp; ISBLANK(cgcloud__Org_Unit__c)</errorConditionFormula>
+    <errorMessage>The Org Unit cannot be empty.</errorMessage>
+</ValidationRule>

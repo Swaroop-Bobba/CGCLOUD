@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Condition_Source_Kpi_Name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>KPI Source Definition Name</description>
+    <externalId>false</externalId>
+    <formula>cgcloud__Condition_Source_Kpi__r.Name</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Condition Source Kpi Name</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

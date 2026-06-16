@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Delivery_Recipient_Not_Empty</fullName>
+    <active>true</active>
+    <description>Validates if delivery recipient is empty.</description>
+    <errorConditionFormula>ISBLANK(cgcloud__Delivery_Recipient__c) &amp;&amp; ISPICKVAL(cgcloud__Phase__c, &quot;Released&quot;) &amp;&amp; NOT(OR(ISPICKVAL(cgcloud__Order_Template__r.cgcloud__Document_Type__c, &apos;ProductCheckOut&apos;),ISPICKVAL(cgcloud__Order_Template__r.cgcloud__Document_Type__c, &apos;ProductCheckIn&apos;)) &amp;&amp; (cgcloud__Order_Template__r.RecordType.DeveloperName = &apos;Truck_Load&apos;))</errorConditionFormula>
+    <errorMessage>No valid Delivery Recipients have been found for the Order Customer.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Scale_Type_Graduated_Metatypes_rel_restr</fullName>
+    <active>true</active>
+    <errorConditionFormula>(TEXT(cgcloud__Scale_Type__c) == &apos;Graduated&apos; &amp;&amp; (TEXT(cgcloud__Meta_Type__c) == &apos;Price&apos; || TEXT(cgcloud__Meta_Type__c) == &apos;FixAmount&apos;)) &amp;&amp; TEXT(cgcloud__Base__c) == &apos;Value&apos;</errorConditionFormula>
+    <errorMessage>Base can&apos;t be &apos;Value&apos; if the Meta Type is &apos;Price&apos; or &apos;Amount&apos; and the Scale Type is &apos;Graduated&apos;.</errorMessage>
+</ValidationRule>

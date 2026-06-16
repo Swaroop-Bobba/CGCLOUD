@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Max_Other_Events_Per_Period__c</fullName>
+    <defaultValue>5000</defaultValue>
+    <deprecated>false</deprecated>
+    <description>The maximum number of events a device can send in a period of time (set in Events Period field) when Log Level field is set to: Debug, Info or Log.</description>
+    <externalId>false</externalId>
+    <label>#Max Other Events</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

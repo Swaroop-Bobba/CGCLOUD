@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_TemplatePolicy</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISPICKVAL(cgcloud__Contract__r.cgcloud__Account_Contract_Template__r.cgcloud__Product_Policy__c, &apos;No&apos;)</errorConditionFormula>
+    <errorMessage>Contract Product can&apos;t be created if the Product Policy on Contract Template is &apos;No&apos;.</errorMessage>
+</ValidationRule>

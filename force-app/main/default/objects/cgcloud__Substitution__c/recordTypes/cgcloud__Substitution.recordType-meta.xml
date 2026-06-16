@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Substitution</fullName>
+    <active>true</active>
+    <description>Technically used to specify if the record is either &apos;Substitution&apos; or &apos;Substitution Item</description>
+    <label>Substitution</label>
+    <picklistValues>
+        <picklist>cgcloud__Sales_Org__c</picklist>
+        <values>
+            <fullName>0001</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>0002</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>0003</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>cgcloud__Substitution_Type__c</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sickness</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vacation</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

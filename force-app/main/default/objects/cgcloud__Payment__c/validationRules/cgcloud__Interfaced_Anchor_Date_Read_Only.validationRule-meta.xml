@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Interfaced_Anchor_Date_Read_Only</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE, RecordType.Name = &apos;Interfaced&apos;, OR( ISCHANGED( cgcloud__Reference_Date__c ) , ISCHANGED( cgcloud__Payment_Anchor__c ) ) )</errorConditionFormula>
+    <errorMessage>Payment Anchor and/or Reference Date cannot be changed.</errorMessage>
+</ValidationRule>

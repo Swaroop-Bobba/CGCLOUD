@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Start_Date_End_Date_Validation</fullName>
+    <active>true</active>
+    <description>This validates that Start Date cannot be greater than End Date</description>
+    <errorConditionFormula>cgcloud__Start_Date__c &gt; cgcloud__End_Date__c</errorConditionFormula>
+    <errorMessage>Start Date can&apos;t be later than End Date.</errorMessage>
+</ValidationRule>

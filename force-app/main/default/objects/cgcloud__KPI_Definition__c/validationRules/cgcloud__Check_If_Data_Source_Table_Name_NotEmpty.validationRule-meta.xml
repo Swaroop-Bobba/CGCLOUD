@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Data_Source_Table_Name_NotEmpty</fullName>
+    <active>true</active>
+    <description>The Data Source Table Name can&apos;t be empty.</description>
+    <errorConditionFormula>AND(
+      $RecordType.DeveloperName = &quot;read&quot;,
+      ISBLANK(cgcloud__Data_Source_Condition_Search_Group__c),
+      (
+      (ISPICKVAL
+      (cgcloud__Data_Source_Table_Name__c, &quot;&quot;)
+      )
+      )
+      )</errorConditionFormula>
+    <errorMessage>The Data Source Table Name can&apos;t be empty.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Ensure_Order_For_Period_Rounding</fullName>
+    <active>true</active>
+    <description>Ensures that a user selects the rounding order as subperiod first for the Rounding within Period rounding type.</description>
+    <errorConditionFormula>AND(TEXT(cgcloud__Rounding_Type__c)=&apos;carryoverrestrictedtoperiod&apos;,TEXT(cgcloud__Rounding_Order__c)!=&apos;subperiodfirst&apos;)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Rounding_Order__c</errorDisplayField>
+    <errorMessage>Select subperiod first because you’ve selected the rounding type as Rounding within Period.</errorMessage>
+</ValidationRule>

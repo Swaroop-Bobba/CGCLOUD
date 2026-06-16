@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Prevent_Core_Theme_Name_Change</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(PRIORVALUE(cgc_sync__isCore__c) ,ISCHANGED(Name))</errorConditionFormula>
+    <errorMessage>Core theme Name change is not allowed.</errorMessage>
+</ValidationRule>

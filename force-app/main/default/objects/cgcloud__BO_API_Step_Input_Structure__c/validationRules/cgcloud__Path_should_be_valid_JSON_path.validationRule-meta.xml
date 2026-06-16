@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Path_should_be_valid_JSON_path</fullName>
+    <active>true</active>
+    <description>The Path must represent a valid JSON path.</description>
+    <errorConditionFormula>IF(ISBLANK(cgcloud__Path__c), false, NOT REGEX(cgcloud__Path__c, &quot;^(?:\\[\\*\\])?(?:\\.\\w+(?:\\[\\*\\])?)+$&quot;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Path__c</errorDisplayField>
+    <errorMessage>The Path must represent a valid JSON path.</errorMessage>
+</ValidationRule>

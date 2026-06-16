@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__PlanningMode_InitialYear_Validation</fullName>
+    <active>false</active>
+    <errorConditionFormula>IF( ISPICKVAL( cgcloud__Planning_Mode__c , &apos;StartWeekYear&apos;) ,
+    OR(
+     IF( AND(cgcloud__Active__c = true , ISBLANK(TEXT(cgcloud__Initial_Year__c))), true, false),
+     IF( AND( !ISBLANK(TEXT(cgcloud__Initial_Year__c)), VALUE(TEXT(cgcloud__Initial_Year__c)) &gt; Year(Today())) , true, false)
+    ),
+ false)</errorConditionFormula>
+    <errorMessage>Initial Year can&apos;t be empty and equal or sooner than the current year if the Planning Mode is &apos;StartWeekYear&apos; and Active is checked.</errorMessage>
+</ValidationRule>

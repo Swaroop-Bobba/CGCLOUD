@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Claim_Overspend_Threshold_Percentage__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The maximum percentage that a tactic&apos;s claim amount can exceed the accrued amount.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The maximum percentage that a tactic&apos;s claim amount can exceed the accrued amount.</inlineHelpText>
+    <label>Claim Overspend Threshold (in percent)</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

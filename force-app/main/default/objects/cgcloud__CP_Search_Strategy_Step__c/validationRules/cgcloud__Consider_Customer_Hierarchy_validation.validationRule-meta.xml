@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Consider_Customer_Hierarchy_validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>cgcloud__Key_Type__r.cgcloud__Consider_Account_Hierarchy__c == true &amp;&amp;  TEXT(cgcloud__Account_Hierarchy_Search__c) == &apos;No&apos;</errorConditionFormula>
+    <errorMessage>Customer Hierarchy Search can&apos;t be &apos;No&apos; if the Key Type is configured with &apos;Customer Hierarchy Only&apos;.</errorMessage>
+</ValidationRule>

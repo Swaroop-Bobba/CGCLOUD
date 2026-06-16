@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__SyncMessageExtendible_Configuration</fullName>
+    <active>true</active>
+    <label>Sync Message Extendible Configuration</label>
+    <picklistValues>
+        <picklist>cgc_sync__MappingType__c</picklist>
+        <values>
+            <fullName>CategoryBased</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

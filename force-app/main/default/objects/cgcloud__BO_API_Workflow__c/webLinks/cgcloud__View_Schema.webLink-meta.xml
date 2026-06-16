@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__View_Schema</fullName>
+    <availability>online</availability>
+    <description>Redirects user to Visualforce page to view JSON schema of Business Object API Workflows that is used to validate input JSON so that the user can analyze schema errors, if any.</description>
+    <displayType>button</displayType>
+    <height>600</height>
+    <linkType>page</linkType>
+    <masterLabel>View Schema</masterLabel>
+    <openType>sidebar</openType>
+    <page>cgcloud__ViewBoApiJsonValidationSchema</page>
+    <protected>false</protected>
+</WebLink>

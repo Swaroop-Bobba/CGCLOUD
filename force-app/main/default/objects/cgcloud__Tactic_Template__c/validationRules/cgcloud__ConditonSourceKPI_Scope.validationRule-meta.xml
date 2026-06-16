@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__ConditonSourceKPI_Scope</fullName>
+    <active>true</active>
+    <description>The object scope of the selected KPI must be ‘Promotion Tactic’</description>
+    <errorConditionFormula>AND(cgcloud__Enable_Condition_Creation__c = true, AND(NOT(ISBLANK(cgcloud__Condition_Source_Kpi__c)), NOT(ISPICKVAL(cgcloud__Condition_Source_Kpi__r.cgcloud__Scope__c, &apos;promotiontactic&apos;))))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Condition_Source_Kpi__c</errorDisplayField>
+    <errorMessage>The object scope of the selected KPI must be ‘Promotion Tactic’</errorMessage>
+</ValidationRule>

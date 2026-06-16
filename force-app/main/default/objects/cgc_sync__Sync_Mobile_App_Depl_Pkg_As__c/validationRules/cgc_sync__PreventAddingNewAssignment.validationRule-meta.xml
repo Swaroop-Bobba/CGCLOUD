@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__PreventAddingNewAssignment</fullName>
+    <active>true</active>
+    <description>If Deployment Mobility Package is revoked, no new assignments can be added</description>
+    <errorConditionFormula>ISNEW() &amp;&amp; cgc_sync__Sync_Mobile_App_Depl_Pkg__r.cgc_sync__Revoked__c</errorConditionFormula>
+    <errorMessage>Adding new  Deployment Mobility Package Assignment denied.
+Deployment Mobility Package is revoked. 
+New Deployment Mobility Package Assignments are not allowed.</errorMessage>
+</ValidationRule>

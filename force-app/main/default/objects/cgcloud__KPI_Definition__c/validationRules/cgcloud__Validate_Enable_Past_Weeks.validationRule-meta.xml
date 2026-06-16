@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Enable_Past_Weeks</fullName>
+    <active>true</active>
+    <description>Enable Past Weeks cannot be deactivated if Edit Mode is not &apos;Week&apos;.</description>
+    <errorConditionFormula>AND(
+cgcloud__Editable_Enable_Past_Weeks__c = false,
+NOT(ISPICKVAL(cgcloud__Editable_Edit_Mode__c, &apos;week&apos;))
+)</errorConditionFormula>
+    <errorMessage>Enable Past Weeks cannot be deactivated if Edit Mode is not &apos;Week&apos;.</errorMessage>
+</ValidationRule>

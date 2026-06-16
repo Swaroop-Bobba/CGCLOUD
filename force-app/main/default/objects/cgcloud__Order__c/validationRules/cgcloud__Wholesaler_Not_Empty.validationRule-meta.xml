@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Wholesaler_Not_Empty</fullName>
+    <active>true</active>
+    <description>Validates if Wholesaler is empty when it is required in order template.</description>
+    <errorConditionFormula>AND(cgcloud__Order_Template__r.cgcloud__Wholesaler_Required__c, ISBLANK(cgcloud__Wholesaler__c), ISPICKVAL( cgcloud__Phase__c , &quot;Released&quot;))</errorConditionFormula>
+    <errorMessage>No valid Wholesalers have been found for the Order Customer.</errorMessage>
+</ValidationRule>

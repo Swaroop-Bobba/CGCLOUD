@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Inventory_Transaction_Balance_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(NOT(cgcloud__Allow_Manual_Creation__c) &amp;&amp; TEXT(cgcloud__Inventory_Transaction_Template__r.cgcloud__Transaction_Type__c)==&apos;Balance&apos;, True, False)</errorConditionFormula>
+    <errorMessage>Inventory Transaction Template can&apos;t be Balance.</errorMessage>
+</ValidationRule>

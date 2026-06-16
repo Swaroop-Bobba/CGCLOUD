@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_if_has_steps_before_activating</fullName>
+    <active>false</active>
+    <errorConditionFormula>cgcloud__Active__c == true &amp;&amp; cgcloud__Total_Steps__c &lt; 1</errorConditionFormula>
+    <errorMessage>You must add at least one Strategy Step.</errorMessage>
+</ValidationRule>

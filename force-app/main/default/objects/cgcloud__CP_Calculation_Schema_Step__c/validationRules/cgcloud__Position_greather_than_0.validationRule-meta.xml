@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Position_greather_than_0</fullName>
+    <active>true</active>
+    <errorConditionFormula>cgcloud__Position__c  &lt; 1</errorConditionFormula>
+    <errorMessage>The Position must be a number greater than 0.</errorMessage>
+</ValidationRule>

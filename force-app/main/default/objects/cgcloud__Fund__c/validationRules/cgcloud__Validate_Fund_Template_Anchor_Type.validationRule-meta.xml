@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Fund_Template_Anchor_Type</fullName>
+    <active>true</active>
+    <description>Select an anchor product only if the anchor type of the specified fund template is Customer Product.</description>
+    <errorConditionFormula>AND(ISPICKVAL(cgcloud__Fund_Template__r.cgcloud__Anchor_Type__c ,&apos;Customer&apos;),NOT(ISBLANK(cgcloud__Anchor_Product__c)))</errorConditionFormula>
+    <errorMessage>Select an anchor product only if the anchor type of the specified fund template is Customer Product. Clear the selection in the Anchor Product field and try again.</errorMessage>
+</ValidationRule>

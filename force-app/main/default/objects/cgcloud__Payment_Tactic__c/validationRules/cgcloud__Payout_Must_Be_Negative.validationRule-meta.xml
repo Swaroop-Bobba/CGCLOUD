@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payout_Must_Be_Negative</fullName>
+    <active>true</active>
+    <description>Negative Payment Tactic only can be linked with negative payments</description>
+    <errorConditionFormula>!ISBLANK(cgcloud__Payment__r.cgcloud__Payment_Amount__c) &amp;&amp; cgcloud__Payment__r.cgcloud__Payment_Amount__c &lt; 0 &amp;&amp; cgcloud__Tactic_Payout__c &gt; 0</errorConditionFormula>
+    <errorDisplayField>cgcloud__Tactic_Payout__c</errorDisplayField>
+    <errorMessage>The amount can&apos;t be positive</errorMessage>
+</ValidationRule>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Policies</fullName>
+    <active>true</active>
+    <description>At least one of the User Policy, Customer Policy, Tour Policy or Vehicle Policy must be &apos;One&apos;.</description>
+    <errorConditionFormula>AND
+          (
+          OR(RecordType.DeveloperName = &apos;Inventory&apos;,
+          RecordType.DeveloperName = &apos;Quota&apos;),
+          ISPICKVAL(cgcloud__User_Policy__c, &quot;None&quot;),
+          ISPICKVAL(cgcloud__Tour_Policy__c, &quot;None&quot;),
+          ISPICKVAL(cgcloud__Customer_Policy__c, &quot;None&quot;),
+          ISPICKVAL(cgcloud__Vehicle_Policy__c, &quot;None&quot;)
+          )</errorConditionFormula>
+    <errorMessage>At least one of the User Policy, Customer Policy, Tour Policy or Vehicle Policy must be &apos;One&apos;.</errorMessage>
+</ValidationRule>

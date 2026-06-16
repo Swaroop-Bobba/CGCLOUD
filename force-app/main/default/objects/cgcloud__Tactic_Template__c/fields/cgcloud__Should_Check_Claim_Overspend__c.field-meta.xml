@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Should_Check_Claim_Overspend__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Activates a check on claim closure to ensure sufficient funds are accrued to cover costs for each tactic linked to  the claim. If not, the claim closure is rejected.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Activates a check on claim closure to ensure sufficient funds are accrued to cover costs for each tactic linked to  the claim. If not, the claim closure is rejected. Make sure you enable this check even on the claim template.</inlineHelpText>
+    <label>Check Claim Overspend</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

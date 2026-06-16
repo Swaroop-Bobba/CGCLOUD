@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Special_Price_Receipt__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The attribute specifies a reduced price for an item that is used for the item value calculation if specified. The attribute can only be edited, if the Order item template allows the consideration of the special price.</description>
+    <externalId>false</externalId>
+    <label>Special Price Receipt</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

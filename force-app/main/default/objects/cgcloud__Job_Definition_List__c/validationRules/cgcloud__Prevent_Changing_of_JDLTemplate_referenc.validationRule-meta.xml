@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Prevent_Changing_of_JDLTemplate_referenc</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT ISNEW()  &amp;&amp;  ISCHANGED(cgcloud__Job_Definition_List_Template__c)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Job_Definition_List_Template__c</errorDisplayField>
+    <errorMessage>The Activity Template can&apos;t be edited after Activity creation.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__ConditionCreationOn_SourceKPINotEmpty</fullName>
+    <active>true</active>
+    <description>Condition Source KPI field cannot be empty if Enable Condition Creation is selected.</description>
+    <errorConditionFormula>AND(
+        NOT(ISPICKVAL(cgcloud__Condition_Creation_Definition_Level__c , &apos;tactic&apos;)),
+        cgcloud__Enable_Condition_Creation__c = true,
+        ISBLANK(cgcloud__Condition_Source_Kpi__c))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Condition_Source_Kpi__c</errorDisplayField>
+    <errorMessage>Condition Source KPI field cannot be empty if Enable Condition Creation is selected.</errorMessage>
+</ValidationRule>

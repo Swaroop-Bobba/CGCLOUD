@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Available_to_Plan__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Represents the sum of the Pending Budget amount minus the Spending (Pending) amount</description>
+    <externalId>false</externalId>
+    <formula>cgcloud__Pending_Budget__c  +  cgcloud__Current_Budget__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Available to Plan</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Additional_KPI_Value_1__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Internal Conditions generated out of promotions or additional Kpis.</description>
+    <externalId>false</externalId>
+    <label>Additional KPI Value 1</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>6</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

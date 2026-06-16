@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sort_Field_Validation</fullName>
+    <active>true</active>
+    <description>Enter a value that&apos;s greater than 0.</description>
+    <errorConditionFormula>cgcloud__Sort__c  &lt;= 0</errorConditionFormula>
+    <errorDisplayField>cgcloud__Sort__c</errorDisplayField>
+    <errorMessage>Enter a value that&apos;s greater than 0.</errorMessage>
+</ValidationRule>

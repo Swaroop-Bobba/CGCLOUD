@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Description</fullName>
+    <active>false</active>
+    <description>You must select at least one Lenguage Dependet Field.</description>
+    <errorConditionFormula>ISBLANK(cgcloud__Description_Language_1__c)
+      &amp;&amp;
+      ISBLANK(cgcloud__Description_Language_2__c)
+      &amp;&amp;
+      ISBLANK(cgcloud__Description_Language_3__c)</errorConditionFormula>
+    <errorMessage>You must select at least one Lenguage Dependet Field.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__KPI_Set_usage_equal_RBF</fullName>
+    <active>true</active>
+    <description>KPI Sets must have a usage value = &apos;Rate Based Funding&apos;</description>
+    <errorConditionFormula>AND(
+  $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+  TEXT(cgcloud__KPI_Set__r.cgcloud__Usage__c)  != &apos;Rate Based Funding&apos;
+)</errorConditionFormula>
+    <errorMessage>KPI set must have a usage value of Rate Based Funding,</errorMessage>
+</ValidationRule>

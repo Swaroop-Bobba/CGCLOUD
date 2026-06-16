@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Pieces_per_parent_unit__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Number of pieces of this unit of measure are contained in the parent unit of measure.</description>
+    <externalId>false</externalId>
+    <label>Pieces per Parent Unit</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Route_Field_Validation_1</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+      ISPICKVAL(cgcloud__Route_Template__r.cgcloud__Tour_Template__r.cgcloud__Consider_Vehicle__c ,&apos;Truck&apos;),
+      ISBLANK( cgcloud__Default_Truck__c )
+      )</errorConditionFormula>
+    <errorMessage>The Default Truck can&apos;t be empty.</errorMessage>
+</ValidationRule>

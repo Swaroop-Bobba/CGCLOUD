@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Trailer1_Trailer2_Same_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT( ISBLANK(cgcloud__Trailer_1__r.Id) ),
+NOT( ISBLANK(cgcloud__Trailer_2__r.Id) ),
+cgcloud__Trailer_1__r.Id = cgcloud__Trailer_2__r.Id
+)</errorConditionFormula>
+    <errorMessage>The Trailer 1 and the Trailer 2 can&apos;t be the same.</errorMessage>
+</ValidationRule>

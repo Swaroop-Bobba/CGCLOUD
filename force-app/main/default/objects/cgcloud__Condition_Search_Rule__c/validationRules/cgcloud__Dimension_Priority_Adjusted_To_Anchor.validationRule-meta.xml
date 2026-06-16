@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Dimension_Priority_Adjusted_To_Anchor</fullName>
+    <active>true</active>
+    <description>Dimension Priority must not be set if Condition Anchor is other than &quot;Account_Product&quot;.</description>
+    <errorConditionFormula>AND(NOT(ISPICKVAL(cgcloud__Condition_Anchor__c,&quot;Account_Product&quot;)), OR(ISPICKVAL(cgcloud__Dimension_Priority__c,&quot;Account_Product&quot;),ISPICKVAL(cgcloud__Dimension_Priority__c,&quot;Product_Account&quot;)))</errorConditionFormula>
+    <errorMessage>Dimension Priority must be empty if Condition Anchor is other than &quot;Account_Product&quot;.</errorMessage>
+</ValidationRule>

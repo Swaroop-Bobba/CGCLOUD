@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Product_Is_Category</fullName>
+    <active>true</active>
+    <description>This validation rule check if the &quot;Product Level&quot; of the Product is &quot;Category&quot;</description>
+    <errorConditionFormula>NOT(ISPICKVAL(cgcloud__Product__r.cgcloud__Product_Level__c, &apos;Category&apos;))</errorConditionFormula>
+    <errorMessage>Only Products with &apos;Category&apos; Product Level can be selected.</errorMessage>
+</ValidationRule>

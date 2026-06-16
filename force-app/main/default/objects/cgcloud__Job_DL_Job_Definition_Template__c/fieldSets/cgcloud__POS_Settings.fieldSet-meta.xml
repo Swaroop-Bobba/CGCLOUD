@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__POS_Settings</fullName>
+    <description>Field set used to restrict the amount of data on CreateEditJobDLJobDefinitionTemplate VFPage for questions with the measure type POS</description>
+    <displayedFields>
+        <field>cgcloud__POS_Template__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>cgcloud__POS_Type__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <label>POS Settings</label>
+</FieldSet>

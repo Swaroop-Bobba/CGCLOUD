@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Route_Account_Compact_Layout</fullName>
+    <fields>cgcloud__Account__c</fields>
+    <fields>cgcloud__Sequence__c</fields>
+    <fields>cgcloud__City__c</fields>
+    <fields>cgcloud__Street__c</fields>
+    <fields>cgcloud__Visit_Template__c</fields>
+    <label>Route Customers Compact Layout</label>
+</CompactLayout>

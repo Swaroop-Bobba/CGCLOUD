@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Consider_Value</fullName>
+    <active>true</active>
+    <description>If both Consider Min Value and Consider Max Value are used:
+      MinValue &lt;= MaxValue</description>
+    <errorConditionFormula>cgcloud__Consider_Min_Value__c &amp;&amp;
+      cgcloud__Consider_Max_Value__c &amp;&amp;
+      cgcloud__Min_Value__c &gt; cgcloud__Max_Value__c</errorConditionFormula>
+    <errorMessage>The Min Value must be lower or equal than Max Value.</errorMessage>
+</ValidationRule>

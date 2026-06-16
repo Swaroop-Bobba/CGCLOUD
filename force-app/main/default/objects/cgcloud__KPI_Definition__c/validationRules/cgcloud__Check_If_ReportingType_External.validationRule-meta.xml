@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_ReportingType_External</fullName>
+    <active>true</active>
+    <description>Reporting Type must be &apos;External&apos;, if Storage Levels is &apos;BOM Component&apos; and Writeback and Reporting Relevant options are enabled.</description>
+    <errorConditionFormula>AND( cgcloud__Is_Storage_Level_Bom_Component__c = true, cgcloud__Storage_Options_Writeback__c = true, cgcloud__Reporting_Relevant__c = true, NOT(ISPICKVAL(cgcloud__Reporting_Type__c,&apos;External&apos;)))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Reporting_Type__c</errorDisplayField>
+    <errorMessage>Reporting Type must be &apos;External&apos;, if Storage Levels is &apos;BOM Component&apos; and Writeback and Reporting Relevant options are enabled.</errorMessage>
+</ValidationRule>

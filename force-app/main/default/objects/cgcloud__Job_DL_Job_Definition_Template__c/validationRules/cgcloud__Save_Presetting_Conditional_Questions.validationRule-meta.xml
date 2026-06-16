@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Save_Presetting_Conditional_Questions</fullName>
+    <active>true</active>
+    <description>Records with conditional questions cannot have save presetting selected</description>
+    <errorConditionFormula>AND(NOT( ISBLANK( cgcloud__Condition__c ) ) , cgcloud__Save_Presetting__c = true)</errorConditionFormula>
+    <errorMessage>Save Presetting can&apos;t be selected if there is a Condition question.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_ReferenceStep_If_Summation</fullName>
+    <active>true</active>
+    <description>Step Reference can&apos;t be empty if the Meta Type of the Pricing Conditon Template is &apos;Summation&apos;.</description>
+    <errorConditionFormula>IF( 
+ ISPICKVAL(cgcloud__Pricing_Condition_Template__r.cgcloud__Meta_Type__c, &apos;Summation&apos;), 
+ ISBLANK( cgcloud__Step_Reference__c ), 
+ false
+)</errorConditionFormula>
+    <errorMessage>Step Reference can&apos;t be empty if the Meta Type of the Pricing Conditon Template is &apos;Summation&apos;.</errorMessage>
+</ValidationRule>

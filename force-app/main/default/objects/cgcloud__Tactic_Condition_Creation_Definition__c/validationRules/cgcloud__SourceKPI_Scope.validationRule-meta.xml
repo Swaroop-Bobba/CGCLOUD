@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__SourceKPI_Scope</fullName>
+    <active>true</active>
+    <description>The Source KPI Definition must have Object Scope ‘Promotion Tactic’.</description>
+    <errorConditionFormula>NOT(ISPICKVAL(cgcloud__Source_KPI_Definition__r.cgcloud__Scope__c, &apos;promotiontactic&apos;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Source_KPI_Definition__c</errorDisplayField>
+    <errorMessage>The Source KPI Definition must have Object Scope ‘Promotion Tactic’.</errorMessage>
+</ValidationRule>

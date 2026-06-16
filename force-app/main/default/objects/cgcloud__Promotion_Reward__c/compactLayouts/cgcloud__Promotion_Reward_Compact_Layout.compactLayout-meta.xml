@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Promotion_Reward_Compact_Layout</fullName>
+    <fields>cgcloud__Title__c</fields>
+    <fields>cgcloud__Description__c</fields>
+    <fields>cgcloud__Reward_Type__c</fields>
+    <fields>cgcloud__Sort__c</fields>
+    <fields>cgcloud__Automatically_Granted__c</fields>
+    <fields>cgcloud__SubGroup__c</fields>
+    <fields>cgcloud__Included__c</fields>
+    <label>Promotion Reward Compact Layout</label>
+</CompactLayout>

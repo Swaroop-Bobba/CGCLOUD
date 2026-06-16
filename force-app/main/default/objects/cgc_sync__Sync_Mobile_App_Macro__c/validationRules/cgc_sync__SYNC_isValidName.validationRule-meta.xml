@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__SYNC_isValidName</fullName>
+    <active>true</active>
+    <description>Checks if given String is a valid Name for Theming objects</description>
+    <errorConditionFormula>!REGEX(Name, &apos;[a-zA-Z0-9]{1,80}|&apos;)</errorConditionFormula>
+    <errorMessage>Invalid macro name. Only a-z, A-Z and 0-9 are allowed characters.</errorMessage>
+</ValidationRule>

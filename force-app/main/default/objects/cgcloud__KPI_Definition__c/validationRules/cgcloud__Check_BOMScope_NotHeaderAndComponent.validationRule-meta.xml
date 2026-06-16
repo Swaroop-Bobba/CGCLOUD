@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_BOMScope_NotHeaderAndComponent</fullName>
+    <active>true</active>
+    <description>BOM Scope must not have both the values header and component.</description>
+    <errorConditionFormula>AND(INCLUDES(cgcloud__BoM_Scope__c, &quot;Header&quot;), INCLUDES(cgcloud__BoM_Scope__c, &quot;Component&quot;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__BoM_Scope__c</errorDisplayField>
+    <errorMessage>Invalid combination. &apos;Header&apos; and &apos;Component&apos; cannot be a combination for BOM Scope.</errorMessage>
+</ValidationRule>

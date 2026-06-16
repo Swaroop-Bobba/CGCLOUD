@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Import_Theme</fullName>
+    <availability>online</availability>
+    <description>Import Mobility Theme from CSV file</description>
+    <displayType>massActionButton</displayType>
+    <linkType>page</linkType>
+    <masterLabel>Import Theme</masterLabel>
+    <openType>replace</openType>
+    <page>cgc_sync__MobilityTheme_ImportFromCSV</page>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+</WebLink>

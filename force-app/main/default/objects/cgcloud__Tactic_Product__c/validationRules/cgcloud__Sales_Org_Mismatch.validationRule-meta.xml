@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_Mismatch</fullName>
+    <active>true</active>
+    <description>The Tactic and the Product must have the same Sales Org.</description>
+    <errorConditionFormula>TEXT(cgcloud__Tactic__r.cgcloud__Tactic_Template__r.cgcloud__Sales_Org__c) &lt;&gt;  cgcloud__Product__r.cgcloud__Sales_Org__c</errorConditionFormula>
+    <errorMessage>The Tactic and the Product must have the same Sales Org.</errorMessage>
+</ValidationRule>

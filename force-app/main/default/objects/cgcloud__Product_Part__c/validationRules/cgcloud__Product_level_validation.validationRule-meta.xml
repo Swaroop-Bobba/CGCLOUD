@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_level_validation</fullName>
+    <active>true</active>
+    <description>Only products with &apos;Product&apos; Product Level can be selected for Parent and Child Product.</description>
+    <errorConditionFormula>OR(
+NOT(ISPICKVAL(cgcloud__Parent_Product__r.cgcloud__Product_Level__c, &apos;product&apos;)),
+NOT(ISPICKVAL(cgcloud__Child_Product__r.cgcloud__Product_Level__c, &apos;product&apos;))
+)</errorConditionFormula>
+    <errorMessage>Only products with &apos;Product&apos; Product Level can be selected for Parent and Child Product.</errorMessage>
+</ValidationRule>

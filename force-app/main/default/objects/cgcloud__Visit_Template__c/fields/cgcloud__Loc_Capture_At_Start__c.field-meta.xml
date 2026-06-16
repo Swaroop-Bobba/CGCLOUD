@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Loc_Capture_At_Start__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Location Capture at Start</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates whether a user’s GPS location is captured at the start of a visit.</inlineHelpText>
+    <label>Location Capture at Start</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

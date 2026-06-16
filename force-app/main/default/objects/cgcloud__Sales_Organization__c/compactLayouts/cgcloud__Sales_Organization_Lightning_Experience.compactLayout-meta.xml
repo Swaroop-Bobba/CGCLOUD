@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Organization_Lightning_Experience</fullName>
+    <fields>Name</fields>
+    <fields>cgcloud__Country__c</fields>
+    <fields>cgcloud__Language_1__c</fields>
+    <label>Sales Organization Lightning Experience</label>
+</CompactLayout>

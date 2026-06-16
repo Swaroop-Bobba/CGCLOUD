@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Number_Of_Records_Validation</fullName>
+    <active>true</active>
+    <description>You can define up to 3 &apos;Tactic Template Condition Creation Def&apos;s within a Tactic Template.</description>
+    <errorConditionFormula>AND(
+ISNEW(),
+cgcloud__Tactic_Template__r.cgcloud__Number_Of_TT_Cond_Creation_Def__c = 3
+)</errorConditionFormula>
+    <errorMessage>You can define up to 3 &apos;Tactic Template Condition Creation Def&apos;s within a Tactic Template.</errorMessage>
+</ValidationRule>

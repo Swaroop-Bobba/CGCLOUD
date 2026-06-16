@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Workflow_Required_Field</fullName>
+    <active>true</active>
+    <description>The Workflow can&apos;t be empty.</description>
+    <errorConditionFormula>AND((RecordType.DeveloperName == &apos;Customer_Contract_Template&apos;), ISBLANK(cgcloud__Workflow__c))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Workflow__c</errorDisplayField>
+    <errorMessage>The Workflow can&apos;t be empty.</errorMessage>
+</ValidationRule>

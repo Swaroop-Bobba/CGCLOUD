@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Hierarchy_Compact_Layout</fullName>
+    <fields>cgcloud__Parent_Product_Description__c</fields>
+    <fields>cgcloud__Parent_Product_Code__c</fields>
+    <fields>cgcloud__Child_Product__c</fields>
+    <fields>cgcloud__Structure_Type__c</fields>
+    <fields>cgcloud__Valid_From__c</fields>
+    <fields>cgcloud__Valid_Thru__c</fields>
+    <label>Product Hierarchy Compact Layout</label>
+</CompactLayout>

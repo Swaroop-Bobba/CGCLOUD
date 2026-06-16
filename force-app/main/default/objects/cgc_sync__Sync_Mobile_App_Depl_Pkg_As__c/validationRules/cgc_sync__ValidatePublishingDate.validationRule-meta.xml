@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__ValidatePublishingDate</fullName>
+    <active>true</active>
+    <description>Publishing Date must not be greater than Installation Deadline</description>
+    <errorConditionFormula>cgc_sync__Publishing_Date__c &gt;  cgc_sync__Installation_Deadline__c</errorConditionFormula>
+    <errorMessage>The Installation Deadline must be greater than the Publishing Date.</errorMessage>
+</ValidationRule>

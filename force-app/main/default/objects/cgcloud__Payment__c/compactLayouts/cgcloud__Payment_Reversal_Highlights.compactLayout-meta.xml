@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payment_Reversal_Highlights</fullName>
+    <fields>cgcloud__Adjustment_Type__c</fields>
+    <fields>cgcloud__Payment_Amount__c</fields>
+    <fields>cgcloud__Currency__c</fields>
+    <fields>cgcloud__Planning_Anchor__c</fields>
+    <fields>cgcloud__Planning_Anchor_Number__c</fields>
+    <fields>cgcloud__Payment_Status__c</fields>
+    <label>Payment Reversal Highlights</label>
+</CompactLayout>

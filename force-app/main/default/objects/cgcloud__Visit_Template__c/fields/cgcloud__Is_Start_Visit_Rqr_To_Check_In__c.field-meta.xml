@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Is_Start_Visit_Rqr_To_Check_In__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Determines if a user has to start a visit before check in can occur.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Select this option when the user has to start a visit before check in can occur.</inlineHelpText>
+    <label>Start Visit Required to Check In</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

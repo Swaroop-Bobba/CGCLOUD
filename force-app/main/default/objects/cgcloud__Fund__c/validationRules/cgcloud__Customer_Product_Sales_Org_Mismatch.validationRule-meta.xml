@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Customer_Product_Sales_Org_Mismatch</fullName>
+    <active>true</active>
+    <description>The Anchor Customer and the Anchor Product must have the same Sales Org.</description>
+    <errorConditionFormula>AND( ISNEW() ,
+cgcloud__Anchor_Account__r.cgcloud__Sales_Org__c &lt;&gt; cgcloud__Anchor_Product__r.cgcloud__Sales_Org__c,
+ ISPICKVAL(cgcloud__Fund_Template__r.cgcloud__Anchor_Type__c ,&apos;Customer Product&apos;),
+NOT(ISBLANK(cgcloud__Anchor_Product__c)),!$Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c)</errorConditionFormula>
+    <errorMessage>The Anchor Customer and the Anchor Product must have the same Sales Org.</errorMessage>
+</ValidationRule>

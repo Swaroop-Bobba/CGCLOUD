@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__classification_cannot_be_changed</fullName>
+    <active>true</active>
+    <description>When the Reward already has Reward Products do not allow to define a Classification on the Reward</description>
+    <errorConditionFormula>AND(cgcloud__Count_Products__c &gt; 0, NOT(ISPICKVAL(cgcloud__Classification__c, &quot;&quot;)))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Classification__c</errorDisplayField>
+    <errorMessage>The Classification can&apos;t be edited if there are products assigned to this reward.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Transaction_Id__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Represents one transaction. In case of mass-copy/-edit, integration multiple Business Object API Transaction Logs may be executed under the same transaction.</description>
+    <externalId>false</externalId>
+    <label>Transaction Id</label>
+    <length>36</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

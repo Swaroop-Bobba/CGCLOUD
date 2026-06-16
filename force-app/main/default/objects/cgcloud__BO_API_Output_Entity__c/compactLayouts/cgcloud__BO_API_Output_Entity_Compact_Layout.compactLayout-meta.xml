@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__BO_API_Output_Entity_Compact_Layout</fullName>
+    <fields>cgcloud__BO_API__c</fields>
+    <fields>cgcloud__BO_API_Entity__c</fields>
+    <label>BO API Output Entity Compact Layout</label>
+</CompactLayout>

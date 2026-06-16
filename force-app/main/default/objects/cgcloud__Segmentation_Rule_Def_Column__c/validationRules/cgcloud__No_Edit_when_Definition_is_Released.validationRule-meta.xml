@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__No_Edit_when_Definition_is_Released</fullName>
+    <active>true</active>
+    <description>Definition Column can&apos;t be added or edited if the Segmentation Rule Definition State is &apos;Released&apos;.</description>
+    <errorConditionFormula>TEXT(cgcloud__Segmentation_Rule_Def__r.cgcloud__State__c) = &apos;Released&apos;</errorConditionFormula>
+    <errorMessage>Definition Column can&apos;t be added or edited if the Segmentation Rule Definition State is &apos;Released&apos;.</errorMessage>
+</ValidationRule>

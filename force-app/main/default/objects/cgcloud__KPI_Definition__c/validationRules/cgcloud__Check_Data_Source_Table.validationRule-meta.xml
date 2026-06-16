@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Data_Source_Table</fullName>
+    <active>true</active>
+    <description>Data Source Table Name must be &apos;Daily Measure Int&apos;, &apos;Daily Measure Real&apos;, &apos;Weekly Measure Int&apos; or &apos;Weekly Measure Real&apos; if the Consider Sub Accounts is checked.</description>
+    <errorConditionFormula>AND(
+cgcloud__Data_Source_Load_For_Sub_Accounts__c = TRUE,
+NOT(ISPICKVAL(cgcloud__Data_Source_Table_Name__c	, &quot;weeklymeasurereal&quot;)),
+NOT(ISPICKVAL(cgcloud__Data_Source_Table_Name__c	, &quot;dailymeasurereal&quot;)),
+NOT(ISPICKVAL(cgcloud__Data_Source_Table_Name__c	, &quot;weeklymeasureint&quot;)),
+NOT(ISPICKVAL(cgcloud__Data_Source_Table_Name__c	, &quot;dailymeasureint&quot;))
+)</errorConditionFormula>
+    <errorMessage>Data Source Table Name must be &apos;Daily Measure Int&apos;, &apos;Daily Measure Real&apos;, &apos;Weekly Measure Int&apos; or &apos;Weekly Measure Real&apos; if the Consider Sub Accounts is checked.</errorMessage>
+</ValidationRule>

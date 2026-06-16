@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Fixed_Totals_Distribution_Type</fullName>
+    <active>true</active>
+    <description>Fixed totals are not allowed when distribution type is &apos;copy&apos;</description>
+    <errorConditionFormula>AND (
+      cgcloud__Editable_Fixed_Totals__c,
+      OR (
+      ISPICKVAL(cgcloud__Distribution_Plan_Hierarchy_Dist_Type__c, &apos;copy&apos;),
+      ISPICKVAL(cgcloud__Distribution_Time_Hierarchy_Dist_Type__c, &apos;copy&apos;)
+      )
+      )</errorConditionFormula>
+    <errorMessage>Fixed totals are not allowed when distribution type is &apos;copy&apos;</errorMessage>
+</ValidationRule>

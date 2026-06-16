@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__SourceKpi_CompatibleToProductLevel</fullName>
+    <active>true</active>
+    <description>The BOM Scope of Source KPI Definition must contain ‘Component’ if Product Level is ‘Component’.</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(cgcloud__Product_Level__c, &apos;Component&apos;),
+    NOT(INCLUDES(cgcloud__Source_KPI_Definition__r.cgcloud__BoM_Scope__c, &apos;Component&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Source_KPI_Definition__c</errorDisplayField>
+    <errorMessage>The BOM Scope of Source KPI Definition must contain ‘Component’ if Product Level is ‘Component’.</errorMessage>
+</ValidationRule>

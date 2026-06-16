@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Prevent_Core_Theme_Deselection</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(PRIORVALUE(cgc_sync__isCore__c) ,ISCHANGED(cgc_sync__isCore__c))</errorConditionFormula>
+    <errorMessage>Core theme deselection is not allowed.</errorMessage>
+</ValidationRule>

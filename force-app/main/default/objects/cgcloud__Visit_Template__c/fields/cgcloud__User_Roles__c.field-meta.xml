@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__User_Roles__c</fullName>
+    <deprecated>false</deprecated>
+    <description>User roles assigned to the Order Template.
+      NOTE: Please ensure the master picklist values exactly match Technical Name of the permission sets. Set the user value in Translation. (e.g. CGCloud_Master_Data_Admin is the master picklist value, Master Data Admin is translated value).</description>
+    <externalId>false</externalId>
+    <label>User Roles</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CGCloud_KAM</fullName>
+                <default>false</default>
+                <label>CGCloud_KAM</label>
+            </value>
+            <value>
+                <fullName>CGCloud_Master_Data_Admin</fullName>
+                <default>false</default>
+                <label>CGCloud_Master_Data_Admin</label>
+            </value>
+            <value>
+                <fullName>CGCloud_Retail_Admin</fullName>
+                <default>false</default>
+                <label>CGCloud_Retail_Admin</label>
+            </value>
+            <value>
+                <fullName>CGCloud_Sales_User</fullName>
+                <default>false</default>
+                <label>CGCloud_Sales_User</label>
+            </value>
+            <value>
+                <fullName>CGCloud_Security_Admin</fullName>
+                <default>false</default>
+                <label>CGCloud_Security_Admin</label>
+            </value>
+            <value>
+                <fullName>CGCloud_Supervisor</fullName>
+                <default>false</default>
+                <label>CGCloud_Supervisor</label>
+            </value>
+            <value>
+                <fullName>CGCloud_Tour_User</fullName>
+                <default>false</default>
+                <label>CGCloud_Tour_User</label>
+            </value>
+            <value>
+                <fullName>CGCloud_Hybrid_User</fullName>
+                <default>false</default>
+                <label>CGCloud_Hybrid_User</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

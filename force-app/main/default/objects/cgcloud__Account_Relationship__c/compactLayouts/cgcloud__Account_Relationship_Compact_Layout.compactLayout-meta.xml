@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account_Relationship_Compact_Layout</fullName>
+    <fields>cgcloud__Related_Account__c</fields>
+    <fields>cgcloud__Relationship_Type__c</fields>
+    <fields>cgcloud__Start_Date__c</fields>
+    <fields>cgcloud__End_Date__c</fields>
+    <fields>cgcloud__Is_Primary_Relationship__c</fields>
+    <label>Customer Relationship Compact Layout</label>
+</CompactLayout>

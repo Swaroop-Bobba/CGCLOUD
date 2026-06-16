@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Method__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Method to pass to the Workflow Step.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Defines the.method to pass to the Workflow Step.</inlineHelpText>
+    <label>Method</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

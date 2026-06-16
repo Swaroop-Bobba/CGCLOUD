@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Dist_Acc_Hier_Metric_EM_Total</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+$RecordType.DeveloperName = &quot;editable&quot;,
+NOT ISBLANK(TEXT(cgcloud__Distribution_Acc_Hierarchy_Dist_Type__c)),
+NOT(ISPICKVAL(cgcloud__Editable_Edit_Mode__c, &apos;total&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Editable_Edit_Mode__c</errorDisplayField>
+    <errorMessage>Edit Mode must be Total when Distribution Type (Customer Hierarchy) is assigned.</errorMessage>
+</ValidationRule>

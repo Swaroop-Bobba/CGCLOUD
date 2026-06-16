@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Language_Unique_Validation_Rule</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(OR((NOT(ISBLANK(Text(cgcloud__Language_1__c))) &amp;&amp; OR(Text(cgcloud__Language_1__c)== Text(cgcloud__Language_2__c), Text(cgcloud__Language_1__c)== Text(cgcloud__Language_3__c), Text(cgcloud__Language_1__c)== Text(cgcloud__Language_4__c))),(NOT(ISBLANK(TEXT(cgcloud__Language_2__c))) &amp;&amp; OR(Text(cgcloud__Language_2__c)== Text(cgcloud__Language_3__c), Text(cgcloud__Language_2__c)== Text(cgcloud__Language_4__c))),(NOT(ISBLANK(Text(cgcloud__Language_3__c))) &amp;&amp; (Text(cgcloud__Language_3__c)== Text(cgcloud__Language_4__c) ))),true,false)</errorConditionFormula>
+    <errorMessage>Language already exists, please enter different Language.</errorMessage>
+</ValidationRule>

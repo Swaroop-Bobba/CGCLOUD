@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payment_Amount_Remain_Negative</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!ISNEW(),RecordType.Name = &apos;Manual&apos;,PRIORVALUE(cgcloud__Payment_Amount__c ) &lt; 0,OR(cgcloud__Payment_Amount__c &gt;= 0, ISBLANK(cgcloud__Payment_Amount__c )))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Payment_Amount__c</errorDisplayField>
+    <errorMessage>The amount must remain negative in a negative payment.</errorMessage>
+</ValidationRule>

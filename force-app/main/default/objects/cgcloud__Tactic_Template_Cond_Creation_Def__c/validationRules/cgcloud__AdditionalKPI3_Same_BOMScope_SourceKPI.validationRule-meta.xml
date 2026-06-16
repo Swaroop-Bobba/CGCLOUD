@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__AdditionalKPI3_Same_BOMScope_SourceKPI</fullName>
+    <active>true</active>
+    <description>The BOM Scope of Additional KPI Definition 3 and Source KPI must be the same.</description>
+    <errorConditionFormula>AND(
+OR(
+INCLUDES( cgcloud__Additional_KPI_Definition_3__r.cgcloud__BoM_Scope__c ,&quot;Product&quot;) &lt;&gt; INCLUDES( cgcloud__Source_Kpi_Definition__r.cgcloud__BoM_Scope__c ,&quot;Product&quot;),
+INCLUDES( cgcloud__Additional_KPI_Definition_3__r.cgcloud__BoM_Scope__c ,&quot;Header&quot;) &lt;&gt; INCLUDES( cgcloud__Source_Kpi_Definition__r.cgcloud__BoM_Scope__c ,&quot;Header&quot;),
+INCLUDES( cgcloud__Additional_KPI_Definition_3__r.cgcloud__BoM_Scope__c ,&quot;Component&quot;) &lt;&gt; INCLUDES( cgcloud__Source_Kpi_Definition__r.cgcloud__BoM_Scope__c ,&quot;Component&quot;)
+),
+NOT(ISBLANK(cgcloud__Additional_KPI_Definition_3__c))
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Additional_KPI_Definition_3__c</errorDisplayField>
+    <errorMessage>The BOM Scope of Additional KPI Definition 3 and Source KPI must be the same.</errorMessage>
+</ValidationRule>

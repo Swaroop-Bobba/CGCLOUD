@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_KPI_Name_NotEmpty</fullName>
+    <active>true</active>
+    <description>The KPI Definition Name can&apos;t be empty.</description>
+    <errorConditionFormula>ISBLANK(Name)</errorConditionFormula>
+    <errorMessage>The KPI Definition Name can&apos;t be empty.</errorMessage>
+</ValidationRule>

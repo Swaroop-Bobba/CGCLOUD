@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validation_Active_To_Initial</fullName>
+    <active>false</active>
+    <description>Validation when fund is going back from Active to Initial.</description>
+    <errorConditionFormula>AND(
+$Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+ISPICKVAL(cgcloud__Status__c, &apos;Initial&apos;),
+ISPICKVAL(PRIORVALUE(cgcloud__Status__c), &apos;Active&apos;),
+ISPICKVAL(cgcloud__Fund_Template__r.cgcloud__Anchor_Type__c ,&apos;Customer Product&apos;)
+)</errorConditionFormula>
+    <errorMessage>Cannot change Status from Active to Initial</errorMessage>
+</ValidationRule>

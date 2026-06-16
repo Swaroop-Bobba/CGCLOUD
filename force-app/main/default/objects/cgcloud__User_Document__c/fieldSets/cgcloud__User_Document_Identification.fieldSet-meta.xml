@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__User_Document_Identification</fullName>
+    <description>CreateUserDocumet.page
+EditUserDocument.page</description>
+    <displayedFields>
+        <field>cgcloud__User_Document_Template__c</field>
+        <isFieldManaged>true</isFieldManaged>
+        <isRequired>true</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>cgcloud__Date__c</field>
+        <isFieldManaged>true</isFieldManaged>
+        <isRequired>true</isRequired>
+    </displayedFields>
+    <label>User Document Identification</label>
+</FieldSet>

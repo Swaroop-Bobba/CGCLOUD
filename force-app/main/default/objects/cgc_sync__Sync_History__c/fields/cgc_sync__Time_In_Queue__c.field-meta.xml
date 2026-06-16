@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Time_In_Queue__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Queue waiting time in seconds.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Queue waiting time in seconds. It should be zero if the Queue Sync User feature is disabled.</inlineHelpText>
+    <label>Time In Queue</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

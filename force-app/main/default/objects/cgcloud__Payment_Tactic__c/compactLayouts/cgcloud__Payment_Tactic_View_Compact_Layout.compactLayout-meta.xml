@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payment_Tactic_View_Compact_Layout</fullName>
+    <fields>cgcloud__Promotion_Tactic__c</fields>
+    <fields>cgcloud__Anchor__c</fields>
+    <fields>cgcloud__Start_Date__c</fields>
+    <fields>cgcloud__End_Date__c</fields>
+    <fields>cgcloud__To_Date_Paid_Amount__c</fields>
+    <fields>cgcloud__Tactic_Payout__c</fields>
+    <label>Claim Tactic View Compact Layout</label>
+</CompactLayout>

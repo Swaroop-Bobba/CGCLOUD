@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Order_Number_Of_Print_Outs__c</fullName>
+    <deprecated>false</deprecated>
+    <description>--- Attribute no longer used --- Order Number Of Print Outs.</description>
+    <externalId>false</externalId>
+    <label>Order Number Of Print Outs</label>
+    <precision>9</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

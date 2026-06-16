@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Sales_Organization</fullName>
+    <active>false</active>
+    <description>Validation rule to compare product sales org against user sales org</description>
+    <errorConditionFormula>cgcloud__Product__r.cgcloud__Sales_Org__c  &lt;&gt;  TEXT( $User.cgcloud__Sales_Org__c )</errorConditionFormula>
+    <errorMessage>Value does not exist or does not match filter criteria.</errorMessage>
+</ValidationRule>

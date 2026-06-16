@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Valid_From_Valid_Thru_Validation</fullName>
+    <active>true</active>
+    <description>Valid From can&apos;t be later than Valid Thru.</description>
+    <errorConditionFormula>cgcloud__Valid_From__c &gt; cgcloud__Valid_Thru__c</errorConditionFormula>
+    <errorMessage>Valid From can&apos;t be later than Valid Thru.</errorMessage>
+</ValidationRule>

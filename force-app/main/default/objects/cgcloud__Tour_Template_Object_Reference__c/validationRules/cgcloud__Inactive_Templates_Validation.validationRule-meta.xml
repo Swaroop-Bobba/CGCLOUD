@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Inactive_Templates_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>( cgcloud__Order_Template__r.cgcloud__Active__c  = false )  || ( cgcloud__Signature_Template__r.cgcloud__Active__c = false )  || ( cgcloud__Visit_Template__r.cgcloud__Active__c  = false ) || ( cgcloud__Tour_Template__r.cgcloud__Active__c  = false )</errorConditionFormula>
+    <errorMessage>Inactive Templates are present. Please add the active templates</errorMessage>
+</ValidationRule>

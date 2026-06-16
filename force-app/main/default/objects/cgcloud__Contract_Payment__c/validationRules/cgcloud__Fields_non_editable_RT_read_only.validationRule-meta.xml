@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Fields_non_editable_RT_read_only</fullName>
+    <active>true</active>
+    <description>Text can be editable in this Phase.</description>
+    <errorConditionFormula>RecordType.DeveloperName  == &apos;ReadOnly&apos; &amp;&amp; (ISCHANGED(Name) || ISCHANGED (cgcloud__Description_Language_1__c))</errorConditionFormula>
+    <errorMessage>Text can be editable in this Phase.</errorMessage>
+</ValidationRule>

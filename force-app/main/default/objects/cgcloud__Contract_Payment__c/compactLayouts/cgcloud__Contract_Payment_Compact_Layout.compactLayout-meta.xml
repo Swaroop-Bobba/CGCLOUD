@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Contract_Payment_Compact_Layout</fullName>
+    <fields>cgcloud__Description__c</fields>
+    <fields>cgcloud__Contract_Payment_Template__c</fields>
+    <fields>cgcloud__Account__c</fields>
+    <fields>cgcloud__Phase__c</fields>
+    <fields>cgcloud__Initiation_Date__c</fields>
+    <fields>cgcloud__Reference_Date__c</fields>
+    <label>Contract Payment Compact Layout</label>
+</CompactLayout>

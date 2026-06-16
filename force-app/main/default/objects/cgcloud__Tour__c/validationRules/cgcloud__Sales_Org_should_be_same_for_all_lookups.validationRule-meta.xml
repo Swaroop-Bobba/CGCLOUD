@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_should_be_same_for_all_lookups</fullName>
+    <active>true</active>
+    <description>The Route, the Truck, the Trailer 1, the Trailer 2, the Start Warehouse, the End Warehouse and the Tour must have the same Sales Org.</description>
+    <errorConditionFormula>AND( cgcloud__Route__r.Id  &lt;&gt; null , TEXT(  cgcloud__Sales_Org__c  )  &lt;&gt; TEXT(   cgcloud__Route__r.cgcloud__Sales_Org__c  ))  || 
+AND( cgcloud__Truck__r.Id &lt;&gt; null , TEXT(  cgcloud__Sales_Org__c  )  &lt;&gt; TEXT(  cgcloud__Truck__r.cgcloud__Sales_Org__c ))  || 
+AND( cgcloud__Trailer_1__r.Id &lt;&gt; null , TEXT(  cgcloud__Sales_Org__c  ) &lt;&gt;  TEXT( cgcloud__Trailer_1__r.cgcloud__Sales_Org__c ))  || 
+AND( cgcloud__Trailer_2__r.Id != null, TEXT(  cgcloud__Sales_Org__c  ) &lt;&gt; TEXT( cgcloud__Trailer_2__r.cgcloud__Sales_Org__c )) ||
+AND( cgcloud__Start_Warehouse__r.Id != null, TEXT( cgcloud__Sales_Org__c ) &lt;&gt; TEXT( cgcloud__Start_Warehouse__r.cgcloud__Sales_Org__c )) ||
+AND( cgcloud__End_Warehouse__r.Id != null, TEXT(  cgcloud__Sales_Org__c  ) &lt;&gt; TEXT( cgcloud__End_Warehouse__r.cgcloud__Sales_Org__c ))</errorConditionFormula>
+    <errorMessage>The Route, the Truck, the Trailer 1, the Trailer 2, the Start Warehouse, the End Warehouse and the Tour must have the same Sales Org.</errorMessage>
+</ValidationRule>

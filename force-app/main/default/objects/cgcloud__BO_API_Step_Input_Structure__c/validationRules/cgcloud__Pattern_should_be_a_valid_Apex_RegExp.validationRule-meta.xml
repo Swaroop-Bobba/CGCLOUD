@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Pattern_should_be_a_valid_Apex_RegExp</fullName>
+    <active>true</active>
+    <description>Validation rule to verify regular expression compilation errors.</description>
+    <errorConditionFormula>IF(REGEX(&quot;&quot;, cgcloud__Pattern__c), false, false)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Pattern__c</errorDisplayField>
+    <errorMessage>Regular Expression compilation error</errorMessage>
+</ValidationRule>

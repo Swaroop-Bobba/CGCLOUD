@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Dimension_Priority_Is_Set</fullName>
+    <active>true</active>
+    <description>Dimension Priority must be set only if Condition Anchor is &quot;Account_Product&quot; and Account and Product Dimension are &quot;Bottom_Up&quot;.</description>
+    <errorConditionFormula>OR(
+		AND(
+			ISPICKVAL(cgcloud__Condition_Anchor__c,&quot;Account_Product&quot;),
+			ISPICKVAL(cgcloud__Account_Dimension__c,&quot;Bottom_Up&quot;),
+			ISPICKVAL(cgcloud__Product_Dimension__c,&quot;Bottom_Up&quot;),
+			NOT(
+				OR(
+					ISPICKVAL(cgcloud__Dimension_Priority__c,&quot;Account_Product&quot;), 
+					ISPICKVAL(cgcloud__Dimension_Priority__c,&quot;Product_Account&quot;)
+				)
+			)
+		),
+		AND(
+			OR(
+				NOT(ISPICKVAL(cgcloud__Condition_Anchor__c,&quot;Account_Product&quot;)),
+				NOT(ISPICKVAL(cgcloud__Account_Dimension__c,&quot;Bottom_Up&quot;)),
+				NOT(ISPICKVAL(cgcloud__Product_Dimension__c,&quot;Bottom_Up&quot;))
+			),
+			OR(
+				ISPICKVAL(cgcloud__Dimension_Priority__c,&quot;Account_Product&quot;), 
+				ISPICKVAL(cgcloud__Dimension_Priority__c,&quot;Product_Account&quot;)
+			)
+		)
+	)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Dimension_Priority__c</errorDisplayField>
+    <errorMessage>Dimension Priority must be set only if Condition Anchor is &quot;Account_Product&quot; and Account and Product Dimension are &quot;Bottom_Up&quot;.</errorMessage>
+</ValidationRule>

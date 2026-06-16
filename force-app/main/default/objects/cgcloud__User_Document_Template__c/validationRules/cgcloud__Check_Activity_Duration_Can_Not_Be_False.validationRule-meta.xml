@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Activity_Duration_Can_Not_Be_False</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(cgcloud__Mobility_Relevant__c, RecordType.DeveloperName = &apos;Daily_Report&apos;, cgcloud__Check_Activity_Duration__c)</errorConditionFormula>
+    <errorMessage>The Mobility Relevant and the Check Activity Duration can&apos;t be checked at the same time.</errorMessage>
+</ValidationRule>

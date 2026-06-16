@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Group_Condition_Allowed_Metatype</fullName>
+    <active>true</active>
+    <errorConditionFormula>( cgcloud__Item_Grouping__c == true) &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;FixAmount&apos; &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;Percentage&apos; &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;FlatRate&apos; &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;AddFreeItm&apos;</errorConditionFormula>
+    <errorMessage>Meta Type must be &apos;Percentage&apos;, &apos;Amount&apos;, &apos;Flat Rate&apos; or &apos;Add Free Item&apos; if the Item Grouping is checked.</errorMessage>
+</ValidationRule>

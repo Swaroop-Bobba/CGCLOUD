@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Manual_Anchor_Read_Only</fullName>
+    <active>true</active>
+    <description>Payment Anchor cannot be changed.</description>
+    <errorConditionFormula>AND(  $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE, RecordType.Name = &apos;Manual&apos;, ISCHANGED( cgcloud__Payment_Anchor__c ) )</errorConditionFormula>
+    <errorMessage>Payment Anchor cannot be changed.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Read_Only_Field_Validation</fullName>
+    <active>true</active>
+    <description>Fund Transactions cannot be edited within Budget Management module, when reference to Multi-Fund Transaction exists.</description>
+    <errorConditionFormula>AND($Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE , AND(NOT(ISNULL(cgcloud__Fund_Transaction_Header__c)) , OR(ISCHANGED( cgcloud__Date__c ) , ISCHANGED( cgcloud__Fund_Transaction_Header__c ) , ISCHANGED(  cgcloud__Fund_Transaction_Template__c ) , ISCHANGED(  cgcloud__Source_Fund__c ), AND(ISCHANGED( cgcloud__Status__c ) , TEXT(cgcloud__Status__c) != TEXT(cgcloud__Fund_Transaction_Header__r.cgcloud__Status__c)))))</errorConditionFormula>
+    <errorMessage>Fund Transactions cannot be edited.</errorMessage>
+</ValidationRule>

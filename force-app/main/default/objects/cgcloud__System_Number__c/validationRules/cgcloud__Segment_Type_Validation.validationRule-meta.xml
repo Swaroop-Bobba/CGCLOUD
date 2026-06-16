@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Segment_Type_Validation</fullName>
+    <active>false</active>
+    <description>A Number Definition that is set as Active must contain at least three segments: Segment Type &apos;LU&apos;, &apos;Counter&apos; and &apos;InitCounter&apos;.
+          Also, these Segment Types can&apos;t be used twice.</description>
+    <errorConditionFormula>AND( (cgcloud__Active__c = True),(cgcloud__Segment_Validation__c   &lt;&gt; 61  ))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Active__c</errorDisplayField>
+    <errorMessage>A Number Definition that is set as Active must contain at least three segments: Segment Type &apos;LU&apos;, &apos;Counter&apos; and &apos;InitCounter&apos;.
+          Also, these Segment Types can&apos;t be used twice.</errorMessage>
+</ValidationRule>

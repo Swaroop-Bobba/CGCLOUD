@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Platform__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The platform of the device.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The platform of the device. iOS or Android</inlineHelpText>
+    <label>Platform</label>
+    <length>24</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

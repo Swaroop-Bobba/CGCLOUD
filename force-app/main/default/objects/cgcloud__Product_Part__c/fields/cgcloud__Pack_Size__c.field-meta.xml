@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Pack_Size__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to Pack Size of the child product.</description>
+    <externalId>false</externalId>
+    <formula>TEXT(cgcloud__Child_Product__r.cgcloud__Pack_Size__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Pack Size</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

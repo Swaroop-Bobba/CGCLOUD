@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__RBF_Total_KPI__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>cgcloud__Rate_Based_Funding_Template__r.cgcloud__RBF_Total_KPI__r.Name</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>RBF Total KPI</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

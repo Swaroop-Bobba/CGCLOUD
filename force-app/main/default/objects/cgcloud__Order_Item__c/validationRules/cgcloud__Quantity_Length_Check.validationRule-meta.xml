@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Quantity_Length_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>cgcloud__Quantity__c  &gt;  9999</errorConditionFormula>
+    <errorMessage>Quantity should not be more than 9999.</errorMessage>
+</ValidationRule>

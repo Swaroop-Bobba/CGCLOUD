@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Minimum_Days</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( RecordType.DeveloperName == &apos;Customer_Contract_Template&apos;,           OR( ISBLANK(cgcloud__Min_Days__c ) ,cgcloud__Min_Days__c &lt; 1))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Min_Days__c</errorDisplayField>
+    <errorMessage>The Min Days must be a number equal or greater than 1.</errorMessage>
+</ValidationRule>

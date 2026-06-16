@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__ProductLevel_InAvailableProductLevel</fullName>
+    <active>true</active>
+    <description>The Product Level must be included in the Available Product Level of the promotion template.</description>
+    <errorConditionFormula>OR(
+	AND(
+		ISPICKVAL(cgcloud__Product_Level__c, &apos;Category&apos;),
+		NOT(INCLUDES(cgcloud__Tactic__r.cgcloud__Promotion__r.cgcloud__Promotion_Template__r.cgcloud__Available_Product_Level__c,  &apos;Category&apos; ))
+	),
+	AND(
+		ISPICKVAL(cgcloud__Product_Level__c, &apos;SubCategory&apos;),
+		NOT(INCLUDES(cgcloud__Tactic__r.cgcloud__Promotion__r.cgcloud__Promotion_Template__r.cgcloud__Available_Product_Level__c,  &apos;SubCategory&apos; ))
+	),
+	AND(
+		ISPICKVAL(cgcloud__Product_Level__c, &apos;Brand&apos;),
+		NOT(INCLUDES(cgcloud__Tactic__r.cgcloud__Promotion__r.cgcloud__Promotion_Template__r.cgcloud__Available_Product_Level__c,  &apos;Brand&apos; ))
+	),
+	AND(
+		ISPICKVAL(cgcloud__Product_Level__c, &apos;Flavor&apos;),
+		NOT(INCLUDES(cgcloud__Tactic__r.cgcloud__Promotion__r.cgcloud__Promotion_Template__r.cgcloud__Available_Product_Level__c,  &apos;Flavor&apos; ))
+	),
+	AND(
+		ISPICKVAL(cgcloud__Product_Level__c, &apos;Package&apos;),
+		NOT(INCLUDES(cgcloud__Tactic__r.cgcloud__Promotion__r.cgcloud__Promotion_Template__r.cgcloud__Available_Product_Level__c,  &apos;Package&apos; ))
+	)
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Product_Level__c</errorDisplayField>
+    <errorMessage>The Product Level must be included in the Available Product Level of the promotion template.</errorMessage>
+</ValidationRule>

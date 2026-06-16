@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Active_On_Hold_Status_Editable_Fields</fullName>
+    <active>true</active>
+    <description>This rule prevents the user from making changes to any field except the descriptions or status.</description>
+    <errorConditionFormula>AND(
+  $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+  ISPICKVAL(cgcloud__Status__c, &apos;Active&apos;) || ISPICKVAL(cgcloud__Status__c, &apos;On Hold&apos;),
+  ISCHANGED(cgcloud__Fund_Template__c) ||
+  ISCHANGED(cgcloud__Currency__c) ||
+  ISCHANGED(cgcloud__Anchor_Account__c) ||
+  ISCHANGED(cgcloud__Anchor_Product__c) ||
+  ISCHANGED(cgcloud__Valid_From__c) ||
+  ISCHANGED(cgcloud__Valid_Thru__c)
+)</errorConditionFormula>
+    <errorMessage>Only the descriptions and status fields can be changed</errorMessage>
+</ValidationRule>

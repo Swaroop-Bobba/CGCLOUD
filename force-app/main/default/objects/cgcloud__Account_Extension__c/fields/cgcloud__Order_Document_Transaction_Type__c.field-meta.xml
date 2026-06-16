@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Order_Document_Transaction_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies how to handle order documents regarding payments.</description>
+    <externalId>false</externalId>
+    <label>Order Document Transaction Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CashOrder</fullName>
+                <default>false</default>
+                <label>CashOrder</label>
+            </value>
+            <value>
+                <fullName>CreditOrder</fullName>
+                <default>false</default>
+                <label>CreditOrder</label>
+            </value>
+            <value>
+                <fullName>NoPaymentOrder</fullName>
+                <default>false</default>
+                <label>NoPaymentOrder</label>
+            </value>
+            <value>
+                <fullName>VanSalesCashInvoice</fullName>
+                <default>false</default>
+                <label>VanSalesCashInvoice</label>
+            </value>
+            <value>
+                <fullName>VanSalesNoPaymentInvoice</fullName>
+                <default>false</default>
+                <label>VanSalesNoPaymentInvoice</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

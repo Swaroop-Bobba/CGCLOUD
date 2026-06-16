@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Picture_Taking_Not_Allowed</fullName>
+    <active>true</active>
+    <description>Picture Taking can only be selected if the related Job Template is &apos;Question&apos;.</description>
+    <errorConditionFormula>cgcloud__Picture_Taking__c  &amp;&amp;  cgcloud__Job_Template__r.Name  &lt;&gt; &apos;Question&apos;</errorConditionFormula>
+    <errorDisplayField>cgcloud__Picture_Taking__c</errorDisplayField>
+    <errorMessage>Picture Taking can only be selected if the related Job Template is &apos;Question&apos;</errorMessage>
+</ValidationRule>

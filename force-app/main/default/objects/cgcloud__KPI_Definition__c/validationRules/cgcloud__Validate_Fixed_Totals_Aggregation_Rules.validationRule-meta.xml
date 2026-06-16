@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Fixed_Totals_Aggregation_Rules</fullName>
+    <active>true</active>
+    <description>Fixed totals should be allowed to be enabled only if all aggregation rules are sum/aggregate</description>
+    <errorConditionFormula>AND (
+      cgcloud__Editable_Fixed_Totals__c,
+      OR (
+      NOT(ISPICKVAL(cgcloud__Aggregation_Rule__c, &apos;sum&apos;)),
+      NOT(ISPICKVAL(cgcloud__Aggregation_Time_Rule__c, &apos;aggregate&apos;)),
+      NOT(ISPICKVAL(cgcloud__Total_Calculation_Rule__c, &apos;sum&apos;)),
+      NOT(ISPICKVAL(cgcloud__Aggregation_Merge_Rule__c, &apos;sum&apos;))
+      )
+      )</errorConditionFormula>
+    <errorMessage>Fixed totals should be allowed to be enabled only if all aggregation rules are sum/aggregate</errorMessage>
+</ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Inactive_Condition_JDT</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(cgcloud__Condition__r.cgcloud__Job_Definition_Template__r.cgcloud__Active__c)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Condition__c</errorDisplayField>
+    <errorMessage>Selected condition is not valid.</errorMessage>
+</ValidationRule>
