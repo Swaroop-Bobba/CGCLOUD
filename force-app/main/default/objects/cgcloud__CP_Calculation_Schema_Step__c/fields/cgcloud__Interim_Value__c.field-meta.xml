@@ -3,7 +3,6 @@
     <fullName>cgcloud__Interim_Value__c</fullName>
     <deprecated>false</deprecated>
     <description>Auxiliary variable that can be used for storing the result of the step (Copy) or for summing up the current item value (carry over) as interim value.</description>
-    <externalId>false</externalId>
     <label>Interim Value</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

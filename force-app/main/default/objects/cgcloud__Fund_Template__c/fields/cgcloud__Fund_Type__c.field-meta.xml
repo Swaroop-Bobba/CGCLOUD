@@ -3,7 +3,6 @@
     <fullName>cgcloud__Fund_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Controls the Level of the Product Anchor (if any) of the Fund</description>
-    <externalId>false</externalId>
     <label>Fund Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

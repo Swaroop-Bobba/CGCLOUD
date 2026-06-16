@@ -3,7 +3,6 @@
     <fullName>cgcloud__End_Time__c</fullName>
     <deprecated>false</deprecated>
     <description>Time when the calculation was finished offcore.</description>
-    <externalId>false</externalId>
     <label>Calculation End Time</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Tactic_Template__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to Tactic Template.</description>
-    <externalId>false</externalId>
     <label>Tactic Template</label>
     <referenceTo>cgcloud__Tactic_Template__c</referenceTo>
     <relationshipLabel>Tactic Template Cond Creation Def</relationshipLabel>

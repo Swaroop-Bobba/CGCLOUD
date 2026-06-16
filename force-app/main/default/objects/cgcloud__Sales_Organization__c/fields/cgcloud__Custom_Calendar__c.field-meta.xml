@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Active custom calendar to which this Sales Organization is used.</description>
-    <externalId>false</externalId>
     <label>Custom Calendar</label>
     <referenceTo>cgcloud__Custom_Calendar__c</referenceTo>
     <relationshipLabel>Sales Organizations</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Account__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the customer.</description>
-    <externalId>false</externalId>
     <label>Beneficiary</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Contract Payments</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__End_Warehouse__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>End Warehouse</label>
     <referenceTo>cgcloud__Warehouse__c</referenceTo>
     <relationshipLabel>Tours (End Warehouse)</relationshipLabel>

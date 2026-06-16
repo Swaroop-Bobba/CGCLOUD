@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the owner of the task.</description>
-    <externalId>false</externalId>
     <label>Accountable</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Customer_Tasks1</relationshipName>

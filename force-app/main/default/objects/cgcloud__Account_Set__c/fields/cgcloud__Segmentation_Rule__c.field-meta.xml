@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to Segmentation Rule.</description>
-    <externalId>false</externalId>
     <label>Segmentation Rule</label>
     <referenceTo>cgcloud__Segmentation_Rule__c</referenceTo>
     <relationshipLabel>Customer Sets</relationshipLabel>

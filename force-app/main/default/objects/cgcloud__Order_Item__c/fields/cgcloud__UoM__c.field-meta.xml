@@ -3,7 +3,6 @@
     <fullName>cgcloud__UoM__c</fullName>
     <deprecated>false</deprecated>
     <description>Stands for &apos;Unit Of Measure&apos;</description>
-    <externalId>false</externalId>
     <label>UoM</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

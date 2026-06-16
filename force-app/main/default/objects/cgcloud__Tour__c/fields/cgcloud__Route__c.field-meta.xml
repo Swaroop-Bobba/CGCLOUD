@@ -3,7 +3,6 @@
     <fullName>cgcloud__Route__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Route</label>
     <referenceTo>cgcloud__Route__c</referenceTo>
     <relationshipLabel>Tours</relationshipLabel>

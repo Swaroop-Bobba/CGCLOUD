@@ -3,7 +3,6 @@
     <fullName>cgc_sync__ParentPicklist__c</fullName>
     <deprecated>false</deprecated>
     <description>Refers to the picklist mapping record.</description>
-    <externalId>false</externalId>
     <label>Mobile Picklist Mapping</label>
     <referenceTo>cgc_sync__Sync_Mobile_App_PL_Map__c</referenceTo>
     <relationshipLabel>Mobile App Picklist Mapping Extensions</relationshipLabel>

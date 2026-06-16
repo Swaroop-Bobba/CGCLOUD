@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates if the product is there because it is listed (or products below this group are listed).</description>
-    <externalId>false</externalId>
     <label>Listed</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

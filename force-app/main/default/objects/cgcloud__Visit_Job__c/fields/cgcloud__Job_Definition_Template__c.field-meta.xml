@@ -3,7 +3,6 @@
     <fullName>cgcloud__Job_Definition_Template__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Job Definition Template</label>
     <lookupFilter>
         <active>true</active>

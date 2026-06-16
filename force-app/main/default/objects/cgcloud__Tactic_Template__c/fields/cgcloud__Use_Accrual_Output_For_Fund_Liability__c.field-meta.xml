@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Calculate liabilities for Tactic Fund and Tactic records using accrual outputs</description>
-    <externalId>false</externalId>
     <inlineHelpText>Calculate liabilities for Tactic Fund and Tactic records using accrual outputs</inlineHelpText>
     <label>Use accrual output for fund liability</label>
     <trackTrending>false</trackTrending>

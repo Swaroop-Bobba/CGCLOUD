@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies if the KPI Set is dependent on child objects.</description>
-    <externalId>false</externalId>
     <label>Child Object Dependency</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

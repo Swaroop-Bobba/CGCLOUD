@@ -3,7 +3,6 @@
     <fullName>cgcloud__Condition_Anchor__c</fullName>
     <deprecated>false</deprecated>
     <description>The source table from which the conditions need to be searched from.</description>
-    <externalId>false</externalId>
     <inlineHelpText>The source table from which the conditions need to be searched from.</inlineHelpText>
     <label>Condition Anchor</label>
     <required>false</required>

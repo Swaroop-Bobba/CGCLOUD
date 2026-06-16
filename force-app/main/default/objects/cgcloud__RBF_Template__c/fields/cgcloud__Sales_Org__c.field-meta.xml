@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Assigns the Rate-Based Funding Template to a specific Sales Org</description>
-    <externalId>false</externalId>
     <label>Sales Org</label>
     <referenceTo>cgcloud__Sales_Organization__c</referenceTo>
     <relationshipLabel>RBF Templates (Sales Org)</relationshipLabel>

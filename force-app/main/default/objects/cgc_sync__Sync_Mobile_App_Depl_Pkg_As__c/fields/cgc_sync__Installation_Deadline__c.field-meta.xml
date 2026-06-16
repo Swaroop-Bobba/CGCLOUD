@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Installation_Deadline__c</fullName>
     <deprecated>false</deprecated>
     <description>Date until deployment package must be installed on the device.</description>
-    <externalId>false</externalId>
     <label>Installation Deadline</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

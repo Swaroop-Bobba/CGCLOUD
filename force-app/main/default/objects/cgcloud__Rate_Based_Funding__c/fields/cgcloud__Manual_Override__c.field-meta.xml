@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Purpose of this field is to control when a Child can be updated by the parent in the RBF Distribution process</description>
-    <externalId>false</externalId>
     <label>Manual Override</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>

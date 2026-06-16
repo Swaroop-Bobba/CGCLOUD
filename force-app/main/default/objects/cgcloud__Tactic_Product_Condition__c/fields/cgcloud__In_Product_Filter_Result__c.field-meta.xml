@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates if the product is there because it is in the result of the product filter (or products below this group are in the result of the product filter).</description>
-    <externalId>false</externalId>
     <label>In Product Filter Result</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

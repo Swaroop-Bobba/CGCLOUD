@@ -5,7 +5,6 @@
     <deprecated>false</deprecated>
     <description>The schema used to calculate the order with complex
 			pricing.</description>
-    <externalId>false</externalId>
     <label>Calculation Schema</label>
     <referenceTo>cgcloud__CP_Calculation_Schema__c</referenceTo>
     <relationshipLabel>Orders</relationshipLabel>

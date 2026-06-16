@@ -3,7 +3,6 @@
     <fullName>cgc_sync__KPIData__c</fullName>
     <deprecated>false</deprecated>
     <description>Collects and stores sync key performance indicator (KPI) data in a compressed format when a sync operation is run. The KPI data includes metrics such as duration and record count for named fetch trees (NFT), named queries (NQ), and tracked objects (TO).</description>
-    <externalId>false</externalId>
     <inlineHelpText>Collects and stores sync key performance indicator (KPI) data in a compressed format when a sync operation is run. The KPI data includes metrics such as duration and record count for named fetch trees (NFT), named queries (NQ), and tracked objects (TO). This field can store up to 131072 characters of compressed KPI data.</inlineHelpText>
     <label>Key Performance Indicator Data</label>
     <length>131072</length>

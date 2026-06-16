@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if the system uses KPI subset configurations for optimized loading of KPIs in promotion and account plan.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Determines if the system uses KPI subset configurations for optimized loading of KPIs in promotion and account plan.</inlineHelpText>
     <label>Enable Subset Load Optimization</label>
     <trackHistory>false</trackHistory>

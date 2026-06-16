@@ -3,7 +3,6 @@
     <fullName>cgc_sync__MinPublishingDate__c</fullName>
     <deprecated>false</deprecated>
     <description>Start date from which this package can be published.</description>
-    <externalId>false</externalId>
     <label>First Publishing Date</label>
     <summarizedField>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Publishing_Date__c</summarizedField>
     <summaryForeignKey>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Sync_Mobile_App_Depl_Pkg__c</summaryForeignKey>

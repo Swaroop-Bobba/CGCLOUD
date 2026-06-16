@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>The user in general works on this day of the week. (E.g. used for capacity planning.)</description>
-    <externalId>false</externalId>
     <label>Works On Thursday</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

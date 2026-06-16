@@ -3,7 +3,6 @@
     <fullName>cgcloud__Custom_Calculation_Date_Thru__c</fullName>
     <deprecated>false</deprecated>
     <description>Custom Calculation Date Thru</description>
-    <externalId>false</externalId>
     <label>Custom Calculation Date Thru</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

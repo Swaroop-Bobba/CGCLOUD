@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the key type.</description>
-    <externalId>false</externalId>
     <label>Key Type</label>
     <referenceTo>cgcloud__CP_Key_Type__c</referenceTo>
     <relationshipLabel>Search Strategy Steps</relationshipLabel>

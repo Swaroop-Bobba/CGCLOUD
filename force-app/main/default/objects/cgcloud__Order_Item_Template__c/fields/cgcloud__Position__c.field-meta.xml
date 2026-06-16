@@ -3,7 +3,6 @@
     <fullName>cgcloud__Position__c</fullName>
     <deprecated>false</deprecated>
     <description>Determines the position of the order item template</description>
-    <externalId>false</externalId>
     <label>Position</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

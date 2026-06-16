@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Description__c</fullName>
     <deprecated>false</deprecated>
     <description>Explains where this color code is used on mobile device.</description>
-    <externalId>false</externalId>
     <label>Description</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

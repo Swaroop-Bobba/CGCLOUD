@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Enables accruals for this tactic template.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Enables accruals for tactics linked to this tactic template.</inlineHelpText>
     <label>Enable Accruals</label>
     <trackTrending>false</trackTrending>

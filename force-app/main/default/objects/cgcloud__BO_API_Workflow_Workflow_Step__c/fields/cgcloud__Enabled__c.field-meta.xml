@@ -4,7 +4,6 @@
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if the Step is enabled to be applied or not.</description>
-    <externalId>false</externalId>
     <label>Enabled</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

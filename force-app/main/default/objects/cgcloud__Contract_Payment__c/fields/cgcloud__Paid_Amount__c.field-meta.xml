@@ -3,7 +3,6 @@
     <fullName>cgcloud__Paid_Amount__c</fullName>
     <deprecated>false</deprecated>
     <description>Holds the final paid requested amount.</description>
-    <externalId>false</externalId>
     <label>Paid</label>
     <summarizedField>cgcloud__Contract_Payment_Tactic__c.cgcloud__Actual_Costs__c</summarizedField>
     <summaryFilterItems>

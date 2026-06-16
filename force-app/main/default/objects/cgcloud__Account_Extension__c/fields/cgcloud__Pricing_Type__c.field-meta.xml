@@ -3,7 +3,6 @@
     <fullName>cgcloud__Pricing_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Determines the pricing type of the customer.</description>
-    <externalId>false</externalId>
     <label>Pricing Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

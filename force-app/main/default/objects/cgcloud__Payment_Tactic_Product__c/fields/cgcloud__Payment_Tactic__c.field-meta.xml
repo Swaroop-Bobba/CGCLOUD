@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Payment/Tactic combination to which the record belongs</description>
-    <externalId>false</externalId>
     <label>Claim Tactic</label>
     <referenceTo>cgcloud__Payment_Tactic__c</referenceTo>
     <relationshipLabel>Claim Tactics Products</relationshipLabel>

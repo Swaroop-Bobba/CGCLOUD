@@ -4,7 +4,6 @@
     <deprecated>false</deprecated>
     <description>Holds key-value pair of Language code and related translated label text for theme name.
 Eg: { &quot;en&quot;: &quot;Dark Theme&quot;, &quot;de&quot; : &quot;dunkles theme&quot;}</description>
-    <externalId>false</externalId>
     <label>Label Languages</label>
     <length>131072</length>
     <trackTrending>false</trackTrending>

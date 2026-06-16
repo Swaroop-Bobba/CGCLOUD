@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Sync_Mobile_App_Depl_Pkg__c</fullName>
     <deprecated>false</deprecated>
     <description>Deployment Package to which the assignment belongs</description>
-    <externalId>false</externalId>
     <label>Deployment Package</label>
     <lookupFilter>
         <active>true</active>

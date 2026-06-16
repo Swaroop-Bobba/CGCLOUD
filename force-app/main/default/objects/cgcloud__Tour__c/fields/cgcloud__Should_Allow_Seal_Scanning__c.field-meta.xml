@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether the user validates a list of seals through scanning or manual entry. This is applicable only when the Express Check-Out field is selected.</description>
-    <externalId>false</externalId>
     <label>Allow Seal Scanning</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

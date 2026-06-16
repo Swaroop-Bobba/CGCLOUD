@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Last_Connection_At__c</fullName>
     <deprecated>false</deprecated>
     <description>Last connection when any an Upload or a Download has been attempted, that is, independent from success.</description>
-    <externalId>false</externalId>
     <label>Last Connection</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

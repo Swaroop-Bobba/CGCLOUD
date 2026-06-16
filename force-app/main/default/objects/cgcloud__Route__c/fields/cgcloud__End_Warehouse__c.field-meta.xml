@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>End Warehouse</description>
-    <externalId>false</externalId>
     <label>End Warehouse</label>
     <referenceTo>cgcloud__Warehouse__c</referenceTo>
     <relationshipLabel>Routes (End Warehouse)</relationshipLabel>

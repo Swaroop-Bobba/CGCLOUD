@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the promotion.</description>
-    <externalId>false</externalId>
     <label>Promotion</label>
     <referenceTo>cgcloud__Promotion__c</referenceTo>
     <relationshipLabel>Sales Folders</relationshipLabel>

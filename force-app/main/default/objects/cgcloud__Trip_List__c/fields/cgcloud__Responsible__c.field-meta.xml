@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the Responsible of the Trip List.</description>
-    <externalId>false</externalId>
     <label>Responsible</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Trip_Lists</relationshipName>

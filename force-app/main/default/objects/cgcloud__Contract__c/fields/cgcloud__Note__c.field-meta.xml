@@ -3,7 +3,6 @@
     <fullName>cgcloud__Note__c</fullName>
     <deprecated>false</deprecated>
     <description>General notes about the contract</description>
-    <externalId>false</externalId>
     <label>Note</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

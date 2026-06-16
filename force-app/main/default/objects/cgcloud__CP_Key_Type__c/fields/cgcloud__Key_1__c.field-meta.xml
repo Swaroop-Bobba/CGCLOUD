@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Specifies the mapping of key 1 with an attribute of an object.</description>
-    <externalId>false</externalId>
     <label>Key 1</label>
     <lookupFilter>
         <active>true</active>

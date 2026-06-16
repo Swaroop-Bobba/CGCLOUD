@@ -3,7 +3,6 @@
     <fullName>cgcloud__Calculation_Schema__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the calculation schema record.</description>
-    <externalId>false</externalId>
     <label>Calculation Schema</label>
     <referenceTo>cgcloud__CP_Calculation_Schema__c</referenceTo>
     <relationshipLabel>Calculation Schema Steps</relationshipLabel>

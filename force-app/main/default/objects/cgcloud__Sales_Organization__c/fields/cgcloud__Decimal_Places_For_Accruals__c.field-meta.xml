@@ -3,7 +3,6 @@
     <fullName>cgcloud__Decimal_Places_For_Accruals__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the number of decimal places for accrual values.</description>
-    <externalId>false</externalId>
     <label>Decimal Places for Accruals</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

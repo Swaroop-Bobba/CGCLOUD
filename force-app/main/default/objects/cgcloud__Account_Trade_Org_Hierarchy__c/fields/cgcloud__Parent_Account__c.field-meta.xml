@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference from the business partner from which the relation is out going.</description>
-    <externalId>false</externalId>
     <label>Parent Customer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Customer Trade Org Hierarchies (Parent Account)</relationshipLabel>

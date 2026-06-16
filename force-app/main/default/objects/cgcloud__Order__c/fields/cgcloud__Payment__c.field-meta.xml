@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payment__c</fullName>
     <deprecated>false</deprecated>
     <description>Represents sign of absolute paid amount, that is inpayment (+, debit) or outpayment (-, credit), respectively</description>
-    <externalId>false</externalId>
     <label>Payment</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

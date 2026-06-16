@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to Hurdle. Define if a specific hurdle condition resolution must be done against rewards values.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines if the specific hurdle condition resolution must be done against reward values.</inlineHelpText>
     <label>Hurdle</label>
     <lookupFilter>

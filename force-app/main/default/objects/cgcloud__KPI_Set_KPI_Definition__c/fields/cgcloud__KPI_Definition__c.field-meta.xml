@@ -3,7 +3,6 @@
     <fullName>cgcloud__KPI_Definition__c</fullName>
     <deprecated>false</deprecated>
     <description>Parent Object (KPI Definition)</description>
-    <externalId>false</externalId>
     <label>KPI Definition</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
     <relationshipLabel>KPI Set KPI Definitions</relationshipLabel>

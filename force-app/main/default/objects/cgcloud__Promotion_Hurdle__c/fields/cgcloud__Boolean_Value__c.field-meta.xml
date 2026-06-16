@@ -3,7 +3,6 @@
     <fullName>cgcloud__Boolean_Value__c</fullName>
     <deprecated>false</deprecated>
     <description>Value to compare against an output parameter.</description>
-    <externalId>false</externalId>
     <label>Boolean Value</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

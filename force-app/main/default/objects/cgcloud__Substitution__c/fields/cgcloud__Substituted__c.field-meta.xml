@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the user who the substitution is planned for.</description>
-    <externalId>false</externalId>
     <label>Substituted</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Substitutions</relationshipName>

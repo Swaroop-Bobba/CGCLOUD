@@ -3,7 +3,6 @@
     <fullName>cgcloud__Source__c</fullName>
     <deprecated>false</deprecated>
     <description>Name of the sObject from where the data is read.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Name of the sObject from where the data is read.</inlineHelpText>
     <label>Source Object</label>
     <required>true</required>

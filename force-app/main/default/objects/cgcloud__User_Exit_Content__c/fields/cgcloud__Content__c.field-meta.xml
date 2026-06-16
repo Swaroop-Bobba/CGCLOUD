@@ -3,7 +3,6 @@
     <fullName>cgcloud__Content__c</fullName>
     <deprecated>false</deprecated>
     <description>User Exit Code to Inject</description>
-    <externalId>false</externalId>
     <label>Content</label>
     <length>131072</length>
     <trackTrending>false</trackTrending>

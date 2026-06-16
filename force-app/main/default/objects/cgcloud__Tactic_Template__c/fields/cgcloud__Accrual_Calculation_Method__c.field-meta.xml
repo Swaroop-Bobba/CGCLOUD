@@ -3,7 +3,6 @@
     <fullName>cgcloud__Accrual_Calculation_Method__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the calculation method used for this tactic.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Select a method.
             * Dynamic: Multiplies the accrual amount by the actual daily volume.
             * Lump Sum (Effective Date): Allocates the entire accrual amount to the start date of the accrual rule measure, defined in the KPI definition time scope.

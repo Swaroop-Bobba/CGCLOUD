@@ -3,7 +3,6 @@
     <fullName>cgcloud__Product_Assortment__c</fullName>
     <deprecated>false</deprecated>
     <description>Assortment to which the categories are assigned.</description>
-    <externalId>false</externalId>
     <label>Product Assortment</label>
     <referenceTo>Assortment</referenceTo>
     <relationshipLabel>Product Assortment Categories</relationshipLabel>

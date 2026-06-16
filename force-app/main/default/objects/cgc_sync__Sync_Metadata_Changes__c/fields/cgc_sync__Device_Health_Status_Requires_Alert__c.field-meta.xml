@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Set to true when there is one or more external devices that have errors with Error or Warning status.</description>
-    <externalId>false</externalId>
     <label>Device Health Status Requires Alert</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

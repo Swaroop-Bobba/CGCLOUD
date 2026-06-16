@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion__c</fullName>
     <deprecated>false</deprecated>
     <description>Promotion to which the categories/brands/... are assigned</description>
-    <externalId>false</externalId>
     <label>Promotion</label>
     <referenceTo>cgcloud__Promotion__c</referenceTo>
     <relationshipLabel>Promotion Product Shares</relationshipLabel>

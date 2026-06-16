@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the product at product level category or brand for which rights are granted.</description>
-    <externalId>false</externalId>
     <label>Product</label>
     <lookupFilter>
         <active>true</active>

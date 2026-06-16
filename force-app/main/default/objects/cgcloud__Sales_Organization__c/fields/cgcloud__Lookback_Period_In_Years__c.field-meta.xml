@@ -3,7 +3,6 @@
     <fullName>cgcloud__Lookback_Period_In_Years__c</fullName>
     <deprecated>false</deprecated>
     <description>The products with an end date within the lookback period are selected for the calculation of account plan profit and loss and customer business plan.</description>
-    <externalId>false</externalId>
     <label>Lookback Period in Years</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

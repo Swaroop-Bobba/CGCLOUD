@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>The KPI Set associated with the Fund Template. KPI set associated with Fund Template is not deleteable</description>
-    <externalId>false</externalId>
     <label>KPI Set</label>
     <lookupFilter>
         <active>true</active>

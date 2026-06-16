@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Defines a reward as a free item relevant.</description>
-    <externalId>false</externalId>
     <label>Free Item</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

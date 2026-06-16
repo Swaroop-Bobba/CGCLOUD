@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether a user is limited to having one visit in progress.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Limits the user to having one visit in progress.</inlineHelpText>
     <label>Limit to One Visit In Progress</label>
     <trackTrending>false</trackTrending>

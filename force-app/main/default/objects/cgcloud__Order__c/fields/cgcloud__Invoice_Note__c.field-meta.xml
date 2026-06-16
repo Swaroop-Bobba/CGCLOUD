@@ -3,7 +3,6 @@
     <fullName>cgcloud__Invoice_Note__c</fullName>
     <deprecated>false</deprecated>
     <description>Invoice Note</description>
-    <externalId>false</externalId>
     <label>Invoice Note</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

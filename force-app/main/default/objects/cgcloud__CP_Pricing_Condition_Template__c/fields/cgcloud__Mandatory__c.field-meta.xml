@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>-- No longer used -- Moved to CP_Calculation_Schema_Step__c</description>
-    <externalId>false</externalId>
     <label>Mandatory</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

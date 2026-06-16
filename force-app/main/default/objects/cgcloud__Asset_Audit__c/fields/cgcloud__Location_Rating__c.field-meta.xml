@@ -3,7 +3,6 @@
     <fullName>cgcloud__Location_Rating__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies a rating for the determined location.</description>
-    <externalId>false</externalId>
     <label>Location Rating</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

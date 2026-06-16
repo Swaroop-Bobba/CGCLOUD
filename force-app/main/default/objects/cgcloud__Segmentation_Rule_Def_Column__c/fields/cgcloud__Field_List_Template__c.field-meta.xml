@@ -3,7 +3,6 @@
     <fullName>cgcloud__Field_List_Template__c</fullName>
     <deprecated>false</deprecated>
     <description>If the field type is &quot;List&quot; this defines the content of the list.</description>
-    <externalId>false</externalId>
     <inlineHelpText>If the field type is &quot;List&quot; this defines the content of the list. Possible values are</inlineHelpText>
     <label>Field List Template</label>
     <required>false</required>

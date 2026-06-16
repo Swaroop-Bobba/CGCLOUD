@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines the Product Assortment to be considered in Account Product list.</description>
-    <externalId>false</externalId>
     <label>Consider For APL Generation</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

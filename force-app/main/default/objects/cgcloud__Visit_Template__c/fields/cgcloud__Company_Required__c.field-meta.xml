@@ -3,7 +3,6 @@
     <fullName>cgcloud__Company_Required__c</fullName>
     <deprecated>false</deprecated>
     <description>Company Required</description>
-    <externalId>false</externalId>
     <label>Company Required</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the Wholesaler of the Account</description>
-    <externalId>false</externalId>
     <label>Wholesaler</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Orders (Wholesaler)</relationshipLabel>

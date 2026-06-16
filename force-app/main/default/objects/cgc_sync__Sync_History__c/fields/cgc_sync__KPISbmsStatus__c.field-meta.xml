@@ -3,7 +3,6 @@
     <fullName>cgc_sync__KPISbmsStatus__c</fullName>
     <deprecated>false</deprecated>
     <description>Indicates the status of KPIs that are submitted for analysis.</description>
-    <externalId>false</externalId>
     <label>KPI Submission Status</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

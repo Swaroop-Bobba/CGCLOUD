@@ -3,7 +3,6 @@
     <fullName>cgcloud__Job_Definition_List__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Activity</label>
     <referenceTo>cgcloud__Job_Definition_List__c</referenceTo>
     <relationshipLabel>Activity Customers</relationshipLabel>

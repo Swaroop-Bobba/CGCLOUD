@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the substitution with which the substitution item record is related.</description>
-    <externalId>false</externalId>
     <label>Substitution</label>
     <referenceTo>cgcloud__Substitution__c</referenceTo>
     <relationshipLabel>Substitution Customers</relationshipLabel>

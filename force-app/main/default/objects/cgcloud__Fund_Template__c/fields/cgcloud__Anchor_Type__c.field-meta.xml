@@ -3,7 +3,6 @@
     <fullName>cgcloud__Anchor_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the anchor type of the fund.</description>
-    <externalId>false</externalId>
     <label>Anchor Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

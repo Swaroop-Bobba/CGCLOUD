@@ -3,7 +3,6 @@
     <fullName>cgcloud__Document_Transaction_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies how to handle a sales document</description>
-    <externalId>false</externalId>
     <label>Document Transaction Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

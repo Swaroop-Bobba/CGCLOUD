@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Template__c</fullName>
     <deprecated>false</deprecated>
     <description>Link to the Promotion Template</description>
-    <externalId>false</externalId>
     <label>Promotion Template</label>
     <lookupFilter>
         <active>true</active>

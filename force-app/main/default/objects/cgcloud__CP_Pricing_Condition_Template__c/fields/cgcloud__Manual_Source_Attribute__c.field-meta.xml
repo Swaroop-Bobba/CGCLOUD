@@ -3,7 +3,6 @@
     <fullName>cgcloud__Manual_Source_Attribute__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines from which field the manual condition is taken.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Define from which field the manual condition is taken.</inlineHelpText>
     <label>Manual Source Attribute</label>
     <required>false</required>

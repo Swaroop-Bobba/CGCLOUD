@@ -11,7 +11,6 @@ Options:
 - Warning: The system only shows a warning that the max quantity threshold is violated. Nevertheless, the sales document item is saved.
 
 - No: The system doesn&apos;t check the max quantity.</description>
-    <externalId>false</externalId>
     <label>Check Max Quantity</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

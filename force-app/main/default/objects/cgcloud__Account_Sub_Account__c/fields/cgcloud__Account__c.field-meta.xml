@@ -3,7 +3,6 @@
     <fullName>cgcloud__Account__c</fullName>
     <deprecated>false</deprecated>
     <description>Parent customer for this sub account relation.</description>
-    <externalId>false</externalId>
     <label>Customer Name</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Sub Accounts</relationshipLabel>

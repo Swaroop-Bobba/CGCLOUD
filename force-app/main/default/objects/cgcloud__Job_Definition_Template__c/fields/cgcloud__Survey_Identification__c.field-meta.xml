@@ -3,7 +3,6 @@
     <fullName>cgcloud__Survey_Identification__c</fullName>
     <deprecated>false</deprecated>
     <description>This field is used by mobility to store survey identification values</description>
-    <externalId>false</externalId>
     <label>Survey Identification</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

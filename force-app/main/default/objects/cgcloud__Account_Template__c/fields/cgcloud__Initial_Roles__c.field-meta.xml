@@ -3,7 +3,6 @@
     <fullName>cgcloud__Initial_Roles__c</fullName>
     <deprecated>false</deprecated>
     <description>Set of roles that a new account gets, when it&apos;s created on the CGCloud Mobility App.</description>
-    <externalId>false</externalId>
     <label>Initial Roles</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

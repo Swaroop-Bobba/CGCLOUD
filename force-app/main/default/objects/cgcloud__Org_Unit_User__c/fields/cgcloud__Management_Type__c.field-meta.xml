@@ -3,7 +3,6 @@
     <fullName>cgcloud__Management_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Management Type.</description>
-    <externalId>false</externalId>
     <label>Management Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

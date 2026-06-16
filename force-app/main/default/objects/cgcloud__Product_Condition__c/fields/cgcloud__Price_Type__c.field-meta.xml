@@ -3,7 +3,6 @@
     <fullName>cgcloud__Price_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Price type for factory or consumer.</description>
-    <externalId>false</externalId>
     <label>Price Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

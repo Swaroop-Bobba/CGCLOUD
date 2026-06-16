@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Product to which the record belongs. The level of the product is bound by Payment_Template__c.Snapshot_Product_Level__c</description>
-    <externalId>false</externalId>
     <label>Product</label>
     <referenceTo>Product2</referenceTo>
     <relationshipLabel>Payment Tactics Products</relationshipLabel>

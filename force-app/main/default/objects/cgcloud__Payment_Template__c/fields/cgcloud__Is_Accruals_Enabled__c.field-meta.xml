@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Enables accruals for claims linked to this claim template.</description>
-    <externalId>false</externalId>
     <inlineHelpText>You can&apos;t disable accruals after you&apos;ve enabled it.</inlineHelpText>
     <label>Enable Accruals</label>
     <trackHistory>false</trackHistory>

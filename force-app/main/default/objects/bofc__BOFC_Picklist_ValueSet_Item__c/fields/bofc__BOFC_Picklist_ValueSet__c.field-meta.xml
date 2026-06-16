@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>bofc__BOFC_Picklist_ValueSet__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>BOFC Picklist ValueSet</label>
     <referenceTo>bofc__BOFC_Picklist_ValueSet__c</referenceTo>
     <relationshipLabel>BOFC Picklist ValueSet Items</relationshipLabel>

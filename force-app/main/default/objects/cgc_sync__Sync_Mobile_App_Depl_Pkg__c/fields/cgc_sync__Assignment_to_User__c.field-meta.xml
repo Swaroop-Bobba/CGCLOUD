@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Assignment_to_User__c</fullName>
     <deprecated>false</deprecated>
     <description>Deployment package can be downloaded by a specific user.</description>
-    <externalId>false</externalId>
     <label>Assignment to User</label>
     <summaryFilterItems>
         <field>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Assignment_Type__c</field>

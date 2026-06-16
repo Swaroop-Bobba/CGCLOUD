@@ -3,7 +3,6 @@
     <fullName>cgcloud__Start_Vst_Geolc_Validation__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the validation type when a user starts a visit, based on the comparison between their GPS location and the geolocation of the store.</description>
-    <externalId>false</externalId>
     <label>Start Visit Geolocation Validation</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

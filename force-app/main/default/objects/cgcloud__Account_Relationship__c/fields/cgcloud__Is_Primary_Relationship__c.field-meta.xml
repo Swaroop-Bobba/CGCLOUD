@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether the relationship is a primary relationship.</description>
-    <externalId>false</externalId>
     <label>Primary Relationship</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Request_Data__c</fullName>
     <deprecated>false</deprecated>
     <description>Requested data or log that is collected from the mobile device.</description>
-    <externalId>false</externalId>
     <label>Request Data</label>
     <length>131072</length>
     <trackTrending>false</trackTrending>

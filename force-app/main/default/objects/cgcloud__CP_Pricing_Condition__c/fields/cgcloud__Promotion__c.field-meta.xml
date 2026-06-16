@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the promotion object.</description>
-    <externalId>false</externalId>
     <label>Promotion</label>
     <referenceTo>cgcloud__Promotion__c</referenceTo>
     <relationshipLabel>Complex Pricing Conditions</relationshipLabel>

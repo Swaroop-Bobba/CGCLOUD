@@ -3,7 +3,6 @@
     <fullName>cgcloud__Last_Extended_Time__c</fullName>
     <deprecated>false</deprecated>
     <description>Holds the timestamp when the custom calendar was extended.</description>
-    <externalId>false</externalId>
     <label>Last Extended Time</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

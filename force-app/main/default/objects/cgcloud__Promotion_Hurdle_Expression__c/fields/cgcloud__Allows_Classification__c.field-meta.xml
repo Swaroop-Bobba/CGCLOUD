@@ -3,7 +3,6 @@
     <fullName>cgcloud__Allows_Classification__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Allows Classification</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

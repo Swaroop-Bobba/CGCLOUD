@@ -4,7 +4,6 @@
     <defaultValue>DATE( YEAR(TODAY())+ 30,12,31 )</defaultValue>
     <deprecated>false</deprecated>
     <description>Validity period end date.</description>
-    <externalId>false</externalId>
     <label>Valid Thru</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

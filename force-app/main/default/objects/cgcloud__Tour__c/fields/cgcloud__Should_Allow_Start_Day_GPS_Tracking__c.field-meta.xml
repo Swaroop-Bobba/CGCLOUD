@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether GPS tracking is allowed at the start of the day.</description>
-    <externalId>false</externalId>
     <label>Allow Start Day GPS Tracking</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

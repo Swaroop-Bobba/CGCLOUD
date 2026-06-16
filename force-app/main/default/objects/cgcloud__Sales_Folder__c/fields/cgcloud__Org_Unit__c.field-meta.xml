@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the org unit.</description>
-    <externalId>false</externalId>
     <label>Org Unit</label>
     <lookupFilter>
         <active>true</active>

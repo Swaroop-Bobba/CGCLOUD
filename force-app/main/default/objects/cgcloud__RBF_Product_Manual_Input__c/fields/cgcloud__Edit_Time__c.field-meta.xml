@@ -3,7 +3,6 @@
     <fullName>cgcloud__Edit_Time__c</fullName>
     <deprecated>false</deprecated>
     <description>Edit Time is used to sequence a users manual edits to grid data</description>
-    <externalId>false</externalId>
     <label>Edit Time</label>
     <required>true</required>
     <trackTrending>false</trackTrending>

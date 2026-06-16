@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the call in which the sales document has been created.</description>
-    <externalId>false</externalId>
     <label>Visit</label>
     <referenceTo>Visit</referenceTo>
     <relationshipLabel>Orders</relationshipLabel>

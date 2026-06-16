@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payment_Anchor__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Claim Anchor</label>
     <lookupFilter>
         <active>false</active>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>This flag controls the visibility of &apos;Considered Promotions&apos; filter when the user opens the account plan filter.</description>
-    <externalId>false</externalId>
     <label>Display Considered Promotions Filter</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

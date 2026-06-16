@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to transaction template</description>
-    <externalId>false</externalId>
     <label>Fund Transaction Template</label>
     <referenceTo>cgcloud__Fund_Transaction_Template__c</referenceTo>
     <relationshipLabel>Fund Transactions</relationshipLabel>

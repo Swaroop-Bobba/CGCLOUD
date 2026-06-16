@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Folder_Valid_From__c</fullName>
     <deprecated>false</deprecated>
     <description>References to the sales folder valid from.</description>
-    <externalId>false</externalId>
     <formula>cgcloud__Sales_Folder__r.cgcloud__Valid_From__c</formula>
     <label>Sales Folder Valid From</label>
     <required>false</required>

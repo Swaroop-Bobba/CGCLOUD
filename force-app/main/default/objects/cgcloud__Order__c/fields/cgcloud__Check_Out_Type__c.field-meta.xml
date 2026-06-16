@@ -3,7 +3,6 @@
     <fullName>cgcloud__Check_Out_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Check out type (method) that is to be applied in the product check out document based on the given template settings.</description>
-    <externalId>false</externalId>
     <label>Check Out Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

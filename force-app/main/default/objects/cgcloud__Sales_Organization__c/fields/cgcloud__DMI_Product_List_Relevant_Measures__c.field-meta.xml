@@ -3,7 +3,6 @@
     <fullName>cgcloud__DMI_Product_List_Relevant_Measures__c</fullName>
     <deprecated>false</deprecated>
     <description>Measure codes defined for dailymeasureint table</description>
-    <externalId>false</externalId>
     <label>Daily Measure Int</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

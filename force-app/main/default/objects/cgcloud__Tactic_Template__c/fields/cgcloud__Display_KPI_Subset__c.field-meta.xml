@@ -3,7 +3,6 @@
     <fullName>cgcloud__Display_KPI_Subset__c</fullName>
     <deprecated>false</deprecated>
     <description>Subset of kpis that are displayed in the Spend Planning Card</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the subset of KPIs that are displayed in the Spend Planning Card.</inlineHelpText>
     <label>Display KPI Subset in SPC</label>
     <required>false</required>

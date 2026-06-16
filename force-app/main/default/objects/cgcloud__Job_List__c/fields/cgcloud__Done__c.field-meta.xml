@@ -5,7 +5,6 @@
     <description>0: Not Done;
 1: Done;
 2: Canceled</description>
-    <externalId>false</externalId>
     <label>Done</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Reward_Group__c</fullName>
     <deprecated>false</deprecated>
     <description>Master-Detail to the Reward Group for which the hurdle applies to.</description>
-    <externalId>false</externalId>
     <label>Promotion Reward Group</label>
     <referenceTo>cgcloud__Promotion_Reward_Group__c</referenceTo>
     <relationshipLabel>Hurdles</relationshipLabel>

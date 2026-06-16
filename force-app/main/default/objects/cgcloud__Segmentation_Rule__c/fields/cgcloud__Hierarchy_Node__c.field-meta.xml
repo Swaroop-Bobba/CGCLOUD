@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the field used to display account lookup to be able to select the hierarchy node to apply filter on customer hierarchy.</description>
-    <externalId>false</externalId>
     <label>Account Hierarchy Node</label>
     <lookupFilter>
         <active>true</active>

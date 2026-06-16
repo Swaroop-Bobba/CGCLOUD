@@ -3,7 +3,6 @@
     <fullName>cgcloud__Rejected_Reason_Codes__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the reject reason for a rejected payment amount (if any exists).</description>
-    <externalId>false</externalId>
     <label>Rejected Reason Code</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

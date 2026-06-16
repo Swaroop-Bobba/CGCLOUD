@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Default user (driver) of the route</description>
-    <externalId>false</externalId>
     <label>Default User</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Routes</relationshipName>

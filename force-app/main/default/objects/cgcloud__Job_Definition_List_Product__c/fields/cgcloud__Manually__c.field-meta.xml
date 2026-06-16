@@ -5,7 +5,6 @@
     <deprecated>false</deprecated>
     <description>Added products will be marked as Manually ‘True’
 Products added via FSA having Manually ‘False’</description>
-    <externalId>false</externalId>
     <label>Manually</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

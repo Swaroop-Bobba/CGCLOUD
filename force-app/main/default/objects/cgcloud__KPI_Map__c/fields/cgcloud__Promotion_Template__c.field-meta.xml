@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to Promotion Template. If promotion template is not specified then it is default mapping for all Promotion records. If it is specified then the mapping is specific only to the related Promotion records.</description>
-    <externalId>false</externalId>
     <label>Promotion Template</label>
     <referenceTo>cgcloud__Promotion_Template__c</referenceTo>
     <relationshipLabel>KPIs map</relationshipLabel>

@@ -5,7 +5,6 @@
     <deprecated>false</deprecated>
     <description>TRUE sync step was completed successfully
 FALSE sync step was completed with errors</description>
-    <externalId>false</externalId>
     <label>Sync Success</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Segmentation_Query__c</fullName>
     <deprecated>false</deprecated>
     <description>SOQL statement with bindings for segmentation rule definition columns.</description>
-    <externalId>false</externalId>
     <inlineHelpText>SOQL statement with bindings for Segmentation Rule Definition Columns</inlineHelpText>
     <label>Segmentation Query</label>
     <length>32768</length>

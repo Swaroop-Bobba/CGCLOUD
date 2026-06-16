@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Switchable sub account search filter.</description>
-    <externalId>false</externalId>
     <label>Enable Sub Account Search in TC</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

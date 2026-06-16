@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if Short Descriptions or generated labels should be used for custom periods.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Displays labels of up to 10 characters to help identify Custom Periods in Trade Calendars, Promotion P&amp;L, and other TPM views.</inlineHelpText>
     <label>Enable Custom Period Labels</label>
     <trackHistory>false</trackHistory>

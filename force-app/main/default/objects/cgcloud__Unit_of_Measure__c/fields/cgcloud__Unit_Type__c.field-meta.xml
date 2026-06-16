@@ -3,7 +3,6 @@
     <fullName>cgcloud__Unit_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Type of the unit of measure.</description>
-    <externalId>false</externalId>
     <label>Unit Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

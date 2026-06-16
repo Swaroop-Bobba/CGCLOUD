@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Defines if the calculation step is an accrual step.</description>
-    <externalId>false</externalId>
     <label>Accrual</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

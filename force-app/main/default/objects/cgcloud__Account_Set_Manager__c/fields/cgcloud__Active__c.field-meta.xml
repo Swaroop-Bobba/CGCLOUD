@@ -4,7 +4,6 @@
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies if the Customer Set manager record is active.</description>
-    <externalId>false</externalId>
     <label>Active</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Defines if more than one warehouse must be considered for the tour.</description>
-    <externalId>false</externalId>
     <label>Consider Multiple Warehouses</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

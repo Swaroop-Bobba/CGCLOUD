@@ -3,7 +3,6 @@
     <fullName>cgcloud__Phase__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes in which systems the record is stored.</description>
-    <externalId>false</externalId>
     <label>Phase</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

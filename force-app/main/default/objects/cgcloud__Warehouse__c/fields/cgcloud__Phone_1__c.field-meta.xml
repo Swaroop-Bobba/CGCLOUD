@@ -3,7 +3,6 @@
     <fullName>cgcloud__Phone_1__c</fullName>
     <deprecated>false</deprecated>
     <description>1st phone number.</description>
-    <externalId>false</externalId>
     <label>Phone 1</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

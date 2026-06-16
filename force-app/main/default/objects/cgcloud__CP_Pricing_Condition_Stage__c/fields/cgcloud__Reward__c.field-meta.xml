@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the reward</description>
-    <externalId>false</externalId>
     <label>Reward</label>
     <referenceTo>cgcloud__Promotion_Reward__c</referenceTo>
     <relationshipLabel>Pricing Condition Stages</relationshipLabel>

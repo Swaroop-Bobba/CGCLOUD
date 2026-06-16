@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Flag if picklist contains an empty item.</description>
-    <externalId>false</externalId>
     <label>Has Empty Item</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

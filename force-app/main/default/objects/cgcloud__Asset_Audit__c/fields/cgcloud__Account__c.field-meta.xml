@@ -3,7 +3,6 @@
     <fullName>cgcloud__Account__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the customer in which context the survey was done.</description>
-    <externalId>false</externalId>
     <label>Customer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Asset Audits</relationshipLabel>

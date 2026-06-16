@@ -7,7 +7,6 @@
         Downloaded
         Error
         Installed</description>
-    <externalId>false</externalId>
     <label>State</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

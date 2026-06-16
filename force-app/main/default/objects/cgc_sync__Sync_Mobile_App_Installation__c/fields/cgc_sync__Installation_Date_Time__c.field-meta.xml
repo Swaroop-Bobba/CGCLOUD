@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Installation_Date_Time__c</fullName>
     <deprecated>false</deprecated>
     <description>Date and time when the package was installed.</description>
-    <externalId>false</externalId>
     <label>Installation Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

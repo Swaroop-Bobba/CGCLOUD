@@ -4,7 +4,6 @@
     <defaultValue>DATE(2999,12,31)</defaultValue>
     <deprecated>false</deprecated>
     <description>Valid thru date of the POS.</description>
-    <externalId>false</externalId>
     <label>Valid Thru</label>
     <required>true</required>
     <trackHistory>false</trackHistory>

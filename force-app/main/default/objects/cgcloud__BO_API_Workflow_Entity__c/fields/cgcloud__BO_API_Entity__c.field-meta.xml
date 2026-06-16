@@ -3,7 +3,6 @@
     <fullName>cgcloud__BO_API_Entity__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the business object API entity.</description>
-    <externalId>false</externalId>
     <label>Business Object API Entity</label>
     <lookupFilter>
         <active>true</active>

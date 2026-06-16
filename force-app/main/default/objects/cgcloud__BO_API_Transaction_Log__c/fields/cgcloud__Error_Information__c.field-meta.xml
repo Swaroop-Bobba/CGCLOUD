@@ -3,7 +3,6 @@
     <fullName>cgcloud__Error_Information__c</fullName>
     <deprecated>false</deprecated>
     <description>Error information</description>
-    <externalId>false</externalId>
     <label>Error Information</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

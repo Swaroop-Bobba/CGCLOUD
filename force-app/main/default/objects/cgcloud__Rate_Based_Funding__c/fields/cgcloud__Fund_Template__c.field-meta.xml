@@ -3,7 +3,6 @@
     <fullName>cgcloud__Fund_Template__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Fund Template</label>
     <referenceTo>cgcloud__Fund_Template__c</referenceTo>
     <relationshipLabel>Rate-based Fundings (Fund Template)</relationshipLabel>

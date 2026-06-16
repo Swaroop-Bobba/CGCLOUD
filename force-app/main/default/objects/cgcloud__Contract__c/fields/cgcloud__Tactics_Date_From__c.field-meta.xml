@@ -3,7 +3,6 @@
     <fullName>cgcloud__Tactics_Date_From__c</fullName>
     <deprecated>false</deprecated>
     <description>This field is neccesary to validate that the dates of tactics are in the correct range</description>
-    <externalId>false</externalId>
     <label>Tactics Date From</label>
     <summarizedField>cgcloud__Contract_Tactic__c.cgcloud__Valid_From__c</summarizedField>
     <summaryForeignKey>cgcloud__Contract_Tactic__c.cgcloud__Contract__c</summaryForeignKey>

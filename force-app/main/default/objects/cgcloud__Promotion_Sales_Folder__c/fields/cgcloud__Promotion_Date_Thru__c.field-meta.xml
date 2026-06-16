@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Date_Thru__c</fullName>
     <deprecated>false</deprecated>
     <description>References to the promotion date thru.</description>
-    <externalId>false</externalId>
     <formula>cgcloud__Promotion__r.cgcloud__Date_Thru__c</formula>
     <label>Promotion Date Thru</label>
     <required>false</required>

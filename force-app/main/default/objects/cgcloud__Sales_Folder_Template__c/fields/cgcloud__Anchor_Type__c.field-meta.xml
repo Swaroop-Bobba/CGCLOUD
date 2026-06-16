@@ -3,7 +3,6 @@
     <fullName>cgcloud__Anchor_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Type of object the Sales Folder is assigned to.</description>
-    <externalId>false</externalId>
     <label>Anchor Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

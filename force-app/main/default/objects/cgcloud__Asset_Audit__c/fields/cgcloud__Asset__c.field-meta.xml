@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the asset for which the survey is done.</description>
-    <externalId>false</externalId>
     <label>Asset</label>
     <lookupFilter>
         <active>true</active>

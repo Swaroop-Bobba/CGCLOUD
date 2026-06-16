@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to asset.</description>
-    <externalId>false</externalId>
     <label>Asset</label>
     <lookupFilter>
         <active>true</active>

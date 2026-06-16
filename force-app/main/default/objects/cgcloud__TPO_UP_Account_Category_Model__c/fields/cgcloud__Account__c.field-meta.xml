@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Planning Account for which the Feature Extraction Dataset and Prediction Model will be used</description>
-    <externalId>false</externalId>
     <inlineHelpText>Planning Account for which the Feature Extraction Dataset and Prediction Model will be used</inlineHelpText>
     <label>Account</label>
     <referenceTo>Account</referenceTo>

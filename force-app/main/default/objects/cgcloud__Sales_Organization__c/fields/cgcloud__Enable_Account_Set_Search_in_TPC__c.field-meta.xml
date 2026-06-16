@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Checkbox which enables/disables the account set search per salesorg.</description>
-    <externalId>false</externalId>
     <label>Enable Customer Set Search in TC</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

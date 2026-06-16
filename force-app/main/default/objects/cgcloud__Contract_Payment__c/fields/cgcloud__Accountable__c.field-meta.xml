@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>User accountable for the contract payment.</description>
-    <externalId>false</externalId>
     <label>Accountable</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Contract_Payments_User</relationshipName>

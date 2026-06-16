@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Last_Failed_Sync_At__c</fullName>
     <deprecated>false</deprecated>
     <description>Last failed Synchronization, independent from later successful syncs.</description>
-    <externalId>false</externalId>
     <label>Last Failed Sync</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

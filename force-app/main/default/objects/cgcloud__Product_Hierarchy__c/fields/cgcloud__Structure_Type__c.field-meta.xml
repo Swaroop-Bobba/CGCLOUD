@@ -3,7 +3,6 @@
     <fullName>cgcloud__Structure_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the structure type of the hierarchy.</description>
-    <externalId>false</externalId>
     <label>Structure Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

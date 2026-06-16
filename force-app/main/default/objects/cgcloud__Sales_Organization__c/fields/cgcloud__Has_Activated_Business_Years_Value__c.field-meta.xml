@@ -3,7 +3,6 @@
     <fullName>cgcloud__Has_Activated_Business_Years_Value__c</fullName>
     <deprecated>false</deprecated>
     <description>Indicates whether the business years are activated for the sales org.</description>
-    <externalId>false</externalId>
     <formula>cgcloud__Has_Activated_Business_Years__c</formula>
     <label>Has Activated Business Years?</label>
     <trackHistory>false</trackHistory>

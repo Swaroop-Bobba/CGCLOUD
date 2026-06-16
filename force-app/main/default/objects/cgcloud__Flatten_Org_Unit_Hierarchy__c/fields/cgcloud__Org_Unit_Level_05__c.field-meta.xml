@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the Org Unit level hierarchy.</description>
-    <externalId>false</externalId>
     <label>Org Unit 05</label>
     <referenceTo>cgcloud__Org_Unit__c</referenceTo>
     <relationshipLabel>Flatten Org Unit Hierarchies (Org Unit 05)</relationshipLabel>

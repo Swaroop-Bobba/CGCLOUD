@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>KPI definition used to aggregate values for the Bill of Materials (BOM) component.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Select the KPI definition of the KPIs to aggregate values for the Bill of Materials (BOM) component.</inlineHelpText>
     <label>BOM Component KPI Definition</label>
     <lookupFilter>

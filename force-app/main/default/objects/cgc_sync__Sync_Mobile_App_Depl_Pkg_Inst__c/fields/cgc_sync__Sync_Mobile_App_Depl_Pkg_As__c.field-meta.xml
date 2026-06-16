@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Relation to deployment package assignment.</description>
-    <externalId>false</externalId>
     <label>Deployment Package Assignment</label>
     <referenceTo>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c</referenceTo>
     <relationshipLabel>Deployment Package Installations</relationshipLabel>

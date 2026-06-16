@@ -3,7 +3,6 @@
     <fullName>cgcloud__Edits_On_Multiple_Time_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Enable monthly and quarterly time intervals for KPIs in CBPs, promotions, and account plans.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Once enabled, KPI time intervals for months and quarters can&apos;t be disabled.</inlineHelpText>
     <label>View and Edit for Months and Quarters</label>
     <required>false</required>

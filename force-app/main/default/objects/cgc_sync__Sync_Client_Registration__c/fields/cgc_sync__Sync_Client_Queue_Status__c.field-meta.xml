@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Sync_Client_Queue_Status__c</fullName>
     <deprecated>false</deprecated>
     <description>Indicates the state of the synchronization request as Canceled, Done, Processing, or Waiting.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Status of the synchronization request. Possible values are: Canceled, Done, Processing, or Waiting.</inlineHelpText>
     <label>Sync Status in Queue</label>
     <required>false</required>

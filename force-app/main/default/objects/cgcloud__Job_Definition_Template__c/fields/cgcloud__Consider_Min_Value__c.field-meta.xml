@@ -3,7 +3,6 @@
     <fullName>cgcloud__Consider_Min_Value__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Consider Min Value</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

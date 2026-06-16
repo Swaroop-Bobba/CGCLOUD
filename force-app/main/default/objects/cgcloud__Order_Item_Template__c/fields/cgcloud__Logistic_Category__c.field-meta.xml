@@ -3,7 +3,6 @@
     <fullName>cgcloud__Logistic_Category__c</fullName>
     <deprecated>false</deprecated>
     <description>Controls which logistical unit types can be chosen for item of this template.</description>
-    <externalId>false</externalId>
     <label>Logistic Category</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

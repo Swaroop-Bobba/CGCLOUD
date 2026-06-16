@@ -3,7 +3,6 @@
     <fullName>cgcloud__Segment_Validation__c</fullName>
     <deprecated>false</deprecated>
     <description>Segment Validation</description>
-    <externalId>false</externalId>
     <label>Segment Validation</label>
     <summarizedField>cgcloud__System_Number_Segment__c.cgcloud__Type_Validation__c</summarizedField>
     <summaryForeignKey>cgcloud__System_Number_Segment__c.cgcloud__System_Number__c</summaryForeignKey>

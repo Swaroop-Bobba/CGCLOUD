@@ -3,7 +3,6 @@
     <fullName>cgcloud__Condition_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines if the complex pricing condition type describes header level or item level conditions.</description>
-    <externalId>false</externalId>
     <label>Condition Level</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

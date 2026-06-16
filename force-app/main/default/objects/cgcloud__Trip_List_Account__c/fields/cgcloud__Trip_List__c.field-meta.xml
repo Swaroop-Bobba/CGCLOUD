@@ -3,7 +3,6 @@
     <fullName>cgcloud__Trip_List__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to trip list</description>
-    <externalId>false</externalId>
     <label>Trip List</label>
     <referenceTo>cgcloud__Trip_List__c</referenceTo>
     <relationshipLabel>Trip List Customers</relationshipLabel>

@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgcloud__Offset_Summary__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Offset Summary</label>
     <summarizedField>cgcloud__Payment_Tactic__c.cgcloud__Amount_Offset__c</summarizedField>
     <summaryForeignKey>cgcloud__Payment_Tactic__c.cgcloud__Payment__c</summaryForeignKey>

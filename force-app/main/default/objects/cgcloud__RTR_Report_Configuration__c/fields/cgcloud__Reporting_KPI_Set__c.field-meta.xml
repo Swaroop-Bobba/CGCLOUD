@@ -3,7 +3,6 @@
     <fullName>cgcloud__Reporting_KPI_Set__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <inlineHelpText>Base Reporting KPI Set to use on calculations.</inlineHelpText>
     <label>Reporting KPI Set</label>
     <lookupFilter>

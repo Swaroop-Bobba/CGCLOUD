@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Type of fund into which the Rate-Based Funding Record deposits will be reflected (e.g. Account Development Fund, Brand Development Fund, etc.). Fund Type allows for multi-year/cross-year Funding Rates.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the type of fund into which the Rate-Based Funding records deposits will be reflected.</inlineHelpText>
     <label>Fund Type</label>
     <referenceTo>cgcloud__Fund_Template__c</referenceTo>

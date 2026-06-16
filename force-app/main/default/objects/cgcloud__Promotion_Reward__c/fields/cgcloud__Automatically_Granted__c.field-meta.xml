@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Defines if the rewards must be automatically granted.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Define if the reward must be automatically granted.</inlineHelpText>
     <label>Automatically Granted</label>
     <trackTrending>false</trackTrending>

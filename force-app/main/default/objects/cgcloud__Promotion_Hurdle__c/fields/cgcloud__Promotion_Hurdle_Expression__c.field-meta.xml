@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Hurdle_Expression__c</fullName>
     <deprecated>false</deprecated>
     <description>Master-Detail to the Expression which defines the Hurdle.</description>
-    <externalId>false</externalId>
     <label>Promotion Expression</label>
     <referenceTo>cgcloud__Promotion_Hurdle_Expression__c</referenceTo>
     <relationshipLabel>Promotion Hurdles</relationshipLabel>

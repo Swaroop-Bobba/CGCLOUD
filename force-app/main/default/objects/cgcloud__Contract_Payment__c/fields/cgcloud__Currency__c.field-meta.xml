@@ -3,7 +3,6 @@
     <fullName>cgcloud__Currency__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the currency of the order based on the sales org currency of the order template object. Must have the same picklist values that the sales org currency field.</description>
-    <externalId>false</externalId>
     <label>Currency</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

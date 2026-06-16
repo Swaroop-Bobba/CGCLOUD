@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>--- Attribute no longer used --- Controls if a report is printed automatically in the release process.</description>
-    <externalId>false</externalId>
     <label>Print Automatically</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

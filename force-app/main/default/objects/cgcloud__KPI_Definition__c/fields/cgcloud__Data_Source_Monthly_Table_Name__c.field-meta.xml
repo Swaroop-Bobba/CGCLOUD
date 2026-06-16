@@ -3,7 +3,6 @@
     <fullName>cgcloud__Data_Source_Monthly_Table_Name__c</fullName>
     <deprecated>false</deprecated>
     <description>Name of the source table for Monthly data to be read.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the source table for Monthly data to be read</inlineHelpText>
     <label>Monthly Table Name</label>
     <required>false</required>

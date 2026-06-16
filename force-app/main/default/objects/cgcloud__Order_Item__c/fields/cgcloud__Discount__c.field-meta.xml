@@ -4,7 +4,6 @@
     <defaultValue>0</defaultValue>
     <deprecated>false</deprecated>
     <description>Manual discount given by the user.</description>
-    <externalId>false</externalId>
     <label>Discount</label>
     <precision>4</precision>
     <required>false</required>

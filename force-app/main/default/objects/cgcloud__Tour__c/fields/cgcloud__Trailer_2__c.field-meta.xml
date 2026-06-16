@@ -3,7 +3,6 @@
     <fullName>cgcloud__Trailer_2__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <inlineHelpText>Please select vehicles of the type Trailer.</inlineHelpText>
     <label>Trailer 2</label>
     <referenceTo>cgcloud__Vehicle__c</referenceTo>

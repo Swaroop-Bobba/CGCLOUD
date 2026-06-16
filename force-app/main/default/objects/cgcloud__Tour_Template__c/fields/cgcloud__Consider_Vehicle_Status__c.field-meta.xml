@@ -3,7 +3,6 @@
     <fullName>cgcloud__Consider_Vehicle_Status__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies whether the driver has to check and document status / damages of the truck (and its trailers) at beginning and end of tour</description>
-    <externalId>false</externalId>
     <label>Consider Vehicle Status</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

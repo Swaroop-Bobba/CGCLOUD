@@ -3,7 +3,6 @@
     <fullName>cgc_sync__App_Installation__c</fullName>
     <deprecated>false</deprecated>
     <description>Relationship field to app installation.</description>
-    <externalId>false</externalId>
     <label>Mobile App Installation</label>
     <referenceTo>cgc_sync__Sync_Mobile_App_Installation__c</referenceTo>
     <relationshipLabel>Sync Remote Requests</relationshipLabel>

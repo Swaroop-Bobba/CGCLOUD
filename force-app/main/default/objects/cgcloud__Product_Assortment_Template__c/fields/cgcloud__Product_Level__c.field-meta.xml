@@ -3,7 +3,6 @@
     <fullName>cgcloud__Product_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes the product level.</description>
-    <externalId>false</externalId>
     <label>Product Level</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

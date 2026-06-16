@@ -3,7 +3,6 @@
     <fullName>cgcloud__Available_Trade_Calendar_Color_Schemas__c</fullName>
     <deprecated>false</deprecated>
     <description>Property Based Coloring of Promotion Bars within the Trade Calendar</description>
-    <externalId>false</externalId>
     <label>Available Trade Calendar Color Schemas</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Competitor_Relevant__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Competitor Relevant</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

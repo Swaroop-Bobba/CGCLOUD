@@ -3,7 +3,6 @@
     <fullName>bofc__Show_SF__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Show SF</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

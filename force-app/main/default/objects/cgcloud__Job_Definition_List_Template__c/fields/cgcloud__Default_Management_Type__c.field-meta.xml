@@ -3,7 +3,6 @@
     <fullName>cgcloud__Default_Management_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the default management type that will be considered in the user determination when creating job lists out of non-standard activity.</description>
-    <externalId>false</externalId>
     <label>Default Management Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

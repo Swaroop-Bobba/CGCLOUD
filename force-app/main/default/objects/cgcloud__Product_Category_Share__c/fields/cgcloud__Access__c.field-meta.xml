@@ -3,7 +3,6 @@
     <fullName>cgcloud__Access__c</fullName>
     <deprecated>false</deprecated>
     <description>Type of access.</description>
-    <externalId>false</externalId>
     <label>Access</label>
     <required>true</required>
     <trackTrending>false</trackTrending>

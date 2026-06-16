@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the KPI Set</description>
-    <externalId>false</externalId>
     <label>KPI Set</label>
     <referenceTo>cgcloud__KPI_Set__c</referenceTo>
     <relationshipLabel>Customer Business Plans</relationshipLabel>

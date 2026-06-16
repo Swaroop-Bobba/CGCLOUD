@@ -3,7 +3,6 @@
     <fullName>cgcloud__Targets__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines in which tables the conditions are generated.</description>
-    <externalId>false</externalId>
     <label>Targets</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

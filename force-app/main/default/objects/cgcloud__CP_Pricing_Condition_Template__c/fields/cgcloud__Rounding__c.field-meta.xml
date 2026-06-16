@@ -3,7 +3,6 @@
     <fullName>cgcloud__Rounding__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines if the system rounds the calculation result after calculation step has been applied.</description>
-    <externalId>false</externalId>
     <label>Rounding</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

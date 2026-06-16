@@ -3,7 +3,6 @@
     <fullName>cgcloud__Selectable_Promotion_Skip__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Selectable Promotion Skip</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

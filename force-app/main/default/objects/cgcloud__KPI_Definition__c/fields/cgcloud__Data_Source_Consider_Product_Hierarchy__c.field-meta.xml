@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Flag indicating whether the product hierarchy is considered for the condition search.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines if the product hierarchy must be considered for the condition search</inlineHelpText>
     <label>Consider Product Hierarchy</label>
     <trackTrending>false</trackTrending>

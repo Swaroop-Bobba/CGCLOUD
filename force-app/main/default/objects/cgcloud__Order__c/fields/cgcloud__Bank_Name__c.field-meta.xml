@@ -3,7 +3,6 @@
     <fullName>cgcloud__Bank_Name__c</fullName>
     <deprecated>false</deprecated>
     <description>Contains the name of the bank.</description>
-    <externalId>false</externalId>
     <label>Bank Name</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

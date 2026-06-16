@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies whether the product is out of stock.</description>
-    <externalId>false</externalId>
     <label>Out Of Stock</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

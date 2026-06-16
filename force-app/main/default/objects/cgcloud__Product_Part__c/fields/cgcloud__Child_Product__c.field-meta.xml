@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the product which belongs to the bill of material referred by ParentId.</description>
-    <externalId>false</externalId>
     <label>Child Product</label>
     <lookupFilter>
         <active>true</active>

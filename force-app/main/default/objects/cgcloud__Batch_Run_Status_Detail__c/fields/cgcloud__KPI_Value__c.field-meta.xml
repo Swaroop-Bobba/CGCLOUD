@@ -3,7 +3,6 @@
     <fullName>cgcloud__KPI_Value__c</fullName>
     <deprecated>false</deprecated>
     <description>Summary which contains relevant KPIs of the batch process execution.</description>
-    <externalId>false</externalId>
     <label>KPI Value</label>
     <length>5000</length>
     <trackTrending>false</trackTrending>

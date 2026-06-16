@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the product part linking the BOM component to its header.</description>
-    <externalId>false</externalId>
     <label>Product Part</label>
     <referenceTo>cgcloud__Product_Part__c</referenceTo>
     <relationshipLabel>Tactic Product Conditions</relationshipLabel>

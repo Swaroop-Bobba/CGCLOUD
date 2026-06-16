@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the contract template with which the tactic template record is related. Mandatory for the tactic template record type.</description>
-    <externalId>false</externalId>
     <label>Customer Contract Template</label>
     <lookupFilter>
         <active>true</active>

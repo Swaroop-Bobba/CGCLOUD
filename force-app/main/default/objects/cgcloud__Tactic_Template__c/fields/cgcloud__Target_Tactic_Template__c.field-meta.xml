@@ -3,7 +3,6 @@
     <fullName>cgcloud__Target_Tactic_Template__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Target Tactic Template</label>
     <referenceTo>cgcloud__Tactic_Template__c</referenceTo>
     <relationshipLabel>Tactic Templates</relationshipLabel>

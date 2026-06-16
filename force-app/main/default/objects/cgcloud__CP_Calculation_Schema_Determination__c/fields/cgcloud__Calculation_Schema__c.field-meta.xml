@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the calculation schema.</description>
-    <externalId>false</externalId>
     <label>Calculation Schema</label>
     <lookupFilter>
         <active>true</active>

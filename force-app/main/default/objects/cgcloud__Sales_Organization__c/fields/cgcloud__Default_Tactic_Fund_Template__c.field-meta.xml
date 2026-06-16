@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>The default template used as a fallback if no fund template is selected in the tactic.</description>
-    <externalId>false</externalId>
     <label>Default Fund Template</label>
     <lookupFilter>
         <active>true</active>

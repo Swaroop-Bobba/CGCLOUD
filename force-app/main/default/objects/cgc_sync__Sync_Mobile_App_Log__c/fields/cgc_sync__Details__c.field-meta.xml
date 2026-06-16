@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Details__c</fullName>
     <deprecated>false</deprecated>
     <description>Link to sync details record.</description>
-    <externalId>false</externalId>
     <label>Details</label>
     <length>131072</length>
     <trackTrending>false</trackTrending>

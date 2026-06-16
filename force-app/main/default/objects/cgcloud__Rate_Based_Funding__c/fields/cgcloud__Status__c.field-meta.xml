@@ -3,7 +3,6 @@
     <fullName>cgcloud__Status__c</fullName>
     <defaultValue>&apos;Initial&apos;</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Status</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

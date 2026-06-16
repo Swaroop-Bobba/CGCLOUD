@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies if a Tactic created from the referenced Template provides Discount through the TPO Discount field.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Specifies if a Tactic created from the referenced Template provides Discount through the TPO Discount field.</inlineHelpText>
     <label>TPO UP Provides Discount</label>
     <trackTrending>false</trackTrending>

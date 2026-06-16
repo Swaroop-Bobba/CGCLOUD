@@ -3,7 +3,6 @@
     <fullName>cgcloud__Aggregation_Rule__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines how the individual rules of the search group must be aggregated.</description>
-    <externalId>false</externalId>
     <label>Aggregation Rule</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

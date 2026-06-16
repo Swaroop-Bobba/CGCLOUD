@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the business object API entity.</description>
-    <externalId>false</externalId>
     <inlineHelpText>If set, the engine will map the inputs to the outputs based on the Input/Output Mapping fields.</inlineHelpText>
     <label>Output Entity</label>
     <lookupFilter>

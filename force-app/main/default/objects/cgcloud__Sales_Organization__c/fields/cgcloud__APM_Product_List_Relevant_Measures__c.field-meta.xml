@@ -3,7 +3,6 @@
     <fullName>cgcloud__APM_Product_List_Relevant_Measures__c</fullName>
     <deprecated>false</deprecated>
     <description>Measure codes defined for accountproductmeasure table</description>
-    <externalId>false</externalId>
     <label>Account Product Measure</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

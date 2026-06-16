@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to user setting.</description>
-    <externalId>false</externalId>
     <label>User Setting</label>
     <referenceTo>cgcloud__User_Setting__c</referenceTo>
     <relationshipLabel>Managed Products</relationshipLabel>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies if the calculation schema is relevant for the handled edition.</description>
-    <externalId>false</externalId>
     <label>Mobility Relevant</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

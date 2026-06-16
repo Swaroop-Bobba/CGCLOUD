@@ -3,7 +3,6 @@
     <fullName>cgcloud__Segmentation_Rule_Def__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to segmentation rule definition.</description>
-    <externalId>false</externalId>
     <label>Segmentation Rule Definition</label>
     <referenceTo>cgcloud__Segmentation_Rule_Def__c</referenceTo>
     <relationshipLabel>Segmentation Rule Definition Columns</relationshipLabel>

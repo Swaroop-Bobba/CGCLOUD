@@ -3,7 +3,6 @@
     <fullName>cgcloud__Multiple_Cash_Check_In_Allowed__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Multiple Cash Check-In Allowed</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

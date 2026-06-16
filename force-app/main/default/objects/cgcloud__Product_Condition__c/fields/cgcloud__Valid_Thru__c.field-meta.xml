@@ -4,7 +4,6 @@
     <defaultValue>DATE(2099,12,31)</defaultValue>
     <deprecated>false</deprecated>
     <description>The last day when the Condition will be valid for the Product.</description>
-    <externalId>false</externalId>
     <inlineHelpText>The last day when the Condition will be valid for the Product.</inlineHelpText>
     <label>Valid Thru</label>
     <required>false</required>

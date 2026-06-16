@@ -3,7 +3,6 @@
     <fullName>cgcloud__Current_Promotion_View__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>View</label>
     <referenceTo>cgcloud__View__c</referenceTo>
     <relationshipLabel>User Settings (View)</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Search_Strategy__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the search strategy.</description>
-    <externalId>false</externalId>
     <label>Search Strategy</label>
     <referenceTo>cgcloud__CP_Search_Strategy__c</referenceTo>
     <relationshipLabel>Search Strategy Steps</relationshipLabel>

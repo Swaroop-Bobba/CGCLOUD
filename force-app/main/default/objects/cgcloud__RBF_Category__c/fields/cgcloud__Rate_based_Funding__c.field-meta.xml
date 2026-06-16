@@ -3,7 +3,6 @@
     <fullName>cgcloud__Rate_based_Funding__c</fullName>
     <deprecated>false</deprecated>
     <description>Master Detail Relationship for Rate Based Funding from RateBasedFunding_Product Junction Object</description>
-    <externalId>false</externalId>
     <label>Rate-based Funding</label>
     <referenceTo>cgcloud__Rate_Based_Funding__c</referenceTo>
     <relationshipLabel>RBF Categories</relationshipLabel>

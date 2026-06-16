@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the template.</description>
-    <externalId>false</externalId>
     <label>Customer Task Template</label>
     <lookupFilter>
         <active>true</active>

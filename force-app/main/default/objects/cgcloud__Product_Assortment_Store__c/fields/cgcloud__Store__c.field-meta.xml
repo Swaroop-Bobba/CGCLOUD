@@ -3,7 +3,6 @@
     <fullName>cgcloud__Store__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to customer.</description>
-    <externalId>false</externalId>
     <label>Store</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Product Assortment Store</relationshipLabel>

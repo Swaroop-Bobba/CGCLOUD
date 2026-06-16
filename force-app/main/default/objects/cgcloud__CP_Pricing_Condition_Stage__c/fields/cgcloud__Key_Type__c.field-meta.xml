@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to Key Type.</description>
-    <externalId>false</externalId>
     <label>Key Type</label>
     <referenceTo>cgcloud__CP_Key_Type__c</referenceTo>
     <relationshipLabel>Pricing Condition Stages</relationshipLabel>

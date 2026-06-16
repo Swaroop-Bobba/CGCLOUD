@@ -3,7 +3,6 @@
     <fullName>cgcloud__Order_Role_Order_Template_Blocked__c</fullName>
     <deprecated>false</deprecated>
     <description>By this temporary order template blocking it is achieved, that this customer can not order them as long this flag is set.</description>
-    <externalId>false</externalId>
     <label>Order Role Order Template Blocked</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

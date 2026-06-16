@@ -3,7 +3,6 @@
     <fullName>cgcloud__Phase__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes the current phase of the contract payment.</description>
-    <externalId>false</externalId>
     <label>Phase</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

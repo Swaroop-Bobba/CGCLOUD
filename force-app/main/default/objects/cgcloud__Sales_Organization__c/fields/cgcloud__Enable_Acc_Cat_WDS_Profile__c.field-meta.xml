@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if the account, category, account and sales org specific profiles use the Profile bucket share calculation, which is found first.</description>
-    <externalId>false</externalId>
     <inlineHelpText>If enabled, the profile search order for daily volume distribution will be Customer Category --&gt; Customer (Account) --&gt; Sales Org.</inlineHelpText>
     <label>Enable Customer Category Profile</label>
     <trackHistory>false</trackHistory>

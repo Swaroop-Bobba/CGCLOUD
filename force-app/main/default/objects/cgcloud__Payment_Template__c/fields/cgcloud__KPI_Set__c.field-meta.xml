@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>KPI Set associated with the payment template</description>
-    <externalId>false</externalId>
     <label>KPI Set</label>
     <lookupFilter>
         <active>true</active>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Default_Logistic_Unit__c</fullName>
     <deprecated>false</deprecated>
     <description>Unit to preset</description>
-    <externalId>false</externalId>
     <label>Default Logistic Unit</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

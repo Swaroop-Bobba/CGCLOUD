@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates if the Order item tempate can be used for complex scenarios.</description>
-    <externalId>false</externalId>
     <label>Complex Pricing Relevant</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

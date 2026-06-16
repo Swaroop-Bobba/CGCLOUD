@@ -6,7 +6,6 @@
     <description>Defines if the customer’s assets are initially displayed or not.
 
 This setting is applicable for mobility devices.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines if the customer’s assets are initially displayed or not.
 
 This setting is applicable for mobility devices.</inlineHelpText>

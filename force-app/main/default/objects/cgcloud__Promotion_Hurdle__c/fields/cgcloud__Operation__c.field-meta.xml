@@ -3,7 +3,6 @@
     <fullName>cgcloud__Operation__c</fullName>
     <deprecated>false</deprecated>
     <description>Define how hurdles are combined based on the sequence.</description>
-    <externalId>false</externalId>
     <label>Operation</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

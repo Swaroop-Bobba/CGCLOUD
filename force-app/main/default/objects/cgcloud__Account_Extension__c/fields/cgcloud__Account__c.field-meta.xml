@@ -3,7 +3,6 @@
     <fullName>cgcloud__Account__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the customer to which the extension record is assigned.</description>
-    <externalId>false</externalId>
     <label>Customer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Customer Extensions</relationshipLabel>

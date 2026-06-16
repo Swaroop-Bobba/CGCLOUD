@@ -3,7 +3,6 @@
     <fullName>cgcloud__Anchor_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Type of Customer Anchor for the Rate-Based Funding Record. This will drive the visibility of which Anchor Attribute will be displayed.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the visibility of which anchor attribute will be displayed.</inlineHelpText>
     <label>Anchor Type</label>
     <required>true</required>

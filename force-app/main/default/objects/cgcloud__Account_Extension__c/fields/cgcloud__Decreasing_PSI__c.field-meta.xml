@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates if the previous calculated PSI was higher than the last one.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Indicates if the previous calculated PSI was higher than the last one.</inlineHelpText>
     <label>Decreasing PSI</label>
     <trackTrending>false</trackTrending>

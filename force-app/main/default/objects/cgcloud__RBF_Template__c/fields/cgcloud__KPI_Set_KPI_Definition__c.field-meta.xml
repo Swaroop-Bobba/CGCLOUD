@@ -3,7 +3,6 @@
     <fullName>cgcloud__KPI_Set_KPI_Definition__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>KPI Total</label>
     <lookupFilter>
         <active>true</active>

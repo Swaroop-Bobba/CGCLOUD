@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgcloud__Classification__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the Classification of Tactic Products the Reward is applied to.</inlineHelpText>
     <label>Classification</label>
     <required>false</required>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Date_Thru__c</fullName>
     <deprecated>false</deprecated>
     <description>End Date of the Business Year</description>
-    <externalId>false</externalId>
     <label>Date Thru</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

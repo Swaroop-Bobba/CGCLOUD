@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Week Day Share Profile that is used as default for this Sales Organization.</description>
-    <externalId>false</externalId>
     <label>Week Day Share Profile</label>
     <referenceTo>cgcloud__Week_Day_Share_Profile__c</referenceTo>
     <relationshipLabel>Sales Organization</relationshipLabel>

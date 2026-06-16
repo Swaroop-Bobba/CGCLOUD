@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the pricing condition template.</description>
-    <externalId>false</externalId>
     <label>Pricing Condition Template</label>
     <referenceTo>cgcloud__CP_Pricing_Condition_Template__c</referenceTo>
     <relationshipLabel>Complex Pricing Conditions</relationshipLabel>

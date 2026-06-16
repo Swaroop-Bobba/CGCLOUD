@@ -3,7 +3,6 @@
     <fullName>cgcloud__Batch_Run_Status__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to main Batch Monitoring record.</description>
-    <externalId>false</externalId>
     <label>Batch Run Status</label>
     <referenceTo>cgcloud__Batch_Run_Status__c</referenceTo>
     <relationshipLabel>Batch Run Status Details</relationshipLabel>

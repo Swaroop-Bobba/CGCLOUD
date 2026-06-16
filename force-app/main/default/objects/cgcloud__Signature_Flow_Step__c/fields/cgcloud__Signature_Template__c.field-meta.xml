@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the signature template</description>
-    <externalId>false</externalId>
     <label>Signature Template</label>
     <referenceTo>cgcloud__Signature_Template__c</referenceTo>
     <relationshipLabel>Signature Flow Steps</relationshipLabel>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Controls if the unit of measure is considered for rounding quantity.</description>
-    <externalId>false</externalId>
     <label>Rounding Target</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

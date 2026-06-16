@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Default Truck</description>
-    <externalId>false</externalId>
     <inlineHelpText>Please select vehicles of the type Truck Fast or Truck Slow.</inlineHelpText>
     <label>Default Truck</label>
     <lookupFilter>

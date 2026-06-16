@@ -3,7 +3,6 @@
     <fullName>cgcloud__RBF_Overdraw__c</fullName>
     <deprecated>false</deprecated>
     <description>RBF-Based Overdraw Allowance Percentage.</description>
-    <externalId>false</externalId>
     <label>RBF Overdraw %</label>
     <precision>7</precision>
     <required>false</required>

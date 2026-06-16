@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Update Planned Times</description>
-    <externalId>false</externalId>
     <label>Update Planned Times</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

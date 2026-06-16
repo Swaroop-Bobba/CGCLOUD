@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the product which contains the product referred by ChildId.</description>
-    <externalId>false</externalId>
     <label>Parent Product</label>
     <lookupFilter>
         <active>true</active>

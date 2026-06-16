@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to payment template.</description>
-    <externalId>false</externalId>
     <label>Payment Template</label>
     <referenceTo>cgcloud__Order_Payment_Template__c</referenceTo>
     <relationshipLabel>Order Payments</relationshipLabel>

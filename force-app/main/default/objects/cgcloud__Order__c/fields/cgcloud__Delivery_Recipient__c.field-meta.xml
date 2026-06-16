@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the Delivery Recipient of the selected account</description>
-    <externalId>false</externalId>
     <label>Delivery Recipient</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Orders (Delivery Recipient)</relationshipLabel>

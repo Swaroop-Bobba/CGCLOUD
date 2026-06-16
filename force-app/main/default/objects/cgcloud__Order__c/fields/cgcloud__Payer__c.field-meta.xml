@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the payer of the order</description>
-    <externalId>false</externalId>
     <label>Payer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Orders (Payer)</relationshipLabel>

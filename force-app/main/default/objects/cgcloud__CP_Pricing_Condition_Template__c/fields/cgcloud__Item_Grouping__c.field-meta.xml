@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies that the condition applies to a group of items (group condition).</description>
-    <externalId>false</externalId>
     <label>Item Grouping</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

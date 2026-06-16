@@ -3,7 +3,6 @@
     <fullName>cgcloud__Description__c</fullName>
     <deprecated>false</deprecated>
     <description>Holds the purpose of the mapped data.</description>
-    <externalId>false</externalId>
     <label>Description</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Manual_Input_Copy_Mode__c</fullName>
     <deprecated>false</deprecated>
     <description>Used to define whether manual input is copied over to target promotion.</description>
-    <externalId>false</externalId>
     <label>Manual Input Copy Mode</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

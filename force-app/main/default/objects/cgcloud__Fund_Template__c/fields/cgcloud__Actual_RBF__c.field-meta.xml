@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>The KPI definition that will be used for the &quot;Actual RBF&quot; Total KPI</description>
-    <externalId>false</externalId>
     <label>Actual RBF</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
     <relationshipLabel>Actual RBF</relationshipLabel>

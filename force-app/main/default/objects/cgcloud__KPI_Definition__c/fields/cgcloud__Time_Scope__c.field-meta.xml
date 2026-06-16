@@ -3,7 +3,6 @@
     <fullName>cgcloud__Time_Scope__c</fullName>
     <deprecated>false</deprecated>
     <description>Consideration of time ranges within calculation.</description>
-    <externalId>false</externalId>
     <label>Time Scope</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

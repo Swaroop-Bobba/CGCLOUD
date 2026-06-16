@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Link to the parent promotion link for this record</description>
-    <externalId>false</externalId>
     <label>Parent Promotion Product Share</label>
     <referenceTo>cgcloud__Promotion_Product_Share__c</referenceTo>
     <relationshipLabel>Child Promotion Product Shares</relationshipLabel>

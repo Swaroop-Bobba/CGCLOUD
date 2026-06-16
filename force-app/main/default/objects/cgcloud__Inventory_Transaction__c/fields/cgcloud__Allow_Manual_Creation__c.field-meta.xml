@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>This technical field is created for identifying initial inventory &amp; Balance record creation.</description>
-    <externalId>false</externalId>
     <label>Allow Manual Creation</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

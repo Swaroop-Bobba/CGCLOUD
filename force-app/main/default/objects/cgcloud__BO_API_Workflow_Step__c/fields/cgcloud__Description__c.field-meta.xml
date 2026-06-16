@@ -3,7 +3,6 @@
     <fullName>cgcloud__Description__c</fullName>
     <deprecated>false</deprecated>
     <description>High level description of the features of the Workflow Step.</description>
-    <externalId>false</externalId>
     <label>Description</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

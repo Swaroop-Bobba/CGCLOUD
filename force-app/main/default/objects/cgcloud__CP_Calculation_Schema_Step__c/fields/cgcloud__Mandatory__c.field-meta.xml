@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Defines if a calculation step is mandatory: If no matching condition records have been found, the calculation stops with an error message.</description>
-    <externalId>false</externalId>
     <label>Mandatory</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

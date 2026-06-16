@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>The item, which has been added to the disposal list, has been ordered in a former sales document. (The item belongs to a former sales document of the same business partner and of the same sales document template.)</description>
-    <externalId>false</externalId>
     <label>History</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

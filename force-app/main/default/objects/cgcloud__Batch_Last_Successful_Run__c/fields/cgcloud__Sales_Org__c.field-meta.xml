@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Org__c</fullName>
     <deprecated>false</deprecated>
     <description>The sales org on which batch process ran.</description>
-    <externalId>false</externalId>
     <label>Sales Org</label>
     <required>true</required>
     <trackTrending>false</trackTrending>

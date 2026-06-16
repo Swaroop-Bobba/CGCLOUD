@@ -3,7 +3,6 @@
     <fullName>cgcloud__Used_Reference_Date__c</fullName>
     <deprecated>false</deprecated>
     <description>Determines which value is set in the view for the product hierarchy resolution reference date</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines which value is set in the view for the product/customer hierarchy resolution reference date.</inlineHelpText>
     <label>Used Reference Date</label>
     <required>false</required>

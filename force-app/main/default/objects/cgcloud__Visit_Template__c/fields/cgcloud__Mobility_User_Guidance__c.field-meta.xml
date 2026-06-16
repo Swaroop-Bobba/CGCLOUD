@@ -3,7 +3,6 @@
     <fullName>cgcloud__Mobility_User_Guidance__c</fullName>
     <deprecated>false</deprecated>
     <description>Mobility User Guidance</description>
-    <externalId>false</externalId>
     <label>Mobility User Guidance</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

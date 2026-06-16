@@ -3,7 +3,6 @@
     <fullName>cgcloud__Requires_Funds__c</fullName>
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <inlineHelpText>Determines if the claim requires funds to be approved.</inlineHelpText>
     <label>Requires Funds</label>
     <trackHistory>false</trackHistory>

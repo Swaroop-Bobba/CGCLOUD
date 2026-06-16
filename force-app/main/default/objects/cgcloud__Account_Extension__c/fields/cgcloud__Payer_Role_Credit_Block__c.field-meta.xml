@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies if the customer is credit blocked or not.</description>
-    <externalId>false</externalId>
     <label>Payer Role Credit Block</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

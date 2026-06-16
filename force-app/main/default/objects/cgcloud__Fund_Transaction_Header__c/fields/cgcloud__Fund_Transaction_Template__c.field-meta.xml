@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Fund Transaction Template which dictates the behavior of related transactions based on template Transaction Type</description>
-    <externalId>false</externalId>
     <label>Transaction Template</label>
     <referenceTo>cgcloud__Fund_Transaction_Template__c</referenceTo>
     <relationshipLabel>Fund Transaction Headers</relationshipLabel>

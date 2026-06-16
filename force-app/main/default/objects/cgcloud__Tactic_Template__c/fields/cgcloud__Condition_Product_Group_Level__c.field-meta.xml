@@ -3,7 +3,6 @@
     <fullName>cgcloud__Condition_Product_Group_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the product level at which the condition can be set.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the product level at which the condition is created.</inlineHelpText>
     <label>Condition Product Group Level</label>
     <required>false</required>

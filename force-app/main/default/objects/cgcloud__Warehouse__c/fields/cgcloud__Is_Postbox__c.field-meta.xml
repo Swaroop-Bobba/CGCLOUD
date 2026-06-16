@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies if the warehouse is a postbox</description>
-    <externalId>false</externalId>
     <label>Is Postbox</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

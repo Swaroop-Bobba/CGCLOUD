@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Org_Value__c</fullName>
     <deprecated>false</deprecated>
     <description>Refers to the mapped Salesforce picklist values.</description>
-    <externalId>false</externalId>
     <label>Sales Org Value</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Data_Source_Table_Name__c</fullName>
     <deprecated>false</deprecated>
     <description>Name of the source table from which the measure data is drawn.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the source data table from which the measure data is drawn</inlineHelpText>
     <label>Table Name</label>
     <required>false</required>

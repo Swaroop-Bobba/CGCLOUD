@@ -3,7 +3,6 @@
     <fullName>cgcloud__Price_List_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Price list type for wholesaler or direct customer.</description>
-    <externalId>false</externalId>
     <inlineHelpText>For the Wholesaler choose WS1999, for the Direct Customer choose WS2000.</inlineHelpText>
     <label>Price List Type</label>
     <required>false</required>

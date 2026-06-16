@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to Tactic Template. If tactic template is not specified then it is a default mapping for all the tactic records. If it is specified then the mapping is specific only to the related Tactic records.</description>
-    <externalId>false</externalId>
     <label>Tactic Template</label>
     <referenceTo>cgcloud__Tactic_Template__c</referenceTo>
     <relationshipLabel>KPIs map</relationshipLabel>

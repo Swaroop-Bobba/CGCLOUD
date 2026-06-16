@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Business_Area__c</fullName>
     <deprecated>false</deprecated>
     <description>Segregation key.</description>
-    <externalId>false</externalId>
     <label>Business Area</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

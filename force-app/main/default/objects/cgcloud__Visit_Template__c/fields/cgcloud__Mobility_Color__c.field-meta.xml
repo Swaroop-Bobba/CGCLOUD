@@ -3,7 +3,6 @@
     <fullName>cgcloud__Mobility_Color__c</fullName>
     <deprecated>false</deprecated>
     <description>Field to define the color of call on Mobility device</description>
-    <externalId>false</externalId>
     <inlineHelpText>Please choose the color for the call to display in the call calendar</inlineHelpText>
     <label>Mobility Color</label>
     <required>false</required>

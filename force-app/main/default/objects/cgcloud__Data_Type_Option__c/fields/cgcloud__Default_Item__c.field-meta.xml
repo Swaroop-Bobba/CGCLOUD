@@ -3,7 +3,6 @@
     <fullName>cgcloud__Default_Item__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <inlineHelpText>Only one default item is allowed per data type.</inlineHelpText>
     <label>Default Item</label>
     <trackTrending>false</trackTrending>

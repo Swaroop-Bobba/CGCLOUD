@@ -3,7 +3,6 @@
     <fullName>cgcloud__Total_Columns__c</fullName>
     <deprecated>false</deprecated>
     <description>Count of total columns.</description>
-    <externalId>false</externalId>
     <label>Total Columns</label>
     <summaryForeignKey>cgcloud__Segmentation_Rule_Def_Column__c.cgcloud__Segmentation_Rule_Def__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Org_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Level of an organization unit regarding a organization type.</description>
-    <externalId>false</externalId>
     <label>Org Level</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

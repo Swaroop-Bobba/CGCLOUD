@@ -3,7 +3,6 @@
     <fullName>cgcloud__Tactic__c</fullName>
     <deprecated>false</deprecated>
     <description>Tactic for which the rule is defined.</description>
-    <externalId>false</externalId>
     <label>Tactic</label>
     <referenceTo>cgcloud__Tactic__c</referenceTo>
     <relationshipLabel>Tactic Condition Creation Definitions</relationshipLabel>

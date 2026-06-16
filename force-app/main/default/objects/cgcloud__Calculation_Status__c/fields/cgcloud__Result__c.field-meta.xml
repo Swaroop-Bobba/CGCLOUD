@@ -3,7 +3,6 @@
     <fullName>cgcloud__Result__c</fullName>
     <defaultValue>&apos;{}&apos;</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Calculation Result Details</label>
     <length>131072</length>
     <trackTrending>false</trackTrending>

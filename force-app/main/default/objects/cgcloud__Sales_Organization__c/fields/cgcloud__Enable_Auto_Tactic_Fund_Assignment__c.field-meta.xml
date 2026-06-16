@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if the tacticfund assignment must be automatic.</description>
-    <externalId>false</externalId>
     <label>Enable Tactic Auto Fund Assignment</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

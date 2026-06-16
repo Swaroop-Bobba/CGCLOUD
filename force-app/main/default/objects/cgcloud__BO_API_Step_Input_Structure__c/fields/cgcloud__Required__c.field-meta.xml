@@ -4,7 +4,6 @@
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if the property is required.</description>
-    <externalId>false</externalId>
     <label>Required</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

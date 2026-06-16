@@ -3,7 +3,6 @@
     <fullName>cgcloud__Parent_TCCD__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Parent TCCD</label>
     <referenceTo>cgcloud__Tactic_Condition_Creation_Definition__c</referenceTo>
     <relationshipLabel>Tactic Condition Creation Definitions</relationshipLabel>

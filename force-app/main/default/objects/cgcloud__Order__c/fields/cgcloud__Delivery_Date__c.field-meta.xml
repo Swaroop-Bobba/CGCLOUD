@@ -4,7 +4,6 @@
     <deprecated>false</deprecated>
     <description>By default next day.Delivery date calculation is
 			customized very often.</description>
-    <externalId>false</externalId>
     <label>Delivery Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

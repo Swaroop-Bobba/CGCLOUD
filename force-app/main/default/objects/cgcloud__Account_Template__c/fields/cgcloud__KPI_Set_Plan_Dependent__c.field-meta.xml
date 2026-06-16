@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the KPI Set which has &apos;Plan&apos; usage and is child object dependent.</description>
-    <externalId>false</externalId>
     <label>Plan Dependent KPI Set</label>
     <lookupFilter>
         <active>true</active>

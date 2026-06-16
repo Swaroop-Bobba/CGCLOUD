@@ -3,7 +3,6 @@
     <fullName>cgcloud__Delivery_Role_Modify_Preset_Quantity__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies in which way quantity modifications of preset quantities of delivery documents can be modified.</description>
-    <externalId>false</externalId>
     <inlineHelpText>This setting is observed only for special orders, deliveries, truck loads and free items generated via pricing</inlineHelpText>
     <label>Delivery Role Modify Preset Quantity</label>
     <required>false</required>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sunday_Percentage__c</fullName>
     <deprecated>false</deprecated>
     <description>Utilized share value for sundays as %</description>
-    <externalId>false</externalId>
     <formula>cgcloud__Sunday__c / cgcloud__Total__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Sunday (%)</label>

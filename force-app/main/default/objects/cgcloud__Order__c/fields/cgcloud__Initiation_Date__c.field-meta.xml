@@ -4,7 +4,6 @@
     <defaultValue>today()</defaultValue>
     <deprecated>false</deprecated>
     <description>Date of initiation of this sales document.</description>
-    <externalId>false</externalId>
     <label>Initiation Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

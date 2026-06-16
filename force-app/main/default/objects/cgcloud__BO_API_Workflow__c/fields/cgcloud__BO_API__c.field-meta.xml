@@ -3,7 +3,6 @@
     <fullName>cgcloud__BO_API__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the Business Object API record.</description>
-    <externalId>false</externalId>
     <label>Business Object API</label>
     <referenceTo>cgcloud__BO_API__c</referenceTo>
     <relationshipLabel>Workflows</relationshipLabel>

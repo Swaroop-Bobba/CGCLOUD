@@ -3,7 +3,6 @@
     <fullName>cgcloud__Product_Definition_Policy__c</fullName>
     <deprecated>false</deprecated>
     <description>Select the method to add products to the trade calendar and account plan.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Add products to your trade calendar and account plan using the Dynamic or Static method. The Dynamic method adds products automatically based on predefined criteria. The Static method requires you to manually add a fixed list of products. If no option is selected, both methods are available.</inlineHelpText>
     <label>Product Definition Policy</label>
     <required>false</required>

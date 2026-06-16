@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Specifies the KPI that holds the actual volume or quantity used in the dynamic accrual calculation method.</description>
-    <externalId>false</externalId>
     <inlineHelpText>The records of this measure are matched against dynamic accrual rules. The match is based on account, product, measure code, and time. Only daily measure real values are allowed.</inlineHelpText>
     <label>Accrual Input Measure</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>

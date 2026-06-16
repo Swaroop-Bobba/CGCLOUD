@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Activates the auto push on leave of the promotion.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Determines if the automatic promotion push is enabled for promotions.</inlineHelpText>
     <label>Automatic Promotion Push</label>
     <trackHistory>false</trackHistory>

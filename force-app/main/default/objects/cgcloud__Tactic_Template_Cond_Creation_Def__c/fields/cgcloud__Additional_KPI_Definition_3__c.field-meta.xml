@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Additional value that will be stored with the condition.</description>
-    <externalId>false</externalId>
     <label>Additional KPI Definition 3</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
     <relationshipLabel>Tactic Template Cond Creation Def (Additional KPI Definition 3)</relationshipLabel>

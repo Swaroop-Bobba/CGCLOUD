@@ -3,7 +3,6 @@
     <fullName>cgcloud__Accountable__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Accountable</label>
     <referenceTo>User</referenceTo>
     <relationshipName>User_Documents1</relationshipName>

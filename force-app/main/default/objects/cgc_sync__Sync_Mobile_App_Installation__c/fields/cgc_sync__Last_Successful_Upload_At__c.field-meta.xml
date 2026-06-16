@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Last_Successful_Upload_At__c</fullName>
     <deprecated>false</deprecated>
     <description>Last successful Upload, when last Synchronized Sync Status was received.</description>
-    <externalId>false</externalId>
     <label>Last Successful Upload</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

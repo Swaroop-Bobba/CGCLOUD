@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether start of the day time tracking is allowed or not.</description>
-    <externalId>false</externalId>
     <label>Allow Start Day Time Tracking</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

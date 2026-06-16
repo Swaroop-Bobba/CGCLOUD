@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgcloud__Date_Thru_Reference_Date__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <formula>cgcloud__Reference_Date__c +  cgcloud__Payment_Template__r.cgcloud__Date_Thru_Offset__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Date Thru Reference Date</label>

@@ -4,7 +4,6 @@
     <defaultValue>DATE(2099,12,31)</defaultValue>
     <deprecated>false</deprecated>
     <description>The date until when the relationship is active.</description>
-    <externalId>false</externalId>
     <label>End Date</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

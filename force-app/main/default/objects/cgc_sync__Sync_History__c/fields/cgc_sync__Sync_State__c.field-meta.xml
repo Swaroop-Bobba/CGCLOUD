@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Sync_State__c</fullName>
     <deprecated>false</deprecated>
     <description>Holds synchronization state.</description>
-    <externalId>false</externalId>
     <label>Sync State</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

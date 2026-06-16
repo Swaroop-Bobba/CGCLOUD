@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>bofc__BOFCOBFieldsDetails__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>BOFCOBFieldsDetails</label>
     <referenceTo>bofc__BOFCOBFieldsDetails__c</referenceTo>
     <relationshipLabel>BOFC Object Picklists</relationshipLabel>

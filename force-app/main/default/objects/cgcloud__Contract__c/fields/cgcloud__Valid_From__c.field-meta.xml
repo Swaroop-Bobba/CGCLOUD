@@ -4,7 +4,6 @@
     <defaultValue>TODAY()</defaultValue>
     <deprecated>false</deprecated>
     <description>First date of validity period of the customer contract.</description>
-    <externalId>false</externalId>
     <label>Valid From</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

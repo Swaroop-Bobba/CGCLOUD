@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payer_Role_Document_Transaction_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies how to handle delivery documents regarding payments.</description>
-    <externalId>false</externalId>
     <label>Delivery Document Transaction Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

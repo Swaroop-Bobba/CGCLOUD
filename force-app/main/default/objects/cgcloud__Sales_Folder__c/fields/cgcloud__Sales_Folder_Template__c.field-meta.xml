@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the Sales Folder Template</description>
-    <externalId>false</externalId>
     <label>Sales Folder Template</label>
     <lookupFilter>
         <active>true</active>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Toggle to show traffic data in maps on the mobile app.</description>
-    <externalId>false</externalId>
     <label>Traffic In Map</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

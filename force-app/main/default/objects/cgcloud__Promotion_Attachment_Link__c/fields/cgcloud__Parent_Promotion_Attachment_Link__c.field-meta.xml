@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Id of the Parent Promotion Attachment Link record</description>
-    <externalId>false</externalId>
     <label>Parent Promotion Attachment Link</label>
     <referenceTo>cgcloud__Promotion_Attachment_Link__c</referenceTo>
     <relationshipLabel>Child Promotion Attachment Links</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Day__c</fullName>
     <deprecated>false</deprecated>
     <description>The call will be scheduled on the day of the week specified here</description>
-    <externalId>false</externalId>
     <label>Day</label>
     <required>true</required>
     <trackHistory>false</trackHistory>

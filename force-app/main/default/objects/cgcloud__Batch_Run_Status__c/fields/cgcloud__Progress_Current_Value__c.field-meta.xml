@@ -3,7 +3,6 @@
     <fullName>cgcloud__Progress_Current_Value__c</fullName>
     <deprecated>false</deprecated>
     <description>Last progress update of the batch process.</description>
-    <externalId>false</externalId>
     <label>Progress Current Value</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

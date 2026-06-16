@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Flag that indicates if KPI Definition Storage Levels is BOM Component.</description>
-    <externalId>false</externalId>
     <label>Is Storage Level Bom Component</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

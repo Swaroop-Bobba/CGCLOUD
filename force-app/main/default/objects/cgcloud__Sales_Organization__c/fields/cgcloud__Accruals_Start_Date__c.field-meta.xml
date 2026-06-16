@@ -3,7 +3,6 @@
     <fullName>cgcloud__Accruals_Start_Date__c</fullName>
     <deprecated>false</deprecated>
     <description>Start date of accrual processing for this sales org</description>
-    <externalId>false</externalId>
     <label>Accrual Start Date</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

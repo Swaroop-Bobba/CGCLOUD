@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the condition search group.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the condition search group.</inlineHelpText>
     <label>Condition Search Group</label>
     <referenceTo>cgcloud__Condition_Search_Group__c</referenceTo>

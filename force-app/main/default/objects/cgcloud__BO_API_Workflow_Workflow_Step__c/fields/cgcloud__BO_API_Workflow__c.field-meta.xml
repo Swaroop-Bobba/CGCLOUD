@@ -3,7 +3,6 @@
     <fullName>cgcloud__BO_API_Workflow__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the business object API workflow.</description>
-    <externalId>false</externalId>
     <label>Business Object API Workflow</label>
     <referenceTo>cgcloud__BO_API_Workflow__c</referenceTo>
     <relationshipLabel>Workflow Steps</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Order_Template__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to a order template assigned to the assortment.</description>
-    <externalId>false</externalId>
     <label>Order Template</label>
     <lookupFilter>
         <active>true</active>

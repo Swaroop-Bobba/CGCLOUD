@@ -12,7 +12,6 @@
 		TECH_PANEL—Activate Debug Window
 		TRACE_MODE—Activate Trace Mode
 		UPLOAD_LOG_DUMP—Request Logs</description>
-    <externalId>false</externalId>
     <label>Request Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Step_Constraint__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines a constraint for the calculation step. If the constraint is not fulfilled the calculation step will be skipped.</description>
-    <externalId>false</externalId>
     <label>Constraint</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

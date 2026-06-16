@@ -3,7 +3,6 @@
     <fullName>cgcloud__Movement_Direction__c</fullName>
     <deprecated>false</deprecated>
     <description>Denotes what type of movement is associated with the order</description>
-    <externalId>false</externalId>
     <label>Movement Direction</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

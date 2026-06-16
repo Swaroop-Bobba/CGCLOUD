@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to KPI Definition to be used in the mapping.</description>
-    <externalId>false</externalId>
     <label>KPI Definition</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
     <relationshipLabel>KPI Maps</relationshipLabel>

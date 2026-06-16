@@ -3,7 +3,6 @@
     <fullName>cgcloud__KPI_Subset__c</fullName>
     <deprecated>false</deprecated>
     <description>This subset will allow for filtering KPI Definitions in the GridHierarchyView component. If you do not choose one, no subset filter will be applied.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the subset of KPIs that are displayed in the Claim Tactic grid.</inlineHelpText>
     <label>KPI Subset</label>
     <required>false</required>

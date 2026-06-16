@@ -3,7 +3,6 @@
     <fullName>cgcloud__Error_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Shows the error type/phase when an error occurred</description>
-    <externalId>false</externalId>
     <label>Error Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

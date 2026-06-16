@@ -3,7 +3,6 @@
     <fullName>cgcloud__Tenant_Substrate__c</fullName>
     <deprecated>false</deprecated>
     <description>Tenant where the Processing requests for this Sales Org are sent to.</description>
-    <externalId>false</externalId>
     <label>Tenant Substrate</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

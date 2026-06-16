@@ -3,7 +3,6 @@
     <fullName>cgcloud__Has_Promotions_in_Business_Plan__c</fullName>
     <deprecated>false</deprecated>
     <description>Shows the Promotions tab in customer business plan records.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Shows the Promotions tab in customer business plan records.</inlineHelpText>
     <label>Show Promotions in Business Plan</label>
     <required>false</required>

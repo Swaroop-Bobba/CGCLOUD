@@ -3,7 +3,6 @@
     <fullName>cgcloud__POS_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Type of POS.</description>
-    <externalId>false</externalId>
     <label>POS Type</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

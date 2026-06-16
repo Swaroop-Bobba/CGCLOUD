@@ -3,7 +3,6 @@
     <fullName>cgcloud__Output_Json_2__c</fullName>
     <deprecated>false</deprecated>
     <description>Chunk of the output JSON</description>
-    <externalId>false</externalId>
     <label>Output Json 2</label>
     <length>131072</length>
     <trackTrending>false</trackTrending>

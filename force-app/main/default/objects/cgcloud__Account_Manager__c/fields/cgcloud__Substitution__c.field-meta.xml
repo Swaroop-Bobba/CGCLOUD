@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to substitution customer.</description>
-    <externalId>false</externalId>
     <label>Substitution Customer</label>
     <referenceTo>cgcloud__Substitution__c</referenceTo>
     <relationshipLabel>Customer Managers</relationshipLabel>

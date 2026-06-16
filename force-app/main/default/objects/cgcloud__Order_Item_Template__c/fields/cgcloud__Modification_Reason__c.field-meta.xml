@@ -3,7 +3,6 @@
     <fullName>cgcloud__Modification_Reason__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies whether the user must enter a reason if the preordered quantity has been modified.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Attribute at present not used.</inlineHelpText>
     <label>Modification Reason</label>
     <required>false</required>

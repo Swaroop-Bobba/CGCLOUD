@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>This technical field is created for Total balance update in Inventory (Roll-up Summary field). Checkbox value is updating by workflow field update.</description>
-    <externalId>false</externalId>
     <label>Balance</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Calculation_End_Time__c</fullName>
     <deprecated>false</deprecated>
     <description>Timestamp when off-platform signaled that the calculation was finished (the same timestamp for all promotions of the transaction)</description>
-    <externalId>false</externalId>
     <label>Calculation End Time</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

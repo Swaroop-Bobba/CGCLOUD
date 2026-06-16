@@ -3,7 +3,6 @@
     <fullName>cgcloud__Legal_Information__c</fullName>
     <deprecated>false</deprecated>
     <description>Legal information to be shown on the print-outs</description>
-    <externalId>false</externalId>
     <label>Legal Information</label>
     <length>1024</length>
     <trackHistory>false</trackHistory>

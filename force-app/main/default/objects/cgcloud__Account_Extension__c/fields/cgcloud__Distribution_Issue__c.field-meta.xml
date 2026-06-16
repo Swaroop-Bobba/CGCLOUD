@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates if last relevant call (and then the customer) has distribution issues.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Indicates if last relevant call (and then the customer) has distribution issues.</inlineHelpText>
     <label>Distribution Issue</label>
     <trackTrending>false</trackTrending>

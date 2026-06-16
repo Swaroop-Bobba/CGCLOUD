@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether a tour selection is required for the user. This field is reserved for future use.</description>
-    <externalId>false</externalId>
     <inlineHelpText>This field is reserved for future use.</inlineHelpText>
     <label>Tour Selection Required</label>
     <trackHistory>false</trackHistory>

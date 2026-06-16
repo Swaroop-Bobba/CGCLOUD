@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>DeleteAllowed</description>
-    <externalId>false</externalId>
     <label>Delete Allowed</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

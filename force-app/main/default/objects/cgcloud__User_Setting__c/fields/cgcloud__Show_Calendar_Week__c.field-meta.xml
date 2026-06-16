@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Toggle to show the calendar week.</description>
-    <externalId>false</externalId>
     <label>Show Calendar Week</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

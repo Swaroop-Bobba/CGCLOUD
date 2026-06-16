@@ -3,7 +3,6 @@
     <fullName>cgcloud__Date_Closure__c</fullName>
     <deprecated>false</deprecated>
     <description>Date the company closed.</description>
-    <externalId>false</externalId>
     <label>Date Closure</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

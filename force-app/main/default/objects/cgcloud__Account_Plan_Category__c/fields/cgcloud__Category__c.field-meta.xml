@@ -3,7 +3,6 @@
     <fullName>cgcloud__Category__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Category</label>
     <lookupFilter>
         <active>true</active>

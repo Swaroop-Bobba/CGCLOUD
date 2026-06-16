@@ -3,7 +3,6 @@
     <fullName>cgcloud__Show_Cash_Info__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Show Cash Info</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

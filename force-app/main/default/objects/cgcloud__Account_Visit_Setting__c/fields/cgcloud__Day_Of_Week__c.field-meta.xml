@@ -3,7 +3,6 @@
     <fullName>cgcloud__Day_Of_Week__c</fullName>
     <deprecated>false</deprecated>
     <description>Contains the day of the week which has to be used by the automatic planning algorithm to schedule the call.</description>
-    <externalId>false</externalId>
     <label>Day Of Week</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

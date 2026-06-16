@@ -3,7 +3,6 @@
     <fullName>cgcloud__Mobility_Relevant__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Mobility Relevant</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

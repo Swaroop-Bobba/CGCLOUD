@@ -3,7 +3,6 @@
     <fullName>cgcloud__Content__c</fullName>
     <deprecated>false</deprecated>
     <description>XML structure with aggregated condition information.</description>
-    <externalId>false</externalId>
     <label>Content</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the tour template object.</description>
-    <externalId>false</externalId>
     <label>Tour Template</label>
     <lookupFilter>
         <active>true</active>

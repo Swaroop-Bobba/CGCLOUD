@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Last_Reset_At__c</fullName>
     <deprecated>false</deprecated>
     <description>Timestamp when last Reset was performed</description>
-    <externalId>false</externalId>
     <label>Last Reset</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

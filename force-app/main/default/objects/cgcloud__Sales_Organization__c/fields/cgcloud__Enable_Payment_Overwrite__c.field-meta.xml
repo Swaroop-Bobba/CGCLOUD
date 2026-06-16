@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if the payment can be overwritten for the sales organization.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Determines if the payment can be overwritten for the sales organization.</inlineHelpText>
     <label>Enable Payment Overwrite</label>
     <trackHistory>false</trackHistory>

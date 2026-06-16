@@ -3,7 +3,6 @@
     <fullName>cgcloud__Distribution_Acc_Hierarchy_Dist_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Distribution mechanism used to distribute values along the account hierarchy</description>
-    <externalId>false</externalId>
     <label>Distribution Type (Customer Hierarchy)</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether the claim is overspent and needs to be adjusted within the overspend threshold limit. This is a system-managed field.</description>
-    <externalId>false</externalId>
     <label>Adjust Overspent Claim</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>

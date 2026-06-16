@@ -3,7 +3,6 @@
     <fullName>cgcloud__Entity__c</fullName>
     <deprecated>false</deprecated>
     <description>The Entity in the input or output JSON this step targets.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the entity in the input or output JSON this step targets.</inlineHelpText>
     <label>Entity</label>
     <referenceTo>cgcloud__BO_API_Entity__c</referenceTo>

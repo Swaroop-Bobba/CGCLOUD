@@ -3,7 +3,6 @@
     <fullName>cgcloud__Order_Role_Valid_Thru__c</fullName>
     <deprecated>false</deprecated>
     <description>Until this date the Order Role is valid.</description>
-    <externalId>false</externalId>
     <label>Order Role Valid Thru</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

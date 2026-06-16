@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Do not use this field, This field is deprecated since 238.</description>
-    <externalId>false</externalId>
     <label>Global Sales Org</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

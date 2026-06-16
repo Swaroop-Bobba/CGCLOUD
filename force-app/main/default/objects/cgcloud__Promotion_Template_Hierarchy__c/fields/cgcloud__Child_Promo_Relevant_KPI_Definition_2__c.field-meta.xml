@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Lookup to the second kpi which is used to transfer values from the parent to the child process.</description>
-    <externalId>false</externalId>
     <label>Child Promotion KPI Definition 2</label>
     <lookupFilter>
         <active>true</active>

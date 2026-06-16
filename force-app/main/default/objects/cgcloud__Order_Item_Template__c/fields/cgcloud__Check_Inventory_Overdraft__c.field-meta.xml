@@ -3,7 +3,6 @@
     <fullName>cgcloud__Check_Inventory_Overdraft__c</fullName>
     <deprecated>false</deprecated>
     <description>Controls whether and how overdrawing the user inventory is checked</description>
-    <externalId>false</externalId>
     <label>Check Inventory Overdraft</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

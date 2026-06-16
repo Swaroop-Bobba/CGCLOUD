@@ -3,7 +3,6 @@
     <fullName>cgcloud__Tactic_Total_Amount__c</fullName>
     <deprecated>false</deprecated>
     <description>This field contains the api name of the Tactic field which should provide total amount for a tactic to be used in progress bar or other functional process. Pick list uses translated values</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the tactic field which provides total amount for a tactic.</inlineHelpText>
     <label>Tactic Total Amount</label>
     <required>false</required>

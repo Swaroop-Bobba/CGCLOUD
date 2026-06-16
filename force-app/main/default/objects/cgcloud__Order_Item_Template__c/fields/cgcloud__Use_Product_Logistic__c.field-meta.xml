@@ -3,7 +3,6 @@
     <fullName>cgcloud__Use_Product_Logistic__c</fullName>
     <deprecated>false</deprecated>
     <description>Controls how the logistics information for a product has to be considered.</description>
-    <externalId>false</externalId>
     <label>Use Product Logistic</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Language_4__c</fullName>
     <deprecated>false</deprecated>
     <description>Name of language 4 used in the sales org.</description>
-    <externalId>false</externalId>
     <label>Language 4</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

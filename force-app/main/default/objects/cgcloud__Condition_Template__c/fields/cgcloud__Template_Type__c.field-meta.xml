@@ -3,7 +3,6 @@
     <fullName>cgcloud__Template_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>The attribute is used to group conditions.</description>
-    <externalId>false</externalId>
     <label>Template Type</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

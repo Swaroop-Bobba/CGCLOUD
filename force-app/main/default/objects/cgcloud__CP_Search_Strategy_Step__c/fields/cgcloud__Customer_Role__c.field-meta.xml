@@ -3,7 +3,6 @@
     <fullName>cgcloud__Customer_Role__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the role of the customer relevant for condition finding.</description>
-    <externalId>false</externalId>
     <inlineHelpText>For Delivery Recipient, Payer or Bill To, the conditions will be found only if they are distributed based on the used distribution rule for the pricing conditions.</inlineHelpText>
     <label>Customer Role</label>
     <required>false</required>

@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>The customer who is related to the main customer of the relationship.</description>
-    <externalId>false</externalId>
     <label>Related Customer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Related Customer’s Relationships</relationshipLabel>

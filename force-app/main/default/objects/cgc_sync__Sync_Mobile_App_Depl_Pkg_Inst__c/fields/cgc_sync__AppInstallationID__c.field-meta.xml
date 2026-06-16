@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Refers to the device status overview record.</description>
-    <externalId>false</externalId>
     <label>Installation Id</label>
     <referenceTo>cgc_sync__Sync_Mobile_App_Installation__c</referenceTo>
     <relationshipLabel>Deployment Package Installations</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Org_Admin_User__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Sales Org Admin</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Sales_Organization_Admin_User</relationshipName>

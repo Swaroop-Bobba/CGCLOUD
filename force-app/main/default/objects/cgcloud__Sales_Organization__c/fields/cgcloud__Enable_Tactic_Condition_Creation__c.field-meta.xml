@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Enables condition creation for a tactic.</description>
-    <externalId>false</externalId>
     <label>Enable Tactic Condition Creation</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

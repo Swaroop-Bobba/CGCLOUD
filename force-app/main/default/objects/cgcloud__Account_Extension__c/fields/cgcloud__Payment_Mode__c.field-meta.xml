@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payment_Mode__c</fullName>
     <deprecated>false</deprecated>
     <description>Preferred payment mode used when taking a payment during order taking.</description>
-    <externalId>false</externalId>
     <label>Payment Mode</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

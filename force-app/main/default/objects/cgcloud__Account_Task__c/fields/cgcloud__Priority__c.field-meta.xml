@@ -3,7 +3,6 @@
     <fullName>cgcloud__Priority__c</fullName>
     <deprecated>false</deprecated>
     <description>Priority of the customer task.</description>
-    <externalId>false</externalId>
     <label>Priority</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

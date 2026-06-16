@@ -4,7 +4,6 @@
     <defaultValue>DATE(2099,12,31)</defaultValue>
     <deprecated>false</deprecated>
     <description>Until this date the entry is valid</description>
-    <externalId>false</externalId>
     <label>Valid Thru</label>
     <required>true</required>
     <trackHistory>false</trackHistory>

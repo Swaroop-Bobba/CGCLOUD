@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the parent org unit in an org unit hierachy.</description>
-    <externalId>false</externalId>
     <label>Parent Org Unit</label>
     <referenceTo>cgcloud__Org_Unit__c</referenceTo>
     <relationshipLabel>Child Org Unit Hierarchies</relationshipLabel>

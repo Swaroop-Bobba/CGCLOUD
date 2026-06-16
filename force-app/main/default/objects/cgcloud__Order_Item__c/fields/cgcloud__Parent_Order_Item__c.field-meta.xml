@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to a parent order item (e.g. in case of free item: the ordered item that caused the free item). Used in complex pricing on mobility devices.</description>
-    <externalId>false</externalId>
     <label>Parent_Order_Item</label>
     <referenceTo>cgcloud__Order_Item__c</referenceTo>
     <relationshipLabel>Parent Order Items</relationshipLabel>

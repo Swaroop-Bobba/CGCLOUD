@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to visit template.</description>
-    <externalId>false</externalId>
     <label>Visit Template</label>
     <referenceTo>cgcloud__Visit_Template__c</referenceTo>
     <relationshipLabel>Customer Visit Settings</relationshipLabel>

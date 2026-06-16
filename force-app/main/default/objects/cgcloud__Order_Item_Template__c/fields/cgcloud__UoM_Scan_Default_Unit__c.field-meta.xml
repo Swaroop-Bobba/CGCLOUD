@@ -3,7 +3,6 @@
     <fullName>cgcloud__UoM_Scan_Default_Unit__c</fullName>
     <deprecated>false</deprecated>
     <description>UoM Scan Default Unit</description>
-    <externalId>false</externalId>
     <label>UoM Scan Default Unit</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

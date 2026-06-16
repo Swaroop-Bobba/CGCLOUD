@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Tag Media Geo Location</description>
-    <externalId>false</externalId>
     <label>Tag Media Geo Location</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

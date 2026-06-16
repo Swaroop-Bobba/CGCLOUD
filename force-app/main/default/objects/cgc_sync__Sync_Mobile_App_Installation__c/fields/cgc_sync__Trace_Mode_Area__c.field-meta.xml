@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgc_sync__Trace_Mode_Area__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Trace Mode Area</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

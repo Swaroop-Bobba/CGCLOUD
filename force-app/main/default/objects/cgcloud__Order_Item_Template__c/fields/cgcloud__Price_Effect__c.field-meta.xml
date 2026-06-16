@@ -3,7 +3,6 @@
     <fullName>cgcloud__Price_Effect__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes the effect of the item template on the total value.</description>
-    <externalId>false</externalId>
     <label>Price Effect</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

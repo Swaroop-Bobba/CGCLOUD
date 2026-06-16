@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Processed_At__c</fullName>
     <deprecated>false</deprecated>
     <description>Time when the remote request was processed by the mobile device.</description>
-    <externalId>false</externalId>
     <label>Processed At</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

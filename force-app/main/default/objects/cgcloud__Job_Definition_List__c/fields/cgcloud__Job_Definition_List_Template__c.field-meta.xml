@@ -3,7 +3,6 @@
     <fullName>cgcloud__Job_Definition_List_Template__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Activity Template</label>
     <referenceTo>cgcloud__Job_Definition_List_Template__c</referenceTo>
     <relationshipLabel>Activities</relationshipLabel>

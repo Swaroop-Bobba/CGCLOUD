@@ -3,7 +3,6 @@
     <fullName>cgcloud__Usage__c</fullName>
     <deprecated>false</deprecated>
     <description>Description of the usage of this contract.</description>
-    <externalId>false</externalId>
     <label>Usage</label>
     <required>true</required>
     <trackTrending>false</trackTrending>

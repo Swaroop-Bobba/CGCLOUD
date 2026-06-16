@@ -3,7 +3,6 @@
     <fullName>cgcloud__Truck__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <inlineHelpText>Please select vehicles of the type Truck Fast or Truck Slow.</inlineHelpText>
     <label>Truck</label>
     <referenceTo>cgcloud__Vehicle__c</referenceTo>

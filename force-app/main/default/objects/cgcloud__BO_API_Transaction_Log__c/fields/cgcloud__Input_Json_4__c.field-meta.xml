@@ -3,7 +3,6 @@
     <fullName>cgcloud__Input_Json_4__c</fullName>
     <deprecated>false</deprecated>
     <description>Input JSON Chunk</description>
-    <externalId>false</externalId>
     <label>Input Json 4</label>
     <length>131072</length>
     <trackTrending>false</trackTrending>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Price unit.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Unit of Measure is default price unit.</inlineHelpText>
     <label>Is Price Unit</label>
     <trackTrending>false</trackTrending>

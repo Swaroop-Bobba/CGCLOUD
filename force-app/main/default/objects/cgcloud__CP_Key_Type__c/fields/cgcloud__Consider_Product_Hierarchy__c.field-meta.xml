@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies if condition will be searched only in the product hierarchy</description>
-    <externalId>false</externalId>
     <label>Product or Product Hierarchy</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

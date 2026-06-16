@@ -3,7 +3,6 @@
     <fullName>cgcloud__PM_Product_List_Relevant_Measures__c</fullName>
     <deprecated>false</deprecated>
     <description>Measure codes defined for productmeasure table</description>
-    <externalId>false</externalId>
     <label>Product Measure</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Numerical_System__c</fullName>
     <deprecated>false</deprecated>
     <description>Numerical System</description>
-    <externalId>false</externalId>
     <label>Numerical System</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

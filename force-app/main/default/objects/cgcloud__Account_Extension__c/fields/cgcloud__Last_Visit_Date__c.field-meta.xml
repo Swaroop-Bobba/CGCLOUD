@@ -4,7 +4,6 @@
     <defaultValue>DATE(2000,01,01)</defaultValue>
     <deprecated>false</deprecated>
     <description>Last customer call date relevant for KPI calculation.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Last customer call date relevant for KPI calculation.</inlineHelpText>
     <label>Last Visit Date</label>
     <required>false</required>

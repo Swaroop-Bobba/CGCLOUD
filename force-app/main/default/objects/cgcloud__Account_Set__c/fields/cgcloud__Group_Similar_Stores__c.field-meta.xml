@@ -3,7 +3,6 @@
     <fullName>cgcloud__Group_Similar_Stores__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Group Similar Stores</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

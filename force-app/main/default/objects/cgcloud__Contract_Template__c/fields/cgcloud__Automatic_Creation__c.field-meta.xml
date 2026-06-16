@@ -4,7 +4,6 @@
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
     <description>Describes whether the customer contract created approved with this template will leverage the creation of a contract payment.</description>
-    <externalId>false</externalId>
     <label>Automated Payment Generation</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

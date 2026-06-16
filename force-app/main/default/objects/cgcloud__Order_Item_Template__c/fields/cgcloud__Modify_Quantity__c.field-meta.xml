@@ -3,7 +3,6 @@
     <fullName>cgcloud__Modify_Quantity__c</fullName>
     <deprecated>false</deprecated>
     <description>Modify Quantity</description>
-    <externalId>false</externalId>
     <inlineHelpText>This setting is observed only for special orders, deliveries, truck loads and free items generated via pricing</inlineHelpText>
     <label>Modify Quantity</label>
     <required>false</required>

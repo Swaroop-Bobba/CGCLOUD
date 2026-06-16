@@ -3,7 +3,6 @@
     <fullName>cgcloud__Tactic_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the type of a tactic</description>
-    <externalId>false</externalId>
     <inlineHelpText>Specifies the type of a tactic</inlineHelpText>
     <label>Tactic Type</label>
     <required>false</required>

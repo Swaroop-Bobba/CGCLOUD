@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Payment/Tactic combination for which the manual input was entered.</description>
-    <externalId>false</externalId>
     <label>Claim Tactic</label>
     <referenceTo>cgcloud__Payment_Tactic__c</referenceTo>
     <relationshipLabel>Claim Tactic Product Manual Inputs</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Invoice_Document_Transaction_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies how to handle invoice documents regarding payments.</description>
-    <externalId>false</externalId>
     <label>Invoice Document Transaction Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

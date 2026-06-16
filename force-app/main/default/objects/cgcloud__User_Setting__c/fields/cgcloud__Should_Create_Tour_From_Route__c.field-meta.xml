@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Let users create a tour using the Route feature in the mobile app.</description>
-    <externalId>false</externalId>
     <label>Create Tour From Route</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

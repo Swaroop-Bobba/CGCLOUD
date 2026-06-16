@@ -3,7 +3,6 @@
     <fullName>cgcloud__Pricing_Information__c</fullName>
     <deprecated>false</deprecated>
     <description>Holds the pricing information (found conditions) which are directly related to the order.</description>
-    <externalId>false</externalId>
     <label>Pricing Information</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

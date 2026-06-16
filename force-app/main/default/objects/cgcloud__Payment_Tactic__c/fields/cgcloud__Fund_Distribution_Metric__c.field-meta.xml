@@ -3,7 +3,6 @@
     <fullName>cgcloud__Fund_Distribution_Metric__c</fullName>
     <deprecated>false</deprecated>
     <description>Fund Distribution metrics of KPI</description>
-    <externalId>false</externalId>
     <label>Fund Distribution Metric</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

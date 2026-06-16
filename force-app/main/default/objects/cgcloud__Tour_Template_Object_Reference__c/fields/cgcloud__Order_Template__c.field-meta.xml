@@ -3,7 +3,6 @@
     <fullName>cgcloud__Order_Template__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Order Template</label>
     <lookupFilter>
         <active>true</active>

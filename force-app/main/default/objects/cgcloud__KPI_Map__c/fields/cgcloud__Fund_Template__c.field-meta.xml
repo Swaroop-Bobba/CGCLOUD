@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to Fund Template. If fund template is not specified then it is a default mapping for all Fund records. If it is specified then the mapping is specific only to the related Fund records.</description>
-    <externalId>false</externalId>
     <label>Fund Template</label>
     <referenceTo>cgcloud__Fund_Template__c</referenceTo>
     <relationshipLabel>KPIs map</relationshipLabel>

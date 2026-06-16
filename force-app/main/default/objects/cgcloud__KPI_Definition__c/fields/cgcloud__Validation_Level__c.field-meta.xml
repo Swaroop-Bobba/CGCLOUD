@@ -3,7 +3,6 @@
     <fullName>cgcloud__Validation_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Determines at which level validation will be executed. Applicable only for Validation record type.</description>
-    <externalId>false</externalId>
     <label>Validation Level</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

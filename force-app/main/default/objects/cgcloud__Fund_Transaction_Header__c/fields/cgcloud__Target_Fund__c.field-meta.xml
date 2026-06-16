@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Source Fund to be selected for transactions based on Template Transaction Type</description>
-    <externalId>false</externalId>
     <label>Target Fund</label>
     <lookupFilter>
         <active>false</active>

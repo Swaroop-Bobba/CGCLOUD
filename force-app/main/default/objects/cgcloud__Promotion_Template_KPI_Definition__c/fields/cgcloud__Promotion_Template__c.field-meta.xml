@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Template__c</fullName>
     <deprecated>false</deprecated>
     <description>Promotion Template</description>
-    <externalId>false</externalId>
     <label>Promotion Template</label>
     <referenceTo>cgcloud__Promotion_Template__c</referenceTo>
     <relationshipLabel>Promotion Template KPI Definitions</relationshipLabel>

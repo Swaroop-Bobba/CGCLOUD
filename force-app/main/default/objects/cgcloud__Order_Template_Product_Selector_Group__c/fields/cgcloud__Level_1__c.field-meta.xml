@@ -3,7 +3,6 @@
     <fullName>cgcloud__Level_1__c</fullName>
     <deprecated>false</deprecated>
     <description>Product Selector Level 1</description>
-    <externalId>false</externalId>
     <label>Level 1</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

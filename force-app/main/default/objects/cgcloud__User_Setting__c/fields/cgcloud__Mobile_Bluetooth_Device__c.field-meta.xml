@@ -3,7 +3,6 @@
     <fullName>cgcloud__Mobile_Bluetooth_Device__c</fullName>
     <deprecated>false</deprecated>
     <description>Determines the bluetooth device that you can use with the Consumer Goods Cloud Offline mobile app.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Determines the bluetooth device that you can use with the Consumer Goods Cloud Offline mobile app.</inlineHelpText>
     <label>Bluetooth Device</label>
     <required>false</required>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Classification__c</fullName>
     <deprecated>false</deprecated>
     <description>Classification of products.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Relevant for selectable promotions with rewards.</inlineHelpText>
     <label>Classification</label>
     <required>false</required>

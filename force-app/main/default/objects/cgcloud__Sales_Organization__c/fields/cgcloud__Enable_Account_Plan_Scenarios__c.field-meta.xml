@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if CBP includes Customer Business Plan Scenarios.</description>
-    <externalId>false</externalId>
     <inlineHelpText>If enabled, the CBP includes scenarios where the client can try out and compare different scenarios and promotion mixes.</inlineHelpText>
     <label>Enable Customer Business Plan Scenarios</label>
     <trackHistory>false</trackHistory>

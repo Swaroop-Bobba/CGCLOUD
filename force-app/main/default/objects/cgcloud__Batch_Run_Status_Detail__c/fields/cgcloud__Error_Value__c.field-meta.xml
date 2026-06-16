@@ -3,7 +3,6 @@
     <fullName>cgcloud__Error_Value__c</fullName>
     <deprecated>false</deprecated>
     <description>Error summary containing information about the issue a batch process encountered.</description>
-    <externalId>false</externalId>
     <label>Error Value</label>
     <length>5000</length>
     <trackTrending>false</trackTrending>

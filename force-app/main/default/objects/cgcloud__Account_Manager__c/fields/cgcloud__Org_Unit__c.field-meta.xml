@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to org unit.</description>
-    <externalId>false</externalId>
     <label>Org Unit</label>
     <referenceTo>cgcloud__Org_Unit__c</referenceTo>
     <relationshipLabel>Customer Managers</relationshipLabel>

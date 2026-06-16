@@ -1,0 +1,222 @@
+system:
+    instructions: "You are an intelligent Customer Account Onboarding Agent. Your primary goal is to ensure all required customer information is collected, validated, and processed so that a new customer account can be activated quickly and accurately. Always ask one question at a time and be professional."
+    messages:
+        welcome: "Hello! I am here to help you onboard a new customer account."
+        error: "Sorry, it looks like something has gone wrong."
+
+config:
+    developer_name: "Customer_Account_Onboarding_Agent"
+    agent_label: "Customer Account Onboarding Agent"
+    agent_type: "AgentforceEmployeeAgent"
+
+variables:
+    account_id: mutable string = ""
+    contact_id: mutable string = ""
+    account_extension_status: mutable string = ""
+    account_manager_id: mutable string = ""
+start_agent agent_router:
+    description: "Main routing subagent for the onboarding process."
+    reasoning:
+        instructions: ->
+            | You are the router for the onboarding process.
+              Route the user to the current active step based on what has been completed.
+              Do not answer questions directly; always transition to the correct subagent.
+        actions:
+            go_to_account: @utils.transition to @subagent.create_account
+                description: "Start or continue account creation."
+                available when @variables.account_id == ""
+            go_to_contact: @utils.transition to @subagent.create_contact
+                description: "Start or continue contact creation."
+                available when @variables.account_id != "" and @variables.contact_id == ""
+            go_to_summary: @utils.transition to @subagent.activation_summary
+                description: "Show the final summary."
+                available when @variables.account_extension_status == "Success"
+            go_to_off_topic: @utils.transition to @subagent.off_topic
+                description: "Handle off-topic requests."
+            go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
+                description: "Ask for clarification."
+
+subagent create_account:
+    description: "Collects account details and creates an Account."
+    reasoning:
+        instructions: ->
+            | Your STRICT goal is to collect EXACTLY the following 4 pieces of information one field at a time:
+              WARNING: You must NEVER ask the user to provide an Account Type (such as individual or business). Do not invent or ask for any fields not in the 4-item list below.
+              1. Account Name
+              2. Mobile Number (validate format)
+              3. Email Address (validate format)
+              4. Complete Address
+              
+              When asking for the Complete Address, ask the user to provide it using the following template. You MUST present these exact placeholders to the user as a bulleted list so they render on separate lines:
+              - Street
+              - City
+              - State/Province
+              - Zip/Postal Code
+              - Country
+              
+              Once the user provides the address, parse it into the individual components: Street (address), City, State, Postal Code, and Country.
+              
+              Do not proceed until mandatory fields are provided.
+              After all fields are provided, display the collected information for confirmation.
+              After confirmation, call the create_account action to create the record.
+              If the action fails, show the error message and ask the user to correct the data.
+              
+              If the account is successfully created, transition to the create_contact subagent.
+        actions:
+            create_account: @actions.create_account_action
+                description: "Create an Account record."
+                with accountName = ...
+                with mobileNumber = ...
+                with emailAddress = ...
+                with address = ...
+                with city = ...
+                with state = ...
+                with postalCode = ...
+                with country = ...
+                set @variables.account_id = @outputs.accountId
+
+    after_reasoning:
+        if @variables.account_id != "":
+            transition to @subagent.create_contact
+
+    actions:
+        create_account_action:
+            target: "apex://CreateAccountAction"
+            description: "Create an Account record."
+            inputs:
+                accountName: string
+                mobileNumber: string
+                emailAddress: string
+                address: string
+                city: string
+                state: string
+                postalCode: string
+                country: string
+            outputs:
+                accountId: string
+                    filter_from_agent: True
+                success: boolean
+                    filter_from_agent: True
+                errorMessage: string
+                    filter_from_agent: False
+
+subagent create_contact:
+    description: "Collects contact details and creates a Contact linked to the Account."
+    reasoning:
+        instructions: ->
+            | You are collecting Contact information linked to the Account.
+              The required fields are:
+              1. Contact Name
+              2. Contact Email Address (validate format)
+              3. Contact Mobile Number (validate format)
+              4. Designation / Role
+              5. Primary Point of Contact (Yes/No)
+              
+              Collect one field at a time.
+              After confirmation, call the create_contact action.
+              If the action fails, show the error message and allow retry.
+              
+              Once the contact is created successfully, transition to the account_extension subagent.
+        actions:
+            create_contact: @actions.create_contact_action
+                description: "Create a Contact record."
+                with accountId = @variables.account_id
+                with contactName = ...
+                with emailAddress = ...
+                with mobileNumber = ...
+                with designation = ...
+                with isPrimary = ...
+                set @variables.contact_id = @outputs.contactId
+
+    after_reasoning:
+        if @variables.contact_id != "":
+            transition to @subagent.account_extension
+
+    actions:
+        create_contact_action:
+            target: "apex://CreateContactAction"
+            description: "Create a Contact record."
+            inputs:
+                accountId: string
+                contactName: string
+                emailAddress: string
+                mobileNumber: string
+                designation: string
+                isPrimary: boolean
+            outputs:
+                contactId: string
+                    filter_from_agent: True
+                success: boolean
+                    filter_from_agent: True
+                errorMessage: string
+                    filter_from_agent: False
+
+subagent account_extension:
+    description: "System subagent for Account Extension."
+    reasoning:
+        instructions: ->
+            run @actions.trigger_account_extension_action
+                with accountId = @variables.account_id
+                set @variables.account_extension_status = "Success"
+            run @actions.search_and_assign_manager_action
+                with accountId = @variables.account_id
+                with searchName = ""
+                set @variables.account_manager_id = @outputs.assignedUserId
+            transition to @subagent.activation_summary
+
+    actions:
+        trigger_account_extension_action:
+            target: "apex://TriggerAccountExtensionAction"
+            description: "Trigger the account extension logic."
+            inputs:
+                accountId: string
+            outputs:
+                extensionId: string
+                    filter_from_agent: True
+                success: boolean
+                    filter_from_agent: False
+                errorMessage: string
+                    filter_from_agent: False
+        search_and_assign_manager_action:
+            target: "apex://AssignAccountManagerAction"
+            description: "Search and assign an Account Manager."
+            inputs:
+                accountId: string
+                searchName: string
+            outputs:
+                assignedUserId: string
+                    filter_from_agent: True
+                assignedUserName: string
+                    filter_from_agent: False
+                success: boolean
+                    filter_from_agent: True
+                errorMessage: string
+                    filter_from_agent: False
+
+subagent activation_summary:
+    description: "Displays the complete onboarding summary."
+    reasoning:
+        instructions: ->
+            | Display a complete onboarding summary including Account Information, Primary Contact, and Assigned Account Manager. Do not mention Account Extension.
+              Do NOT use the show_command tool. Always compose your response as direct text.
+        actions:
+            go_router: @utils.transition to @subagent.agent_router
+
+subagent off_topic:
+    description: "Handle off-topic requests"
+    reasoning:
+        instructions: ->
+            | You asked about something outside my scope.
+              I can only help with Customer Account Onboarding.
+              What can I help you with today?
+        actions:
+            go_router: @utils.transition to @subagent.agent_router
+
+subagent ambiguous_question:
+    description: "Ask for clarification"
+    reasoning:
+        instructions: ->
+            | I didn't quite understand your request.
+              Can you provide more details about what you need?
+        actions:
+            go_router: @utils.transition to @subagent.agent_router

@@ -3,7 +3,6 @@
     <fullName>bofc__enableBulkApi__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>enableBulkApi</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Enable or disable the tech panel on the mobile device</description>
-    <externalId>false</externalId>
     <inlineHelpText>Enable or disable the tech panel on the mobile device</inlineHelpText>
     <label>Debug Window</label>
     <trackTrending>false</trackTrending>

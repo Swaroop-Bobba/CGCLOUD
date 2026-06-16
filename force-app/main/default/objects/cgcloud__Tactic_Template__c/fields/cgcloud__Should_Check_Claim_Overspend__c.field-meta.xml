@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Activates a check on claim closure to ensure sufficient funds are accrued to cover costs for each tactic linked to  the claim. If not, the claim closure is rejected.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Activates a check on claim closure to ensure sufficient funds are accrued to cover costs for each tactic linked to  the claim. If not, the claim closure is rejected. Make sure you enable this check even on the claim template.</inlineHelpText>
     <label>Check Claim Overspend</label>
     <trackTrending>false</trackTrending>

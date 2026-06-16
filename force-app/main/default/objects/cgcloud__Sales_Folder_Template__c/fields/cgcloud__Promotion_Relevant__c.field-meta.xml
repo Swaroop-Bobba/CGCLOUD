@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if related Sales Folder record is available for Promotion support.</description>
-    <externalId>false</externalId>
     <label>Promotion Relevant</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

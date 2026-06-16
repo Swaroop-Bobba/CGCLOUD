@@ -3,7 +3,6 @@
     <fullName>cgcloud__From_Initial_Stage__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>From Initial Stage</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

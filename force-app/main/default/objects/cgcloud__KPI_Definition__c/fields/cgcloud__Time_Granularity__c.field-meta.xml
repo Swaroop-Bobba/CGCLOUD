@@ -3,7 +3,6 @@
     <fullName>cgcloud__Time_Granularity__c</fullName>
     <deprecated>false</deprecated>
     <description>If granularity is &apos;Subperiod&apos;, the formula will be applied at subperiod level and merged using merge rule. In &apos;Period&apos; granularity, the formula will be applied over already merged values.</description>
-    <externalId>false</externalId>
     <inlineHelpText>If granularity is Subperiod, the formula will be applied at subperiod level and merged using merge rule. In Period granularity, the formula will be applied over already merged values.</inlineHelpText>
     <label>Time Granularity</label>
     <required>false</required>

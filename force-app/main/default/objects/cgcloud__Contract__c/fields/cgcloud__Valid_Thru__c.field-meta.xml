@@ -4,7 +4,6 @@
     <defaultValue>DATE(2999,12,31)</defaultValue>
     <deprecated>false</deprecated>
     <description>Last date of validity period of the customer contract</description>
-    <externalId>false</externalId>
     <label>Valid Thru</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

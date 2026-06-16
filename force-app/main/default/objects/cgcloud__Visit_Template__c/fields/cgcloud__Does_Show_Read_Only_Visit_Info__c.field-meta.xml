@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if an information message that the visit hasn&apos;t started and is in read-only mode is shown to the user. Applicable only when Start Visit Required to Edit field is True.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Select this option to display a message to the user indicating that the visit hasn’t started and is read-only.</inlineHelpText>
     <label>Show Read Only Visit Information</label>
     <trackTrending>false</trackTrending>

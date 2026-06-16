@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Used in mobile app. Default value is false.</description>
-    <externalId>false</externalId>
     <label>Ignore on Mobile App</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

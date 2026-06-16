@@ -3,7 +3,6 @@
     <fullName>cgcloud__LE_Revenue__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>LE Revenue</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
     <relationshipLabel>LE Revenue</relationshipLabel>

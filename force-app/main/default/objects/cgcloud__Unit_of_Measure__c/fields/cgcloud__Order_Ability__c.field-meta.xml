@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>The Unit of Measure can be ordered.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Unit of Measure is allowed for ordering.</inlineHelpText>
     <label>Order Ability</label>
     <trackTrending>false</trackTrending>

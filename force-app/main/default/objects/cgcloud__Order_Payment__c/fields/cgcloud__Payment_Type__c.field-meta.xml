@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payment_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>The payment method will be specified in payment template</description>
-    <externalId>false</externalId>
     <label>Payment Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

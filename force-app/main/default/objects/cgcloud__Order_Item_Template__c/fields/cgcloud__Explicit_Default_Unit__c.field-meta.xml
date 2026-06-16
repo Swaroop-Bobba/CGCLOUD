@@ -5,7 +5,6 @@
     <description>Default Unit
           Unit to preset the Order_Item.UoM.
           Used when Use_Product_Logistic !=&apos;Yes&apos;.</description>
-    <externalId>false</externalId>
     <label>Explicit Default Unit</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

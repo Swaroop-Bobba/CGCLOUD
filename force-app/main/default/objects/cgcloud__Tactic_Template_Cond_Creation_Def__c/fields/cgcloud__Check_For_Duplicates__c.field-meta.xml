@@ -4,7 +4,6 @@
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
     <description>Defines, whether the system reports generated internal conditions conflicting with pre exist conditions.</description>
-    <externalId>false</externalId>
     <label>Check For Duplicates</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

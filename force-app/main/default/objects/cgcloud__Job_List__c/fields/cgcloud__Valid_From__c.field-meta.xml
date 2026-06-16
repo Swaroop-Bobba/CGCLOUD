@@ -3,7 +3,6 @@
     <fullName>cgcloud__Valid_From__c</fullName>
     <defaultValue>TODAY()</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Valid From</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

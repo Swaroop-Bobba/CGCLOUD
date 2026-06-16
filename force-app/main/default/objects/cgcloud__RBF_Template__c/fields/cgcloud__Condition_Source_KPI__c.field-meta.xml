@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Condition Source KPI (Lookup to KPI Definition)</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the KPI value which will be used to create the conditions.</inlineHelpText>
     <label>Condition Source KPI</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>

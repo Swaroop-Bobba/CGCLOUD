@@ -3,7 +3,6 @@
     <fullName>bofc__Do_you_want_to_create_new_Contact__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Do you want to create new Contact?</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>A flag indicates if the device database is encrypted.</description>
-    <externalId>false</externalId>
     <inlineHelpText>A flag indicates if the device database is encrypted.</inlineHelpText>
     <label>Encrypted</label>
     <trackTrending>false</trackTrending>

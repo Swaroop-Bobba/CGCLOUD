@@ -3,7 +3,6 @@
     <fullName>cgcloud__Max_Date_Policy__c</fullName>
     <deprecated>false</deprecated>
     <description>Controls validation of date fields when answering questions or surveys on CGCloud OnPremise mobile devices</description>
-    <externalId>false</externalId>
     <label>Max Date Policy</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

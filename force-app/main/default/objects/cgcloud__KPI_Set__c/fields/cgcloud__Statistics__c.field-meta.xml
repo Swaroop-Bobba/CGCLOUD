@@ -3,7 +3,6 @@
     <fullName>cgcloud__Statistics__c</fullName>
     <deprecated>false</deprecated>
     <description>Contains statistics for the complete kpi set and all the related subsets.</description>
-    <externalId>false</externalId>
     <label>Statistics</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

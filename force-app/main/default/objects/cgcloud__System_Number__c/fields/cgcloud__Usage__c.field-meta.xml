@@ -3,7 +3,6 @@
     <fullName>cgcloud__Usage__c</fullName>
     <deprecated>false</deprecated>
     <description>Usage</description>
-    <externalId>false</externalId>
     <inlineHelpText>Usage</inlineHelpText>
     <label>Usage</label>
     <required>false</required>

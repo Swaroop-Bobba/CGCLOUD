@@ -3,7 +3,6 @@
     <fullName>bofc__Display_Standard_Fields__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Display Standard Fields</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

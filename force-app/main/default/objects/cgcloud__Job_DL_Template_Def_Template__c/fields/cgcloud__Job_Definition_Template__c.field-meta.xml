@@ -3,7 +3,6 @@
     <fullName>cgcloud__Job_Definition_Template__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Job Definition Template</label>
     <referenceTo>cgcloud__Job_Definition_Template__c</referenceTo>
     <relationshipLabel>Template Questions</relationshipLabel>

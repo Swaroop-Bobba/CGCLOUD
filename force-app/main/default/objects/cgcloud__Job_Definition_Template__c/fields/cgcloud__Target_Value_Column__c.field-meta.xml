@@ -4,7 +4,6 @@
     <deprecated>false</deprecated>
     <description>Specifies the source for target values, if required, taken from authorization list.
       Target values are used as presetting of product survey answers for carrying out discrepancy surveys.</description>
-    <externalId>false</externalId>
     <label>Target Value Column</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

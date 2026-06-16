@@ -3,7 +3,6 @@
     <fullName>cgcloud__Consider_History__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Consider History</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

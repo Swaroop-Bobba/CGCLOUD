@@ -3,7 +3,6 @@
     <fullName>cgcloud__Condition_Search_Group__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the Condition Search Group object.</description>
-    <externalId>false</externalId>
     <label>Condition Search Group</label>
     <referenceTo>cgcloud__Condition_Search_Group__c</referenceTo>
     <relationshipLabel>Condition Search Rules</relationshipLabel>

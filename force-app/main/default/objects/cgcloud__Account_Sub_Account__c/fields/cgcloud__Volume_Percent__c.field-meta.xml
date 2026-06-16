@@ -3,7 +3,6 @@
     <fullName>cgcloud__Volume_Percent__c</fullName>
     <deprecated>false</deprecated>
     <description>It indicates how much percent the specific sub account contributes to the overall volume of the account.</description>
-    <externalId>false</externalId>
     <label>% of Volume</label>
     <precision>6</precision>
     <required>false</required>

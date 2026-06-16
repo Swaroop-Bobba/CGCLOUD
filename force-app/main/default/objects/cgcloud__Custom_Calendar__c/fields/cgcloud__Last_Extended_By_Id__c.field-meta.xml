@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the user who extended the custom calendar.</description>
-    <externalId>false</externalId>
     <label>Last Extended By Id</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Custom_Calendars_Extended_By_UserId</relationshipName>

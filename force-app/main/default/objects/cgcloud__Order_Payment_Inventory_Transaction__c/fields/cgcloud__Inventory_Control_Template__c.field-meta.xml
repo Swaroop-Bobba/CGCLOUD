@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to inventory control template.</description>
-    <externalId>false</externalId>
     <label>Inventory Control Template</label>
     <referenceTo>cgcloud__Inventory_Control_Template__c</referenceTo>
     <relationshipLabel>Order Payment Inventory Transactions</relationshipLabel>

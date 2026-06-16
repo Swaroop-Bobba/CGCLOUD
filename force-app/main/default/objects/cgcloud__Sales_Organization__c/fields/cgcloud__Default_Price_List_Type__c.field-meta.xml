@@ -3,7 +3,6 @@
     <fullName>cgcloud__Default_Price_List_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Default price list type of the sales organization</description>
-    <externalId>false</externalId>
     <label>Default Price List Type</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

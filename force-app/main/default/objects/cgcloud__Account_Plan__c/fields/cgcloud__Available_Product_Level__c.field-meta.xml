@@ -3,7 +3,6 @@
     <fullName>cgcloud__Available_Product_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the multiple set of values user can choose which will be further used for aggregation on the calculation grid for account plan.</description>
-    <externalId>false</externalId>
     <label>Available Product Aggregation Levels</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

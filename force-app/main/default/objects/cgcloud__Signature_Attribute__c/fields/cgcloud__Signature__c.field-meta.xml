@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgcloud__Signature__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Signature</label>
     <referenceTo>cgcloud__Signature__c</referenceTo>
     <relationshipLabel>Signature Attributes</relationshipLabel>

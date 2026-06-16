@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payment_Modification_Reason__c</fullName>
     <deprecated>false</deprecated>
     <description>Picklist values defining the needs for modification of payment.</description>
-    <externalId>false</externalId>
     <label>Payment Modification Reason</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

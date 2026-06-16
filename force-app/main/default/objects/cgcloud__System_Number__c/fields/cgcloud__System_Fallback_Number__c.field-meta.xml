@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>System Fallback Number</description>
-    <externalId>false</externalId>
     <inlineHelpText>System Fallback Number</inlineHelpText>
     <label>System Fallback Number</label>
     <lookupFilter>

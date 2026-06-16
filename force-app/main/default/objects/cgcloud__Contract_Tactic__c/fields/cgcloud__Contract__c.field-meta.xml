@@ -3,7 +3,6 @@
     <fullName>cgcloud__Contract__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the customer contract object.</description>
-    <externalId>false</externalId>
     <label>Customer Contract</label>
     <referenceTo>cgcloud__Contract__c</referenceTo>
     <relationshipLabel>Customer Contract Tactic</relationshipLabel>

@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to segmentation rule template.</description>
-    <externalId>false</externalId>
     <label>Segmentation Rule Template</label>
     <referenceTo>cgcloud__Segmentation_Rule_Template__c</referenceTo>
     <relationshipLabel>Segmentation Rules</relationshipLabel>

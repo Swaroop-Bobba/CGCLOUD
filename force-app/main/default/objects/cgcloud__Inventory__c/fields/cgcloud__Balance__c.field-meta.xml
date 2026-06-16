@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgcloud__Balance__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Balance</label>
     <summarizedField>cgcloud__Inventory_Transaction__c.cgcloud__Amount__c</summarizedField>
     <summaryFilterItems>

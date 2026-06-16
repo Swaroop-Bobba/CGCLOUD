@@ -3,7 +3,6 @@
     <fullName>cgcloud__Condition__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the status of the asset in the moment of the survey execution.</description>
-    <externalId>false</externalId>
     <label>Condition</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

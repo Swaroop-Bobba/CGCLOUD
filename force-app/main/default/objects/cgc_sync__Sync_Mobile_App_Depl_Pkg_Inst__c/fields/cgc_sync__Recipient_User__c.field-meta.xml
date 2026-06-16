@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Device User ID.</description>
-    <externalId>false</externalId>
     <label>Recipient User</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Sync_Mobile_App_Depl_Pkg_Inst</relationshipName>

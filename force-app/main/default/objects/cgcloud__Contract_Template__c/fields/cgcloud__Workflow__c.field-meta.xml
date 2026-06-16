@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the Workflow. Mandatory for the contract template record type.</description>
-    <externalId>false</externalId>
     <label>Workflow</label>
     <referenceTo>cgcloud__Workflow__c</referenceTo>
     <relationshipLabel>Contract Templates</relationshipLabel>

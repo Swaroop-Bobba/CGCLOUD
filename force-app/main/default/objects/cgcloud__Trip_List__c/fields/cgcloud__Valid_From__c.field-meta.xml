@@ -3,7 +3,6 @@
     <fullName>cgcloud__Valid_From__c</fullName>
     <deprecated>false</deprecated>
     <description>Trip list is valid from this date.</description>
-    <externalId>false</externalId>
     <label>Valid From</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

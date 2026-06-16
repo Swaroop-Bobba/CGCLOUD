@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Toggle to display the agenda time.</description>
-    <externalId>false</externalId>
     <label>Show Agenda Time</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

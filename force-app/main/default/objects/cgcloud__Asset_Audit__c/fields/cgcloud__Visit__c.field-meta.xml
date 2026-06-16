@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the call in which the survey was done.</description>
-    <externalId>false</externalId>
     <label>Visit</label>
     <referenceTo>Visit</referenceTo>
     <relationshipLabel>Asset Audits</relationshipLabel>

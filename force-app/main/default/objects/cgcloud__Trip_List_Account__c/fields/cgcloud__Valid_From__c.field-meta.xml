@@ -4,7 +4,6 @@
     <defaultValue>today()</defaultValue>
     <deprecated>false</deprecated>
     <description>From this date on the entry is valid</description>
-    <externalId>false</externalId>
     <label>Valid From</label>
     <required>true</required>
     <trackHistory>false</trackHistory>

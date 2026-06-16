@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Sync_Error_Message__c</fullName>
     <deprecated>false</deprecated>
     <description>Error message to display when an error occurs during sync.</description>
-    <externalId>false</externalId>
     <label>Last Error Message</label>
     <length>2048</length>
     <trackTrending>false</trackTrending>

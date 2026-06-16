@@ -3,7 +3,6 @@
     <fullName>cgcloud__Valid_From__c</fullName>
     <deprecated>false</deprecated>
     <description>Start period of all conditions merged into this condition (earliest one)</description>
-    <externalId>false</externalId>
     <label>Valid From</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

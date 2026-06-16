@@ -3,7 +3,6 @@
     <fullName>cgcloud__Condition_Creation_Definition_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines which configuration is used to create conditions out of tactics.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines if tactics of this type generate conditions based on their template or based on their own configuration.</inlineHelpText>
     <label>Condition Creation Definition Level</label>
     <required>false</required>

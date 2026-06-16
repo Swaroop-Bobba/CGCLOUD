@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Org__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes the sales org which the sales folder belongs to.</description>
-    <externalId>false</externalId>
     <label>Sales Org</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

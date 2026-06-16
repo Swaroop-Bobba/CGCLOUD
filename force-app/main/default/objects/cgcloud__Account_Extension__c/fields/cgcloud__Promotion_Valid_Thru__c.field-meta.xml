@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Valid_Thru__c</fullName>
     <deprecated>false</deprecated>
     <description>Until this date the Promotion Role is valid.</description>
-    <externalId>false</externalId>
     <label>Promotion Valid Thru</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

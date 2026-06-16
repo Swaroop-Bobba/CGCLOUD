@@ -3,7 +3,6 @@
     <fullName>cgcloud__Account__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to customer.</description>
-    <externalId>false</externalId>
     <label>Customer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Customer Category Week Day Distribution Profiles</relationshipLabel>

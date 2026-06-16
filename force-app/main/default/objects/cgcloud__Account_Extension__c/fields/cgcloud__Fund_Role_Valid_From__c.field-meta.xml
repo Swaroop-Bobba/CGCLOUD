@@ -3,7 +3,6 @@
     <fullName>cgcloud__Fund_Role_Valid_From__c</fullName>
     <deprecated>false</deprecated>
     <description>From this date on the Fund Role is valid.</description>
-    <externalId>false</externalId>
     <label>Fund Role Valid From</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

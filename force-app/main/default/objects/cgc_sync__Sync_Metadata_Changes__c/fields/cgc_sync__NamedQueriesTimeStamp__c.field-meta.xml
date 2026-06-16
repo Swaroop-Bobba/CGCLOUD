@@ -3,7 +3,6 @@
     <fullName>cgc_sync__NamedQueriesTimeStamp__c</fullName>
     <deprecated>false</deprecated>
     <description>Timestamp of the latest change for the named query configuration.</description>
-    <externalId>false</externalId>
     <label>NamedQueriesTimeStamp</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

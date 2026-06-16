@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Org__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes the sales organization which the pricing condition template belongs to.</description>
-    <externalId>false</externalId>
     <label>Sales Org</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

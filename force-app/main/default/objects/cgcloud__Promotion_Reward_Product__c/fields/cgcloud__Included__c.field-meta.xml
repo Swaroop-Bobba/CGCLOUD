@@ -4,7 +4,6 @@
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
     <description>Define if the product must be included on pricing calculations in context of selectable promotion.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Define if the product must be included on pricing calculations in context of selectable promotion.</inlineHelpText>
     <label>Included</label>
     <trackTrending>false</trackTrending>

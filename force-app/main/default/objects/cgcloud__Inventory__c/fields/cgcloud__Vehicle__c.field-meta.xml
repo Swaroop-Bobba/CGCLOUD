@@ -3,7 +3,6 @@
     <fullName>cgcloud__Vehicle__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Vehicle</label>
     <referenceTo>cgcloud__Vehicle__c</referenceTo>
     <relationshipLabel>Inventory</relationshipLabel>

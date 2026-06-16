@@ -5,7 +5,6 @@
     <description>Updated on completing the call for a particular visit template.
 
 Till this date, the customer will be referred to as overdue customer.</description>
-    <externalId>false</externalId>
     <label>Overdue Date</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

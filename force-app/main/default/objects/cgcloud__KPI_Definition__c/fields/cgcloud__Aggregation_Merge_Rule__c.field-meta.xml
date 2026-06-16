@@ -3,7 +3,6 @@
     <fullName>cgcloud__Aggregation_Merge_Rule__c</fullName>
     <deprecated>false</deprecated>
     <description>Determines how the subperiods are merged into full weeks/months.</description>
-    <externalId>false</externalId>
     <label>Merge Rule</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

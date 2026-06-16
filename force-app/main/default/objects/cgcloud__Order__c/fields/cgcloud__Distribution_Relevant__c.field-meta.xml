@@ -4,7 +4,6 @@
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines whether the orders are relevant for distribution</description>
-    <externalId>false</externalId>
     <label>Distribution Relevant</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

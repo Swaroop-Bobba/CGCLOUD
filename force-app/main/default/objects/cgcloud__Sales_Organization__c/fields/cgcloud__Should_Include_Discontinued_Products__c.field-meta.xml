@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether the discontinued products are included in the calculation of the account plan profit and loss and customer business plan.</description>
-    <externalId>false</externalId>
     <label>Include Discontinued Products</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

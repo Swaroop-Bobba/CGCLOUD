@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>The KPI definition that represents the total funding value</description>
-    <externalId>false</externalId>
     <inlineHelpText>Indicate the KPI definition that will represents the total funding value</inlineHelpText>
     <label>RBF Total KPI</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>

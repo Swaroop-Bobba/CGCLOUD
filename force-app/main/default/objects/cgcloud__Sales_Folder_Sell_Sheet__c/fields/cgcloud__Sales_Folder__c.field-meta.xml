@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Folder__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the Sales Folder.</description>
-    <externalId>false</externalId>
     <label>Sales Folder</label>
     <referenceTo>cgcloud__Sales_Folder__c</referenceTo>
     <relationshipLabel>Sell Sheets</relationshipLabel>

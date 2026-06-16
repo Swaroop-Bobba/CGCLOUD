@@ -3,7 +3,6 @@
     <fullName>cgcloud__Vehicle_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the vehicle specific speed profiles which are used in the external ptv tool for route optimization.</description>
-    <externalId>false</externalId>
     <label>Vehicle Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Sync_Message__c</fullName>
     <deprecated>false</deprecated>
     <description>Refers to the sync message record.</description>
-    <externalId>false</externalId>
     <label>Sync Message</label>
     <referenceTo>cgc_sync__Sync_Message__c</referenceTo>
     <relationshipName>Sync_Message_Translation</relationshipName>

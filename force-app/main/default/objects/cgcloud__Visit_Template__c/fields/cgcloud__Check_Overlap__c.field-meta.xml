@@ -3,7 +3,6 @@
     <fullName>cgcloud__Check_Overlap__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Check Overlap</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Contract_Definition__c</fullName>
     <deprecated>false</deprecated>
     <description>Contract JSON in string format.</description>
-    <externalId>false</externalId>
     <label>Contract Definition</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

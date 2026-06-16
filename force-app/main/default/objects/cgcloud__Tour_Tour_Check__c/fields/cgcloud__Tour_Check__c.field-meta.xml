@@ -3,7 +3,6 @@
     <fullName>cgcloud__Tour_Check__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Tour Check</label>
     <referenceTo>cgcloud__Tour_Check__c</referenceTo>
     <relationshipLabel>Tour Tour Checks</relationshipLabel>

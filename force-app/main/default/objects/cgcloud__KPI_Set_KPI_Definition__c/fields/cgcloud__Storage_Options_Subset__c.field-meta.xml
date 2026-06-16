@@ -3,7 +3,6 @@
     <fullName>cgcloud__Storage_Options_Subset__c</fullName>
     <deprecated>false</deprecated>
     <description>Define subsets of kpis that can be calculated in different writeback steps.</description>
-    <externalId>false</externalId>
     <label>Storage Options Subset</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__System_Number__c</fullName>
     <deprecated>false</deprecated>
     <description>Relation to System Number</description>
-    <externalId>false</externalId>
     <label>System Number</label>
     <referenceTo>cgcloud__System_Number__c</referenceTo>
     <relationshipLabel>System Number Segments</relationshipLabel>

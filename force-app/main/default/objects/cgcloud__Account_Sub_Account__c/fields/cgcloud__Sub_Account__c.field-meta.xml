@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Sub Account lookup.</description>
-    <externalId>false</externalId>
     <label>Sub Account</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Sub Accounts</relationshipLabel>

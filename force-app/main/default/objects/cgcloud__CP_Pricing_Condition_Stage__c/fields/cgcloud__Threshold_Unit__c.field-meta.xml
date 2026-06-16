@@ -3,7 +3,6 @@
     <fullName>cgcloud__Threshold_Unit__c</fullName>
     <deprecated>false</deprecated>
     <description>Unit which the thresholds (scales) are defined</description>
-    <externalId>false</externalId>
     <label>Threshold Unit</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

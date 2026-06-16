@@ -3,7 +3,6 @@
     <fullName>cgcloud__Storage_Options_Subperiod__c</fullName>
     <deprecated>false</deprecated>
     <description>If active, writeback has to generate daily accurate values for the subperiods that belong to different months.</description>
-    <externalId>false</externalId>
     <label>Subperiod</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

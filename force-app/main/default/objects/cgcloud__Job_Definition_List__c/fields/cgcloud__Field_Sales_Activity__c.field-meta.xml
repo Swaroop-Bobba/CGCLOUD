@@ -3,7 +3,6 @@
     <fullName>cgcloud__Field_Sales_Activity__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Field Sales Activity</label>
     <lookupFilter>
         <active>true</active>

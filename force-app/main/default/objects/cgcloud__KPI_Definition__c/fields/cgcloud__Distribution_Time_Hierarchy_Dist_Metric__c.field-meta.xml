@@ -3,7 +3,6 @@
     <fullName>cgcloud__Distribution_Time_Hierarchy_Dist_Metric__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Distribution (Time Hierarchy)</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
     <relationshipLabel>KPI Definitions (Distribution (Time Hierarchy))</relationshipLabel>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>If true, it makes the writeback provide daily accurate values in the periods shared by two months (provided it is activated in the kpi definition).</description>
-    <externalId>false</externalId>
     <label>Enable Subperiod Writeback</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

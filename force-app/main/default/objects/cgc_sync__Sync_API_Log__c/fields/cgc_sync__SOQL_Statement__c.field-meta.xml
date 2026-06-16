@@ -3,7 +3,6 @@
     <fullName>cgc_sync__SOQL_Statement__c</fullName>
     <deprecated>false</deprecated>
     <description>Stores the related SOQL statement that&apos;s been measured, or set to a blank string if the KPI is not tied to any specific SOQL statement but rather some higher level metric.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Stores the related SOQL statement that&apos;s been measured, or set to a blank string if the KPI is not tied to any specific SOQL statement but rather some higher level metric.</inlineHelpText>
     <label>SOQL Statement</label>
     <length>131072</length>

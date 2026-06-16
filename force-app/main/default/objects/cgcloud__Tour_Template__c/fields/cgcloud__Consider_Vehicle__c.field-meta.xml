@@ -3,7 +3,6 @@
     <fullName>cgcloud__Consider_Vehicle__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies whether the driver has to check license plate numbers of the truck and its trailers</description>
-    <externalId>false</externalId>
     <label>Consider Vehicle</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

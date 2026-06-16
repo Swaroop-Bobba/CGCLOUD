@@ -4,7 +4,6 @@
     <deprecated>false</deprecated>
     <description>Allows for the various calculation methods of the Rate-Based Funding KPIs. 
 Note: The Budget Administrator has the responsibility to match Rate Type to the appropriate Data Inputs.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Allows for the various calculation methods of the Rate-Based Funding KPIs.</inlineHelpText>
     <label>Rate Type</label>
     <required>true</required>

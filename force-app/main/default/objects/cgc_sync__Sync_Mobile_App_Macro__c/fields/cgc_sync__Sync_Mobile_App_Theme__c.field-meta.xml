@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Sync_Mobile_App_Theme__c</fullName>
     <deprecated>false</deprecated>
     <description>Refers to the mobile app theme.</description>
-    <externalId>false</externalId>
     <label>Mobility Theme</label>
     <referenceTo>cgc_sync__Sync_Mobile_App_Theme__c</referenceTo>
     <relationshipLabel>Mobile App Theme Macros</relationshipLabel>

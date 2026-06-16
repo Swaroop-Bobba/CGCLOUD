@@ -3,7 +3,6 @@
     <fullName>cgcloud__Workflow__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Workflow</label>
     <referenceTo>cgcloud__BO_API_Workflow__c</referenceTo>
     <relationshipLabel>Business Object API Transaction Logs</relationshipLabel>

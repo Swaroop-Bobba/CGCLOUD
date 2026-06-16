@@ -3,7 +3,6 @@
     <fullName>cgcloud__Total_Calculation_Rule__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines how the total column is aggregated along the x-axis</description>
-    <externalId>false</externalId>
     <label>Total Calculation Rule</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

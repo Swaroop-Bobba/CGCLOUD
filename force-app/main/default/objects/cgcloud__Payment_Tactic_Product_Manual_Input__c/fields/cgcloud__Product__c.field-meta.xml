@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Product for which the manual input was entered. Since the manual input can happen on any level (also total level) the value for this value can be null.</description>
-    <externalId>false</externalId>
     <label>Product</label>
     <referenceTo>Product2</referenceTo>
     <relationshipLabel>Payment Tactic Product Manual Inputs</relationshipLabel>

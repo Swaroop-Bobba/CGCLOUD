@@ -3,7 +3,6 @@
     <fullName>cgcloud__Delivery_Note__c</fullName>
     <deprecated>false</deprecated>
     <description>Delivery Note</description>
-    <externalId>false</externalId>
     <label>Delivery Note</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

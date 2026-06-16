@@ -3,7 +3,6 @@
     <fullName>cgcloud__Active__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines if the current record should be used for the promotion access rights.</description>
-    <externalId>false</externalId>
     <label>Active</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

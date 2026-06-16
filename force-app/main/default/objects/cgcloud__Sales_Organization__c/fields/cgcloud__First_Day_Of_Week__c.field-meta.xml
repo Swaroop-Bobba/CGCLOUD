@@ -3,7 +3,6 @@
     <fullName>cgcloud__First_Day_Of_Week__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes the days of the week</description>
-    <externalId>false</externalId>
     <label>First Day Of Week</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

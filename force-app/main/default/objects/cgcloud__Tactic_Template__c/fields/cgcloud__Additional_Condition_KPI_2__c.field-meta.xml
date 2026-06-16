@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to additional KPI Definition 2 for Condition</description>
-    <externalId>false</externalId>
     <label>Additional Condition KPI 2</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
     <relationshipLabel>Tactic Templates (Additional Condition KPI 2)</relationshipLabel>

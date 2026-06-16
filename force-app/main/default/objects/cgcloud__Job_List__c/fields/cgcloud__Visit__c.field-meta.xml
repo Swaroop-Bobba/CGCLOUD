@@ -3,7 +3,6 @@
     <fullName>cgcloud__Visit__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Visit</label>
     <referenceTo>Visit</referenceTo>
     <relationshipLabel>Job Lists</relationshipLabel>

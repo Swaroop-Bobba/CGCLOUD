@@ -3,7 +3,6 @@
     <fullName>cgcloud__Account_Plan_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the level of the customer in the trade org hierarchies which is used for aggregation of KPIs.</description>
-    <externalId>false</externalId>
     <label>Account Plan Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

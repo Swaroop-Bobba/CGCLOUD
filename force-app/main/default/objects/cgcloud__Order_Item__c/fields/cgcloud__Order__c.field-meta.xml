@@ -3,7 +3,6 @@
     <fullName>cgcloud__Order__c</fullName>
     <deprecated>false</deprecated>
     <description>ID of the order where Order Item is associated with</description>
-    <externalId>false</externalId>
     <label>Order</label>
     <referenceTo>cgcloud__Order__c</referenceTo>
     <relationshipLabel>Order Items</relationshipLabel>

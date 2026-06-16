@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Editable lookup to KPI_Definition</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the KPI used to write back into the claim tactic product at the Additional KPI Value 2 attribute.</inlineHelpText>
     <label>Additional PTP KPI Definition 2</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>

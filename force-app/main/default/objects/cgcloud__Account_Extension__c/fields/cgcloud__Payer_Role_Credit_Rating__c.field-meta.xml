@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payer_Role_Credit_Rating__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the credit rating of the customer.</description>
-    <externalId>false</externalId>
     <label>Payer Role Credit Rating</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

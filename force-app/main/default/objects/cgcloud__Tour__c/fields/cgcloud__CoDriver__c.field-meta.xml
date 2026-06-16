@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>The co-driver for the tour.</description>
-    <externalId>false</externalId>
     <label>Co-Driver</label>
     <referenceTo>User</referenceTo>
     <relationshipName>CoDrivers</relationshipName>

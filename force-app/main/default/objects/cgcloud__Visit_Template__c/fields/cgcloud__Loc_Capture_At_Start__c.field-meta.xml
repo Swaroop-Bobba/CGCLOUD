@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Location Capture at Start</description>
-    <externalId>false</externalId>
     <inlineHelpText>Indicates whether a user’s GPS location is captured at the start of a visit.</inlineHelpText>
     <label>Location Capture at Start</label>
     <trackTrending>false</trackTrending>

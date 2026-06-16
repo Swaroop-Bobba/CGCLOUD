@@ -3,7 +3,6 @@
     <fullName>cgcloud__Effect__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines how the order item template effects the reference value determination.</description>
-    <externalId>false</externalId>
     <label>Effect</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

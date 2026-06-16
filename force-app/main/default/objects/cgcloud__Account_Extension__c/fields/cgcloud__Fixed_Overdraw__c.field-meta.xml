@@ -3,7 +3,6 @@
     <fullName>cgcloud__Fixed_Overdraw__c</fullName>
     <deprecated>false</deprecated>
     <description>Fixed-Based Overdraw Allowance Percentage.</description>
-    <externalId>false</externalId>
     <label>Fixed Overdraw %</label>
     <precision>7</precision>
     <required>false</required>

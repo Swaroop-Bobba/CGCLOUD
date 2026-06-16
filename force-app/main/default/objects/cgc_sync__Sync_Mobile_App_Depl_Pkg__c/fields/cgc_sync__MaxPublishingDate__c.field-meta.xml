@@ -3,7 +3,6 @@
     <fullName>cgc_sync__MaxPublishingDate__c</fullName>
     <deprecated>false</deprecated>
     <description>Date and time by when this package must be published.</description>
-    <externalId>false</externalId>
     <label>Last Publishing Date</label>
     <summarizedField>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Publishing_Date__c</summarizedField>
     <summaryForeignKey>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Sync_Mobile_App_Depl_Pkg__c</summaryForeignKey>

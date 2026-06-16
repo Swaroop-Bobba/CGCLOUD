@@ -3,7 +3,6 @@
     <fullName>cgcloud__Write_Start_Time__c</fullName>
     <deprecated>false</deprecated>
     <description>Timestamp when the promotion save was started.</description>
-    <externalId>false</externalId>
     <label>Write Start Time</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

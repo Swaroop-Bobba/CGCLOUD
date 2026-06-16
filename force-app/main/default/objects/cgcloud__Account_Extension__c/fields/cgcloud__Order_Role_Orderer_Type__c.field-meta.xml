@@ -3,7 +3,6 @@
     <fullName>cgcloud__Order_Role_Orderer_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Type of the ordering business partner: direct, indirect.</description>
-    <externalId>false</externalId>
     <label>Order Role Orderer Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

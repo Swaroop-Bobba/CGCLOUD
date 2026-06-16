@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether the validation of the user&apos;s GPS location against warehouse location is enabled at the end of the day.</description>
-    <externalId>false</externalId>
     <label>Allow End Day Geofencing</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

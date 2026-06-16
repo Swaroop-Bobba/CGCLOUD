@@ -3,7 +3,6 @@
     <fullName>cgcloud__UoM_Scan_Behavior__c</fullName>
     <deprecated>false</deprecated>
     <description>UoM Scan Behavior</description>
-    <externalId>false</externalId>
     <label>UoM Scan Behavior</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

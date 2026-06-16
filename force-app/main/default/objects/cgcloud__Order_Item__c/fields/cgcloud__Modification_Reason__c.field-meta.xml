@@ -3,7 +3,6 @@
     <fullName>cgcloud__Modification_Reason__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies a reason if preordered product quantity has been modified on mobility device.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Attribute at present not used.</inlineHelpText>
     <label>Modification Reason</label>
     <required>false</required>

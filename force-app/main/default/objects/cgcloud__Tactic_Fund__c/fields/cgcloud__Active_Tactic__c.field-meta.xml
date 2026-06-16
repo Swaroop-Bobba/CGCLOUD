@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Copies value of related Tactic&apos;s Included attribute, to indicate whether or not Tactic is active; Used to filter roll-up summaries on Fund object</description>
-    <externalId>false</externalId>
     <label>Active Tactic</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

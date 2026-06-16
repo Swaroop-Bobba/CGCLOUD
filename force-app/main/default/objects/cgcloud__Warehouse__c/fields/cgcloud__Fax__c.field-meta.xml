@@ -3,7 +3,6 @@
     <fullName>cgcloud__Fax__c</fullName>
     <deprecated>false</deprecated>
     <description>Fax number.</description>
-    <externalId>false</externalId>
     <label>Fax</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

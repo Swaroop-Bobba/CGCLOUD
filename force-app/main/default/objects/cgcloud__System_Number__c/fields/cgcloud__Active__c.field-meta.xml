@@ -4,7 +4,6 @@
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
     <description>Active</description>
-    <externalId>false</externalId>
     <inlineHelpText>If Active is selected, the Number Segment Types Lu, Counter and InitCounter are required.
 So please don&apos;t set active in the first new creation of a number definition.</inlineHelpText>
     <label>Active</label>

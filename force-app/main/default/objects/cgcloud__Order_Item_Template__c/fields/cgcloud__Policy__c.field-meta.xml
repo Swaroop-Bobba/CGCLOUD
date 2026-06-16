@@ -3,7 +3,6 @@
     <fullName>cgcloud__Policy__c</fullName>
     <deprecated>false</deprecated>
     <description>The attribute specifies whether a order quantity will be suggested in the disposal list and whether the suggestion will be based on the ordered quantity or on the delivered (invoiced quantity) of the item in question.</description>
-    <externalId>false</externalId>
     <label>Policy</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

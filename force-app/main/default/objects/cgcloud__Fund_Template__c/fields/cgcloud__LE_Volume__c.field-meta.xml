@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>The KPI definition that will be used for the &quot;LE Volume&quot; Total KPI.</description>
-    <externalId>false</externalId>
     <label>LE Volume</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
     <relationshipLabel>LE Volume</relationshipLabel>

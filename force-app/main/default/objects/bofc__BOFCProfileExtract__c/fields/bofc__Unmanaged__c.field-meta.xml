@@ -3,7 +3,6 @@
     <fullName>bofc__Unmanaged__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Unmanaged</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>The system displays the Initiator of the order as the initial accountable</description>
-    <externalId>false</externalId>
     <label>Accountable</label>
     <referenceTo>User</referenceTo>
     <relationshipName>AccountableOrders</relationshipName>

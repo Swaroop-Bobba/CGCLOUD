@@ -3,7 +3,6 @@
     <fullName>cgcloud__Order_Item_Template__c</fullName>
     <deprecated>false</deprecated>
     <description>Order Item Template Id</description>
-    <externalId>false</externalId>
     <label>Order Item Template</label>
     <referenceTo>cgcloud__Order_Item_Template__c</referenceTo>
     <relationshipLabel>Order Item Order Template Associations</relationshipLabel>

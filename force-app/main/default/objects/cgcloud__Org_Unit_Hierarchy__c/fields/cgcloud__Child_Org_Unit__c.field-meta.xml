@@ -3,7 +3,6 @@
     <fullName>cgcloud__Child_Org_Unit__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to a child org unit in an org unit hierarchy.</description>
-    <externalId>false</externalId>
     <label>Child Org Unit</label>
     <referenceTo>cgcloud__Org_Unit__c</referenceTo>
     <relationshipLabel>Parent Org Unit Hierarchies</relationshipLabel>

@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>View Record Id</description>
-    <externalId>false</externalId>
     <label>View</label>
     <referenceTo>cgcloud__View__c</referenceTo>
     <relationshipLabel>UserViews</relationshipLabel>

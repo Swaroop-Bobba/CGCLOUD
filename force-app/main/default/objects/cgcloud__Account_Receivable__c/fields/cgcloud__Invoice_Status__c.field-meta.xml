@@ -3,7 +3,6 @@
     <fullName>cgcloud__Invoice_Status__c</fullName>
     <deprecated>false</deprecated>
     <description>Consolidated status set in ERP system based on account receivable transactions. Not applicable for credit notes.</description>
-    <externalId>false</externalId>
     <label>Invoice Status</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

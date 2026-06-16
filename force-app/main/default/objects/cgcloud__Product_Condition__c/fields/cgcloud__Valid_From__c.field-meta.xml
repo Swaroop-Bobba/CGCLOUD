@@ -4,7 +4,6 @@
     <defaultValue>TODAY()</defaultValue>
     <deprecated>false</deprecated>
     <description>The day when the Condition will become valid for the Product.</description>
-    <externalId>false</externalId>
     <inlineHelpText>The day when the Condition will become valid for the Product.</inlineHelpText>
     <label>Valid From</label>
     <required>false</required>

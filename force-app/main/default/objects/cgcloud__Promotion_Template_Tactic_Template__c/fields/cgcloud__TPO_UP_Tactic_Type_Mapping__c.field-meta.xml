@@ -3,7 +3,6 @@
     <fullName>cgcloud__TPO_UP_Tactic_Type_Mapping__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies which Tactic Slot the related Tactic Type will use on Prediction API calls.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Specifies which Tactic Slot the related Tactic Type will use on Prediction API calls.</inlineHelpText>
     <label>TPO UP Tactic Type Mapping</label>
     <required>false</required>

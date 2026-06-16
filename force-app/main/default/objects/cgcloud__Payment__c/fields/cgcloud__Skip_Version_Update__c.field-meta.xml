@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Flag used to skip the version update. This flag will always be stored as FALSE on database but the input value will be checked to detect if the version must be upgraded or not.</description>
-    <externalId>false</externalId>
     <label>Skip Version Update</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>

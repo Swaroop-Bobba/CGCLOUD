@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>SFId of the promotion that created/updated. Will be set when the promotion is created.</description>
-    <externalId>false</externalId>
     <label>Promotion</label>
     <referenceTo>cgcloud__Promotion__c</referenceTo>
     <relationshipLabel>Business Object API Transaction Logs</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Sync_History__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to related Sync History</description>
-    <externalId>false</externalId>
     <label>Sync History</label>
     <referenceTo>cgc_sync__Sync_History__c</referenceTo>
     <relationshipLabel>Sync History Detail</relationshipLabel>

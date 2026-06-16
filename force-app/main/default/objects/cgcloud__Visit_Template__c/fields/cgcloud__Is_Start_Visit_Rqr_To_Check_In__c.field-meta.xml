@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if a user has to start a visit before check in can occur.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Select this option when the user has to start a visit before check in can occur.</inlineHelpText>
     <label>Start Visit Required to Check In</label>
     <trackTrending>false</trackTrending>

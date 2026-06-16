@@ -3,7 +3,6 @@
     <fullName>cgcloud__Receipt_Date__c</fullName>
     <deprecated>false</deprecated>
     <description>Date on which invoice, credit or debit note was generated.</description>
-    <externalId>false</externalId>
     <label>Receipt Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Product_Assortment__c</fullName>
     <deprecated>false</deprecated>
     <description>References to the product assortment the module is being assigned to.</description>
-    <externalId>false</externalId>
     <label>Product Assortment</label>
     <referenceTo>Assortment</referenceTo>
     <relationshipLabel>Listing Modules</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Due_Date__c</fullName>
     <deprecated>false</deprecated>
     <description>Due date of invoice. Not applicable for credit notes.</description>
-    <externalId>false</externalId>
     <label>Due Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Description__c</fullName>
     <deprecated>false</deprecated>
     <description>Holds the description for the segmentation rule definition.</description>
-    <externalId>false</externalId>
     <label>Description</label>
     <length>32768</length>
     <trackHistory>false</trackHistory>

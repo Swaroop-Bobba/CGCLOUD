@@ -3,7 +3,6 @@
     <fullName>cgcloud__Original_Reference__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the original payment or deduction on the adjusted payment.</description>
-    <externalId>false</externalId>
     <label>Original Reference</label>
     <length>256</length>
     <trackFeedHistory>false</trackFeedHistory>

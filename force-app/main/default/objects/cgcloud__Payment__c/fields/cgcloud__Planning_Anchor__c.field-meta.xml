@@ -3,7 +3,6 @@
     <fullName>cgcloud__Planning_Anchor__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <inlineHelpText>Value determined by Payment Anchor</inlineHelpText>
     <label>Planning Anchor</label>
     <referenceTo>Account</referenceTo>

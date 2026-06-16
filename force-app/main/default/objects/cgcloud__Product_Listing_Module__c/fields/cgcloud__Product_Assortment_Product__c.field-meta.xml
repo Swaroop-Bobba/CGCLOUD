@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to product assortment product.</description>
-    <externalId>false</externalId>
     <label>Product Assortment Product</label>
     <referenceTo>AssortmentProduct</referenceTo>
     <relationshipLabel>Product Listing Modules</relationshipLabel>

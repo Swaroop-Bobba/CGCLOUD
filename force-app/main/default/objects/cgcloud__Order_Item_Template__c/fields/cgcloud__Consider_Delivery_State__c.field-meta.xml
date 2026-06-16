@@ -4,7 +4,6 @@
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
     <description>Must the delivery of a product be considered. For return items the delivery state has not to be considered.</description>
-    <externalId>false</externalId>
     <label>Consider Delivery State</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

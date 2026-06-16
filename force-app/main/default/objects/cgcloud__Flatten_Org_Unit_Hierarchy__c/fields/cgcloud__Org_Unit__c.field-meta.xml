@@ -3,7 +3,6 @@
     <fullName>cgcloud__Org_Unit__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the Org Unit of the hierarchy node.</description>
-    <externalId>false</externalId>
     <label>Org Unit</label>
     <referenceTo>cgcloud__Org_Unit__c</referenceTo>
     <relationshipLabel>Flatten Org Unit Hierarchies</relationshipLabel>

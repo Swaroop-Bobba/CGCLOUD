@@ -3,7 +3,6 @@
     <fullName>cgcloud__Tactic__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the Tactic</description>
-    <externalId>false</externalId>
     <label>Tactic</label>
     <referenceTo>cgcloud__Tactic__c</referenceTo>
     <relationshipLabel>Tactic Funds</relationshipLabel>

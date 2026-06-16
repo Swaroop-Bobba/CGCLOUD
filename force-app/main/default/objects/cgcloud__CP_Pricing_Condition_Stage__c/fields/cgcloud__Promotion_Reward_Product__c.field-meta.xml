@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Reward_Product__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Promotion Reward Product</label>
     <referenceTo>cgcloud__Promotion_Reward_Product__c</referenceTo>
     <relationshipLabel>Pricing Condition Stages</relationshipLabel>

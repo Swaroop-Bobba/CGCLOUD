@@ -3,7 +3,6 @@
     <fullName>cgcloud__Order_Document__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Order Document</label>
     <referenceTo>cgcloud__Order__c</referenceTo>
     <relationshipLabel>Inventory Transactions</relationshipLabel>

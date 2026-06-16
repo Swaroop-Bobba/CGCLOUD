@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies if reward will be used as key for condition finding.</description>
-    <externalId>false</externalId>
     <label>Consider Reward</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

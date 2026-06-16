@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Org__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes sales organization which the account assignment of the activity (and the activity itself) belongs to.</description>
-    <externalId>false</externalId>
     <label>Sales Org</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

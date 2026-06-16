@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Access_Definition_Policy__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines whether the edit and access rights are dependent on the product categories the user has assigned or the account and product category relationship.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines whether the edit and access rights are dependent on the product categories the user has assigned or the account and product category relationship.</inlineHelpText>
     <label>Promotion Access Definition Policy</label>
     <required>false</required>

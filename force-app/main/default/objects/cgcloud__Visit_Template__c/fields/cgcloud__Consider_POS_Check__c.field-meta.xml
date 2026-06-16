@@ -4,7 +4,6 @@
     <defaultValue>true</defaultValue>
     <deprecated>false</deprecated>
     <description>If it is True, then Call will consider POS in it&apos;s questions.</description>
-    <externalId>false</externalId>
     <label>Consider POS Check</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

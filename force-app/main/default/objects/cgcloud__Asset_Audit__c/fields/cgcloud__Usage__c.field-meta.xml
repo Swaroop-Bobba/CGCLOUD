@@ -3,7 +3,6 @@
     <fullName>cgcloud__Usage__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies if the customer uses the asset in the right way.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Specifies if the customer uses the asset in the right way.</inlineHelpText>
     <label>Usage</label>
     <required>false</required>

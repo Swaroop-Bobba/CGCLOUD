@@ -6,7 +6,6 @@
     <description>Customer with a particular visit template can be marked as overdue.
 
 Determines if a customer will be shown as overdue.</description>
-    <externalId>false</externalId>
     <label>Overdue Check</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

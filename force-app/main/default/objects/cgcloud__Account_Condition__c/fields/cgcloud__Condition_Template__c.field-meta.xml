@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to condition template.</description>
-    <externalId>false</externalId>
     <label>Condition Template</label>
     <lookupFilter>
         <active>true</active>

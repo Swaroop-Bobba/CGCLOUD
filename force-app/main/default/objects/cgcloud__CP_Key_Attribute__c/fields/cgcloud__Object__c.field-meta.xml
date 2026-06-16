@@ -3,7 +3,6 @@
     <fullName>cgcloud__Object__c</fullName>
     <deprecated>false</deprecated>
     <description>Specification of the object (module) the key attribute mapping belongs to.</description>
-    <externalId>false</externalId>
     <label>Context Section</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

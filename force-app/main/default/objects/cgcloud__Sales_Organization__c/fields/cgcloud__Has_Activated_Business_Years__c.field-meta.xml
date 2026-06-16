@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether the business years are activated for the sales org.</description>
-    <externalId>false</externalId>
     <label>Has Activated Business Years</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

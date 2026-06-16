@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Remote_Procedure_Call_Log__c</fullName>
     <deprecated>false</deprecated>
     <description>Stores a list of command instances that were executed by the client (the client updates this field after successfully processing a command).</description>
-    <externalId>false</externalId>
     <inlineHelpText>Stores the list of command instances that were executed by the client already.</inlineHelpText>
     <label>RPC Log</label>
     <length>131072</length>

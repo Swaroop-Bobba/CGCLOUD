@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgcloud__Consider_Vehicle_Status__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Consider Vehicle Status</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

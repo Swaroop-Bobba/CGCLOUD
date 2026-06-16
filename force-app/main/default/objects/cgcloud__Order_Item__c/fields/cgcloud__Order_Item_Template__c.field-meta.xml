@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>ID of the order item template where order item is associated with</description>
-    <externalId>false</externalId>
     <label>Order Item Template</label>
     <referenceTo>cgcloud__Order_Item_Template__c</referenceTo>
     <relationshipLabel>Order Items</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Aggregation_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines at which level the product is located.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines at which level the product is located.</inlineHelpText>
     <label>Promotion Aggregation Level</label>
     <required>false</required>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Operator__c</fullName>
     <deprecated>false</deprecated>
     <description>Operator which is applied to the value returned from the user exit underlying the Expression.</description>
-    <externalId>false</externalId>
     <label>Operator</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

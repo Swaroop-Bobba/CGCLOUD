@@ -3,7 +3,6 @@
     <fullName>cgc_sync__TrackedObjectDescribeTimeStamp__c</fullName>
     <deprecated>false</deprecated>
     <description>Timestamp for the client for re-fetching the metadata for configured tracked objects.</description>
-    <externalId>false</externalId>
     <label>TrackedObjectDescribeTimeStamp</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

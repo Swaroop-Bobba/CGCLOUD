@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgcloud__Possible_Lift_Types__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Possible Lift Types</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

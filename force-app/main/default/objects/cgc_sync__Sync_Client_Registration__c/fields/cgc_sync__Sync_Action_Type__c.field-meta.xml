@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Sync_Action_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Indicates the type of the last initiated synchronization process as Background Sync, FSOD, Initial Sync, On Demand, or Regular Sync.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Type of the last initiated synchronization process. Possible values are: Background Sync, FSOD, Initial Sync, On Demand or Regular Sync.</inlineHelpText>
     <label>Sync Type</label>
     <required>false</required>

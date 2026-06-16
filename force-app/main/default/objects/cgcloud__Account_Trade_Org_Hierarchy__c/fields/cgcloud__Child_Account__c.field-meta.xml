@@ -3,7 +3,6 @@
     <fullName>cgcloud__Child_Account__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the business partner the relation is going to.</description>
-    <externalId>false</externalId>
     <label>Child Customer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Customer Trade Org Hierarchies</relationshipLabel>

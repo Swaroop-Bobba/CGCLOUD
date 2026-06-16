@@ -3,7 +3,6 @@
     <fullName>cgcloud__Target_Fund__c</fullName>
     <deprecated>false</deprecated>
     <description>Target fund for the transaction</description>
-    <externalId>false</externalId>
     <label>Target Fund</label>
     <referenceTo>cgcloud__Fund__c</referenceTo>
     <relationshipName>Transactions1</relationshipName>

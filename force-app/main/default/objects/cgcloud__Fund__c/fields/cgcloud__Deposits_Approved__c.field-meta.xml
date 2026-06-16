@@ -3,7 +3,6 @@
     <fullName>cgcloud__Deposits_Approved__c</fullName>
     <deprecated>false</deprecated>
     <description>This field rolls up Fund transaction Rows where transaction type = &quot;Deposit&quot;</description>
-    <externalId>false</externalId>
     <label>Deposits (Approved)</label>
     <summarizedField>cgcloud__Fund_Transaction_Row__c.cgcloud__Amount__c</summarizedField>
     <summaryFilterItems>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Phases__c</fullName>
     <deprecated>false</deprecated>
     <description>Select the promotion phases to show in the trade calendar and account plan filters.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Select the promotion phases to show in the trade calendar and account plan filters.</inlineHelpText>
     <label>Promotion Phases</label>
     <required>false</required>

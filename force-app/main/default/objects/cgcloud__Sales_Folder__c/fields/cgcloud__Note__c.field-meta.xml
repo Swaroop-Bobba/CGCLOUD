@@ -3,7 +3,6 @@
     <fullName>cgcloud__Note__c</fullName>
     <deprecated>false</deprecated>
     <description>General Notes about the Sales Folder.</description>
-    <externalId>false</externalId>
     <label>Note</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

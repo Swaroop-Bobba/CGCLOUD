@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>KPI Definition</description>
-    <externalId>false</externalId>
     <label>KPI Definition</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
     <relationshipLabel>Promotion Template KPI Definitions</relationshipLabel>

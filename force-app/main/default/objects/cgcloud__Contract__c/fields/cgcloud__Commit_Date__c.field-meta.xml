@@ -4,7 +4,6 @@
     <defaultValue>TODAY()</defaultValue>
     <deprecated>false</deprecated>
     <description>The date the contract was committed</description>
-    <externalId>false</externalId>
     <label>Commit Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

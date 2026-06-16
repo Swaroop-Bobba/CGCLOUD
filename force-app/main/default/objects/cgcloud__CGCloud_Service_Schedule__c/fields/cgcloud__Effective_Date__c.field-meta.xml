@@ -3,7 +3,6 @@
     <fullName>cgcloud__Effective_Date__c</fullName>
     <deprecated>false</deprecated>
     <description>The standardized date format for Offplatform Service calculation.</description>
-    <externalId>false</externalId>
     <label>Effective Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

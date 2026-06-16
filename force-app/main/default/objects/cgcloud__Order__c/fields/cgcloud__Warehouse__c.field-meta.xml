@@ -3,7 +3,6 @@
     <fullName>cgcloud__Warehouse__c</fullName>
     <deprecated>false</deprecated>
     <description>The warehouse from which the customer will be delivered.</description>
-    <externalId>false</externalId>
     <label>Warehouse</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

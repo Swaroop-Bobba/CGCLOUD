@@ -3,7 +3,6 @@
     <fullName>cgcloud__Initial_Year__c</fullName>
     <deprecated>false</deprecated>
     <description>The first year of the planning.</description>
-    <externalId>false</externalId>
     <label>Initial Year</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Contains the reference of the parent in RBF Distribution process</description>
-    <externalId>false</externalId>
     <label>Parent RBF</label>
     <referenceTo>cgcloud__Rate_Based_Funding__c</referenceTo>
     <relationshipLabel>Rate-based Fundings</relationshipLabel>

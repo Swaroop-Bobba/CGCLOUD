@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Trace_Mode_On__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Trace Mode</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

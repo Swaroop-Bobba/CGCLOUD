@@ -3,7 +3,6 @@
     <fullName>cgcloud__Rounding_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Rounding With Carry Over is a special configuration that uses a carryover from one cell to the next to ensure that aggregations and totals match with the rounded number. Rounding Enabled performs a simple rounding to the nearest number.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Rounding With Carry Over is a special configuration that uses a carryover from one cell to the next to ensure that aggregations and totals match with the rounded number. Rounding Enabled performs a simple rounding to the nearest number.</inlineHelpText>
     <label>Rounding Type</label>
     <required>false</required>

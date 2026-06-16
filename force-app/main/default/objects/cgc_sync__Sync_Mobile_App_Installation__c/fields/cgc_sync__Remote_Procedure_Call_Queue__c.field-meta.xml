@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Remote_Procedure_Call_Queue__c</fullName>
     <deprecated>false</deprecated>
     <description>Holds a list of command instances (in order of insertion) as a semicolon separated string. The client reads this list to determine what remote procedures were called by the back-end.</description>
-    <externalId>false</externalId>
     <inlineHelpText>The client reads this list to determine what remote procedures were called by the back-end.</inlineHelpText>
     <label>RPC Queue</label>
     <length>131072</length>

@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Measure used to calculate accrual amounts at the product level for this tactic.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Measure used to calculate accrual amounts at the product level for this tactic.</inlineHelpText>
     <label>Accrual Rule Measure</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>

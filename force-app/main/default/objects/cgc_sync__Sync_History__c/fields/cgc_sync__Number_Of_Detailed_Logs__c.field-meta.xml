@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Number_Of_Detailed_Logs__c</fullName>
     <deprecated>false</deprecated>
     <description>Provide number of detailed log messages</description>
-    <externalId>false</externalId>
     <label>Number of detailed Logs</label>
     <summaryForeignKey>cgc_sync__Sync_History_Detail__c.cgc_sync__Sync_History__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>

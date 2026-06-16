@@ -3,7 +3,6 @@
     <fullName>cgcloud__Country__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes country.</description>
-    <externalId>false</externalId>
     <label>Country</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

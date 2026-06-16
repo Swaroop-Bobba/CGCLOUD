@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Describes whether the tactics created after this tactic template will be included in the copy of the contract.</description>
-    <externalId>false</externalId>
     <label>Copy Tactics</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

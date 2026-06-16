@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payment_Tactic__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Claim Tactic</label>
     <referenceTo>cgcloud__Payment_Tactic__c</referenceTo>
     <relationshipLabel>Claim Tactic Funds</relationshipLabel>

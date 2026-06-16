@@ -3,7 +3,6 @@
     <fullName>cgcloud__Status__c</fullName>
     <deprecated>false</deprecated>
     <description>State of the pricing condition stage.</description>
-    <externalId>false</externalId>
     <label>Status</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

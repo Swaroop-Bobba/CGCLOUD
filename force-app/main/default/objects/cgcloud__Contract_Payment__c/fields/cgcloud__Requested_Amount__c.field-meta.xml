@@ -3,7 +3,6 @@
     <fullName>cgcloud__Requested_Amount__c</fullName>
     <deprecated>false</deprecated>
     <description>Holds the requested total amount.</description>
-    <externalId>false</externalId>
     <label>Requested</label>
     <summarizedField>cgcloud__Contract_Payment_Tactic__c.cgcloud__Actual_Costs__c</summarizedField>
     <summaryForeignKey>cgcloud__Contract_Payment_Tactic__c.cgcloud__Contract_Payment__c</summaryForeignKey>

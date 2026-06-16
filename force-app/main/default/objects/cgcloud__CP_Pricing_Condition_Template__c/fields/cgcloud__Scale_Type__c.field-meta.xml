@@ -3,7 +3,6 @@
     <fullName>cgcloud__Scale_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies whether scale conditions will apply and, if Scale Type is not empty, how to interpret the scale.</description>
-    <externalId>false</externalId>
     <label>Scale Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

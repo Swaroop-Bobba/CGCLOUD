@@ -3,7 +3,6 @@
     <fullName>cgcloud__Transaction_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>This field identifies a Transaction row of type deposit or withdraw based on credit/debit transaction on the target fund of the record e.g. A negative transaction on the target fund identifies a transaction tow as Withdrawal type transaction.</description>
-    <externalId>false</externalId>
     <label>Transaction Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

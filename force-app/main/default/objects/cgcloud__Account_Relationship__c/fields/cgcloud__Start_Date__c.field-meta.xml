@@ -4,7 +4,6 @@
     <defaultValue>today()</defaultValue>
     <deprecated>false</deprecated>
     <description>The date from when the relationship is active.</description>
-    <externalId>false</externalId>
     <label>Start Date</label>
     <required>true</required>
     <trackHistory>false</trackHistory>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Organization__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Sales Organization</label>
     <referenceTo>cgcloud__Sales_Organization__c</referenceTo>
     <relationshipLabel>Customer Extensions</relationshipLabel>

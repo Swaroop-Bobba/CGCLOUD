@@ -3,7 +3,6 @@
     <fullName>cgcloud__Context_Section__c</fullName>
     <deprecated>false</deprecated>
     <description>The section of the penny perfect pricing context in which the new field is added.</description>
-    <externalId>false</externalId>
     <inlineHelpText>The section of the penny perfect pricing context in which the new field is added.</inlineHelpText>
     <label>Context Section</label>
     <required>true</required>

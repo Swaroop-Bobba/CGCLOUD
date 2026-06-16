@@ -3,7 +3,6 @@
     <fullName>cgcloud__Currency_RC__c</fullName>
     <deprecated>false</deprecated>
     <description>Currency of the payment.</description>
-    <externalId>false</externalId>
     <label>Currency RC</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

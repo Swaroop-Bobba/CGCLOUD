@@ -3,7 +3,6 @@
     <fullName>cgcloud__Obsolete__c</fullName>
     <deprecated>false</deprecated>
     <description>Obsolete flag of the manual input entry.</description>
-    <externalId>false</externalId>
     <label>Obsolete</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

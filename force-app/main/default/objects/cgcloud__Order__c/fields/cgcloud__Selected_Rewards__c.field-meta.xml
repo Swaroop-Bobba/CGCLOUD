@@ -3,7 +3,6 @@
     <fullName>cgcloud__Selected_Rewards__c</fullName>
     <deprecated>false</deprecated>
     <description>Holds mobility selected rewards and related items/products in JSON format.</description>
-    <externalId>false</externalId>
     <label>Selected Rewards</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

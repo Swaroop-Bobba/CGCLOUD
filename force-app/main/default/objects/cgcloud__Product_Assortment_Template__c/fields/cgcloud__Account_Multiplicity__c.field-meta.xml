@@ -3,7 +3,6 @@
     <fullName>cgcloud__Account_Multiplicity__c</fullName>
     <deprecated>false</deprecated>
     <description>How many business partners can be assigned to an assortment of this template.</description>
-    <externalId>false</externalId>
     <label>Customer Multiplicity</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

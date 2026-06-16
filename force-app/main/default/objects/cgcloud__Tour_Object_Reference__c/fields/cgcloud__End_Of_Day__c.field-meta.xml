@@ -3,7 +3,6 @@
     <fullName>cgcloud__End_Of_Day__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>End of Day</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

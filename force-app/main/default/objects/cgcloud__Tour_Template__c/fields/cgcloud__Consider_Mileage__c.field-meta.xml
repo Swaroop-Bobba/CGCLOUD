@@ -3,7 +3,6 @@
     <fullName>cgcloud__Consider_Mileage__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies whether the driver can or must document odometer information when beginning and finishing the tour.</description>
-    <externalId>false</externalId>
     <label>Consider Mileage</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

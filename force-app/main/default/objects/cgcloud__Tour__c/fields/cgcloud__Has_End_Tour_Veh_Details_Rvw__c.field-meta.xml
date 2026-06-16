@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether the vehicle details are reviewed during the end tour activities (true) or not (false).</description>
-    <externalId>false</externalId>
     <label>End Tour Vehicle Details Reviewed</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

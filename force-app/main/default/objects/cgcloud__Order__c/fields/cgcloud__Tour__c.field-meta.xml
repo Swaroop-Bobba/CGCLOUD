@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>This field looks up to Tour</description>
-    <externalId>false</externalId>
     <label>Tour</label>
     <referenceTo>cgcloud__Tour__c</referenceTo>
     <relationshipLabel>Orders</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Generated_At__c</fullName>
     <deprecated>false</deprecated>
     <description>Stores the date and time of generation.</description>
-    <externalId>false</externalId>
     <label>Generated At</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Release_Time__c</fullName>
     <deprecated>false</deprecated>
     <description>Date and time the sales document has been released.</description>
-    <externalId>false</externalId>
     <label>Release Time</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

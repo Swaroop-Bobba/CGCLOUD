@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Reward_Group__c</fullName>
     <deprecated>false</deprecated>
     <description>Master-Detail to the Reward Group that the Reward belongs to.</description>
-    <externalId>false</externalId>
     <label>Reward Group</label>
     <referenceTo>cgcloud__Promotion_Reward_Group__c</referenceTo>
     <relationshipLabel>Rewards</relationshipLabel>

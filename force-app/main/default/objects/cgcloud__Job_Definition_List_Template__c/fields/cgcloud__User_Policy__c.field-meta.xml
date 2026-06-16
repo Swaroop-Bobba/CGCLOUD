@@ -3,7 +3,6 @@
     <fullName>cgcloud__User_Policy__c</fullName>
     <deprecated>false</deprecated>
     <description>Controls the determination of valid users, when the activity is activated. The attribute controls the valid users by interpreting main management relation between user and Customer.</description>
-    <externalId>false</externalId>
     <label>User Policy</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

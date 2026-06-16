@@ -3,7 +3,6 @@
     <fullName>cgcloud__KPI_Relevant__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines if a call is relevant for KPI calculation for the selected KPIs.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines if a call is relevant for KPI calculation for the selected KPIs.</inlineHelpText>
     <label>KPI Relevant</label>
     <required>false</required>

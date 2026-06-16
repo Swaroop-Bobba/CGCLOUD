@@ -3,7 +3,6 @@
     <fullName>cgcloud__Data_Source_Enable_OoT_Aggregation__c</fullName>
     <deprecated>false</deprecated>
     <description>When reading Volume Values from PromotionTactic Integration tables, enables the aggregation of data outside of timeframe scope for the first and last periods.</description>
-    <externalId>false</externalId>
     <inlineHelpText>When reading Volume Values from PromotionTactic Integration tables, enables the aggregation of data outside of timeframe scope for the first and last periods.</inlineHelpText>
     <label>Enable Out of Timeframe Aggregation</label>
     <required>false</required>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Condition_Operator__c</fullName>
     <deprecated>false</deprecated>
     <description>Operator which is applied to the Conditional answer.</description>
-    <externalId>false</externalId>
     <label>Operator</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Batch_State__c</fullName>
     <deprecated>false</deprecated>
     <description>State of the batch process.</description>
-    <externalId>false</externalId>
     <label>Batch State</label>
     <required>true</required>
     <trackTrending>false</trackTrending>

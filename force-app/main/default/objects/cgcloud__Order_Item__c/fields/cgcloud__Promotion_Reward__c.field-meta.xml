@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Relation to the reward if order item was granted by a reward.</description>
-    <externalId>false</externalId>
     <label>Promotion Reward</label>
     <referenceTo>cgcloud__Promotion_Reward__c</referenceTo>
     <relationshipLabel>Order Items</relationshipLabel>

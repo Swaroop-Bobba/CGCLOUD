@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Contract associated with a template</description>
-    <externalId>false</externalId>
     <label>UI Contract</label>
     <lookupFilter>
         <active>true</active>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Last_Run__c</fullName>
     <deprecated>false</deprecated>
     <description>Time when the server for this sales org was last started.</description>
-    <externalId>false</externalId>
     <label>Last Run</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

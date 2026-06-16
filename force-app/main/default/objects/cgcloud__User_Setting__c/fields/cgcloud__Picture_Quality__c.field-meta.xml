@@ -3,7 +3,6 @@
     <fullName>cgcloud__Picture_Quality__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes the picture quality of the attachment.</description>
-    <externalId>false</externalId>
     <label>Picture Quality</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Product_Count__c</fullName>
     <deprecated>false</deprecated>
     <description>usage in validation rule for 1 or more products in related list when locking the fund</description>
-    <externalId>false</externalId>
     <label>Product Count</label>
     <summaryForeignKey>cgcloud__Fund_Product__c.cgcloud__Fund__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Class_Of_Trade__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the account the company segment belongs to.</description>
-    <externalId>false</externalId>
     <label>Class Of Trade</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

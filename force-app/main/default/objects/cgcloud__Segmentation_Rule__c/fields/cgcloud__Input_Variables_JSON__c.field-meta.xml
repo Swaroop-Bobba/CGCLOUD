@@ -3,7 +3,6 @@
     <fullName>cgcloud__Input_Variables_JSON__c</fullName>
     <deprecated>false</deprecated>
     <description>JSON with the user input.</description>
-    <externalId>false</externalId>
     <label>Input Variables (JSON)</label>
     <length>32768</length>
     <trackHistory>false</trackHistory>

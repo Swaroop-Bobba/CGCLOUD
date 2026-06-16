@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>True, if product exists in an authorization list of the orderer.</description>
-    <externalId>false</externalId>
     <label>Listed</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

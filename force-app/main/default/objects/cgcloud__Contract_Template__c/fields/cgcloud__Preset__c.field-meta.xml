@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Describes whether the Tactic Template will be preset when creating the contract. If not checked, Tactics will be available for adding manually after creation.</description>
-    <externalId>false</externalId>
     <label>Preset</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

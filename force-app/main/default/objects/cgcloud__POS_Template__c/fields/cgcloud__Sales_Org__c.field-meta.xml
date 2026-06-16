@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Org__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes the sales organization which the POS Template belongs to.</description>
-    <externalId>false</externalId>
     <label>Sales Org</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

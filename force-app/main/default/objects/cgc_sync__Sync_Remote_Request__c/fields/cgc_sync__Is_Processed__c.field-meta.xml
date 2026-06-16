@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Remote request is processed by the mobile device.</description>
-    <externalId>false</externalId>
     <label>Is Processed</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

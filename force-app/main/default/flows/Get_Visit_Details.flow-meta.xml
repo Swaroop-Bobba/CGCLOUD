@@ -85,6 +85,7 @@
         </rules>
     </decisions>
     <description>Retrieve details of the current Visit record and its associated Account.</description>
+    <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
     <label>Get Visit Details</label>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
@@ -233,6 +234,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>placeId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>recordId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -255,13 +263,6 @@
     </variables>
     <variables>
         <name>visitorId</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>placeId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

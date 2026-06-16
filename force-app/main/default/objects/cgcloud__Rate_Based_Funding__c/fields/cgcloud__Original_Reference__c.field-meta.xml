@@ -3,7 +3,6 @@
     <fullName>cgcloud__Original_Reference__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the parent RBF record.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Reference to the parent RBF record.</inlineHelpText>
     <label>Original Reference</label>
     <length>256</length>

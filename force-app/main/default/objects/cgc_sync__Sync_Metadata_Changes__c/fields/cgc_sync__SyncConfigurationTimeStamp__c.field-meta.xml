@@ -3,7 +3,6 @@
     <fullName>cgc_sync__SyncConfigurationTimeStamp__c</fullName>
     <deprecated>false</deprecated>
     <description>Timestamp of the latest change for the sync configuration.</description>
-    <externalId>false</externalId>
     <label>SyncConfigurationTimeStamp</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

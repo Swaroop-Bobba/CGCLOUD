@@ -3,7 +3,6 @@
     <fullName>cgcloud__Addendum_Reference__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the previous deduction addendum, if applicable.</description>
-    <externalId>false</externalId>
     <label>Addendum Reference</label>
     <length>256</length>
     <trackFeedHistory>false</trackFeedHistory>

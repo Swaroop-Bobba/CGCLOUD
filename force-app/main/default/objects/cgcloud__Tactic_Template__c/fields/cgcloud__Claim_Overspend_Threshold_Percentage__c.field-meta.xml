@@ -3,7 +3,6 @@
     <fullName>cgcloud__Claim_Overspend_Threshold_Percentage__c</fullName>
     <deprecated>false</deprecated>
     <description>The maximum percentage that a tactic&apos;s claim amount can exceed the accrued amount.</description>
-    <externalId>false</externalId>
     <inlineHelpText>The maximum percentage that a tactic&apos;s claim amount can exceed the accrued amount.</inlineHelpText>
     <label>Claim Overspend Threshold (in percent)</label>
     <precision>5</precision>

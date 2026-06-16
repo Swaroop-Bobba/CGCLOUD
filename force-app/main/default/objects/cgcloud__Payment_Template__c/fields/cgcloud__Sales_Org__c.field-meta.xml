@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Org__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Sales Org</label>
     <referenceTo>cgcloud__Sales_Organization__c</referenceTo>
     <relationshipLabel>Payment Templates (Sales Org)</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Tactic_Template__c</fullName>
     <deprecated>false</deprecated>
     <description>Automatic Tactic Fund Assignment</description>
-    <externalId>false</externalId>
     <label>Tactic Template</label>
     <referenceTo>cgcloud__Tactic_Template__c</referenceTo>
     <relationshipLabel>Fund Templates</relationshipLabel>

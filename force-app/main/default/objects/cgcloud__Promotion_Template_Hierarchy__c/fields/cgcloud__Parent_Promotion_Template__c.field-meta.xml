@@ -3,7 +3,6 @@
     <fullName>cgcloud__Parent_Promotion_Template__c</fullName>
     <deprecated>false</deprecated>
     <description>Master-Detail relation to a promotion template.</description>
-    <externalId>false</externalId>
     <label>Parent Promotion Template</label>
     <lookupFilter>
         <active>true</active>

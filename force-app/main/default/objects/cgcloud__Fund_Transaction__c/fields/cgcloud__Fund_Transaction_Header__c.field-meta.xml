@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Lookup to Fund Transaction Header which dictates behavior of Fund transaction rows to be created</description>
-    <externalId>false</externalId>
     <label>Multi-Fund Transaction</label>
     <referenceTo>cgcloud__Fund_Transaction_Header__c</referenceTo>
     <relationshipLabel>Funds</relationshipLabel>

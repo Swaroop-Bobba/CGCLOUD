@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the bill to of the order entry</description>
-    <externalId>false</externalId>
     <label>Bill Recipient Customer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Orders (Bill Recipient Account)</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Manual_Inputs_Off_Platform__c</fullName>
     <deprecated>false</deprecated>
     <description>List of elements for which manual inputs are saved in Consumer Goods Processing Services.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Saved choices are permanent. Carefully select the elements for which you want to enable manual inputs in Consumer Goods Processing Services.</inlineHelpText>
     <label>Manual Inputs in CGPS</label>
     <required>false</required>

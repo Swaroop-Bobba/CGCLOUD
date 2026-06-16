@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Lookup to the Product for which the specific configuration applies to.</description>
-    <externalId>false</externalId>
     <label>Product</label>
     <lookupFilter>
         <active>true</active>

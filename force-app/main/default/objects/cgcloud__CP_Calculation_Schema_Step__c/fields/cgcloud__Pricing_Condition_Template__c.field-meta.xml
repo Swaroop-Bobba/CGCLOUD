@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the pricing condition template.</description>
-    <externalId>false</externalId>
     <label>Pricing Condition Template</label>
     <lookupFilter>
         <active>true</active>

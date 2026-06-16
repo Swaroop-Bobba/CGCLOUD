@@ -3,7 +3,6 @@
     <fullName>cgcloud__First_Week_Of_Year__c</fullName>
     <deprecated>false</deprecated>
     <description>This field displays the week for call scheduling</description>
-    <externalId>false</externalId>
     <label>First Week Of Year</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

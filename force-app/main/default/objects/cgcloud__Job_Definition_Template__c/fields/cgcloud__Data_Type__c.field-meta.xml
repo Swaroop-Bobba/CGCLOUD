@@ -3,7 +3,6 @@
     <fullName>cgcloud__Data_Type__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Data Type</label>
     <lookupFilter>
         <active>true</active>

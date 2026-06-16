@@ -3,7 +3,6 @@
     <fullName>cgcloud__Assignment_Confirmation__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the tour assignment confirmation type for the user. This field is reserved for future use.</description>
-    <externalId>false</externalId>
     <inlineHelpText>This field is reserved for future use.</inlineHelpText>
     <label>Assignment Confirmation</label>
     <required>false</required>

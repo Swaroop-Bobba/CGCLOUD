@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies whether the calculation step is print relevant.</description>
-    <externalId>false</externalId>
     <label>Print Relevant</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -4,7 +4,6 @@
     <deprecated>false</deprecated>
     <description>Allows specification of three primary product survey questions used for discrepancy survey in a matrix like display on the CGCloud OnPremise mobility devices.
       Supported survey questions: Facings, Price, Distribution</description>
-    <externalId>false</externalId>
     <label>Primary Survey Policy</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

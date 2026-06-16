@@ -3,7 +3,6 @@
     <fullName>cgcloud__Planning_Mode__c</fullName>
     <deprecated>false</deprecated>
     <description>Mode of automatic call planning.</description>
-    <externalId>false</externalId>
     <label>Planning Mode</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

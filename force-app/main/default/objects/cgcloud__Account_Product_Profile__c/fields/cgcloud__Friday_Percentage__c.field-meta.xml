@@ -3,7 +3,6 @@
     <fullName>cgcloud__Friday_Percentage__c</fullName>
     <deprecated>false</deprecated>
     <description>Utilized share value for Fridays. (Friday/Total).</description>
-    <externalId>false</externalId>
     <formula>cgcloud__Friday__c / cgcloud__Total__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Friday (%)</label>

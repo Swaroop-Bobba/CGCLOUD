@@ -3,7 +3,6 @@
     <fullName>cgcloud__Comment__c</fullName>
     <deprecated>false</deprecated>
     <description>Holds extra information about the KPI Definition</description>
-    <externalId>false</externalId>
     <label>Comment</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

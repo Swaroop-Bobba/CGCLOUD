@@ -3,7 +3,6 @@
     <fullName>cgcloud__Target_Condition__c</fullName>
     <deprecated>false</deprecated>
     <description>Specification of the line item attribute or sales document attribute that will receive the value of the found condition.</description>
-    <externalId>false</externalId>
     <label>Target Condition</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

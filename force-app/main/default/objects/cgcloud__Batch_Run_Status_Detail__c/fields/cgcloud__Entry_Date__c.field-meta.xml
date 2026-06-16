@@ -3,7 +3,6 @@
     <fullName>cgcloud__Entry_Date__c</fullName>
     <deprecated>false</deprecated>
     <description>Time stamp of the API call which created this entry.</description>
-    <externalId>false</externalId>
     <label>Entry Date</label>
     <required>true</required>
     <trackTrending>false</trackTrending>

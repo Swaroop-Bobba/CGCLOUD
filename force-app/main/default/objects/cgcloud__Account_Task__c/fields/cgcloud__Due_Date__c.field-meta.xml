@@ -3,7 +3,6 @@
     <fullName>cgcloud__Due_Date__c</fullName>
     <deprecated>false</deprecated>
     <description>The date the action should have been done.</description>
-    <externalId>false</externalId>
     <label>Due Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

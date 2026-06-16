@@ -3,7 +3,6 @@
     <fullName>cgcloud__Org_Unit__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to an org unit assigned to a user.</description>
-    <externalId>false</externalId>
     <label>Org Unit</label>
     <lookupFilter>
         <active>false</active>

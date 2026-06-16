@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgcloud__Restrict_Org_Unit__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Restrict Org Unit</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

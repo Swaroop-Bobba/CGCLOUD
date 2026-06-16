@@ -4,7 +4,6 @@
     <deprecated>false</deprecated>
     <description>Period Then Sub Periods method rounds period values first, and then rounds the buckets ensuring their merged value matches the period value.
 Sub Periods Then Period rounds subperiods first and then merge them into periods.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Period Then Sub Periods method rounds period values first, and then rounds the buckets ensuring their merged value matches the period value.
 Sub Periods Then Period rounds subperiods first and then merges them into periods.</inlineHelpText>
     <label>Rounding Order</label>

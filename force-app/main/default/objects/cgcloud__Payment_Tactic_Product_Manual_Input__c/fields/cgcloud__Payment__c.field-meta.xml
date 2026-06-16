@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payment__c</fullName>
     <deprecated>false</deprecated>
     <description>Related payment.</description>
-    <externalId>false</externalId>
     <label>Claim</label>
     <referenceTo>cgcloud__Payment__c</referenceTo>
     <relationshipLabel>Claim Tactic Product Manual Inputs</relationshipLabel>

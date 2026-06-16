@@ -3,7 +3,6 @@
     <fullName>cgcloud__Cancel_Reason__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies a reason for sales document cancellation.</description>
-    <externalId>false</externalId>
     <label>Cancel Reason</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

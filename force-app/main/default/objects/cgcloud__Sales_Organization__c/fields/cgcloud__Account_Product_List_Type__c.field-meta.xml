@@ -3,7 +3,6 @@
     <fullName>cgcloud__Account_Product_List_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines which Product list has to be used</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines which Product List has to be used.</inlineHelpText>
     <label>Account Product List Type</label>
     <required>false</required>

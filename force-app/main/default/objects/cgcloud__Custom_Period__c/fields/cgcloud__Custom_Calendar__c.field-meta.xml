@@ -3,7 +3,6 @@
     <fullName>cgcloud__Custom_Calendar__c</fullName>
     <deprecated>false</deprecated>
     <description>Custom calendar to which the period belongs.</description>
-    <externalId>false</externalId>
     <label>Custom Calendar</label>
     <referenceTo>cgcloud__Custom_Calendar__c</referenceTo>
     <relationshipLabel>Custom Periods</relationshipLabel>

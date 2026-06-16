@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Core flag for the theme. If set to true, the theme cannot be edited by client or project.</description>
-    <externalId>false</externalId>
     <label>Core</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

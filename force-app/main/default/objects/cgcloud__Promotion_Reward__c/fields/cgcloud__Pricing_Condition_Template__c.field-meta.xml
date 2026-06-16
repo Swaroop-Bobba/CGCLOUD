@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the pricing condition template.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Only Pricing Condition Templates of type &apos;Rewards&apos; can be selected.</inlineHelpText>
     <label>Pricing Condition Template</label>
     <referenceTo>cgcloud__CP_Pricing_Condition_Template__c</referenceTo>

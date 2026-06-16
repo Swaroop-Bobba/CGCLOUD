@@ -6,7 +6,6 @@
     <description>Defines if the asset audit has to be executed via scanner.
 
 This setting is applicable for mobility devices.</description>
-    <externalId>false</externalId>
     <label>Scanner Policy</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

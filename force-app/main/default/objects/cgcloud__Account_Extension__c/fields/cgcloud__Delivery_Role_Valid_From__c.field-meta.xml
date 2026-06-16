@@ -3,7 +3,6 @@
     <fullName>cgcloud__Delivery_Role_Valid_From__c</fullName>
     <deprecated>false</deprecated>
     <description>From this date on the Delivery Role is valid.</description>
-    <externalId>false</externalId>
     <label>Delivery Role Valid From</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

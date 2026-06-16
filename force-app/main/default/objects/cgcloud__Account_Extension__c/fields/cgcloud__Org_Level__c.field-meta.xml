@@ -3,7 +3,6 @@
     <fullName>cgcloud__Org_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Customer organization level classification.</description>
-    <externalId>false</externalId>
     <label>Org Level</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

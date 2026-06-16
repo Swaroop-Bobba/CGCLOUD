@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Source fund for the transaction</description>
-    <externalId>false</externalId>
     <label>Source Fund</label>
     <referenceTo>cgcloud__Fund__c</referenceTo>
     <relationshipName>Transactions</relationshipName>

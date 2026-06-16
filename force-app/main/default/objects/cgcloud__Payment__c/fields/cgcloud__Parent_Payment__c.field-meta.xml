@@ -3,7 +3,6 @@
     <fullName>cgcloud__Parent_Payment__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Parent Claim</label>
     <lookupFilter>
         <active>true</active>

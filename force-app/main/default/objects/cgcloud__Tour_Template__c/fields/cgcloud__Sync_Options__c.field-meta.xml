@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sync_Options__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies if an immediate background synchronization will be started after special event</description>
-    <externalId>false</externalId>
     <label>Sync Options</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

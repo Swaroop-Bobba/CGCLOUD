@@ -5,7 +5,6 @@
     <deprecated>false</deprecated>
     <description>Describes whether the contract is submitted for approval.
 Used by the mobility system (Sync. Purposes)</description>
-    <externalId>false</externalId>
     <label>Submitted for Approval</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

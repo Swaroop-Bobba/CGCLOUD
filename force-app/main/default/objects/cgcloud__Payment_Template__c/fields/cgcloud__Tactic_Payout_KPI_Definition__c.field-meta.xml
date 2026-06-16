@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>This field dictates which field of the Payment Tactic Grid that the Tactic Payout amount will be automatically allocated to upon loading</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the KPI used to distribute the Tactic Payout.</inlineHelpText>
     <label>Tactic Payout KPI Definition</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>

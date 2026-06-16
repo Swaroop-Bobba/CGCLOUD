@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Defines if account hierarchy is used or not.</description>
-    <externalId>false</externalId>
     <label>Use Account Hierarchy</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

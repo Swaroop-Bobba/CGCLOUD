@@ -4,7 +4,6 @@
     <defaultValue>TODAY()</defaultValue>
     <deprecated>false</deprecated>
     <description>Date of creation.</description>
-    <externalId>false</externalId>
     <label>Creation Date</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

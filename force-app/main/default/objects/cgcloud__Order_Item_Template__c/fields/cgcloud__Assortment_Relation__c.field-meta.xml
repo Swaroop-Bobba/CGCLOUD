@@ -8,7 +8,6 @@
 - No: The system doesn&apos;t consider any assignment.
 
 - Yes: The system filters the disposal list subject to the assignment. The validation although checks the assignment of each product to the according sales document item template.</description>
-    <externalId>false</externalId>
     <label>Assortment Relation</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

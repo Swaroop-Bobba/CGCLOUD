@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates if the vehicle details are reviewed.</description>
-    <externalId>false</externalId>
     <label>Vehicle Details Reviewed</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

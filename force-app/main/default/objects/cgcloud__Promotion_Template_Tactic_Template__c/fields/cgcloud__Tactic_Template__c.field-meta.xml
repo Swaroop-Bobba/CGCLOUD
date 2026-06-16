@@ -3,7 +3,6 @@
     <fullName>cgcloud__Tactic_Template__c</fullName>
     <deprecated>false</deprecated>
     <description>Link to the Tactic Template</description>
-    <externalId>false</externalId>
     <label>Tactic Template</label>
     <lookupFilter>
         <active>true</active>

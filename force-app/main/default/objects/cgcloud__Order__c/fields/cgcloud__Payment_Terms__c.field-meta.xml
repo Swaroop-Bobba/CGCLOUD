@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payment_Terms__c</fullName>
     <deprecated>false</deprecated>
     <description>Terms of payment.</description>
-    <externalId>false</externalId>
     <label>Payment Terms</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

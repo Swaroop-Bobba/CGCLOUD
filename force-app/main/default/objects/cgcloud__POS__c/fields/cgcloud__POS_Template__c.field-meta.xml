@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to POS template.</description>
-    <externalId>false</externalId>
     <label>POS Template</label>
     <referenceTo>cgcloud__POS_Template__c</referenceTo>
     <relationshipLabel>POS</relationshipLabel>

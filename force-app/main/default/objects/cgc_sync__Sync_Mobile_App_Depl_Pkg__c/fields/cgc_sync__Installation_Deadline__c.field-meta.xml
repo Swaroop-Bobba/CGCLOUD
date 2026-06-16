@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Installation_Deadline__c</fullName>
     <deprecated>false</deprecated>
     <description>The date time when this package must be installed by.</description>
-    <externalId>false</externalId>
     <inlineHelpText>The date time when this package must be installed by.</inlineHelpText>
     <label>Installation Deadline</label>
     <required>false</required>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Type of the Trip List</description>
-    <externalId>false</externalId>
     <label>Type</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

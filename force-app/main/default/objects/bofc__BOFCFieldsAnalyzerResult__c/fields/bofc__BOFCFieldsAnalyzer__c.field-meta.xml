@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>bofc__BOFCFieldsAnalyzer__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>BOFCFieldsAnalyzer</label>
     <referenceTo>bofc__BOFCFieldsAnalyzer__c</referenceTo>
     <relationshipLabel>BOFCFieldsAnalyzerResult</relationshipLabel>

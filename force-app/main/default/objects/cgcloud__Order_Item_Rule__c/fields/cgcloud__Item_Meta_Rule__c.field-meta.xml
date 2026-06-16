@@ -3,7 +3,6 @@
     <fullName>cgcloud__Item_Meta_Rule__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies how the rules applies to the order item template.</description>
-    <externalId>false</externalId>
     <label>Item Meta Rule</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

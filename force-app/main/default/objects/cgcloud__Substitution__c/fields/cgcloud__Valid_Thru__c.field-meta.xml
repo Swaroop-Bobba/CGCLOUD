@@ -4,7 +4,6 @@
     <defaultValue>DATE(2999,12,31)</defaultValue>
     <deprecated>false</deprecated>
     <description>Last date of validity period of the customer substitution</description>
-    <externalId>false</externalId>
     <label>Valid Thru</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

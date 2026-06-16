@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payment_Method__c</fullName>
     <deprecated>false</deprecated>
     <description>Describes the manner of the remuneration.</description>
-    <externalId>false</externalId>
     <label>Payment Method</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Org_Unit__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to Org Unit.</description>
-    <externalId>false</externalId>
     <label>Org Unit</label>
     <referenceTo>cgcloud__Org_Unit__c</referenceTo>
     <relationshipLabel>Customer Org Units</relationshipLabel>

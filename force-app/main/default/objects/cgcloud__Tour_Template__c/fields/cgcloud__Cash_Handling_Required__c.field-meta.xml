@@ -3,7 +3,6 @@
     <fullName>cgcloud__Cash_Handling_Required__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Cash Handling Required</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

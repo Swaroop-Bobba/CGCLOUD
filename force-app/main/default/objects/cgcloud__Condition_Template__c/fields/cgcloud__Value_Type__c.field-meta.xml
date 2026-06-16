@@ -3,7 +3,6 @@
     <fullName>cgcloud__Value_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Type of the condition value.</description>
-    <externalId>false</externalId>
     <label>Value Type</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

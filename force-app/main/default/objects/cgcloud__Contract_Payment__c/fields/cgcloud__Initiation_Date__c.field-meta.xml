@@ -4,7 +4,6 @@
     <defaultValue>TODAY()</defaultValue>
     <deprecated>false</deprecated>
     <description>This dates specifies the date of the entry of the claim.</description>
-    <externalId>false</externalId>
     <label>Initiation Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

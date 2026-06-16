@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Status_FW__c</fullName>
     <deprecated>false</deprecated>
     <description>Indicates the health of the CG Cloud offline mobile app framework using a traffic light indicator (Green for G, Yellow for Y, Red for R).</description>
-    <externalId>false</externalId>
     <label>Framework Status</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

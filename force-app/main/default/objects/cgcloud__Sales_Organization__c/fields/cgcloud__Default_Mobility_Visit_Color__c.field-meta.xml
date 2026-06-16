@@ -3,7 +3,6 @@
     <fullName>cgcloud__Default_Mobility_Visit_Color__c</fullName>
     <deprecated>false</deprecated>
     <description>Field to define the default color of visits on calendar on mobility device</description>
-    <externalId>false</externalId>
     <inlineHelpText>Please choose the color for the visit to display in the visit calendar</inlineHelpText>
     <label>Default Mobility Visit Calendar Color</label>
     <required>false</required>

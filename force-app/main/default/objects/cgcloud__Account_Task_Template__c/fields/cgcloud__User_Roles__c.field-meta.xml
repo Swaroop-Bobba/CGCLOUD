@@ -3,7 +3,6 @@
     <fullName>cgcloud__User_Roles__c</fullName>
     <deprecated>false</deprecated>
     <description>User roles required for the user when creating calls based on this template.</description>
-    <externalId>false</externalId>
     <label>User Roles</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Kpi used to determine condition value.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the KPI used to generate conditions.</inlineHelpText>
     <label>Source KPI Definition</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>

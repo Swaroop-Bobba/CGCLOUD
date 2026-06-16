@@ -3,7 +3,6 @@
     <fullName>bofc__Only_FLS__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Only FLS</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Segment_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Segment Type</description>
-    <externalId>false</externalId>
     <inlineHelpText>Segment Type</inlineHelpText>
     <label>Segment Type</label>
     <required>false</required>

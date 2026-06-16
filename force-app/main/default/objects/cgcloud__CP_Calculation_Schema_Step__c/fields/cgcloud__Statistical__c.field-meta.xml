@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Defines if the calculation step is a statistical step.</description>
-    <externalId>false</externalId>
     <label>Statistical</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

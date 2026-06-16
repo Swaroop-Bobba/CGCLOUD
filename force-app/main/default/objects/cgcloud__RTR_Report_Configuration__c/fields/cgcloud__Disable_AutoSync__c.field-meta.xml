@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Set this value to true to disable automatic synchronization to off platform. This value will be set to false after the refresh is completed.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Set this value to true to disable automatic synchronization to off platform. This value will be set to false after the refresh is completed.</inlineHelpText>
     <label>Disable AutoSync</label>
     <trackTrending>false</trackTrending>

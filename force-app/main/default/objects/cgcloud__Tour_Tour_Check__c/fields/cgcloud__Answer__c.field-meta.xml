@@ -3,7 +3,6 @@
     <fullName>cgcloud__Answer__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Answer</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Organization_Cluster__c</fullName>
     <deprecated>false</deprecated>
     <description>Values for the organization cluster</description>
-    <externalId>false</externalId>
     <inlineHelpText>Identifies the cluster the sales org can belongs to.</inlineHelpText>
     <label>Sales Organization Cluster</label>
     <required>false</required>

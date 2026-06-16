@@ -3,7 +3,6 @@
     <fullName>cgc_sync__Description__c</fullName>
     <deprecated>false</deprecated>
     <description>Description for Deployment Mobility Package</description>
-    <externalId>false</externalId>
     <label>Description</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Determines if the condition creation is enabled.</description>
-    <externalId>false</externalId>
     <label>Enable Condition Creation</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

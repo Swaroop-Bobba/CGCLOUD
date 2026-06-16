@@ -3,7 +3,6 @@
     <fullName>cgcloud__Detail_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Type of the detail record.</description>
-    <externalId>false</externalId>
     <label>Detail Type</label>
     <required>true</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Calculated_Funding_Percent__c</fullName>
     <deprecated>false</deprecated>
     <description>Funding Percent value calculated based on Plan Spend amount allocated on Tactic Fund and Total Plan Spend amount for Tactic. It is used when Fund Auto-Determination is disabled.</description>
-    <externalId>false</externalId>
     <formula>IF( NOT(ISBLANK(cgcloud__Tactic__r.cgcloud__Total_Plan_Spend__c)) , (cgcloud__Plan_Spend__c/ cgcloud__Tactic__r.cgcloud__Total_Plan_Spend__c), 0)</formula>
     <label>Funding %</label>
     <precision>18</precision>

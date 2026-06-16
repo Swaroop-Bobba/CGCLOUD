@@ -3,7 +3,6 @@
     <fullName>cgcloud__Promotion_Date_From__c</fullName>
     <deprecated>false</deprecated>
     <description>References to the promotion date from.</description>
-    <externalId>false</externalId>
     <formula>cgcloud__Promotion__r.cgcloud__Date_From__c</formula>
     <label>Promotion Date From</label>
     <required>false</required>

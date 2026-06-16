@@ -3,7 +3,6 @@
     <fullName>cgcloud__WMI_Product_List_Relevant_Measures__c</fullName>
     <deprecated>false</deprecated>
     <description>Measure codes defined for weeklymeasureint table</description>
-    <externalId>false</externalId>
     <label>Weekly Measure Int</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

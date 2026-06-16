@@ -4,7 +4,6 @@
     <defaultValue>&quot;{}&quot;</defaultValue>
     <deprecated>false</deprecated>
     <description>This field is designed to contain schemaless, user/project specific data associated with a specific application installation.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Stores a JSON document that can be accessed by the mobile clients.</inlineHelpText>
     <label>Schemaless Extension JSON</label>
     <length>131072</length>

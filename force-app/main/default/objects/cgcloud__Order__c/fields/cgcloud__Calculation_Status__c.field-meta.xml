@@ -3,7 +3,6 @@
     <fullName>cgcloud__Calculation_Status__c</fullName>
     <deprecated>false</deprecated>
     <description>The complex pricing calculation status.</description>
-    <externalId>false</externalId>
     <label>Calculation Status</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Account_Plan__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Account Plan</label>
     <referenceTo>cgcloud__Account_Plan__c</referenceTo>
     <relationshipLabel>Account Plan User Filter</relationshipLabel>

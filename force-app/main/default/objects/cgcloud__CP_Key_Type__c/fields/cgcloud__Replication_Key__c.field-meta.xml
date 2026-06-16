@@ -3,7 +3,6 @@
     <fullName>cgcloud__Replication_Key__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines which part of the merged key is used for replicating the condition record.</description>
-    <externalId>false</externalId>
     <label>Replication Key</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

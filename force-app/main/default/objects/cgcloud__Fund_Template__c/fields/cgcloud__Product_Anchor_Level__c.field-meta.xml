@@ -3,7 +3,6 @@
     <fullName>cgcloud__Product_Anchor_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Controls the Level of the Product Anchor (if any) of the Fund</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the level of the Product Anchor.</inlineHelpText>
     <label>Product Anchor Level</label>
     <required>false</required>

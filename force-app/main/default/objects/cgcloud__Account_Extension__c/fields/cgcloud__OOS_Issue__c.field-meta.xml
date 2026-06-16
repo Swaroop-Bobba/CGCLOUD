@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates if last relevant call (and then the customer) has OoS issues.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Indicates if last relevant call (and then the customer) has OoS issues.</inlineHelpText>
     <label>OoS Issue</label>
     <trackTrending>false</trackTrending>

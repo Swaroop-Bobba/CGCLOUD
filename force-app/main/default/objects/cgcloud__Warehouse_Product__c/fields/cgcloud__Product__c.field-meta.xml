@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the product object.</description>
-    <externalId>false</externalId>
     <label>Product</label>
     <lookupFilter>
         <active>true</active>

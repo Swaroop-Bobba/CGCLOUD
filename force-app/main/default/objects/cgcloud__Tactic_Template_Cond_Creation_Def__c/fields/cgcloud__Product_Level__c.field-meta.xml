@@ -3,7 +3,6 @@
     <fullName>cgcloud__Product_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Can be set to overwrite the automatically determined condition creation level.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the product level at which the condition is created.</inlineHelpText>
     <label>Product Level</label>
     <required>false</required>

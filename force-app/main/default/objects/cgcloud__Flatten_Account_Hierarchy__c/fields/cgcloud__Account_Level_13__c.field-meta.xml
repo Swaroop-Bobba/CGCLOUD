@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the Account level hierarchy.</description>
-    <externalId>false</externalId>
     <label>Account Level 13</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Flatten Account Hierarchies (Account Level 14)</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Product_Hierarchy_Search__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies if and how the product hierarchy has to be considered for condition finding.</description>
-    <externalId>false</externalId>
     <label>Product Hierarchy Search</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

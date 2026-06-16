@@ -3,7 +3,6 @@
     <fullName>cgcloud__Done__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Done</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

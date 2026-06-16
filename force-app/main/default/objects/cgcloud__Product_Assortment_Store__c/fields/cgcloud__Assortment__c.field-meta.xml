@@ -3,7 +3,6 @@
     <fullName>cgcloud__Assortment__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to product assortment.</description>
-    <externalId>false</externalId>
     <label>Assortment</label>
     <referenceTo>Assortment</referenceTo>
     <relationshipLabel>Product Assortment</relationshipLabel>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Start_Time__c</fullName>
     <deprecated>false</deprecated>
     <description>Time when the offcore processing services started the calculation.</description>
-    <externalId>false</externalId>
     <label>Calculation Start Time</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

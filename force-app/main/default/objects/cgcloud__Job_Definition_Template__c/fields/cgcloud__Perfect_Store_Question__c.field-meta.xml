@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Defines if question must be considered relevant for perfect store index determination of a call.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines if question must be considered relevant for perfect store index determination of a call.</inlineHelpText>
     <label>Perfect Store Question</label>
     <trackHistory>false</trackHistory>

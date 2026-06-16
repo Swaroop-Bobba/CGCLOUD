@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Default order unit.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Unit of Measure is default order unit.</inlineHelpText>
     <label>Is Order Unit</label>
     <trackTrending>false</trackTrending>

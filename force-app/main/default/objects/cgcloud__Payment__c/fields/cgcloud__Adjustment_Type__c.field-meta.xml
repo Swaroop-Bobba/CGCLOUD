@@ -3,7 +3,6 @@
     <fullName>cgcloud__Adjustment_Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the type of adjustment.</description>
-    <externalId>false</externalId>
     <label>Adjustment Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Calculation_Groups__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies all calculation groups that are relevant for the calculation step.</description>
-    <externalId>false</externalId>
     <label>Calculation Groups</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

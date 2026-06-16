@@ -3,7 +3,6 @@
     <fullName>cgcloud__Order_Payment_Template__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to order payment template.</description>
-    <externalId>false</externalId>
     <label>Order Payment Template</label>
     <referenceTo>cgcloud__Order_Payment_Template__c</referenceTo>
     <relationshipLabel>Order Template Order Payment Templates</relationshipLabel>

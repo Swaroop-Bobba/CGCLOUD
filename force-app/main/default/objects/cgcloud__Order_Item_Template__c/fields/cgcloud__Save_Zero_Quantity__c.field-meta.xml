@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>A Order item based on the respective item template will be saved when the item has been modified but still has 0 quantity with order item</description>
-    <externalId>false</externalId>
     <label>Save Zero Quantity</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

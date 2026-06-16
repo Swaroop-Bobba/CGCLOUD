@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to the responsible user.</description>
-    <externalId>false</externalId>
     <label>Responsible</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Orders</relationshipName>

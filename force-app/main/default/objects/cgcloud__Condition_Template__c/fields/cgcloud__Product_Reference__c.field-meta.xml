@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Describes, whether there exists a product reference for the conditions of this template.</description>
-    <externalId>false</externalId>
     <label>Product Reference</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

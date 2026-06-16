@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sales_Organization__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the sales organization</description>
-    <externalId>false</externalId>
     <label>Sales Organization</label>
     <referenceTo>cgcloud__Sales_Organization__c</referenceTo>
     <relationshipLabel>User</relationshipLabel>

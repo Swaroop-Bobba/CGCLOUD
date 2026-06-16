@@ -4,7 +4,6 @@
     <deprecated>false</deprecated>
     <description>User roles assigned to the Order Template.
       NOTE: Please ensure the master picklist values exactly match Technical Name of the permission sets. Set the user value in Translation. (e.g. CGCloud_Master_Data_Admin is the master picklist value, Master Data Admin is translated value).</description>
-    <externalId>false</externalId>
     <label>User Roles</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

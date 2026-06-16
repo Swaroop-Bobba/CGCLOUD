@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Launches outbound message to Offplatform with Session Id.</description>
-    <externalId>false</externalId>
     <label>Complex Pricing</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

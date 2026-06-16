@@ -3,7 +3,6 @@
     <fullName>cgcloud__Payment__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Claim</label>
     <referenceTo>cgcloud__Payment__c</referenceTo>
     <relationshipLabel>External References</relationshipLabel>

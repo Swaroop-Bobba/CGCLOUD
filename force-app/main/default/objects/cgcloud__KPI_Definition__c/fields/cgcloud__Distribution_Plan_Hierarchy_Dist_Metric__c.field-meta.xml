@@ -3,7 +3,6 @@
     <fullName>cgcloud__Distribution_Plan_Hierarchy_Dist_Metric__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Distribution (Planning Hierarchy)</label>
     <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
     <relationshipLabel>KPI Definitions (Distribution (Plan Hierarchy))</relationshipLabel>

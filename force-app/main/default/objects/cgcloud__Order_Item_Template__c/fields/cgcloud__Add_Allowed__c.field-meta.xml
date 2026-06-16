@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Specifies whether the user can add items belonging to the item template in question.</description>
-    <externalId>false</externalId>
     <label>Mobility: Add Allowed</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

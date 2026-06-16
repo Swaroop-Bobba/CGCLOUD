@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>This field is used to signal that the record can be safely unlocked as part of the stop transacting process.</description>
-    <externalId>false</externalId>
     <label>Stop Transacting Unlock</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>

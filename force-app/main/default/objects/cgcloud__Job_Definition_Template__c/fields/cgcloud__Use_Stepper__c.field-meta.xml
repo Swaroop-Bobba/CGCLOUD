@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Controls stepper for numeric fields when answering questions or surveys on CGCloud OnPremise mobile devices</description>
-    <externalId>false</externalId>
     <label>Use Stepper</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

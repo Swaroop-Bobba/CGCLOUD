@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Relation to the contract tactic template</description>
-    <externalId>false</externalId>
     <label>Contract Tactic Template</label>
     <lookupFilter>
         <active>true</active>

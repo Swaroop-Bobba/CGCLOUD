@@ -3,7 +3,6 @@
     <fullName>cgcloud__From_Status__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the state valid before the state transition.</description>
-    <externalId>false</externalId>
     <label>From Status</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

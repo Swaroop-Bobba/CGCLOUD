@@ -3,7 +3,6 @@
     <fullName>cgcloud__Distance_Unit__c</fullName>
     <deprecated>false</deprecated>
     <description>Unit of distance used in the sales org.</description>
-    <externalId>false</externalId>
     <label>Distance Unit</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

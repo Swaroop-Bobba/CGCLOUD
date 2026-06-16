@@ -3,7 +3,6 @@
     <fullName>cgcloud__Valid_Thru__c</fullName>
     <deprecated>false</deprecated>
     <description>End period of all conditions merged into this condition (oldest one)</description>
-    <externalId>false</externalId>
     <label>Valid Thru</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Condition_Change_Rule__c</fullName>
     <deprecated>false</deprecated>
     <description>Determines the rule to handle past conditions.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines the rule to handle past conditions.</inlineHelpText>
     <label>Condition Change Rule</label>
     <required>false</required>

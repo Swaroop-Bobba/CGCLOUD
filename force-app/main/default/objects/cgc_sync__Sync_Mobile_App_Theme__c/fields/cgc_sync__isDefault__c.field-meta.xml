@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Flag to mark one default theme. Default theme is used on mobile device.</description>
-    <externalId>false</externalId>
     <label>Default</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

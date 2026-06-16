@@ -3,7 +3,6 @@
     <fullName>cgcloud__Account_Set__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to Customer Set.</description>
-    <externalId>false</externalId>
     <label>Customer Set</label>
     <referenceTo>cgcloud__Account_Set__c</referenceTo>
     <relationshipLabel>Customer Set Managers</relationshipLabel>

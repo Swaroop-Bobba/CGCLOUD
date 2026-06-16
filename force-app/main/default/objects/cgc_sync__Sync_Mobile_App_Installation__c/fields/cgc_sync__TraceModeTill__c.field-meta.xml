@@ -3,7 +3,6 @@
     <fullName>cgc_sync__TraceModeTill__c</fullName>
     <deprecated>false</deprecated>
     <description>End date of trace mode on mobile device</description>
-    <externalId>false</externalId>
     <inlineHelpText>End date of trace mode on mobile device</inlineHelpText>
     <label>Trace Mode Till</label>
     <required>false</required>

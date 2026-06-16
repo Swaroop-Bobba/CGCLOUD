@@ -3,7 +3,6 @@
     <fullName>cgcloud__Path__c</fullName>
     <deprecated>false</deprecated>
     <description>Path of the entity.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Multiple paths can be specified separated by &apos;,&apos;.</inlineHelpText>
     <label>Path</label>
     <length>1000</length>

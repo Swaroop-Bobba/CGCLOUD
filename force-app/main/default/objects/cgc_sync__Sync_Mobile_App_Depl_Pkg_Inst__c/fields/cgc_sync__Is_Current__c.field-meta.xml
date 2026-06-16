@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>The flag which indicates the entry is related to latest installed deployment package. The value is set by the trigger.</description>
-    <externalId>false</externalId>
     <label>Is Latest Package On Device</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

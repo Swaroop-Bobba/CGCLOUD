@@ -3,7 +3,6 @@
     <fullName>cgcloud__Note__c</fullName>
     <deprecated>false</deprecated>
     <description>Comments to track the changes made in customer business plan record.</description>
-    <externalId>false</externalId>
     <label>Comment</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

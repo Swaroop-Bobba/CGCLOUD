@@ -5,7 +5,6 @@
     <deprecated>false</deprecated>
     <description>Lookup field to capture customer for which Order is
 			created</description>
-    <externalId>false</externalId>
     <label>Customer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Orders (Customer)</relationshipLabel>

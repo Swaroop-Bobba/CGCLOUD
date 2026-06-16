@@ -3,7 +3,6 @@
     <fullName>cgcloud__Available_Time_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Select time intervals for viewing and editing KPIs in an account plan and associated CBPs.</description>
-    <externalId>false</externalId>
     <label>Time Intervals for KPIs</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

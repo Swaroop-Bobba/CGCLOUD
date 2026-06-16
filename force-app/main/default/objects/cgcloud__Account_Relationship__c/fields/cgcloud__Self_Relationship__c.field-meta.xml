@@ -3,7 +3,6 @@
     <fullName>cgcloud__Self_Relationship__c</fullName>
     <deprecated>false</deprecated>
     <description>The formula that’s used to indicate that the relationship is a self-relationship.</description>
-    <externalId>false</externalId>
     <formula>cgcloud__Account__c = cgcloud__Related_Account__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Self Relationship</label>

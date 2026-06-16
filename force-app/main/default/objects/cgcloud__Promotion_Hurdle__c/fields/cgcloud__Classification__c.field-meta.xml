@@ -3,7 +3,6 @@
     <fullName>cgcloud__Classification__c</fullName>
     <deprecated>false</deprecated>
     <description>Classification of products.</description>
-    <externalId>false</externalId>
     <label>Classification</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

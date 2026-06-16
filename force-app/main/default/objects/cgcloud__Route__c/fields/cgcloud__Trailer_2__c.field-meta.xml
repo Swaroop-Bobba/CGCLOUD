@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Second default trailer.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Please select vehicles of the type Trailer.</inlineHelpText>
     <label>Trailer 2</label>
     <lookupFilter>

@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Indicates whether the user documents the odometer reading at start and end of the day with a picture.</description>
-    <externalId>false</externalId>
     <label>Odometer Photo Required</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

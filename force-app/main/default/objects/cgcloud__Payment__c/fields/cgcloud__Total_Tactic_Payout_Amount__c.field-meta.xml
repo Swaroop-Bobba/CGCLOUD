@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgcloud__Total_Tactic_Payout_Amount__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Total Payout</label>
     <summarizedField>cgcloud__Payment_Tactic__c.cgcloud__Tactic_Payout__c</summarizedField>
     <summaryForeignKey>cgcloud__Payment_Tactic__c.cgcloud__Payment__c</summaryForeignKey>

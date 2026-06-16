@@ -3,7 +3,6 @@
     <fullName>cgcloud__Sell_Sheet__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the Sell Sheet.</description>
-    <externalId>false</externalId>
     <label>Sell Sheet</label>
     <lookupFilter>
         <active>true</active>

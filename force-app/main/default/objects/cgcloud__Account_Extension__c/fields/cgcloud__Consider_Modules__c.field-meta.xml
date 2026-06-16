@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Denotes, whether the account can be used for listing module classification.</description>
-    <externalId>false</externalId>
     <label>Consider Modules</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -3,7 +3,6 @@
     <fullName>cgcloud__Vendor_Anchor__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Vendor Anchor</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Payments (Vendor Anchor)</relationshipLabel>

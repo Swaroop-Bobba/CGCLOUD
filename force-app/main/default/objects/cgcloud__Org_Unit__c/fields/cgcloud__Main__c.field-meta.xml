@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Main Org Unit.</description>
-    <externalId>false</externalId>
     <label>Main</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

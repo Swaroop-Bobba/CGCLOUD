@@ -3,7 +3,6 @@
     <fullName>cgcloud__Landing_Page__c</fullName>
     <deprecated>false</deprecated>
     <description>Sets the landing page on the mobile app.</description>
-    <externalId>false</externalId>
     <label>Landing Page</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Reference to promotion if the product of the item originates from a selectable promotion</description>
-    <externalId>false</externalId>
     <label>Promotion</label>
     <referenceTo>cgcloud__Promotion__c</referenceTo>
     <relationshipLabel>Order Items</relationshipLabel>

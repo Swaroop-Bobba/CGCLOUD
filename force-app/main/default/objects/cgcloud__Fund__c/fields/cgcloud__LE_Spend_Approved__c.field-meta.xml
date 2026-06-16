@@ -3,7 +3,6 @@
     <fullName>cgcloud__LE_Spend_Approved__c</fullName>
     <deprecated>false</deprecated>
     <description>Sum of Tactic_Fund.LE_Spend__c of records whose Phase equals Committed</description>
-    <externalId>false</externalId>
     <label>LE Spend (Approved)</label>
     <summarizedField>cgcloud__Tactic_Fund__c.cgcloud__LE_Spend__c</summarizedField>
     <summaryFilterItems>

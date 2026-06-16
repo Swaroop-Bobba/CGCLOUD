@@ -3,7 +3,6 @@
     <fullName>cgcloud__Express_Check_Out__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Express Check Out</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

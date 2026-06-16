@@ -3,7 +3,6 @@
     <fullName>cgcloud__Target_Result__c</fullName>
     <deprecated>false</deprecated>
     <description>Specification of the line item attribute or sales document attribute that will receive the result of the current calculation step.</description>
-    <externalId>false</externalId>
     <label>Target Result</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

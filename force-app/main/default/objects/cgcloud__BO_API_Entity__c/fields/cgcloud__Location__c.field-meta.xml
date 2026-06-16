@@ -4,7 +4,6 @@
     <defaultValue>&apos;Input&apos;</defaultValue>
     <deprecated>false</deprecated>
     <description>Location of the entity. Input JSON or Output JSON.</description>
-    <externalId>false</externalId>
     <label>Location</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

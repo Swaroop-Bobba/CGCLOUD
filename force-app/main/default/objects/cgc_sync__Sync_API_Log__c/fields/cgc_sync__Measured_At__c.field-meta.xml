@@ -4,7 +4,6 @@
     <defaultValue>Now()</defaultValue>
     <deprecated>false</deprecated>
     <description>Stores the exact date and time when the measurement was performed for this particular KPI.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Stores the exact date and time when the measurement was performed for this particular KPI.</inlineHelpText>
     <label>Measured At</label>
     <required>false</required>

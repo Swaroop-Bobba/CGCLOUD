@@ -3,7 +3,6 @@
     <fullName>cgcloud__Product_Assortment__c</fullName>
     <deprecated>false</deprecated>
     <description>Reference to the assortment the order template relation belongs to.</description>
-    <externalId>false</externalId>
     <label>Product Assortment</label>
     <lookupFilter>
         <active>false</active>

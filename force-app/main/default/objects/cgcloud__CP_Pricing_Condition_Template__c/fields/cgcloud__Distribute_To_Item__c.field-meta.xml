@@ -4,7 +4,6 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Defines if the found/calculated condition value will be distributed to the sales document items.</description>
-    <externalId>false</externalId>
     <inlineHelpText>A Header Condition can only be distributed to Items in very specific order scenarios. If distribution is required it is necessary to align the behavior with CG Cloud.</inlineHelpText>
     <label>Distribute To Item</label>
     <trackTrending>false</trackTrending>

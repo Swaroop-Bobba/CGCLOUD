@@ -3,7 +3,6 @@
     <fullName>cgcloud__Data_Source_BoM_Component_Source_Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Defines from which level the values are determined.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Defines from which level the values are determined</inlineHelpText>
     <label>BOM Component Source Level</label>
     <required>false</required>

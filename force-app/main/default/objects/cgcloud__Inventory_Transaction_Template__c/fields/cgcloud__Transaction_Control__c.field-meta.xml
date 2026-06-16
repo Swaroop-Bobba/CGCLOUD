@@ -3,7 +3,6 @@
     <fullName>cgcloud__Transaction_Control__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies the transaction behaviour.</description>
-    <externalId>false</externalId>
     <label>Transaction Control</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

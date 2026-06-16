@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>cgcloud__Workflow__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Workflow</label>
     <referenceTo>cgcloud__Workflow__c</referenceTo>
     <relationshipLabel>Workflow State Transitions</relationshipLabel>

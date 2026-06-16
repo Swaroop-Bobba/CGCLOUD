@@ -3,7 +3,6 @@
     <fullName>cgcloud__Creation_Platform__c</fullName>
     <deprecated>false</deprecated>
     <description>Indicates, on which platform this template can be used for new creation of order documents.</description>
-    <externalId>false</externalId>
     <label>Creation Platform</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
