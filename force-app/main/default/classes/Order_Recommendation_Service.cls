@@ -42,11 +42,11 @@ public with sharing class Order_Recommendation_Service {
             res.orderName = ord.Name;
             res.orderStatus = ord.cgcloud__Phase__c;
         } else {
-            res.orderId = orderId;
-            res.orderName = 'MOCK-ORDER';
-            res.orderStatus = 'Draft';
-            res.accountId = 'mock_account_id';
-            res.accountName = 'ABC Retail Store';
+            res.orderId = null;
+            res.orderName = null;
+            res.orderStatus = null;
+            res.accountId = null;
+            res.accountName = null;
         }
         return res;
     }
@@ -523,6 +523,71 @@ public with sharing class Order_Recommendation_Service {
             }
             res.recommendations = String.join(lines, '\n');
         }
+        return res;
+    }
+
+    public static Order_Recommendation_Handler.Result getSellableProducts(String accountId) {
+        Order_Recommendation_Handler.Result res = new Order_Recommendation_Handler.Result();
+        if (String.isBlank(accountId)) {
+            res.recommendations = 'Error: Account ID is required to retrieve sellable products.';
+            return res;
+        }
+        res.accountId = accountId;
+
+        Set<Id> assortmentIds = new Set<Id>();
+        try {
+            String customAssQuery = 'SELECT cgcloud__Assortment__c FROM cgcloud__Product_Assortment_Store__c WHERE cgcloud__Store__c = :accountId';
+            List<SObject> customAssortments = Database.query(customAssQuery, AccessLevel.USER_MODE);
+            for (SObject ca : customAssortments) {
+                Id assId = (Id)ca.get('cgcloud__Assortment__c');
+                if (assId != null) {
+                    assortmentIds.add(assId);
+                }
+            }
+        } catch (Exception e) {}
+
+        try {
+            List<StoreAssortment> standardAssortments = [
+                SELECT AssortmentId FROM StoreAssortment WHERE AccountId = :accountId WITH USER_MODE
+            ];
+            for (StoreAssortment sa : standardAssortments) {
+                if (sa.AssortmentId != null) {
+                    assortmentIds.add(sa.AssortmentId);
+                }
+            }
+        } catch (Exception e) {}
+
+        List<Product2> products = new List<Product2>();
+        if (!assortmentIds.isEmpty()) {
+            List<AssortmentProduct> apList = [
+                SELECT ProductId, Product.Name, Product.Family
+                FROM AssortmentProduct 
+                WHERE AssortmentId IN :assortmentIds 
+                WITH USER_MODE
+                LIMIT 100
+            ];
+            for (AssortmentProduct ap : apList) {
+                if (ap.Product != null) {
+                    products.add(ap.Product);
+                }
+            }
+        }
+
+        if (products.isEmpty()) {
+            products = [SELECT Id, Name, Family FROM Product2 WHERE IsActive = true WITH USER_MODE LIMIT 40];
+        }
+
+        List<String> lines = new List<String>();
+        lines.add('### \uD83D\uDCE6 Sellable Products');
+        if (products.isEmpty()) {
+            lines.add('*No sellable products found for this store account.*');
+        } else {
+            for (Product2 p : products) {
+                String familyStr = String.isNotBlank(p.Family) ? ' (' + p.Family + ')' : '';
+                lines.add('- \uD83D\uDCE6 **' + p.Name + '**' + familyStr);
+            }
+        }
+        res.recommendations = String.join(lines, '\n') + '\n\uD83D\uDCA1 Would you like to view product recommendations, order history, or an order summary for this store account?';
         return res;
     }
 

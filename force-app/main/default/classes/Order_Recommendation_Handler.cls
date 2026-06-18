@@ -60,6 +60,8 @@ public with sharing class Order_Recommendation_Handler {
                 res = Order_Recommendation_Service.getFullOrderList(req.accountId);
             } else if (action == 'getordersummary') {
                 res = Order_Recommendation_Service.getOrderSummary(req.accountId);
+            } else if (action == 'getsellableproducts') {
+                res = Order_Recommendation_Service.getSellableProducts(req.accountId);
             } else if (action == 'searchaccounts') {
                 res = Order_Recommendation_Service.searchAccounts(req.searchQuery);
             }

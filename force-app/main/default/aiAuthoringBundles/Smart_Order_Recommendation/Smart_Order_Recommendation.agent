@@ -72,31 +72,27 @@ start_agent agent_router:
                     set @variables.accountName = @outputs.accountName
                     set @variables.recentOrdersText = @outputs.recentOrdersText
 
-            if @variables.accountId != "" and @variables.orderId != "":
+            if @variables.accountId != "":
                 transition to @subagent.order_recommendation
 
             | Instructions:
-            | 1. Welcome Message:
-            |    - Output your messages line-by-line, preserving all newlines.
-            | 2. Order Record Page Context (currentObjectApiName is "cgcloud__Order__c"):
-            |    - Greet concisely: "🏪 Welcome! I found the current order {!@variables.orderName} for {!@variables.accountName}. How can I assist you today? I can help with product recommendations, order summaries, or order history."
-            | 3. Account Record Page Context (currentObjectApiName is "Account"):
-            |    - Greet concisely: "🏪 Hello! I found the current account {!@variables.accountName}. Here are the 3 most recent orders:"
-            |    - Print the recent orders listed in {!@variables.recentOrdersText} exactly as returned line-by-line, preserving newlines.
-            |    - Prompt: "💡 Would you like to see a full list of orders, or select one by typing the order number (e.g. O-01155) to view recommendations?"
-            | 4. No Record Page Context:
-            |    - Directly ask: "💡 Welcome! I am Order Assistant. I can help you with Orders. To get started, please provide an order number (e.g. O-01155) or an account name, and I will load the context for you."
-            | 5. If the user provides an order name/number (e.g. starting with 'O-') or a mock order ID:
-            |    - Run {!@actions.get_order_context} with orderId set to the user's input.
-            |    - Transition to the order_recommendation subagent.
-            | 6. If the user provides an account name, search string, or selects an account from a list:
-            |    - Run {!@actions.search_accounts} with searchQuery set to the user's input. Do NOT call get_account_context directly with an account name or search string. You must only call get_account_context when you have a valid 18-character Salesforce Account ID.
-            |    - If no accounts are found (as indicated by the recommendations output of search_accounts), output the message returned in the recommendations output parameter exactly as returned, and ask the user to provide another name.
-            |    - If a single account is returned (meaning the search query successfully resolved to a single account), set accountId and retrieve account context using {!@actions.get_account_context}.
-            |    - If multiple accounts are returned, display the list of accounts exactly as returned in the recommendations output parameter of search_accounts, preserving all emojis and lines, and ask the user to choose one by typing its full name.
-            | 7. Off-Topic: Transition to the off_topic subagent using {!@actions.go_to_off_topic} when the user asks questions unrelated to order recommendations, store accounts, or order histories.
-            | 8. Ambiguous: Transition to the ambiguous_question subagent using {!@actions.go_to_ambiguous_question} when the user request is too vague or unclear.
-            | 9. Do NOT use show_command. Always compose response as direct text.
+            | 1. Greet / Request Context when NO context is loaded (both accountId and orderId are empty):
+            |    - Always output the exact message: "To help you with account or order-related information, please provide an Account Name or Order Number."
+            |    - If the user asks any account-related or order-related questions (like recommendations, history, summary, etc.), and no context is loaded, do NOT run any actions and do NOT answer. Always repeat: "To help you with account or order-related information, please provide an Account Name or Order Number."
+            | 2. Context Loading:
+            |    - If the user provides an order name/number (e.g. starting with 'O-' or a specific order identifier):
+            |      - Run {!@actions.get_order_context} with orderId set to the user's input.
+            |      - If the order is found (indicated by a non-empty accountName from get_order_context), transition to the order_recommendation subagent.
+            |      - If the order is not found, inform the user that the order was not found and ask them to provide another order number.
+            |    - If the user provides an account name or search query:
+            |      - Run {!@actions.search_accounts} with searchQuery set to the user's input.
+            |      - If no accounts are found, inform the user and ask them to provide another account name.
+            |      - If a single account is found (indicated by a non-empty accountName output from search_accounts), set accountId and retrieve account context using {!@actions.get_account_context}, then transition to the order_recommendation subagent.
+            |      - If multiple accounts are found, display the list of accounts exactly as returned in the recommendations output parameter of search_accounts, preserving all emojis and lines, and ask the user to choose one by typing its full name.
+            | 3. Off-Topic & Ambiguous:
+            |    - Transition to the off_topic subagent using {!@actions.go_to_off_topic} when the user query is completely off-topic.
+            |    - Transition to the ambiguous_question subagent using {!@actions.go_to_ambiguous_question} when the user request is too vague or unclear.
+            | 4. Do NOT use show_command. Always compose response as direct text.
 
         actions:
             get_order_context: @actions.get_order_context
@@ -238,6 +234,23 @@ start_agent agent_router:
                     is_required: True
                 orderId: string
                     description: "The Order record ID."
+                    is_required: False
+            outputs:
+                recommendations: string
+                    is_displayable: True
+
+        get_sellable_products:
+            description: "Retrieve a list of sellable products (assortment products) for the Account."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The Account ID."
                     is_required: True
             outputs:
                 recommendations: string
@@ -250,15 +263,33 @@ subagent order_recommendation:
     reasoning:
         instructions: ->
             if @variables.accountId != "":
-                | Context loaded: Order "{!@variables.orderName}" (Status: {!@variables.orderStatus}), Account: "{!@variables.accountName}".
-                |
                 | Rules:
-                | 1. Welcome / Context loaded: Greet the user: "🏪 I found the current order {!@variables.orderName} for {!@variables.accountName}. How can I assist you today? I can help with product recommendations, order summaries, or order history."
-                | 2. Product Recommendations: When asked for suggestions, what to order, replenishment, or gaps, call {!@actions.suggest_products}.
-                | 3. Order Summary: When asked for order summary or spend summary, call {!@actions.get_order_summary}.
-                | 4. Order History / Full List: When asked for order history, previous orders, or the full list of orders, call {!@actions.get_full_order_list}.
-                | 5. Clear/Switch: If asked to switch or clear context, call {!@actions.clear_context}.
-                | 6. Do NOT use the show_command tool. Always compose your response as direct text.
+                | 1. Welcome / Greet the user based on the active context:
+                |    - If only Account context is loaded (@variables.orderId is empty):
+                |      Greet: "Hi! How can I help you with **{!@variables.accountName}** today?"
+                |      List or suggest actions exactly like this:
+                |      * Suggested products to sell
+                |      * Recent orders
+                |      * Order insights
+                |      * Order history
+                |      * Order summary
+                |      * Sellable products
+                |    - If Order context is loaded (@variables.orderId is not empty):
+                |      Greet: "Hi! How can I help you with **{!@variables.orderName}** today?"
+                |      List or suggest actions exactly like this:
+                |      * Suggested products for the next order
+                |      * Order insights
+                |      * Order summary
+                |      * Sellable products for the associated account
+                | 2. Inquiries:
+                |    - If asked for "suggested products to sell", "suggested products for the next order", or recommendations: call {!@actions.suggest_products}.
+                |    - If asked for "recent orders": show the recent orders from {!@variables.recentOrdersText}.
+                |    - If asked for "order insights": call {!@actions.get_order_summary}.
+                |    - If asked for "order history" or full order list: call {!@actions.get_full_order_list}.
+                |    - If asked for "order summary": call {!@actions.get_order_summary}.
+                |    - If asked for "sellable products" or "sellable products for the associated account": call {!@actions.get_sellable_products}.
+                |    - If asked to clear or switch context: call {!@actions.clear_context}.
+                | 3. Do NOT use the show_command tool. Always compose your response as direct text.
 
         actions:
             suggest_products: @actions.suggest_products
@@ -280,6 +311,12 @@ subagent order_recommendation:
                 with actionType = "getOrderSummary"
                 with accountId = @variables.accountId
 
+            get_sellable_products: @actions.get_sellable_products
+                description: "Retrieve a list of sellable products (assortment products) for the active account context."
+                with agentName = "Smart_Order_Recommendation"
+                with actionType = "getSellableProducts"
+                with accountId = @variables.accountId
+
             clear_context: @utils.transition to @subagent.clear_context
 
     actions:
@@ -298,7 +335,7 @@ subagent order_recommendation:
                     is_required: True
                 orderId: string
                     description: "The Order record ID."
-                    is_required: True
+                    is_required: False
             outputs:
                 recommendations: string
                     is_displayable: True
@@ -322,6 +359,23 @@ subagent order_recommendation:
 
         get_order_summary:
             description: "Retrieve a summary of order history for the current Account."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The Account ID."
+                    is_required: True
+            outputs:
+                recommendations: string
+                    is_displayable: True
+
+        get_sellable_products:
+            description: "Retrieve a list of sellable products (assortment products) for the Account."
             target: "apex://Order_Recommendation_Handler"
             inputs:
                 agentName: string
