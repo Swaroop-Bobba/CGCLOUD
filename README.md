@@ -47,6 +47,24 @@ Both agents utilize standard and custom Salesforce Actions (Apex and Flows) to i
 - **Apex Actions:** A suite of custom Apex classes (e.g., `GetAccountRelatedCounts`, `GetAccountOrderSummaryForAgent`, `SuggestProductsForStore`, `GenerateVisitSummary`) exposed as invocable actions for the agents.
 - **LLM Configuration:** Both agents are configured to use Anthropic Claude models (e.g., `sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet`).
 
+## 📦 Local Compiled Metadata Status
+
+We have deployed, compiled, and retrieved the runtime domain metadata from the `CGCSBX` sandbox. The compiled components reside locally:
+- **Bots (`/bots/`):**
+  - [CGC_Intelligence](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/bots/CGC_Intelligence/) — Compiled up to **v13**.
+  - [Visit_Intelligence](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/bots/Visit_Intelligence/) — Compiled up to **v22**.
+- **GenAI Planners (`/genAiPlannerBundles/`):**
+  - [CGC_Intelligence_v13](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/genAiPlannerBundles/CGC_Intelligence_v13/) — Contains rules and generated action JSON schemas.
+  - [Visit_Intelligence_v22](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/genAiPlannerBundles/Visit_Intelligence_v22/) — Contains rules and generated action JSON schemas.
+
+*Note: By default, `/bots/` and `/genAiPlannerBundles/` are listed in `.forceignore` to prevent accidental deployment collisions. If you need to retrieve updated versions from the org, temporarily comment out those ignore rules, retrieve, and uncomment them.*
+
+## 🧠 Local Agentforce DX Skills
+The local workspace contains customized Agentforce training guidelines under `.agents/skills/`:
+- [developing-agentforce](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/.agents/skills/developing-agentforce/SKILL.md) — Custom guidelines for Agent Script development.
+- [compiled-metadata-deep-dive.md](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/.agents/skills/developing-agentforce/references/compiled-metadata-deep-dive.md) — A detailed architectural manual explaining how Authoring domain `.agent` files map to compiled `Bot` and `GenAiPlannerBundle` components.
+
 ## 🚀 Usage
 
 To interact with these agents, open the Agentforce panel within the Salesforce UI while on a supported record page (Account, Visit, or Order) or globally. The agents will greet you based on your current context and prompt you with available actions.
+
