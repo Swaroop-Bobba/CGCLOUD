@@ -1,0 +1,46 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "buyingInsight" : {
+      "title" : "Buying Insight",
+      "description" : "AI-generated buying insight summary: top products by frequency, most saleable product.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "phaseBreakdown" : {
+      "title" : "Phase Breakdown",
+      "description" : "Order value breakdown by phase.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "recentOrders" : {
+      "title" : "Recent Orders",
+      "description" : "Formatted list of recent orders with details.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalOrders" : {
+      "title" : "Total Orders",
+      "description" : "Total number of historical orders.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalSpend" : {
+      "title" : "Total Spend",
+      "description" : "Total historical spend across all orders.",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

@@ -518,3 +518,6 @@ Ready-to-use `.agent` templates in `assets/agents/` (hello-world, simple-qa, mul
 | Feature validity by context | [feature-validity.md](references/feature-validity.md) |
 | Instruction resolution model | [instruction-resolution.md](references/instruction-resolution.md) |
 | Complete agent examples | [examples.md](references/examples.md) |
+| Compiled Metadata Deep Dive | [compiled-metadata-deep-dive.md](references/compiled-metadata-deep-dive.md) |
+
+

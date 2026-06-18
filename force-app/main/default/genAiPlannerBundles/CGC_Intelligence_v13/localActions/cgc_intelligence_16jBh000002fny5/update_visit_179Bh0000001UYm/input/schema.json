@@ -1,0 +1,84 @@
+{
+  "required" : [ "agentName", "actionType", "visitId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "actionType" : {
+      "title" : "Action Type",
+      "description" : "The type of action to perform.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "agentName" : {
+      "title" : "Agent Name",
+      "description" : "The name of the agent executing the request.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "endTime" : {
+      "title" : "End Time",
+      "description" : "Actual end date/time. Optional.",
+      "lightning:type" : "lightning__dateTimeStringType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "notes" : {
+      "title" : "Notes",
+      "description" : "Representative notes to append to the visit.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "ownerAlias" : {
+      "title" : "Owner Alias",
+      "description" : "Alias of the user to assign the visit. Optional.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "ownerId" : {
+      "title" : "Owner Id",
+      "description" : "Record ID of the user to assign the visit. Optional.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "ownerName" : {
+      "title" : "Owner Name",
+      "description" : "Name of the user to assign the visit. Optional.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "ownerProfileName" : {
+      "title" : "Owner Profile Name",
+      "description" : "Profile Name of the user to assign the visit. Optional.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "startTime" : {
+      "title" : "Start Time",
+      "description" : "Actual start date/time. Optional.",
+      "lightning:type" : "lightning__dateTimeStringType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "status" : {
+      "title" : "Status",
+      "description" : "New status value (e.g. InProgress, Completed, Canceled).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "visitId" : {
+      "title" : "Visit Id",
+      "description" : "The active Visit record ID.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

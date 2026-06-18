@@ -1,0 +1,86 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "activePromotions" : {
+      "title" : "Active Promotions",
+      "description" : "Active Promotions count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "outOfStockCount" : {
+      "title" : "Out Of Stock Count",
+      "description" : "Out of Stock count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "pendingVisitTasks" : {
+      "title" : "Pending Visit Tasks",
+      "description" : "Pending Visit Tasks count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalAssortmentProducts" : {
+      "title" : "Total Assortment Products",
+      "description" : "Total Assortment Products count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalAssortments" : {
+      "title" : "Total Assortments",
+      "description" : "Total Store Assortments count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalContacts" : {
+      "title" : "Total Contacts",
+      "description" : "Total Contacts count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalRetailStores" : {
+      "title" : "Total Retail Stores",
+      "description" : "Total Retail Stores count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalStoreProducts" : {
+      "title" : "Total Store Products",
+      "description" : "Total Store Products count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalTactics" : {
+      "title" : "Total Tactics",
+      "description" : "Total Tactics count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalVisits" : {
+      "title" : "Total Visits",
+      "description" : "Total Visits count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

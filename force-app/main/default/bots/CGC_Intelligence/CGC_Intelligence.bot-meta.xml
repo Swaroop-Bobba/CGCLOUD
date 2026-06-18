@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bot xmlns="http://soap.sforce.com/2006/04/metadata">
+    <agentDSLEnabled>true</agentDSLEnabled>
+    <agentType>AgentforceEmployeeAgent</agentType>
+    <botMlDomain>
+        <label>CGC Intelligence</label>
+        <name>CGC_Intelligence</name>
+    </botMlDomain>
+    <botSource>None</botSource>
+    <description>Operates globally or within Account, Visit, or Order contexts, retrieving relevant context and summarizing or detailing records.</description>
+    <label>CGC Intelligence</label>
+    <logPrivateConversationData>false</logPrivateConversationData>
+    <richContentEnabled>true</richContentEnabled>
+    <sessionTimeout>0</sessionTimeout>
+    <type>InternalCopilot</type>
+</Bot>

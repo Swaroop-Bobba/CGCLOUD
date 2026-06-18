@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bot xmlns="http://soap.sforce.com/2006/04/metadata">
+    <agentDSLEnabled>true</agentDSLEnabled>
+    <agentType>AgentforceEmployeeAgent</agentType>
+    <botMlDomain>
+        <label>Visit Intelligence</label>
+        <name>Visit_Intelligence</name>
+    </botMlDomain>
+    <botSource>None</botSource>
+    <description>Operates within a Visit context, retrieving related Account context and summarizing or detailing records.</description>
+    <label>Visit Intelligence</label>
+    <logPrivateConversationData>false</logPrivateConversationData>
+    <richContentEnabled>true</richContentEnabled>
+    <sessionTimeout>0</sessionTimeout>
+    <type>InternalCopilot</type>
+</Bot>

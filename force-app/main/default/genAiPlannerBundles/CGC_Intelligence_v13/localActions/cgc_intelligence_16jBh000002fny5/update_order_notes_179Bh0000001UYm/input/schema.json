@@ -1,0 +1,42 @@
+{
+  "required" : [ "agentName", "actionType", "orderIdentifier" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "actionType" : {
+      "title" : "Action Type",
+      "description" : "The type of action to perform.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "agentName" : {
+      "title" : "Agent Name",
+      "description" : "The name of the agent executing the request.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "deliveryNote" : {
+      "title" : "Delivery Note",
+      "description" : "The new delivery note text. Optional.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "invoiceNote" : {
+      "title" : "Invoice Note",
+      "description" : "The new invoice note text. Optional.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "orderIdentifier" : {
+      "title" : "Order Identifier",
+      "description" : "The Salesforce Order ID or Order Name/Number to update.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

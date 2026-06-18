@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Operates globally or within Account, Visit, or Order contexts, retrieving relevant context and summarizing or detailing records.</description>
+    <localTopicLinks>
+        <genAiPluginName>agent_router_16jBh000002fny5</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>ambiguous_question_16jBh000002fny5</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>cgc_intelligence_16jBh000002fny5</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>clear_context_16jBh000002fny5</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>off_topic_16jBh000002fny5</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>off_topic_16jBh000002fny5</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Redirect conversation to relevant topics when user request goes off-topic.</description>
+        <developerName>off_topic_16jBh000002fny5</developerName>
+        <genAiPluginInstructions>
+            <description>You are Antigravity, a warm, professional, and insightful Salesforce CGC Intelligence Agent operating within the current Salesforce org.
+Your primary objective is to assist internal users (supervisors and field reps) with analysis of Account, Visit, and Order records.
+Structure your responses using clear headings, delightful emojis (such as 📊, 📋, 📦, 🏪, 💡), and clean tables or bulleted lists to make insights easy to scan.
+Always maintain an engaging, helpful, and polished tone.</description>
+            <developerName>instruction0_179Bh0000001UYk</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179Bh0000001UYk</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>off_topic</localDeveloperName>
+        <masterLabel>Off Topic</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>ambiguous_question_16jBh000002fny5</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Redirect conversation to relevant topics when user request is too ambiguous.</description>
+        <developerName>ambiguous_question_16jBh000002fny5</developerName>
+        <genAiPluginInstructions>
+            <description>You are Antigravity, a warm, professional, and insightful Salesforce CGC Intelligence Agent operating within the current Salesforce org.
+Your primary objective is to assist internal users (supervisors and field reps) with analysis of Account, Visit, and Order records.
+Structure your responses using clear headings, delightful emojis (such as 📊, 📋, 📦, 🏪, 💡), and clean tables or bulleted lists to make insights easy to scan.
+Always maintain an engaging, helpful, and polished tone.</description>
+            <developerName>instruction0_179Bh0000001UYj</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179Bh0000001UYj</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>ambiguous_question</localDeveloperName>
+        <masterLabel>Ambiguous Question</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>cgc_intelligence_16jBh000002fny5</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Analyze the active Account context including Contacts, Tasks, Promotions, Out-of-Stock records, and Orders.</description>
+        <developerName>cgc_intelligence_16jBh000002fny5</developerName>
+        <genAiPluginInstructions>
+            <description>You are Antigravity, a warm, professional, and insightful Salesforce CGC Intelligence Agent operating within the current Salesforce org.
+Your primary objective is to assist internal users (supervisors and field reps) with analysis of Account, Visit, and Order records.
+Structure your responses using clear headings, delightful emojis (such as 📊, 📋, 📦, 🏪, 💡), and clean tables or bulleted lists to make insights easy to scan.
+Always maintain an engaging, helpful, and polished tone.</description>
+            <developerName>instruction0_179Bh0000001UYm</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179Bh0000001UYm</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>suggest_products_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>get_related_records_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>get_order_items_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>update_visit_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>get_order_summary_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>update_order_notes_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>search_users_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>get_related_counts_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>get_store_brief_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>generate_visit_summary_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>get_visit_orders_179Bh0000001UYm</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>get_order_summary_179Bh0000001UYm</fullName>
+            <description>Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Account.</description>
+            <developerName>get_order_summary_179Bh0000001UYm</developerName>
+            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_order_summary</localDeveloperName>
+            <masterLabel>Get Order Summary</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>get_visit_orders_179Bh0000001UYm</fullName>
+            <description>Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Visit ID.</description>
+            <developerName>get_visit_orders_179Bh0000001UYm</developerName>
+            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_visit_orders</localDeveloperName>
+            <masterLabel>Get Visit Orders</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>get_related_records_179Bh0000001UYm</fullName>
+            <description>Retrieve list of detailed records of a specific type (contacts, visits, promotions, inventory, outOfStock, retailstores, assortments, storeproducts, tactics, assortmentproducts) for the current Account.</description>
+            <developerName>get_related_records_179Bh0000001UYm</developerName>
+            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_related_records</localDeveloperName>
+            <masterLabel>Get Related Records</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>get_related_counts_179Bh0000001UYm</fullName>
+            <description>Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account.</description>
+            <developerName>get_related_counts_179Bh0000001UYm</developerName>
+            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_related_counts</localDeveloperName>
+            <masterLabel>Get Related Counts</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>get_order_items_179Bh0000001UYm</fullName>
+            <description>Retrieve product line items for a specific CG Cloud Order.</description>
+            <developerName>get_order_items_179Bh0000001UYm</developerName>
+            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_order_items</localDeveloperName>
+            <masterLabel>Get Order Items</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>update_order_notes_179Bh0000001UYm</fullName>
+            <description>Update delivery notes and/or invoice notes on a specific CG Cloud Order by its ID or Name/Number.</description>
+            <developerName>update_order_notes_179Bh0000001UYm</developerName>
+            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>update_order_notes</localDeveloperName>
+            <masterLabel>Update Order Notes</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>suggest_products_179Bh0000001UYm</fullName>
+            <description>Get product recommendations for the active store based on catalog gaps and order history.</description>
+            <developerName>suggest_products_179Bh0000001UYm</developerName>
+            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>suggest_products</localDeveloperName>
+            <masterLabel>Suggest Products</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>get_store_brief_179Bh0000001UYm</fullName>
+            <description>Get store brief data including order totals, top products, active promotions, and open tasks.</description>
+            <developerName>get_store_brief_179Bh0000001UYm</developerName>
+            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_store_brief</localDeveloperName>
+            <masterLabel>Get Store Brief</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>update_visit_179Bh0000001UYm</fullName>
+            <description>Update fields on the current Visit record. Requires user confirmation.</description>
+            <developerName>update_visit_179Bh0000001UYm</developerName>
+            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>update_visit</localDeveloperName>
+            <masterLabel>Update Visit</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>generate_visit_summary_179Bh0000001UYm</fullName>
+            <description>Collect visit execution metrics and return a formatted visit report.</description>
+            <developerName>generate_visit_summary_179Bh0000001UYm</developerName>
+            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>generate_visit_summary</localDeveloperName>
+            <masterLabel>Generate Visit Summary</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>search_users_179Bh0000001UYm</fullName>
+            <description>Search for users by name.</description>
+            <developerName>search_users_179Bh0000001UYm</developerName>
+            <invocationTarget>User_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>search_users</localDeveloperName>
+            <masterLabel>Search Users</masterLabel>
+        </localActions>
+        <localDeveloperName>cgc_intelligence</localDeveloperName>
+        <masterLabel>CGC Intelligence Workspace</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>clear_context_16jBh000002fny5</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Utility subagent to clear context variables.</description>
+        <developerName>clear_context_16jBh000002fny5</developerName>
+        <genAiPluginInstructions>
+            <description>You are Antigravity, a warm, professional, and insightful Salesforce CGC Intelligence Agent operating within the current Salesforce org.
+Your primary objective is to assist internal users (supervisors and field reps) with analysis of Account, Visit, and Order records.
+Structure your responses using clear headings, delightful emojis (such as 📊, 📋, 📦, 🏪, 💡), and clean tables or bulleted lists to make insights easy to scan.
+Always maintain an engaging, helpful, and polished tone.</description>
+            <developerName>instruction0_179Bh0000001UYl</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179Bh0000001UYl</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>clear_context</localDeveloperName>
+        <masterLabel>Clear Context</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>agent_router_16jBh000002fny5</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Route employees to the right subagent and initialize account, visit, or order context.</description>
+        <developerName>agent_router_16jBh000002fny5</developerName>
+        <genAiPluginInstructions>
+            <description>You are Antigravity, a warm, professional, and insightful Salesforce CGC Intelligence Agent operating within the current Salesforce org.
+Your primary objective is to assist internal users (supervisors and field reps) with analysis of Account, Visit, and Order records.
+Structure your responses using clear headings, delightful emojis (such as 📊, 📋, 📦, 🏪, 💡), and clean tables or bulleted lists to make insights easy to scan.
+Always maintain an engaging, helpful, and polished tone.</description>
+            <developerName>instruction0_179Bh0000001UYn</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179Bh0000001UYn</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>search_visits_179Bh0000001UYn</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>search_accounts_179Bh0000001UYn</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>get_account_details_179Bh0000001UYn</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>get_order_details_179Bh0000001UYn</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>get_available_visits_179Bh0000001UYn</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>search_orders_179Bh0000001UYn</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>get_visit_details_179Bh0000001UYn</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>get_visit_details_179Bh0000001UYn</fullName>
+            <description>Retrieve details of a Visit and its associated Account.</description>
+            <developerName>get_visit_details_179Bh0000001UYn</developerName>
+            <invocationTarget>Get_Visit_Details</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_visit_details</localDeveloperName>
+            <masterLabel>Get Visit Details</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>search_accounts_179Bh0000001UYn</fullName>
+            <description>Search for Account records by name.</description>
+            <developerName>search_accounts_179Bh0000001UYn</developerName>
+            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>search_accounts</localDeveloperName>
+            <masterLabel>Search Accounts</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>search_orders_179Bh0000001UYn</fullName>
+            <description>Search for Order records by name or account name.</description>
+            <developerName>search_orders_179Bh0000001UYn</developerName>
+            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>search_orders</localDeveloperName>
+            <masterLabel>Search Orders</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>get_account_details_179Bh0000001UYn</fullName>
+            <description>Retrieve details of an Account.</description>
+            <developerName>get_account_details_179Bh0000001UYn</developerName>
+            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_account_details</localDeveloperName>
+            <masterLabel>Get Account Details</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>search_visits_179Bh0000001UYn</fullName>
+            <description>Search for Visit records by account name, store name, visit name, or date.</description>
+            <developerName>search_visits_179Bh0000001UYn</developerName>
+            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>search_visits</localDeveloperName>
+            <masterLabel>Search Visits</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>get_order_details_179Bh0000001UYn</fullName>
+            <description>Retrieve Order and associated Account details.</description>
+            <developerName>get_order_details_179Bh0000001UYn</developerName>
+            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_order_details</localDeveloperName>
+            <masterLabel>Get Order Details</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>get_available_visits_179Bh0000001UYn</fullName>
+            <description>Retrieve user&apos;s recently viewed, owned, and scheduled visits.</description>
+            <developerName>get_available_visits_179Bh0000001UYn</developerName>
+            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_available_visits</localDeveloperName>
+            <masterLabel>Get Available Visits</masterLabel>
+        </localActions>
+        <localDeveloperName>agent_router</localDeveloperName>
+        <masterLabel>Agent Router</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <masterLabel>CGC Intelligence</masterLabel>
+    <plannerType>Atlas__ConcurrentMultiAgentOrchestration</plannerType>
+</GenAiPlannerBundle>
