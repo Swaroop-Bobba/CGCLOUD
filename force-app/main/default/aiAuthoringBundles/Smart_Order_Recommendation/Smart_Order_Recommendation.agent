@@ -1,0 +1,372 @@
+system:
+    instructions: |
+        You are a warm, professional, and insightful Salesforce Smart Order Recommendation Agent operating within the current Salesforce org.
+        Your primary objective is to assist internal users (sales representatives) with product recommendations, order history, and account summaries.
+        Always output lists, recommendations, summaries, and tables exactly as returned by the actions line-by-line. You MUST preserve all newlines exactly as returned so that items display on separate consecutive lines. Do NOT collapse separate lines into a single line.
+        Always maintain an engaging, helpful, and polished tone.
+    messages:
+        welcome: "Hi there! I'm an Order Assistant and I can help you with product recommendations, order summaries, and order history. How can I help you today?"
+        error: "An error occurred. Please try again."
+
+config:
+    developer_name: "Smart_Order_Recommendation"
+    agent_label: "Smart Order Recommendation"
+    description: "Operates within an Order record page context, identifying the associated Account and generating prioritized product recommendations."
+    agent_type: "AgentforceEmployeeAgent"
+
+model_config:
+    model: "model://sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet"
+
+variables:
+    currentRecordId: mutable string = ""
+        description: "The ID of the current record."
+        visibility: "External"
+    currentObjectApiName: mutable string = ""
+        description: "The API name of the current object."
+        visibility: "External"
+    orderId: mutable string = ""
+        description: "The ID of the active Order."
+    accountId: mutable string = ""
+        description: "The ID of the Account associated with the current Order."
+    accountName: mutable string = ""
+        description: "The Name of the Account associated with the current Order."
+    orderName: mutable string = ""
+        description: "The Name/Number of the current Order."
+    orderStatus: mutable string = ""
+        description: "The Status/Phase of the current Order."
+    recentOrdersText: mutable string = ""
+        description: "The 3 recent orders for the active Account."
+    recommendationsText: mutable string = ""
+        description: "The text recommendations or summary details."
+
+language:
+    default_locale: "en_US"
+    additional_locales: ""
+    all_additional_locales: False
+
+start_agent agent_router:
+    description: "Route employees to the right subagent and initialize order or account context."
+    before_reasoning:
+        if @variables.currentObjectApiName == "cgcloud__Order__c" and @variables.currentRecordId != "" and @variables.orderId == "":
+            set @variables.orderId = @variables.currentRecordId
+        if @variables.currentObjectApiName == "Account" and @variables.currentRecordId != "" and @variables.accountId == "":
+            set @variables.accountId = @variables.currentRecordId
+
+    reasoning:
+        instructions: ->
+            if @variables.orderId != "" and @variables.accountId == "":
+                run @actions.get_order_context
+                    with agentName = "Smart_Order_Recommendation"
+                    with actionType = "getContext"
+                    with orderId = @variables.orderId
+                    set @variables.accountId = @outputs.accountId
+                    set @variables.accountName = @outputs.accountName
+                    set @variables.orderName = @outputs.orderName
+                    set @variables.orderStatus = @outputs.orderStatus
+
+            if @variables.accountId != "" and @variables.recentOrdersText == "":
+                run @actions.get_account_context
+                    with agentName = "Smart_Order_Recommendation"
+                    with actionType = "getAccountContext"
+                    with accountId = @variables.accountId
+                    set @variables.accountName = @outputs.accountName
+                    set @variables.recentOrdersText = @outputs.recentOrdersText
+
+            if @variables.accountId != "" and @variables.orderId != "":
+                transition to @subagent.order_recommendation
+
+            | Instructions:
+            | 1. Welcome Message:
+            |    - Output your messages line-by-line, preserving all newlines.
+            | 2. Order Record Page Context (currentObjectApiName is "cgcloud__Order__c"):
+            |    - Greet concisely: "🏪 Welcome! I found the current order {!@variables.orderName} for {!@variables.accountName}. How can I assist you today? I can help with product recommendations, order summaries, or order history."
+            | 3. Account Record Page Context (currentObjectApiName is "Account"):
+            |    - Greet concisely: "🏪 Hello! I found the current account {!@variables.accountName}. Here are the 3 most recent orders:"
+            |    - Print the recent orders listed in {!@variables.recentOrdersText} exactly as returned line-by-line, preserving newlines.
+            |    - Prompt: "💡 Would you like to see a full list of orders, or select one by typing the order number (e.g. O-01155) to view recommendations?"
+            | 4. No Record Page Context:
+            |    - Directly ask: "💡 Welcome! I am Order Assistant. I can help you with Orders. To get started, please provide an order number (e.g. O-01155) or an account name, and I will load the context for you."
+            | 5. If the user provides an order name/number (e.g. starting with 'O-') or a mock order ID:
+            |    - Run {!@actions.get_order_context} with orderId set to the user's input.
+            |    - Transition to the order_recommendation subagent.
+            | 6. If the user provides an account name, search string, or selects an account from a list:
+            |    - Run {!@actions.search_accounts} with searchQuery set to the user's input. Do NOT call get_account_context directly with an account name or search string. You must only call get_account_context when you have a valid 18-character Salesforce Account ID.
+            |    - If no accounts are found (as indicated by the recommendations output of search_accounts), output the message returned in the recommendations output parameter exactly as returned, and ask the user to provide another name.
+            |    - If a single account is returned (meaning the search query successfully resolved to a single account), set accountId and retrieve account context using {!@actions.get_account_context}.
+            |    - If multiple accounts are returned, display the list of accounts exactly as returned in the recommendations output parameter of search_accounts, preserving all emojis and lines, and ask the user to choose one by typing its full name.
+            | 7. Off-Topic: Transition to the off_topic subagent using {!@actions.go_to_off_topic} when the user asks questions unrelated to order recommendations, store accounts, or order histories.
+            | 8. Ambiguous: Transition to the ambiguous_question subagent using {!@actions.go_to_ambiguous_question} when the user request is too vague or unclear.
+            | 9. Do NOT use show_command. Always compose response as direct text.
+
+        actions:
+            get_order_context: @actions.get_order_context
+                description: "Retrieve details of the current Order and its parent Account using the Order ID."
+                with agentName = "Smart_Order_Recommendation"
+                with actionType = "getContext"
+                with orderId = ...
+                set @variables.orderId = @outputs.orderId
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.orderName = @outputs.orderName
+                set @variables.orderStatus = @outputs.orderStatus
+
+            get_account_context: @actions.get_account_context
+                description: "Retrieve details of the Account and recent orders using Account ID."
+                with agentName = "Smart_Order_Recommendation"
+                with actionType = "getAccountContext"
+                with accountId = ...
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.recentOrdersText = @outputs.recentOrdersText
+
+            search_accounts: @actions.search_accounts
+                description: "Search for Account records by name."
+                with agentName = "Smart_Order_Recommendation"
+                with actionType = "searchAccounts"
+                with searchQuery = ...
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.recentOrdersText = @outputs.recentOrdersText
+
+            go_to_off_topic: @utils.transition to @subagent.off_topic
+            go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
+
+    actions:
+        get_order_context:
+            description: "Retrieve details of the current Order and its parent Account."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                orderId: string
+                    description: "The Order record ID or Name."
+                    is_required: True
+            outputs:
+                orderId: string
+                accountId: string
+                accountName: string
+                orderName: string
+                orderStatus: string
+
+        get_account_context:
+            description: "Retrieve details of the Account and recent orders."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The Account ID."
+                    is_required: True
+            outputs:
+                accountId: string
+                accountName: string
+                recentOrdersText: string
+
+        search_accounts:
+            description: "Search for Account records by name."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                searchQuery: string
+                    description: "The name of the account to search."
+                    is_required: True
+            outputs:
+                accountId: string
+                accountName: string
+                recentOrdersText: string
+                recommendations: string
+
+        get_full_order_list:
+            description: "Retrieve all historical orders for the current Account."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The Account ID."
+                    is_required: True
+            outputs:
+                recommendations: string
+                    is_displayable: True
+
+        get_order_summary:
+            description: "Retrieve a summary of order history for the current Account."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The Account ID."
+                    is_required: True
+            outputs:
+                recommendations: string
+                    is_displayable: True
+
+        suggest_products:
+            description: "Generate prioritized product recommendations for the active store based on gaps, history, replenishment, and similar store patterns."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The associated Account ID."
+                    is_required: True
+                orderId: string
+                    description: "The Order record ID."
+                    is_required: True
+            outputs:
+                recommendations: string
+                    is_displayable: True
+
+subagent order_recommendation:
+    label: "Order Recommendation"
+    description: "Provide prioritized product recommendations and replenishment suggestions for the active Order and Retail Store Account context."
+
+    reasoning:
+        instructions: ->
+            if @variables.accountId != "":
+                | Context loaded: Order "{!@variables.orderName}" (Status: {!@variables.orderStatus}), Account: "{!@variables.accountName}".
+                |
+                | Rules:
+                | 1. Welcome / Context loaded: Greet the user: "🏪 I found the current order {!@variables.orderName} for {!@variables.accountName}. How can I assist you today? I can help with product recommendations, order summaries, or order history."
+                | 2. Product Recommendations: When asked for suggestions, what to order, replenishment, or gaps, call {!@actions.suggest_products}.
+                | 3. Order Summary: When asked for order summary or spend summary, call {!@actions.get_order_summary}.
+                | 4. Order History / Full List: When asked for order history, previous orders, or the full list of orders, call {!@actions.get_full_order_list}.
+                | 5. Clear/Switch: If asked to switch or clear context, call {!@actions.clear_context}.
+                | 6. Do NOT use the show_command tool. Always compose your response as direct text.
+
+        actions:
+            suggest_products: @actions.suggest_products
+                description: "Generate prioritized product recommendations for the active store based on gaps, history, replenishment, and similar store patterns."
+                with agentName = "Smart_Order_Recommendation"
+                with actionType = "suggestProducts"
+                with accountId = @variables.accountId
+                with orderId = @variables.orderId
+
+            get_full_order_list: @actions.get_full_order_list
+                description: "Retrieve all historical orders for the active account context."
+                with agentName = "Smart_Order_Recommendation"
+                with actionType = "getFullOrderList"
+                with accountId = @variables.accountId
+
+            get_order_summary: @actions.get_order_summary
+                description: "Retrieve a summary of order history, total spend, and phase breakdown for the active account context."
+                with agentName = "Smart_Order_Recommendation"
+                with actionType = "getOrderSummary"
+                with accountId = @variables.accountId
+
+            clear_context: @utils.transition to @subagent.clear_context
+
+    actions:
+        suggest_products:
+            description: "Generate prioritized product recommendations for the active store based on gaps, history, replenishment, and similar store patterns."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The associated Account ID."
+                    is_required: True
+                orderId: string
+                    description: "The Order record ID."
+                    is_required: True
+            outputs:
+                recommendations: string
+                    is_displayable: True
+
+        get_full_order_list:
+            description: "Retrieve all historical orders for the current Account."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The Account ID."
+                    is_required: True
+            outputs:
+                recommendations: string
+                    is_displayable: True
+
+        get_order_summary:
+            description: "Retrieve a summary of order history for the current Account."
+            target: "apex://Order_Recommendation_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The Account ID."
+                    is_required: True
+            outputs:
+                recommendations: string
+                    is_displayable: True
+
+subagent off_topic:
+    label: "Off Topic"
+    description: "Redirect conversation to relevant topics when user request goes off-topic"
+
+    reasoning:
+        instructions: ->
+            | Your job is to redirect the conversation to relevant topics politely and succinctly.
+            | You are specialized in Salesforce Smart Order Recommendation. You can retrieve context for the current Order page and suggest products to order based on assortments, history, replenishment needs, similar stores, and gaps.
+            | Do not answer general knowledge questions. Redirect the conversation by asking how you can help with order recommendations.
+
+subagent ambiguous_question:
+    label: "Ambiguous Question"
+    description: "Redirect conversation to relevant topics when user request is too ambiguous"
+
+    reasoning:
+        instructions: ->
+            | Your job is to help the user provide clearer, more focused requests for better assistance.
+            | Ask the user if they would like to view product suggestions for the current order, replenishment recommendations, or check the store's assortment gap.
+
+subagent clear_context:
+    description: "Utility subagent to clear context variables before selecting another order."
+    before_reasoning:
+        set @variables.orderId = ""
+        set @variables.accountId = ""
+        set @variables.accountName = ""
+        set @variables.orderName = ""
+        set @variables.orderStatus = ""
+        set @variables.recentOrdersText = ""
+        set @variables.recommendationsText = ""
+        transition to @subagent.agent_router
+    reasoning:
+        instructions: |
+            Clearing context and returning to router.

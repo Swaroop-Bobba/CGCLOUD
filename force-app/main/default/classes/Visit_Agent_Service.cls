@@ -37,9 +37,9 @@ public with sharing class Visit_Agent_Service {
                 }
                 String timeStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'Today';
                 String label = 'Visit - ' + v.Account.Name +
-                    '\n   - ðŸ“… Date: ' + timeStr +
-                    '\n   - ðŸ“‹ Status: ' + v.Status +
-                    '\n   - ðŸ‘¤ Assigned: ' + assignedUser;
+                    '\n   - \uD83D\uDCC5 Date: ' + timeStr +
+                    '\n   - \uD83D\uDCCB Status: ' + v.Status +
+                    '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
                 visitMap.put(v.Id, new Visit_Agent_Handler.VisitOption(v.Id, v.Account.Name, label, 'Today'));
             }
 
@@ -59,9 +59,9 @@ public with sharing class Visit_Agent_Service {
                     }
                     String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'Upcoming';
                     String label = 'Visit - ' + v.Account.Name +
-                        '\n   - ðŸ“… Date: ' + dateStr +
-                        '\n   - ðŸ“‹ Status: ' + v.Status +
-                        '\n   - ðŸ‘¤ Assigned: ' + assignedUser;
+                        '\n   - \uD83D\uDCC5 Date: ' + dateStr +
+                        '\n   - \uD83D\uDCCB Status: ' + v.Status +
+                        '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
                     visitMap.put(v.Id, new Visit_Agent_Handler.VisitOption(v.Id, v.Account.Name, label, 'Upcoming'));
                 }
             }
@@ -82,9 +82,9 @@ public with sharing class Visit_Agent_Service {
                     }
                     String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'Recently Viewed';
                     String label = 'Visit - ' + v.Account.Name +
-                        '\n   - ðŸ“… Date: ' + dateStr +
-                        '\n   - ðŸ“‹ Status: ' + v.Status +
-                        '\n   - ðŸ‘¤ Assigned: ' + assignedUser;
+                        '\n   - \uD83D\uDCC5 Date: ' + dateStr +
+                        '\n   - \uD83D\uDCCB Status: ' + v.Status +
+                        '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
                     visitMap.put(v.Id, new Visit_Agent_Handler.VisitOption(v.Id, v.Account.Name, label, 'Recently Viewed'));
                 }
             }
@@ -107,9 +107,9 @@ public with sharing class Visit_Agent_Service {
                     }
                     String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'N/A';
                     String label = 'Visit - ' + v.Account.Name +
-                        '\n   - ðŸ“… Date: ' + dateStr +
-                        '\n   - ðŸ“‹ Status: ' + v.Status +
-                        '\n   - ðŸ‘¤ Assigned: ' + assignedUser;
+                        '\n   - \uD83D\uDCC5 Date: ' + dateStr +
+                        '\n   - \uD83D\uDCCB Status: ' + v.Status +
+                        '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
                     visitMap.put(v.Id, new Visit_Agent_Handler.VisitOption(v.Id, v.Account.Name, label, 'Owned'));
                 }
             }
@@ -126,10 +126,10 @@ public with sharing class Visit_Agent_Service {
     }
 
     private static void setMockVisits(List<Visit_Agent_Handler.VisitOption> options) {
-        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_1', 'ABC Retail Store', 'Visit - ABC Retail Store\n   - ðŸ“… Date: Today 10:00 AM\n   - ðŸ“‹ Status: Open\n   - ðŸ‘¤ Assigned: Mock User', 'Today'));
-        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_2', 'XYZ Supermarket', 'Visit - XYZ Supermarket\n   - ðŸ“… Date: Today 2:00 PM\n   - ðŸ“‹ Status: InProgress\n   - ðŸ‘¤ Assigned: Mock User', 'Today'));
-        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_3', 'Fresh Mart', 'Visit - Fresh Mart\n   - ðŸ“… Date: Tomorrow\n   - ðŸ“‹ Status: Open\n   - ðŸ‘¤ Assigned: Mock User', 'Upcoming'));
-        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_4', 'City Hypermarket', 'Visit - City Hypermarket\n   - ðŸ“… Date: Recently Viewed\n   - ðŸ“‹ Status: Completed\n   - ðŸ‘¤ Assigned: Mock User', 'Recently Viewed'));
+        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_1', 'ABC Retail Store', 'Visit - ABC Retail Store\n   - \uD83D\uDCC5 Date: Today 10:00 AM\n   - \uD83D\uDCCB Status: Open\n   - \uD83D\uDC64 Assigned: Mock User', 'Today'));
+        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_2', 'XYZ Supermarket', 'Visit - XYZ Supermarket\n   - \uD83D\uDCC5 Date: Today 2:00 PM\n   - \uD83D\uDCCB Status: InProgress\n   - \uD83D\uDC64 Assigned: Mock User', 'Today'));
+        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_3', 'Fresh Mart', 'Visit - Fresh Mart\n   - \uD83D\uDCC5 Date: Tomorrow\n   - \uD83D\uDCCB Status: Open\n   - \uD83D\uDC64 Assigned: Mock User', 'Upcoming'));
+        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_4', 'City Hypermarket', 'Visit - City Hypermarket\n   - \uD83D\uDCC5 Date: Recently Viewed\n   - \uD83D\uDCCB Status: Completed\n   - \uD83D\uDC64 Assigned: Mock User', 'Recently Viewed'));
     }
 
     public static List<Visit_Agent_Handler.VisitOption> searchVisits(String searchQuery) {
@@ -314,9 +314,9 @@ public with sharing class Visit_Agent_Service {
                 }
 
                 String label = visitName + '  \u2014  ' + displayAccount +
-                    '\n   - ðŸ“… Date: ' + dateStr +
-                    '\n   - ðŸ“‹ Status: ' + status +
-                    '\n   - ðŸ‘¤ Assigned: ' + assignedUser;
+                    '\n   - \uD83D\uDCC5 Date: ' + dateStr +
+                    '\n   - \uD83D\uDCCB Status: ' + status +
+                    '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
 
                 Visit_Agent_Handler.VisitOption opt = new Visit_Agent_Handler.VisitOption();
                 opt.visitId = visitId;

@@ -457,13 +457,13 @@ public with sharing class Account_Agent_Service {
                             ap.Assortment.Name,
                             brandName,
                             ap.LastModifiedDate,
-                            ap.Product.Name + '\n   - ðŸ·ï¸ Assortment: ' + ap.Assortment.Name + '\n   - ðŸ·ï¸ Brand: ' + brandName
+                            ap.Product.Name + '\n   - \uD83C\uDFF7\uFE0F Assortment: ' + ap.Assortment.Name + '\n   - \uD83C\uDFF7\uFE0F Brand: ' + brandName
                         ));
                     }
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Premium Diet Soda 12oz Cans', 'Reliance Fresh Standard Assortment', 'CGC Drinks', DateTime.now(), 'Premium Diet Soda 12oz Cans\n   - ðŸ·ï¸ Assortment: Reliance Fresh Standard Assortment\n   - ðŸ·ï¸ Brand: CGC Drinks'));
-                    records.add(new Account_Agent_Handler.RecordInfo('Salted Potato Chips 8oz', 'Reliance Fresh Standard Assortment', 'CGC Snacks', DateTime.now().addDays(-2), 'Salted Potato Chips 8oz\n   - ðŸ·ï¸ Assortment: Reliance Fresh Standard Assortment\n   - ðŸ·ï¸ Brand: CGC Snacks'));
+                    records.add(new Account_Agent_Handler.RecordInfo('Premium Diet Soda 12oz Cans', 'Reliance Fresh Standard Assortment', 'CGC Drinks', DateTime.now(), 'Premium Diet Soda 12oz Cans\n   - \uD83C\uDFF7\uFE0F Assortment: Reliance Fresh Standard Assortment\n   - \uD83C\uDFF7\uFE0F Brand: CGC Drinks'));
+                    records.add(new Account_Agent_Handler.RecordInfo('Salted Potato Chips 8oz', 'Reliance Fresh Standard Assortment', 'CGC Snacks', DateTime.now().addDays(-2), 'Salted Potato Chips 8oz\n   - \uD83C\uDFF7\uFE0F Assortment: Reliance Fresh Standard Assortment\n   - \uD83C\uDFF7\uFE0F Brand: CGC Snacks'));
                 }
             }
             else if (type == 'tactics') {
@@ -653,21 +653,21 @@ public with sharing class Account_Agent_Service {
             Integer limitCount = Math.min(5, recommendationsList.size());
             for (Integer i = 0; i < limitCount; i++) {
                 ScoredProduct sp = recommendationsList[i];
-                listLines.add((i+1) + '. ðŸ“¦ ' + sp.productName + '\n   - Reason: ' + sp.reason + ' (Score: ' + sp.score + ')');
+                listLines.add('- **\uD83D\uDCE6 ' + sp.productName + '**\n  *Reason:* ' + sp.reason + ' (Score: **' + sp.score + '**)');
             }
             
             if (listLines.isEmpty()) {
-                return 'Recommended Products\n\nAll catalog products have been recently ordered. No new recommendations.';
+                return '### \uD83D\uDCA1 Recommended Products\n*All catalog products have been recently ordered. No new recommendations.*';
             } else {
-                return 'Recommended Products\n\n' + String.join(listLines, '\n\n');
+                return '### \uD83D\uDCA1 Recommended Products\n' + String.join(listLines, '\n');
             }
         } catch (Exception e) {
             return 'Recommended Products\n\n' +
-                '1. ðŸ“¦ Sprite Zero\n   - Reason: Active promotion, Top category (Score: 60)\n\n' +
-                '2. ðŸ“¦ Coke Can\n   - Reason: Ordered historically, Top category (Score: 50)\n\n' +
-                '3. ðŸ“¦ Fanta Orange\n   - Reason: Ordered historically (Score: 30)\n\n' +
-                '4. ðŸ“¦ Pepsi Diet\n   - Reason: Top category (Score: 20)\n\n' +
-                '5. ðŸ“¦ Lemon Soda\n   - Reason: Seasonal (Score: 10)';
+                '1. \uD83D\uDCE6 Sprite Zero\n   - Reason: Active promotion, Top category (Score: 60)\n\n' +
+                '2. \uD83D\uDCE6 Coke Can\n   - Reason: Ordered historically, Top category (Score: 50)\n\n' +
+                '3. \uD83D\uDCE6 Fanta Orange\n   - Reason: Ordered historically (Score: 30)\n\n' +
+                '4. \uD83D\uDCE6 Pepsi Diet\n   - Reason: Top category (Score: 20)\n\n' +
+                '5. \uD83D\uDCE6 Lemon Soda\n   - Reason: Seasonal (Score: 10)';
         }
     }
 
