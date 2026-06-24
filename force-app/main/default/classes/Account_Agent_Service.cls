@@ -243,6 +243,7 @@ public with sharing class Account_Agent_Service {
                 }
                 String fullQuery = selectClause + ' FROM Visit' + whereClause + ' WITH USER_MODE LIMIT 50';
 
+                String orgUrl = URL.getOrgDomainUrl().toExternalForm();
                 List<Visit> visits = Database.query(fullQuery);
                 for (Visit v : visits) {
                     String ownerName = v.Owner.Name;
@@ -251,15 +252,15 @@ public with sharing class Account_Agent_Service {
                     }
                     String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('yyyy-MM-dd') : 'No Date';
                     records.add(new Account_Agent_Handler.RecordInfo(
-                        'Visit - ' + dateStr,
+                        '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + dateStr + '</a>',
                         v.Status,
                         ownerName,
                         v.LastModifiedDate
                     ));
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Weekly Audit', 'Planned', 'Field Rep User', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('Monthly Compliance Check', 'Completed', 'Field Rep User', DateTime.now().addDays(-5)));
+                    records.add(new Account_Agent_Handler.RecordInfo('<a href="' + orgUrl + '/lightning/r/Visit/mock_visit_weekly/view">Weekly Audit</a>', 'Planned', 'Field Rep User', DateTime.now()));
+                    records.add(new Account_Agent_Handler.RecordInfo('<a href="' + orgUrl + '/lightning/r/Visit/mock_visit_monthly/view">Monthly Compliance Check</a>', 'Completed', 'Field Rep User', DateTime.now().addDays(-5)));
                 }
             }
             else if (type == 'promotions') {
@@ -305,6 +306,7 @@ public with sharing class Account_Agent_Service {
                 records.add(new Account_Agent_Handler.RecordInfo('Main Aisle Display Endcap', 'Low Stock', 'Field Rep User', DateTime.now()));
             }
             else if (type == 'outofstock') {
+                String orgUrl = URL.getOrgDomainUrl().toExternalForm();
                 List<Visit> oosVisits = [
                     SELECT Id, Owner.Name, LastModifiedDate 
                     FROM Visit 
@@ -314,7 +316,7 @@ public with sharing class Account_Agent_Service {
                 ];
                 for (Visit v : oosVisits) {
                     records.add(new Account_Agent_Handler.RecordInfo(
-                        'OoS Visit Issue ' + v.Id,
+                        '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">OoS Visit Issue ' + v.Id + '</a>',
                         'Out of Stock',
                         v.Owner.Name,
                         v.LastModifiedDate

@@ -1,0 +1,18 @@
+<template>
+    <div class="slds-form-element slds-p-around_small">
+        <label class="slds-form-element__label slds-text-title_bold" for="owner-combobox">Select Assigned Rep</label>
+        <div class="slds-form-element__control">
+            <lightning-combobox
+                id="owner-combobox"
+                name="ownerName"
+                label="Assigned Rep"
+                variant="label-hidden"
+                value={selectedOwner}
+                placeholder="Select rep to assign..."
+                options={ownerOptions}
+                onchange={handleOwnerChange}
+                required>
+            </lightning-combobox>
+        </div>
+    </div>
+</template>

@@ -6,6 +6,7 @@ public with sharing class Visit_Agent_Service {
         try {
             Map<Id, Visit_Agent_Handler.VisitOption> visitMap = new Map<Id, Visit_Agent_Handler.VisitOption>();
             Id currentUserId = UserInfo.getUserId();
+            String orgUrl = URL.getOrgDomainUrl().toExternalForm();
 
             Boolean isAdmin = false;
             try {
@@ -36,7 +37,7 @@ public with sharing class Visit_Agent_Service {
                     assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
                 }
                 String timeStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'Today';
-                String label = 'Visit - ' + v.Account.Name +
+                String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + v.Account.Name + '</a>' +
                     '\n   - \uD83D\uDCC5 Date: ' + timeStr +
                     '\n   - \uD83D\uDCCB Status: ' + v.Status +
                     '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -58,7 +59,7 @@ public with sharing class Visit_Agent_Service {
                         assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
                     }
                     String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'Upcoming';
-                    String label = 'Visit - ' + v.Account.Name +
+                    String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + v.Account.Name + '</a>' +
                         '\n   - \uD83D\uDCC5 Date: ' + dateStr +
                         '\n   - \uD83D\uDCCB Status: ' + v.Status +
                         '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -81,7 +82,7 @@ public with sharing class Visit_Agent_Service {
                         assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
                     }
                     String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'Recently Viewed';
-                    String label = 'Visit - ' + v.Account.Name +
+                    String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + v.Account.Name + '</a>' +
                         '\n   - \uD83D\uDCC5 Date: ' + dateStr +
                         '\n   - \uD83D\uDCCB Status: ' + v.Status +
                         '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -106,7 +107,7 @@ public with sharing class Visit_Agent_Service {
                         assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
                     }
                     String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'N/A';
-                    String label = 'Visit - ' + v.Account.Name +
+                    String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + v.Account.Name + '</a>' +
                         '\n   - \uD83D\uDCC5 Date: ' + dateStr +
                         '\n   - \uD83D\uDCCB Status: ' + v.Status +
                         '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -126,10 +127,11 @@ public with sharing class Visit_Agent_Service {
     }
 
     private static void setMockVisits(List<Visit_Agent_Handler.VisitOption> options) {
-        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_1', 'ABC Retail Store', 'Visit - ABC Retail Store\n   - \uD83D\uDCC5 Date: Today 10:00 AM\n   - \uD83D\uDCCB Status: Open\n   - \uD83D\uDC64 Assigned: Mock User', 'Today'));
-        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_2', 'XYZ Supermarket', 'Visit - XYZ Supermarket\n   - \uD83D\uDCC5 Date: Today 2:00 PM\n   - \uD83D\uDCCB Status: InProgress\n   - \uD83D\uDC64 Assigned: Mock User', 'Today'));
-        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_3', 'Fresh Mart', 'Visit - Fresh Mart\n   - \uD83D\uDCC5 Date: Tomorrow\n   - \uD83D\uDCCB Status: Open\n   - \uD83D\uDC64 Assigned: Mock User', 'Upcoming'));
-        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_4', 'City Hypermarket', 'Visit - City Hypermarket\n   - \uD83D\uDCC5 Date: Recently Viewed\n   - \uD83D\uDCCB Status: Completed\n   - \uD83D\uDC64 Assigned: Mock User', 'Recently Viewed'));
+        String orgUrl = URL.getOrgDomainUrl().toExternalForm();
+        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_1', 'ABC Retail Store', '<a href="' + orgUrl + '/lightning/r/Visit/mock_visit_1/view">Visit - ABC Retail Store</a>\n   - \uD83D\uDCC5 Date: Today 10:00 AM\n   - \uD83D\uDCCB Status: Open\n   - \uD83D\uDC64 Assigned: Mock User', 'Today'));
+        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_2', 'XYZ Supermarket', '<a href="' + orgUrl + '/lightning/r/Visit/mock_visit_2/view">Visit - XYZ Supermarket</a>\n   - \uD83D\uDCC5 Date: Today 2:00 PM\n   - \uD83D\uDCCB Status: InProgress\n   - \uD83D\uDC64 Assigned: Mock User', 'Today'));
+        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_3', 'Fresh Mart', '<a href="' + orgUrl + '/lightning/r/Visit/mock_visit_3/view">Visit - Fresh Mart</a>\n   - \uD83D\uDCC5 Date: Tomorrow\n   - \uD83D\uDCCB Status: Open\n   - \uD83D\uDC64 Assigned: Mock User', 'Upcoming'));
+        options.add(new Visit_Agent_Handler.VisitOption('mock_visit_4', 'City Hypermarket', '<a href="' + orgUrl + '/lightning/r/Visit/mock_visit_4/view">Visit - City Hypermarket</a>\n   - \uD83D\uDCC5 Date: Recently Viewed\n   - \uD83D\uDCCB Status: Completed\n   - \uD83D\uDC64 Assigned: Mock User', 'Recently Viewed'));
     }
 
     public static List<Visit_Agent_Handler.VisitOption> searchVisits(String searchQuery) {
@@ -139,6 +141,7 @@ public with sharing class Visit_Agent_Service {
         }
 
         try {
+            String orgUrl = URL.getOrgDomainUrl().toExternalForm();
             Boolean isAdmin = false;
             try {
                 Id profileId = UserInfo.getProfileId();
@@ -313,7 +316,7 @@ public with sharing class Visit_Agent_Service {
                     displayAccount += ' (' + placeName + ')';
                 }
 
-                String label = visitName + '  \u2014  ' + displayAccount +
+                String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + visitId + '/view">' + visitName + '</a>  \u2014  ' + displayAccount +
                     '\n   - \uD83D\uDCC5 Date: ' + dateStr +
                     '\n   - \uD83D\uDCCB Status: ' + status +
                     '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;

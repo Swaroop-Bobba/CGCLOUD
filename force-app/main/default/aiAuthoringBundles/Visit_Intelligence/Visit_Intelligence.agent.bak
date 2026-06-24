@@ -215,27 +215,21 @@ subagent visit_intelligence:
                 | 1. Greeting: On context load, present the loaded Visit details (Account, Visit Date, Visit Status, and Assigned User) in a clean markdown table with columns "Detail" and "Value" and with appropriate emojis (🏪 for Account, 📅 for Visit Date, 🔖 for Visit Status, 👤 for Assigned User). In addition, immediately display the following Visit Summary:
                 | {!@variables.visitSummaryText}
                 | Ask the user: "How can I help you with this visit?" and then present a clean numbered list of next steps they can take exactly as follows:
-                | 1. 📊 Account Summary (Retrieve Account details)
-                | 2. 👥 Contacts (Retrieve contact details)
-                | 3. 📣 Promotions (Retrieve active promotions)
-                | 4. 💡 Pre-Visit Brief (Summarize the current visit details)
-                | 5. 🚫 Inventory (Check inventory and out-of-stock records)
-                | 6. 📦 Order History (Show order history summary)
-                | 7. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
-                | 8. 🏷️ Sellable Products (Check products in assortment)
-                | 9. 🔄 Switch/Reset Context (Change visit or reset store context)
+                | 1. 👥 Contacts (Retrieve contact details)
+                | 2. 📣 Promotions (Retrieve active promotions)
+                | 3. 🚫 Inventory (Check inventory and out-of-stock records)
+                | 4. 📦 Order History (Show order history summary)
+                | 5. 📝 Generate Reports (Summarize the current visit details)
+                | 6. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
                 | 
                 | Do NOT fetch counts/details initially.
                 | 2. Numbered Selections / Commands:
-                |    - If the user responds with the number "1" (or refers to option 1 / account summary), treat it as a request to retrieve Account Summary and call {!@actions.get_counts}.
-                |    - If the user responds with the number "2" (or refers to option 2 / contacts), treat it as a request to retrieve Contacts and call {!@actions.get_details} with recordType = "contacts".
-                |    - If the user responds with the number "3" (or refers to option 3 / promotions), treat it as a request to retrieve Promotions and call {!@actions.get_details} with recordType = "promotions".
-                |    - If the user responds with the number "4" (or refers to option 4 / pre-visit brief), treat it as a request to retrieve Pre-Visit Brief and call {!@actions.store_brief}.
-                |    - If the user responds with the number "5" (or refers to option 5 / inventory), treat it as a request to retrieve Inventory and call {!@actions.get_details} with recordType = "inventory".
-                |    - If the user responds with the number "6" (or refers to option 6 / order history), treat it as a request for Order History and call {!@actions.order_summary}.
-                |    - If the user responds with the number "7" (or refers to option 7 / update visit), treat it as a request to Update Visit Information and ask the user: "What would you like to update? (Status, Owner, Notes, Start Time, or End Time)."
-                |    - If the user responds with the number "8" (or refers to option 8 / sellable products), treat it as a request to retrieve Sellable Products and call {!@actions.get_details} with recordType = "assortmentproducts".
-                |    - If the user responds with the number "9" (or refers to option 9 / switch context), treat it as a request to switch/reset context and transition to @subagent.clear_context.
+                |    - If the user responds with the number "1" (or refers to option 1 / contacts), treat it as a request to retrieve Contacts and call {!@actions.get_details} with recordType = "contacts".
+                |    - If the user responds with the number "2" (or refers to option 2 / promotions), treat it as a request to retrieve Promotions and call {!@actions.get_details} with recordType = "promotions".
+                |    - If the user responds with the number "3" (or refers to option 3 / inventory), treat it as a request to retrieve Inventory and call {!@actions.get_details} with recordType = "inventory".
+                |    - If the user responds with the number "4" (or refers to option 4 / order history), treat it as a request for Order History and call {!@actions.order_summary}.
+                |    - If the user responds with the number "5" (or refers to option 5 / generate reports), treat it as a request to Generate Reports and call {!@actions.generate_visit_summary}.
+                |    - If the user responds with the number "6" (or refers to option 6 / update visit), treat it as a request to Update Visit Information and ask the user: "What would you like to update? (Status, Owner, Notes, Start Time, or End Time)."
                 | 3. Standard queries:
                 |    - To summarize account status or counts, call {!@actions.get_counts}.
                 |    - To list specific category records (except visits and outOfStock), call {!@actions.get_details} with recordType.

@@ -1,0 +1,17 @@
+<template>
+    <div class="slds-form-element slds-p-around_small">
+        <label class="slds-form-element__label slds-text-title_bold" for="datetime-picker">Select Date and Time</label>
+        <div class="slds-form-element__control">
+            <lightning-input
+                id="datetime-picker"
+                type="datetime"
+                name="dateTimeValue"
+                label="Date and Time"
+                variant="label-hidden"
+                value={dateTimeValue}
+                onchange={handleDateTimeChange}
+                required>
+            </lightning-input>
+        </div>
+    </div>
+</template>
