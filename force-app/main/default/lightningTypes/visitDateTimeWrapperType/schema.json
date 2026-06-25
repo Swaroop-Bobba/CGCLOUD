@@ -1,4 +1,4 @@
 {
-  "title": "Visit DateTime Type",
+  "title": "Visit DateTime Wrapper Type",
   "lightning:type": "@apexClassType/c__VisitDateTimeWrapper"
 }
