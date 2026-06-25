@@ -7,7 +7,7 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__AgentforceInput">
-            <targetType name="c__visitDateTimeWrapperType"/>
+            <targetType name="c__lightningTypeSchemaTemplate"/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

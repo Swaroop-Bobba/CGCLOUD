@@ -1,8 +1,4 @@
 public with sharing class Update_Visit_Status_Action {
-    public class VisitStatusWrapper {
-        @InvocableVariable(required=true description='The status value.')
-        public String statusValue;
-    }
 
     public class Request {
         @InvocableVariable(required=true description='The active Visit record ID.')

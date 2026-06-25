@@ -7,7 +7,7 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__AgentforceInput">
-            <targetType name="c__visitOwnerType"/>
+            <targetType name="c__visitOwnerWrapperType"/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
