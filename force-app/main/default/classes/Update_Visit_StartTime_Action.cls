@@ -1,8 +1,4 @@
 public with sharing class Update_Visit_StartTime_Action {
-    public class VisitDateTimeWrapper {
-        @InvocableVariable(required=true description='The datetime value.')
-        public DateTime dateTimeValue;
-    }
 
     public class Request {
         @InvocableVariable(required=true description='The active Visit record ID.')

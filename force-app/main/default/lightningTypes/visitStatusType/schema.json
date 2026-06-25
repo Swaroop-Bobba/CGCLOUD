@@ -1,15 +1,4 @@
 {
   "title": "Visit Status Type",
-  "lightning:type": "lightning__objectType",
-  "type": "object",
-  "properties": {
-    "statusValue": {
-      "lightning:type": "lightning__textType",
-      "title": "Status"
-    }
-  },
-  "required": [
-    "statusValue"
-  ],
-  "unevaluatedProperties": false
+  "lightning:type": "@apexClassType/c__Update_Visit_Status_Action$VisitStatusWrapper"
 }

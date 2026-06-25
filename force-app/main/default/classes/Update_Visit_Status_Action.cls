@@ -18,17 +18,23 @@ public with sharing class Update_Visit_Status_Action {
         public String message;
     }
 
+    public class OptionWrapper {
+        @AuraEnabled public String label;
+        @AuraEnabled public String value;
+        public OptionWrapper(String label, String value) {
+            this.label = label;
+            this.value = value;
+        }
+    }
+
     @AuraEnabled(cacheable=true)
-    public static List<Map<String, String>> getStatusOptions() {
-        List<Map<String, String>> options = new List<Map<String, String>>();
+    public static List<OptionWrapper> getStatusOptions() {
+        List<OptionWrapper> options = new List<OptionWrapper>();
         try {
             Schema.DescribeFieldResult fieldResult = Visit.Status.getDescribe();
             List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
             for (Schema.PicklistEntry entry : ple) {
-                options.add(new Map<String, String>{
-                    'label' => entry.getLabel(),
-                    'value' => entry.getValue()
-                });
+                options.add(new OptionWrapper(entry.getLabel(), entry.getValue()));
             }
         } catch (Exception e) {
             System.debug('Error getting status options: ' + e.getMessage());
