@@ -1,15 +1,4 @@
 {
   "title": "Visit Owner Type",
-  "lightning:type": "lightning__objectType",
-  "type": "object",
-  "properties": {
-    "ownerName": {
-      "lightning:type": "lightning__textType",
-      "title": "Owner Name"
-    }
-  },
-  "required": [
-    "ownerName"
-  ],
-  "unevaluatedProperties": false
+  "lightning:type": "@apexClassType/c__Update_Visit_Owner_Action$VisitOwnerWrapper"
 }

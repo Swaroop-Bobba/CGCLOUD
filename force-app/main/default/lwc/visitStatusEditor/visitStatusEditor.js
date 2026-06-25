@@ -1,32 +1,29 @@
-import { LightningElement, api, wire } from 'lwc';
-import getStatusOptions from '@salesforce/apex/Update_Visit_Status_Action.getStatusOptions';
+import { LightningElement, api } from 'lwc';
 
 export default class VisitStatusEditor extends LightningElement {
     @api value; // The raw input value object from the agent
-    statusOptions = [];
+    _selectedValue;
 
-    @wire(getStatusOptions)
-    wiredStatus({ error, data }) {
-        if (data) {
-            this.statusOptions = data;
-        } else if (error) {
-            console.error('Error fetching status options:', error);
-        }
-    }
+    statusOptions = [
+        { label: 'Planned', value: 'Planned' },
+        { label: 'In Progress', value: 'InProgress' },
+        { label: 'Completed', value: 'Completed' },
+        { label: 'Abandoned', value: 'Abandoned' }
+    ];
 
     get statusValue() {
-        return this.value ? this.value.statusValue : '';
+        return this._selectedValue !== undefined ? this._selectedValue : (this.value ? this.value.statusValue : '');
     }
 
     handleStatusChange(event) {
         event.stopPropagation();
-        const selectedValue = event.detail.value;
+        this._selectedValue = event.detail.value;
         
         // Notify Agentforce of the changed value
         this.dispatchEvent(new CustomEvent('valuechange', {
             detail: {
                 value: {
-                    statusValue: selectedValue
+                    statusValue: this._selectedValue
                 }
             }
         }));
