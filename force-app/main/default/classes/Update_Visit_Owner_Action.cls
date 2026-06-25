@@ -1,8 +1,4 @@
 public with sharing class Update_Visit_Owner_Action {
-    public class VisitOwnerWrapper {
-        @InvocableVariable(required=true description='The new owner name.')
-        public String ownerName;
-    }
 
     public class Request {
         @InvocableVariable(required=true description='The active Visit record ID.')

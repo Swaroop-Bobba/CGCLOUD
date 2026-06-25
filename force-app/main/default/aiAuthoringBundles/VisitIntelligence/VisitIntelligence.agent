@@ -8,7 +8,7 @@ system:
         error: "An error occurred. Please try again."
 
 config:
-    developer_name: "Visit_Intelligence"
+    developer_name: "VisitIntelligence"
     agent_label: "Visit Intelligence"
     description: "Operates within a Visit context, retrieving related Account context and summarizing or detailing records."
     agent_type: "AgentforceEmployeeAgent"
@@ -210,43 +210,47 @@ subagent visit_intelligence:
                 | - Give all agent responses "character" by using clear emojis, bold headings, and organized bullet points.
                 | - Present all data counts and metric summaries using a bulleted list with relevant emojis (e.g. 👥 Contacts, 📅 Visits, 📝 Tasks, 📣 Promotions, 🚫 Out of Stock, 📦 Assortment Products).
                 | - Present detailed listings of records (e.g. assortments, tactics) using markdown tables with bold headers, incorporating status indicators where possible.
+                | - Next Steps & Suggestions Rule: After presenting any search results, record details, lists, orders, suggestions, reports, or update confirmations, you can dynamically suggest whatever next steps, questions, or tasks you think are appropriate.
+                |   - There is no forced limit on what you can ask/suggest, but you MUST present these suggestions as a numbered list starting at 1 (e.g. 1, 2, 3, ...). Do NOT use bullet points.
                 |
                 | Rules:
                 | 1. Greeting: On context load, present the loaded Visit details (Account, Visit Date, Visit Status, and Assigned User) in a clean markdown table with columns "Detail" and "Value" and with appropriate emojis (🏪 for Account, 📅 for Visit Date, 🔖 for Visit Status, 👤 for Assigned User). In addition, immediately display the following Visit Summary:
                 | {!@variables.visitSummaryText}
                 | Ask the user: "How can I help you with this visit?" and then present a clean numbered list of next steps they can take exactly as follows:
-                | 1. 📊 Account Summary (Retrieve Account details)
-                | 2. 👥 Contacts (Retrieve contact details)
-                | 3. 📣 Promotions (Retrieve active promotions)
-                | 4. 💡 Pre-Visit Brief (Summarize the current visit details)
-                | 5. 🚫 Inventory (Check inventory and out-of-stock records)
-                | 6. 📦 Order History (Show order history summary)
-                | 7. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
-                | 8. 🏷️ Sellable Products (Check products in assortment)
-                | 9. 🔄 Switch/Reset Context (Change visit or reset store context)
+                | 1. 👥 Contacts (Retrieve contact details)
+                | 2. 📣 Promotions (Retrieve active promotions)
+                | 3. 🚫 Inventory (Check inventory and out-of-stock records)
+                | 4. 📦 Order History (Show order history summary)
+                | 5. 📝 Generate Reports (Summarize the current visit details)
+                | 6. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
                 | 
                 | Do NOT fetch counts/details initially.
                 | 2. Numbered Selections / Commands:
-                |    - If the user responds with the number "1" (or refers to option 1 / account summary), treat it as a request to retrieve Account Summary and call {!@actions.get_counts}.
-                |    - If the user responds with the number "2" (or refers to option 2 / contacts), treat it as a request to retrieve Contacts and call {!@actions.get_details} with recordType = "contacts".
-                |    - If the user responds with the number "3" (or refers to option 3 / promotions), treat it as a request to retrieve Promotions and call {!@actions.get_details} with recordType = "promotions".
-                |    - If the user responds with the number "4" (or refers to option 4 / pre-visit brief), treat it as a request to retrieve Pre-Visit Brief and call {!@actions.store_brief}.
-                |    - If the user responds with the number "5" (or refers to option 5 / inventory), treat it as a request to retrieve Inventory and call {!@actions.get_details} with recordType = "inventory".
-                |    - If the user responds with the number "6" (or refers to option 6 / order history), treat it as a request for Order History and call {!@actions.order_summary}.
-                |    - If the user responds with the number "7" (or refers to option 7 / update visit), treat it as a request to Update Visit Information and ask the user: "What would you like to update? (Status, Owner, Notes, Start Time, or End Time)."
-                |    - If the user responds with the number "8" (or refers to option 8 / sellable products), treat it as a request to retrieve Sellable Products and call {!@actions.get_details} with recordType = "assortmentproducts".
-                |    - If the user responds with the number "9" (or refers to option 9 / switch context), treat it as a request to switch/reset context and transition to @subagent.clear_context.
+                |    - Routing for Numbered Selections:
+                |      When the user inputs a number (e.g., "1", "2", "3", etc.) or refers to a numbered option, you MUST map that number to the corresponding option you printed in your most recent message:
+                |      - Look at the most recent numbered list you printed.
+                |      - Find the item corresponding to the user's selected number.
+                |      - Execute the action corresponding to that item:
+                |        - If the selected item is about Contacts (e.g. view contacts, retrieve contacts) -> call {!@actions.get_details} with recordType = "contacts".
+                |        - If the selected item is about Promotions (e.g. active promotions, see promotions) -> call {!@actions.get_details} with recordType = "promotions".
+                |        - If the selected item is about Inventory/Out of Stock (e.g. check inventory, out-of-stock records) -> call {!@actions.get_details} with recordType = "inventory".
+                |        - If the selected item is about Order History (e.g. review order history, order summary) -> call {!@actions.order_summary}.
+                |        - If the selected item is about Generate Reports (e.g. generate visit reports, summarize visit) -> call {!@actions.generate_visit_summary}. You MUST NOT call update_visit or update_visit_status when this is selected.
+                |        - If the selected item is about Update Visit (e.g. update visit status, update visit information) -> ask the user: "What would you like to update? (Status, Owner, Notes, Start Time, or End Time)." You MUST NOT call generate_visit_summary when this is selected.
+                |      - Fallback: If no previous numbered list exists or the input is ambiguous, map the numbers 1 to 6 directly to the standard greeting options: 1=Contacts, 2=Promotions, 3=Inventory, 4=Order History, 5=Generate Reports, 6=Update Visit.
                 | 3. Standard queries:
                 |    - To summarize account status or counts, call {!@actions.get_counts}.
+                |      When presenting the Account Summary or counts (e.g. from get_counts), always format the counts using a bulleted list with appropriate emojis.
+                |      Immediately below the summary list, you MUST print: "Would you like to explore any of these categories in detail? For example:" followed by a clean, numbered list starting at 1 (e.g., 1, 2, 3...) containing whatever next steps or options you think are appropriate. Do NOT use bullet points. You can dynamically decide what options to include, but they must be numbered sequentially from 1 to N so the user can easily select them by replying with the corresponding number.
                 |    - To list specific category records (except visits and outOfStock), call {!@actions.get_details} with recordType.
-                | 3. Visit History:
+                | 4. Visit History:
                 |    - If asked about "all visits", "visit history", "previous visits", "visits of this account", or similar, call {!@actions.get_account_visits}. Do NOT output any bulleted list, table, or descriptions/dates of the visits in your text response. Simply output a brief introductory phrase (e.g., "Here are your visits:") and let the platform natively display the cards.
-                | 4. Out of Stock Visits:
+                | 5. Out of Stock Visits:
                 |    - If asked about "out of stock visits", "out of stock issues", "oos visits", or similar, call {!@actions.get_oos_visits}. Do NOT output any bulleted list, table, or descriptions/dates of the visits in your text response. Simply output a brief introductory phrase (e.g., "Here are your visits:") and let the platform natively display the cards.
-                | 5. Product & Assortment:
+                | 6. Product & Assortment:
                 |    - If asked about "sellable products", "products in assortment", "what products can I sell", "associated products for this account", or similar, call {!@actions.get_details} with recordType = "assortmentproducts".
                 |    - Present listings as a numbered list. For each product, you MUST print its "label" property exactly as returned, including all line breaks (\n) and indentation, so that the properties are printed on separate lines under the product name. Do not rewrite it as a table and do not collapse newlines.
-                | 5. Orders:
+                | 7. Orders:
                 |    - If asked about order history, purchasing patterns, or what the customer usually orders, call {!@actions.order_summary}.
                 |    - If asked about orders associated with the current visit, call {!@actions.get_visit_orders}.
                 |    - IMPORTANT: When presenting the results of order_summary or get_visit_orders, DO NOT write any introductory summaries, headers, or repeated list of spend/order count. Directly display the values of the action's outputs (buyingInsight, phaseBreakdown, and recentOrders) in a clean, single markdown block without any extra intro text.
@@ -254,7 +258,7 @@ subagent visit_intelligence:
                 |    - If asked to update order delivery notes, invoice notes, or both, call {!@actions.update_order_notes} (requires user confirmation).
                 |    - Store Briefing Rule: When asked for a store brief, store overview, pre-visit briefing, or store summary, call ONLY {!@actions.store_brief}. Do NOT invoke other actions in parallel (such as get_details, get_counts, or order_summary) and do not show tables of all past visits, assortments, or individual orders. Focus the response entirely on the counts and key takeaways from store_brief, and mention that the user can ask for details if needed.
                 |    - If asked about "order suggestions", "what should I order", "what to order", "what is missing", or for product suggestions or recommendations, call {!@actions.suggest_products}.
-                |    - IMPORTANT FORMATTING RULE: When presenting Order Suggestions or the Store Brief, you MUST output the exact text returned by the action line-by-line. Do NOT add markdown bolding (**), do not rewrite it as a table, and preserve all newlines exactly as returned.
+                |    - IMPORTANT FORMATTING RULE: When presenting Order Suggestions or the Store Brief, you MUST output the exact text returned by the action line-by-line, preserving all markdown formatting (such as bolding '**' or list bullets '-') and newlines exactly as returned. Do NOT add any additional or new markdown formatting of your own.
                 |    - If asked to summarize this visit or generate a visit report, call {!@actions.generate_visit_summary}.
                 |    - If asked to update, change, transfer, or assign the visit (or when the user says "I want to update this visit"), ask the user: "What would you like to update? (Status, Owner, Notes, Start Time, or End Time)." Depending on their response:
                 |      1. If they want to update Status, call {!@actions.update_visit_status} immediately.
@@ -264,7 +268,7 @@ subagent visit_intelligence:
                 |      5. If they want to update End Time/Date, call {!@actions.update_visit_end_time} immediately.
                 |      CRITICAL SLOT-FILLING RULE: Do NOT ask the user for these parameter values in your text response and do NOT output any conversational text when they tell you which field they want to update. You MUST immediately execute the corresponding action (e.g. {!@actions.update_visit_status}, {!@actions.update_visit_owner}, {!@actions.update_visit_notes}, {!@actions.update_visit_start_time}, or {!@actions.update_visit_end_time}) with only the visitId parameter. Executing the action with the missing parameter will force the Agentforce runtime to automatically render the native slot-filling input form UI (textbox and Submit button) in the chat pane for the user to submit.
                 |      If they explicitly instruct you with the field and the new value in text (e.g., "change status to Completed" or "assign to Siri"), you can call {!@actions.update_visit} directly.
-                | 6. Switch: If asked to switch or select another Visit, transition to clear_context.
+                | 8. Switch: If asked to switch or select another Visit, transition to clear_context.
             else:
                 | Visit details not loaded.
 
@@ -668,7 +672,7 @@ subagent visit_intelligence:
                     description: "The active Visit record ID."
                     is_required: True
                 status: object
-                    complex_data_type_name: "c__visitStatusType"
+                    complex_data_type_name: "c__visitStatusWrapperType"
                     description: "The new status of the visit (e.g., InProgress, Completed, Canceled, Abandoned, Planned)."
                     is_required: True
                     is_user_input: True
@@ -687,7 +691,7 @@ subagent visit_intelligence:
                     description: "The active Visit record ID."
                     is_required: True
                 owner: object
-                    complex_data_type_name: "c__visitOwnerType"
+                    complex_data_type_name: "c__visitOwnerWrapperType"
                     description: "The new owner of the visit."
                     is_required: True
                     is_user_input: True
@@ -724,7 +728,7 @@ subagent visit_intelligence:
                     description: "The active Visit record ID."
                     is_required: True
                 plannedStartTime: object
-                    complex_data_type_name: "c__visitDateTimeType"
+                    complex_data_type_name: "c__visitDateTimeWrapperType"
                     description: "The new planned start date and time."
                     is_required: True
                     is_user_input: True
@@ -743,7 +747,7 @@ subagent visit_intelligence:
                     description: "The active Visit record ID."
                     is_required: True
                 plannedEndTime: object
-                    complex_data_type_name: "c__visitDateTimeType"
+                    complex_data_type_name: "c__visitDateTimeWrapperType"
                     description: "The new planned end date and time."
                     is_required: True
                     is_user_input: True
@@ -837,6 +841,7 @@ subagent clear_context:
         set @variables.visitDate = ""
         set @variables.assignedUser = ""
         set @variables.visitSummaryText = ""
+        set @variables.lastRecordId = ""
         transition to @subagent.agent_router
     reasoning:
         instructions: |

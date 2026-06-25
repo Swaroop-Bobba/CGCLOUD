@@ -8,7 +8,7 @@ system:
         error: "An error occurred. Please try again."
 
 config:
-    developer_name: "Visit_Intelligence"
+    developer_name: "VisitIntelligence"
     agent_label: "Visit Intelligence"
     description: "Operates within a Visit context, retrieving related Account context and summarizing or detailing records."
     agent_type: "AgentforceEmployeeAgent"
