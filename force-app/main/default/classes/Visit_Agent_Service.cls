@@ -542,8 +542,6 @@ public with sharing class Visit_Agent_Service {
                 '* **Representative Notes**: ' + notesStr + '\n' +
                 '* **Overall Outcome**: ' + (tasksPending == 0 ? 'Successful visit.' : 'Visit partially completed.');
 
-            v.cgcloud__Note__c = summary;
-            Database.update(v, AccessLevel.USER_MODE);
             return summary;
 
         } catch (Exception e) {
