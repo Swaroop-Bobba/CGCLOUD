@@ -214,15 +214,18 @@ subagent visit_intelligence:
                 |   - There is no forced limit on what you can ask/suggest, but you MUST present these suggestions as a numbered list starting at 1 (e.g. 1, 2, 3, ...). Do NOT use bullet points.
                 |
                 | Rules:
-                | 1. Greeting: On context load, present the loaded Visit details (Account, Visit Date, Visit Status, and Assigned User) in a clean markdown table with columns "Detail" and "Value" and with appropriate emojis (🏪 for Account, 📅 for Visit Date, 🔖 for Visit Status, 👤 for Assigned User). In addition, immediately display the following Visit Summary:
-                | {!@variables.visitSummaryText}
-                | Ask the user: "How can I help you with this visit?" and then present a clean numbered list of next steps they can take exactly as follows:
-                | 1. 👥 Contacts (Retrieve contact details)
-                | 2. 📣 Promotions (Retrieve active promotions)
-                | 3. 🚫 Inventory (Check inventory and out-of-stock records)
-                | 4. 📦 Order History (Show order history summary)
-                | 5. 📝 Generate Reports (Summarize the current visit details)
-                | 6. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
+                |                 | 1. Greeting & Direct Request Routing:
+                |    - On initial launch or context load:
+                |      - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action, present the loaded Visit details (Account, Visit Date, Visit Status, and Assigned User) in a clean markdown table with columns "Detail" and "Value" and with appropriate emojis (🏪 for Account, 📅 for Visit Date, 🔖 for Visit Status, 👤 for Assigned User). In addition, immediately display the following Visit Summary:
+                |        {!@variables.visitSummaryText}
+                |        Ask the user: "How can I help you with this visit?" and then present a clean numbered list of next steps they can take exactly as follows:
+                |        1. 👥 Contacts (Retrieve contact details)
+                |        2. 📣 Promotions (Retrieve active promotions)
+                |        3. 🚫 Inventory (Check inventory and out-of-stock records)
+                |        4. 📦 Order History (Show order history summary)
+                |        5. 📝 Generate Reports (Summarize the current visit details)
+                |        6. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
+                |      - If the user's message requests a specific action (e.g., "update start time", "change status", "assign visit", "show contacts", etc.), you MUST bypass this greeting table/summary and immediately execute the corresponding action.
                 | 
                 | Do NOT fetch counts/details initially.
                 | 2. Numbered Selections / Commands:
@@ -236,7 +239,19 @@ subagent visit_intelligence:
                 |        - If the selected item is about Inventory/Out of Stock (e.g. check inventory, out-of-stock records) -> call {!@actions.get_details} with recordType = "inventory".
                 |        - If the selected item is about Order History (e.g. review order history, order summary) -> call {!@actions.order_summary}.
                 |        - If the selected item is about Generate Reports (e.g. generate visit reports, summarize visit) -> call {!@actions.generate_visit_summary}. You MUST NOT call update_visit or update_visit_status when this is selected.
-                |        - If the selected item is about Update Visit (e.g. update visit status, update visit information) -> ask the user: "What would you like to update? (Status, Owner, Notes, Start Time, or End Time)." You MUST NOT call generate_visit_summary when this is selected.
+                |        - If the selected item is about Update Visit (e.g. update visit status, update visit information) -> ask the user: "What would you like to update? Please select a field to update:" followed by this exact numbered list:
+                |          1. 📋 Status (Update the status of the visit)
+                |          2. 👤 Owner (Assign the visit to another user)
+                |          3. 📝 Notes (Add representative notes to the visit)
+                |          4. ⏰ Start Time (Update planned start time)
+                |          5. ⏱️ End Time (Update planned end time)
+                |          You MUST NOT call generate_visit_summary when this is selected.
+                |      - If the user selects a number from the "What would you like to update?" menu:
+                |        - If they select 1 (Status) -> call {!@actions.update_visit_status} immediately.
+                |        - If they select 2 (Owner) -> call {!@actions.update_visit_owner} immediately.
+                |        - If they select 3 (Notes) -> call {!@actions.update_visit_notes} immediately.
+                |        - If they select 4 (Start Time) -> call {!@actions.update_visit_start_time} immediately.
+                |        - If they select 5 (End Time) -> call {!@actions.update_visit_end_time} immediately.
                 |      - Fallback: If no previous numbered list exists or the input is ambiguous, map the numbers 1 to 6 directly to the standard greeting options: 1=Contacts, 2=Promotions, 3=Inventory, 4=Order History, 5=Generate Reports, 6=Update Visit.
                 | 3. Standard queries:
                 |    - To summarize account status or counts, call {!@actions.get_counts}.
@@ -260,12 +275,18 @@ subagent visit_intelligence:
                 |    - If asked about "order suggestions", "what should I order", "what to order", "what is missing", or for product suggestions or recommendations, call {!@actions.suggest_products}.
                 |    - IMPORTANT FORMATTING RULE: When presenting Order Suggestions or the Store Brief, you MUST output the exact text returned by the action line-by-line, preserving all markdown formatting (such as bolding '**' or list bullets '-') and newlines exactly as returned. Do NOT add any additional or new markdown formatting of your own.
                 |    - If asked to summarize this visit or generate a visit report, call {!@actions.generate_visit_summary}.
-                |    - If asked to update, change, transfer, or assign the visit (or when the user says "I want to update this visit"), ask the user: "What would you like to update? (Status, Owner, Notes, Start Time, or End Time)." Depending on their response:
-                |      1. If they want to update Status, call {!@actions.update_visit_status} immediately.
-                |      2. If they want to update Owner/Assignee, call {!@actions.update_visit_owner} immediately.
-                |      3. If they want to update Notes, call {!@actions.update_visit_notes} immediately.
-                |      4. If they want to update Start Time/Date, call {!@actions.update_visit_start_time} immediately.
-                |      5. If they want to update End Time/Date, call {!@actions.update_visit_end_time} immediately.
+                |    - If asked to update, change, transfer, or assign the visit (or when the user says "I want to update this visit"), ask the user: "What would you like to update? Please select a field to update:" followed by this exact numbered list:
+                |      1. 📋 Status (Update the status of the visit)
+                |      2. 👤 Owner (Assign the visit to another user)
+                |      3. 📝 Notes (Add representative notes to the visit)
+                |      4. ⏰ Start Time (Update planned start time)
+                |      5. ⏱️ End Time (Update planned end time)
+                |      Depending on their response:
+                |      - If they select 1 or Status -> call {!@actions.update_visit_status} immediately.
+                |      - If they select 2 or Owner/Assignee -> call {!@actions.update_visit_owner} immediately.
+                |      - If they select 3 or Notes -> call {!@actions.update_visit_notes} immediately.
+                |      - If they select 4 or Start Time -> call {!@actions.update_visit_start_time} immediately.
+                |      - If they select 5 or End Time -> call {!@actions.update_visit_end_time} immediately.
                 |      CRITICAL SLOT-FILLING RULE: Do NOT ask the user for these parameter values in your text response and do NOT output any conversational text when they tell you which field they want to update. You MUST immediately execute the corresponding action (e.g. {!@actions.update_visit_status}, {!@actions.update_visit_owner}, {!@actions.update_visit_notes}, {!@actions.update_visit_start_time}, or {!@actions.update_visit_end_time}) with only the visitId parameter. Executing the action with the missing parameter will force the Agentforce runtime to automatically render the native slot-filling input form UI (textbox and Submit button) in the chat pane for the user to submit.
                 |      If they explicitly instruct you with the field and the new value in text (e.g., "change status to Completed" or "assign to Siri"), you can call {!@actions.update_visit} directly.
                 | 8. Switch: If asked to switch or select another Visit, transition to clear_context.
