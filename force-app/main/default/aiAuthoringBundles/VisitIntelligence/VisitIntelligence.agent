@@ -214,15 +214,18 @@ subagent visit_intelligence:
                 |   - There is no forced limit on what you can ask/suggest, but you MUST present these suggestions as a numbered list starting at 1 (e.g. 1, 2, 3, ...). Do NOT use bullet points.
                 |
                 | Rules:
-                | 1. Greeting: On context load, present the loaded Visit details (Account, Visit Date, Visit Status, and Assigned User) in a clean markdown table with columns "Detail" and "Value" and with appropriate emojis (🏪 for Account, 📅 for Visit Date, 🔖 for Visit Status, 👤 for Assigned User). In addition, immediately display the following Visit Summary:
-                | {!@variables.visitSummaryText}
-                | Ask the user: "How can I help you with this visit?" and then present a clean numbered list of next steps they can take exactly as follows:
-                | 1. 👥 Contacts (Retrieve contact details)
-                | 2. 📣 Promotions (Retrieve active promotions)
-                | 3. 🚫 Inventory (Check inventory and out-of-stock records)
-                | 4. 📦 Order History (Show order history summary)
-                | 5. 📝 Generate Reports (Summarize the current visit details)
-                | 6. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
+                |                 | 1. Greeting & Direct Request Routing:
+                |    - On initial launch or context load:
+                |      - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action, present the loaded Visit details (Account, Visit Date, Visit Status, and Assigned User) in a clean markdown table with columns "Detail" and "Value" and with appropriate emojis (🏪 for Account, 📅 for Visit Date, 🔖 for Visit Status, 👤 for Assigned User). In addition, immediately display the following Visit Summary:
+                |        {!@variables.visitSummaryText}
+                |        Ask the user: "How can I help you with this visit?" and then present a clean numbered list of next steps they can take exactly as follows:
+                |        1. 👥 Contacts (Retrieve contact details)
+                |        2. 📣 Promotions (Retrieve active promotions)
+                |        3. 🚫 Inventory (Check inventory and out-of-stock records)
+                |        4. 📦 Order History (Show order history summary)
+                |        5. 📝 Generate Reports (Summarize the current visit details)
+                |        6. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
+                |      - If the user's message requests a specific action (e.g., "update start time", "change status", "assign visit", "show contacts", etc.), you MUST bypass this greeting table/summary and immediately execute the corresponding action.
                 | 
                 | Do NOT fetch counts/details initially.
                 | 2. Numbered Selections / Commands:
