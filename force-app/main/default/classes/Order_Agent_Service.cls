@@ -137,9 +137,9 @@ public with sharing class Order_Agent_Service {
 
                 String phaseIcon = getPhaseIcon(phase);
                 String card =
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '\uD83D\uDCE6 Order ' + orderName + '\n' +
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '  \uD83D\uDCC5 Order Date     :  ' + orderDate + '\n' +
                     '  \uD83D\uDE9A Delivery Date  :  ' + deliveryDate + '\n' +
                     '  ' + phaseIcon + ' Phase          :  ' + phase + '\n' +
@@ -166,13 +166,13 @@ public with sharing class Order_Agent_Service {
             }
             res.phaseBreakdown =
                 '\uD83D\uDCCA Phase Breakdown\n' +
-                '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                 String.join(phaseLines, '\n');
 
             if (productStats.isEmpty()) {
                 res.buyingInsight =
                     '\uD83D\uDCCA Spend Overview\n' +
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '  Historical Orders  :  ' + res.totalOrders + '\n' +
                     '  Total Spend        :  $' + grandTotal.setScale(2) + '\n' +
                     '  Product Details    :  Not available';
@@ -199,14 +199,14 @@ public with sharing class Order_Agent_Service {
 
                 res.buyingInsight =
                     '\uD83D\uDCCA Spend Overview\n' +
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '  Historical Orders  :  ' + res.totalOrders + '\n' +
                     '  Total Spend        :  $' + grandTotal.setScale(2) + '\n\n' +
                     '\uD83D\uDED2 Frequent Products\n' +
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '  Usually purchases: ' + usuallyOrders + '\n\n' +
                     '\uD83C\uDFC6 Top-Selling Product\n' +
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '  ' + mostSaleable.name + '  \u2014  ' + mostSaleable.totalQuantity.setScale(0) + ' ' + mostSaleable.uom;
             }
         } catch (Exception e) {
@@ -305,9 +305,9 @@ public with sharing class Order_Agent_Service {
 
                 String phaseIcon = getPhaseIcon(phase);
                 String card =
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '\uD83D\uDCE6 Order ' + orderName + '\n' +
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '  \uD83D\uDCC5 Order Date     :  ' + orderDate + '\n' +
                     '  \uD83D\uDE9A Delivery Date  :  ' + deliveryDate + '\n' +
                     '  ' + phaseIcon + ' Phase          :  ' + phase + '\n' +
@@ -344,13 +344,13 @@ public with sharing class Order_Agent_Service {
             }
             res.phaseBreakdown =
                 '\uD83D\uDCCA Phase Breakdown\n' +
-                '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                 String.join(phaseLines, '\n');
 
             if (productStats.isEmpty()) {
                 res.buyingInsight =
                     '\uD83D\uDCCA Spend Overview\n' +
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '  Historical Orders  :  ' + res.totalOrders + '\n' +
                     '  Total Spend        :  $' + grandTotal.setScale(2) + '\n' +
                     '  Product Details    :  Not available';
@@ -377,14 +377,14 @@ public with sharing class Order_Agent_Service {
 
                 res.buyingInsight =
                     '\uD83D\uDCCA Spend Overview\n' +
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '  Historical Orders  :  ' + res.totalOrders + '\n' +
                     '  Total Spend        :  $' + grandTotal.setScale(2) + '\n\n' +
                     '\uD83D\uDED2 Frequent Products\n' +
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '  Usually purchases: ' + usuallyOrders + '\n\n' +
                     '\uD83C\uDFC6 Top-Selling Product\n' +
-                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
+                    '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n' +
                     '  ' + mostSaleable.name + '  \u2014  ' + mostSaleable.totalQuantity.setScale(0) + ' ' + mostSaleable.uom;
             }
         } catch (Exception e) {

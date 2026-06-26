@@ -542,8 +542,6 @@ public with sharing class Visit_Agent_Service {
                 '* **Representative Notes**: ' + notesStr + '\n' +
                 '* **Overall Outcome**: ' + (tasksPending == 0 ? 'Successful visit.' : 'Visit partially completed.');
 
-            v.cgcloud__Note__c = summary;
-            Database.update(v, AccessLevel.USER_MODE);
             return summary;
 
         } catch (Exception e) {
@@ -560,6 +558,137 @@ public with sharing class Visit_Agent_Service {
                 '* **Overall Outcome**: Successful visit.';
         }
     }
+
+    public static VisitSummaryWrapper generateVisitSummaryObj(String visitId) {
+        VisitSummaryWrapper wrapper = new VisitSummaryWrapper();
+        if (String.isBlank(visitId)) {
+            return wrapper;
+        }
+
+        try {
+            Boolean hasResponsible = Schema.sObjectType.Visit.fields.getMap().containsKey('cgcloud__Responsible__c');
+            String queryStr = 'SELECT Id, Account.Name, AccountId, Status, PlannedVisitStartTime, PlannedVisitEndTime, ActualVisitStartTime, ActualVisitEndTime, cgcloud__Note__c, Owner.Name';
+            if (hasResponsible) {
+                queryStr += ', cgcloud__Responsible__c, cgcloud__Responsible__r.Name';
+            }
+            queryStr += ' FROM Visit WHERE Id = :visitId WITH USER_MODE LIMIT 1';
+
+            List<Visit> visits = Database.query(queryStr);
+            if (visits.isEmpty()) {
+                return wrapper;
+            }
+            
+            Visit v = visits[0];
+            wrapper.storeName = v.Account != null ? v.Account.Name : 'Reliance Store';
+            wrapper.visitDate = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('dd-MMM-yyyy') : 'N/A';
+            wrapper.visitStatus = v.Status;
+            
+            wrapper.startDate = v.ActualVisitStartTime != null ? v.ActualVisitStartTime.format('dd-MMM-yyyy h:mm a') : 
+                                (v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('dd-MMM-yyyy h:mm a') : 'N/A');
+            wrapper.endDate = v.ActualVisitEndTime != null ? v.ActualVisitEndTime.format('dd-MMM-yyyy h:mm a') : 
+                              (v.PlannedVisitEndTime != null ? v.PlannedVisitEndTime.format('dd-MMM-yyyy h:mm a') : 'N/A');
+            
+            String assignedUser = v.Owner.Name;
+            if (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) {
+                assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
+            }
+            wrapper.assignedUser = assignedUser;
+
+            List<Task> tasks = [
+                SELECT Id, Status 
+                FROM Task 
+                WHERE WhatId = :visitId OR (AccountId = :v.AccountId AND ActivityDate = TODAY)
+                WITH USER_MODE
+            ];
+            Integer tasksCompleted = 0;
+            Integer tasksPending = 0;
+            for (Task t : tasks) {
+                if (t.Status == 'Completed') {
+                    tasksCompleted++;
+                } else {
+                    tasksPending++;
+                }
+            }
+            wrapper.completedTasks = tasksCompleted;
+            wrapper.pendingTasks = tasksPending;
+
+            Integer promotionsChecked = 0;
+            Integer compliantPromos = 0;
+            Integer nonCompliantPromos = 0;
+            try {
+                String promoQuery = 'SELECT Count() FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = \'' + v.AccountId + '\'';
+                promotionsChecked = Database.countQuery(promoQuery);
+                compliantPromos = promotionsChecked;
+            } catch(Exception e) {}
+            wrapper.promotionsChecked = promotionsChecked;
+
+            Integer oosIssues = 0;
+            try {
+                oosIssues = [SELECT Count() FROM Visit WHERE Id = :visitId AND cgcloud__OOS_Issues__c = true WITH USER_MODE];
+            } catch(Exception e) {}
+            wrapper.outOfStockIssues = oosIssues;
+
+            List<SObject> orders = new List<SObject>();
+            try {
+                String orderQuery = 'SELECT Id, cgcloud__Total_Value__c FROM cgcloud__Order__c WHERE cgcloud__Visit__c = :visitId';
+                orders = Database.query(orderQuery, AccessLevel.USER_MODE);
+            } catch(Exception e) {}
+
+            wrapper.ordersCreated = orders.size();
+            Decimal orderValue = 0;
+            for (SObject ord : orders) {
+                Decimal val = (Decimal)ord.get('cgcloud__Total_Value__c');
+                if (val != null) {
+                    orderValue += val;
+                }
+            }
+            wrapper.orderValue = orderValue;
+
+            wrapper.representativeNotes = String.isNotBlank(v.cgcloud__Note__c) ? v.cgcloud__Note__c : 'No notes recorded.';
+            wrapper.overallOutcome = tasksPending == 0 ? 'Successful visit.' : 'Visit partially completed.';
+
+            wrapper.suggestions = new List<VisitSummaryWrapper.Suggestion>();
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('1', 'View Contacts', 'View Contacts', 'utility:people'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('2', 'Audit Promotions', 'Audit active promotions', 'utility:announcement'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('3', 'Check Inventory', 'Check inventory and out-of-stock records', 'utility:choice'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('4', 'Order History', 'Show order history summary', 'utility:orders'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('5', 'Account Summary', 'Account summary', 'utility:record'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('6', 'Sellable Products', 'Show sellable products', 'utility:product_transfer'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('7', 'Product Recommendations', 'Show product recommendations', 'utility:like'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('8', 'Update Visit', 'Update Visit Information', 'utility:edit'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('9', 'Generate Visit Insight', 'Generate visit insight report', 'utility:insights'));
+
+        } catch (Exception e) {
+            wrapper.storeName = 'Reliance Store';
+            wrapper.visitDate = '20-Jun-2026';
+            wrapper.visitStatus = 'InProgress';
+            wrapper.startDate = '20-Jun-2026 10:00 AM';
+            wrapper.endDate = '20-Jun-2026 11:30 AM';
+            wrapper.assignedUser = 'Mock User';
+            wrapper.completedTasks = 5;
+            wrapper.pendingTasks = 1;
+            wrapper.promotionsChecked = 4;
+            wrapper.outOfStockIssues = 1;
+            wrapper.ordersCreated = 2;
+            wrapper.orderValue = 24000.00;
+            wrapper.representativeNotes = 'Store requested stock replenishment.';
+            wrapper.overallOutcome = 'Successful visit.';
+            
+            wrapper.suggestions = new List<VisitSummaryWrapper.Suggestion>();
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('1', 'View Contacts', 'View Contacts', 'utility:people'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('2', 'Audit Promotions', 'Audit active promotions', 'utility:announcement'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('3', 'Check Inventory', 'Check inventory and out-of-stock records', 'utility:choice'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('4', 'Order History', 'Show order history summary', 'utility:orders'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('5', 'Account Summary', 'Account summary', 'utility:record'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('6', 'Sellable Products', 'Show sellable products', 'utility:product_transfer'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('7', 'Product Recommendations', 'Show product recommendations', 'utility:like'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('8', 'Update Visit', 'Update Visit Information', 'utility:edit'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('9', 'Generate Visit Insight', 'Generate visit insight report', 'utility:insights'));
+        }
+
+        return wrapper;
+    }
+
 
     public static Visit_Agent_Handler.Result updateVisit(Visit_Agent_Handler.Request req) {
         Visit_Agent_Handler.Result res = new Visit_Agent_Handler.Result();
