@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import { execute } from 'lightning/accApi';
 
 export default class VisitSummaryRenderer extends LightningElement {
     @api value; // The raw VisitSummaryWrapper object
@@ -54,10 +55,15 @@ export default class VisitSummaryRenderer extends LightningElement {
         if (!command) return;
 
         try {
-            await navigator.clipboard.writeText(command);
-            this.feedbackMessage = `Copied! Paste in chat.`;
-        } catch (clipErr) {
-            this.feedbackMessage = `Command: "${command}"`;
+            await execute({ message: command });
+            this.feedbackMessage = `Executing: "${command}"`;
+        } catch (err) {
+            try {
+                await navigator.clipboard.writeText(command);
+                this.feedbackMessage = `Copied! Paste in chat.`;
+            } catch (clipErr) {
+                this.feedbackMessage = `Command: "${command}"`;
+            }
         }
 
         // eslint-disable-next-line @lwc/lwc/no-async-operation

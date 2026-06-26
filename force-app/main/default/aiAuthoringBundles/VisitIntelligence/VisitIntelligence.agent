@@ -211,14 +211,17 @@ subagent visit_intelligence:
                 | SECTION 1: DIRECT FEATURE REQUESTS (For experienced/power users)
                 | - Check if the user's message directly requests a specific feature, record type, action, or brief.
                 | - If a direct request is detected, bypass any greeting menus/tables and run the corresponding action:
+                |   * "Account Summary" / "show summary" / "account details" -> Call @actions.get_counts
                 |   * "Contacts" / "show contacts" / "get contact details" -> Call @actions.get_details with recordType = "contacts"
                 |   * "Promotions" / "active promotions" -> Call @actions.get_details with recordType = "promotions"
+                |   * "Pre-Visit Brief" / "store brief" / "store overview" / "pre-visit briefing" -> Call @actions.store_brief
                 |   * "Inventory" / "out-of-stock" / "oos" -> Call @actions.get_details with recordType = "inventory"
                 |   * "Order History" / "orders" -> Call @actions.order_summary
                 |   * "Visit Report" / "generate reports" / "summarize visit" -> Call @actions.generate_visit_summary
-                |   * "Store Brief" / "store overview" / "pre-visit briefing" -> Call @actions.store_brief
-                |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products
                 |   * "Update" / "change visit" / "assign visit" -> Prompt the user: "What would you like to update? Please select a field to update:" and present the Update Menu (described in Section 3).
+                |   * "Sellable Products" / "products in assortment" -> Call @actions.get_details with recordType = "assortmentproducts"
+                |   * "Switch" / "reset context" / "change visit" -> Call @actions.switch_visit
+                |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products
                 |
                 | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
                 | - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action:
@@ -231,29 +234,38 @@ subagent visit_intelligence:
                 |      {!@variables.visitSummaryText}
                 |   3. Ask: "How can I help you with this visit?"
                 |   4. Present the Greeting Menu as a numbered list starting at 1:
-                |      1. 👥 Contacts (Retrieve contact details)
-                |      2. 📣 Promotions (Retrieve active promotions)
-                |      3. 🚫 Inventory (Check inventory and out-of-stock records)
-                |      4. 📦 Order History (Show order history summary)
-                |      5. 📝 Generate Reports (Summarize the current visit details)
-                |      6. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
+                |      1. 🏢 Account Summary (Retrieve Account details)
+                |      2. 👥 Contacts (Retrieve contact details)
+                |      3. 📣 Promotions (Retrieve active promotions)
+                |      4. 💡 Pre-Visit Brief (Summarize the current visit details)
+                |      5. 🚫 Inventory (Check inventory and out-of-stock records)
+                |      6. 📦 Order History (Show order history summary)
+                |      7. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
+                |      8. 🏷️ Sellable Products (Check products in assortment)
+                |      9. 🔄 Switch/Reset Context (Change visit or reset store context)
                 |
-                | SECTION 3: MENU SELECTION & NUMBER MAPPING (For numeric/label inputs)
-                | - If the user types a number (e.g. "1", "2") or a label matching an option from the menu, determine which menu was displayed in the previous turn:
+                | SECTION 3: MENU SELECTION & DYNAMIC OPTION MAPPING
+                | - When the user selects an option by entering a number (e.g. "1", "2") or typing a label, map it dynamically:
                 |
-                |   A. IF THE GREETING MENU WAS PRESENTED:
-                |      * Option 1 or "Contacts" -> Call @actions.get_details with recordType = "contacts"
-                |      * Option 2 or "Promotions" -> Call @actions.get_details with recordType = "promotions"
-                |      * Option 3 or "Inventory" -> Call @actions.get_details with recordType = "inventory"
-                |      * Option 4 or "Order History" -> Call @actions.order_summary
-                |      * Option 5 or "Generate Reports" -> Call @actions.generate_visit_summary
-                |      * Option 6 or "Update Visit" -> Present the Update Menu:
-                |        "What would you like to update? Please select a field to update:"
-                |        1. 📋 Status (Update the status of the visit)
-                |        2. 👤 Owner (Assign the visit to another user)
-                |        3. 📝 Notes (Add representative notes to the visit)
-                |        4. ⏰ Start Time (Update planned start time)
-                |        5. ⏱️ End Time (Update planned end time)
+                |   A. IF THE GREETING MENU OR DYNAMIC NEXT STEPS MENU WAS PRESENTED:
+                |      1. Extract the text label of the numbered option corresponding to the user's input from the last message.
+                |      2. Execute the action for that option text:
+                |         * Account Summary / Account Details -> Call @actions.get_counts
+                |         * Contacts / View Contacts / Contact details -> Call @actions.get_details with recordType = "contacts"
+                |         * Promotions / Audit active promotions / active promotions -> Call @actions.get_details with recordType = "promotions"
+                |         * Pre-Visit Brief / Store Brief / Store Overview / Pre-visit briefing -> Call @actions.store_brief
+                |         * Inventory / Check inventory / Out of stock records -> Call @actions.get_details with recordType = "inventory"
+                |         * Order History / purchasing patterns / Order summary -> Call @actions.order_summary
+                |         * Update Visit / Update Visit Information -> Present the Update Menu:
+                |           What would you like to update? Please select a field to update:
+                |           * Status
+                |           * Owner
+                |           * Notes
+                |           * Start Time
+                |           * End Time
+                |         * Sellable Products / Products in assortment -> Call @actions.get_details with recordType = "assortmentproducts"
+                |         * Switch / Reset Context / Switch to a different visit -> Call @actions.switch_visit
+                |         * Product Recommendations / suggestions -> Call @actions.suggest_products
                 |
                 |   B. IF THE UPDATE MENU WAS PRESENTED:
                 |      * Option 1 or "Status" -> Call @actions.update_visit_status immediately with only visitId.
@@ -262,12 +274,17 @@ subagent visit_intelligence:
                 |      * Option 4 or "Start Time" -> Call @actions.update_visit_start_time immediately with only visitId.
                 |      * Option 5 or "End Time" -> Call @actions.update_visit_end_time immediately with only visitId.
                 |
-                | SECTION 4: GENERAL ACTION AND FORMATTING RULES
-                | - Formatting: Use clear emojis, bold headings, and organized bullet points or markdown tables.
-                | - suggestions: After presenting results, suggest relevant next steps as a numbered list starting at 1 (no bullets).
+                |   C. FALLBACK MAPPING:
+                |      * If no previous list can be identified or input is ambiguous, map the numbers 1 to 9 directly to these default greeting options: 1=Account Summary, 2=Contacts, 3=Promotions, 4=Pre-Visit Brief, 5=Inventory, 6=Order History, 7=Update Visit, 8=Sellable Products, 9=Switch/Reset Context.
+                |
+                | SECTION 4: SPECIFIC FORMATTING & PRESENTATION RULES
+                | - Global Style: Give all responses "character" by using clear emojis, bold headings, and organized bullet points or markdown tables.
+                | - Pre-Visit Store Brief & Recommendations: Improvisation Rule: Do NOT output plain text. Format store briefs and product suggestions using clear headers, sections, emojis, and bold key metrics to make them highly readable and structured.
+                | - Visit History & Out of Stock Visits: Present results as a numbered list starting at 1. For each visit, print the visit name as a markdown hyperlink (e.g., "[00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)") and show key details (Account Name, Status, Date/Time, and Owner Name) in a bulleted sub-list.
+                | - Product & Assortment Listings: Present as a numbered list. Print the product name as a bold header and list its properties (like SKU, category, status) underneath in a clean bulleted sub-list.
+                | - Order History & Order Details: Summarize order history (spend, counts) in a clean markdown table. Format order lists with columns "Order Number", "Date", "Status", and "Total Value" with the rupee symbol (₹).
+                | - Next Steps Suggestions: After presenting any results, suggest next steps as a numbered list starting at 1 (no bullets). Always prioritize suggesting the "🏢 Account Summary" option as one of the primary next steps.
                 | - Slot Filling: For update actions (Section 3-B), invoke the action with only the visitId parameter. Do not ask for fields/values in your response; let the system's slot-filling UI render the forms.
-                | - Order Summary/Visit Orders: Display the action's outputs (buyingInsight, phaseBreakdown, recentOrders) directly in a single block without introductory headers or repeats.
-                | - Store Brief / Suggestions: Preserving all returned markdown and newlines exactly line-by-line. Do not add formatting.
                 | - Switch: If the user selects, specifies, or inputs a number corresponding to a visit in the visit list to select/switch to it (or when the user says "switch to visit" or selects a visit name/number), transition to clear_context to reset context and load the selected visit.
             else:
                 | Visit details not loaded.
