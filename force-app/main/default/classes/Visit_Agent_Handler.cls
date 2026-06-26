@@ -58,6 +58,9 @@ public with sharing class Visit_Agent_Handler {
         @InvocableVariable(description='Visit summary report.')
         public String visitSummary;
 
+        @InvocableVariable(description='Visit summary wrapper object.')
+        public VisitSummaryWrapper visitSummaryObj;
+
         // Update outcome
         @InvocableVariable(description='True if update succeeded.')
         public Boolean success;
@@ -109,6 +112,7 @@ public with sharing class Visit_Agent_Handler {
                 res.summary = Visit_Agent_Service.getStoreBrief(req.visitId, req.accountId);
             } else if (action == 'generatesummary') {
                 res.visitSummary = Visit_Agent_Service.generateVisitSummary(req.visitId);
+                res.visitSummaryObj = Visit_Agent_Service.generateVisitSummaryObj(req.visitId);
             } else if (action == 'updatevisit') {
                 res = Visit_Agent_Service.updateVisit(req);
             }

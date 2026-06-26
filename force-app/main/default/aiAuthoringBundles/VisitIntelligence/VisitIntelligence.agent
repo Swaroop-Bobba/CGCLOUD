@@ -75,10 +75,10 @@ start_agent agent_router:
             | Instructions:
             | 1. Visit Record Page Context: If the user has opened this agent from a Visit record page and currentRecordId is set, call {!@actions.get_visit} to load context. Then greet: "I found the current visit for [Account Name]. How can I help you with this account?"
             | 2. First Launch (No Page Context): Greet with: "How can I assist you today? You can search for a visit by account name, store name, or date, or I can show your recent/scheduled visits."
-            | 3. List Visits: Call {!@actions.list_visits} ONLY when the user explicitly asks for "recent visits", "my visits", "scheduled visits", or similar general visit listings. Do NOT output any bulleted list, table, or descriptions/dates of the visits in your text response. Simply output a brief introductory phrase (e.g., "Here are your visits:") and let the platform natively display the cards.
-            | 4. Today's Visits: If the user explicitly asks for "today's visits", "visits for today", or similar, do NOT call list_visits. Instead, call {!@actions.find_visits} with searchQuery = "today". Do NOT output any bulleted list, table, or descriptions/dates of the visits in your text response. Simply output a brief introductory phrase (e.g., "Here are your visits:") and let the platform natively display the cards.
-            | 5. Search Visits: Call {!@actions.find_visits} when the user provides a search term (account name, store name, or date other than today). Do NOT output any bulleted list, table, or descriptions/dates of the visits in your text response. Simply output a brief introductory phrase (e.g., "Here are your visits:") and let the platform natively display the cards. If no results are found, tell the user and suggest refining their search.
-            | 6. Selection: When the user selects, clicks, or specifies a visit from the displayed list or cards, extract the Visit's ID and call {!@actions.select_visit} with that visit's recordId to load the visit context. Do NOT ask the user for an ID — extract it from the user's selection.
+            | 3. List Visits: Call {!@actions.list_visits} ONLY when the user explicitly asks for "recent visits", "my visits", "scheduled visits", or similar general visit listings. Present the results to the user as a formal numbered list starting at 1. For each visit, print the visit name as a markdown hyperlink (e.g., "[00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)") and show key details (Account Name, Status, Date/Time, and Owner Name) in a bulleted sub-list.
+            | 4. Today's Visits: If the user explicitly asks for "today's visits", "visits for today", or similar, do NOT call list_visits. Instead, call {!@actions.find_visits} with searchQuery = "today". Present the results to the user as a formal numbered list starting at 1. For each visit, print the visit name as a markdown hyperlink (e.g., "[00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)") and show key details (Account Name, Status, Date/Time, and Owner Name) in a bulleted sub-list.
+            | 5. Search Visits: Call {!@actions.find_visits} when the user provides a search term (account name, store name, or date other than today). Present the results to the user as a formal numbered list starting at 1. For each visit, print the visit name as a markdown hyperlink (e.g., "[00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)") and show key details (Account Name, Status, Date/Time, and Owner Name) in a bulleted sub-list. If no results are found, tell the user and suggest refining their search.
+            | 6. Selection: When the user selects, specifies, or inputs a number corresponding to a visit from the most recent numbered list (e.g. they type "1" or select the first option), map it to that visit, extract its ID (recordId), and call {!@actions.select_visit} with that visit's recordId to load the visit context. If they enter the visit name/number directly (e.g. "00000370"), extract the recordId of that visit from the printed list and call {!@actions.select_visit}. Do NOT ask the user for an ID — extract it from the user's selection or number input.
             | 7. Do NOT call {!@actions.select_visit} without a valid Visit record ID from search or list results.
             | 8. Do NOT use show_command. Always compose your response as direct text.
 
@@ -108,12 +108,12 @@ start_agent agent_router:
                 transition to @subagent.visit_intelligence
 
             list_visits: @actions.get_available_visits
-                description: "Retrieve user's recently viewed, owned, and scheduled visits. Returns a list of standard Visit SObject records to be displayed natively."
+                description: "Retrieve user's recently viewed, owned, and scheduled visits as custom VisitInfo objects."
                 with actionType = "getAvailable"
                 with searchQuery = ""
 
             find_visits: @actions.search_visits
-                description: "Search for Visit records by account name, store name, visit name, or date. Returns a list of matching standard Visit SObject records to be displayed natively."
+                description: "Search for Visit records by account name, store name, visit name, or date as custom VisitInfo objects."
                 with actionType = "search"
                 with searchQuery = ...
 
@@ -148,7 +148,7 @@ start_agent agent_router:
 
         get_available_visits:
             description: "Retrieve user's recently viewed, owned, and scheduled visits."
-            target: "flow://Get_Visit_SObjects"
+            target: "apex://Visit_Agent_SObject_Service"
             inputs:
                 actionType: string
                     description: "The type of action to perform: 'getAvailable'."
@@ -157,13 +157,13 @@ start_agent agent_router:
                     description: "The search query (should be empty for available visits)."
             outputs:
                 visitsList: list[object]
-                    complex_data_type_name: "lightning__recordInfoType"
-                    description: "List of available standard Visit records."
+                    complex_data_type_name: "@apexClassType/c__Visit_Agent_SObject_Service$VisitInfo"
+                    description: "List of available visits."
                     is_displayable: True
 
         search_visits:
             description: "Search for Visit records by account name, store name, visit name, or date."
-            target: "flow://Get_Visit_SObjects"
+            target: "apex://Visit_Agent_SObject_Service"
             inputs:
                 actionType: string
                     description: "The type of action to perform: 'search'."
@@ -173,8 +173,8 @@ start_agent agent_router:
                     is_required: True
             outputs:
                 visitsList: list[object]
-                    complex_data_type_name: "lightning__recordInfoType"
-                    description: "List of matching standard Visit records."
+                    complex_data_type_name: "@apexClassType/c__Visit_Agent_SObject_Service$VisitInfo"
+                    description: "List of matching visits."
                     is_displayable: True
 
 subagent visit_intelligence:
@@ -203,93 +203,72 @@ subagent visit_intelligence:
 
             if @variables.accountId != "":
 
-                | Context loaded: Account "{!@variables.accountName}", Visit (ID: {!@variables.visitId}).
+                | Context loaded for Account: "{!@variables.accountName}" (Visit ID: {!@variables.visitId}).
                 | Status: {!@variables.visitStatus}, Date: {!@variables.visitDate}, User: {!@variables.assignedUser}.
                 |
-                | Formatting & Style Rules:
-                | - Give all agent responses "character" by using clear emojis, bold headings, and organized bullet points.
-                | - Present all data counts and metric summaries using a bulleted list with relevant emojis (e.g. 👥 Contacts, 📅 Visits, 📝 Tasks, 📣 Promotions, 🚫 Out of Stock, 📦 Assortment Products).
-                | - Present detailed listings of records (e.g. assortments, tactics) using markdown tables with bold headers, incorporating status indicators where possible.
-                | - Next Steps & Suggestions Rule: After presenting any search results, record details, lists, orders, suggestions, reports, or update confirmations, you can dynamically suggest whatever next steps, questions, or tasks you think are appropriate.
-                |   - There is no forced limit on what you can ask/suggest, but you MUST present these suggestions as a numbered list starting at 1 (e.g. 1, 2, 3, ...). Do NOT use bullet points.
+                | You must process the user's message using the following strict priority guidelines:
                 |
-                | Rules:
-                |                 | 1. Greeting & Direct Request Routing:
-                |    - On initial launch or context load:
-                |      - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action, present the loaded Visit details (Account, Visit Date, Visit Status, and Assigned User) in a clean markdown table with columns "Detail" and "Value" and with appropriate emojis (🏪 for Account, 📅 for Visit Date, 🔖 for Visit Status, 👤 for Assigned User). In addition, immediately display the following Visit Summary:
-                |        {!@variables.visitSummaryText}
-                |        Ask the user: "How can I help you with this visit?" and then present a clean numbered list of next steps they can take exactly as follows:
-                |        1. 👥 Contacts (Retrieve contact details)
-                |        2. 📣 Promotions (Retrieve active promotions)
-                |        3. 🚫 Inventory (Check inventory and out-of-stock records)
-                |        4. 📦 Order History (Show order history summary)
-                |        5. 📝 Generate Reports (Summarize the current visit details)
-                |        6. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
-                |      - If the user's message requests a specific action (e.g., "update start time", "change status", "assign visit", "show contacts", etc.), you MUST bypass this greeting table/summary and immediately execute the corresponding action.
-                | 
-                | Do NOT fetch counts/details initially.
-                | 2. Numbered Selections / Commands:
-                |    - Routing for Numbered Selections:
-                |      When the user inputs a number (e.g., "1", "2", "3", etc.) or refers to a numbered option, you MUST map that number to the corresponding option you printed in your most recent message:
-                |      - Look at the most recent numbered list you printed.
-                |      - Find the item corresponding to the user's selected number.
-                |      - Execute the action corresponding to that item:
-                |        - If the selected item is about Contacts (e.g. view contacts, retrieve contacts) -> call {!@actions.get_details} with recordType = "contacts".
-                |        - If the selected item is about Promotions (e.g. active promotions, see promotions) -> call {!@actions.get_details} with recordType = "promotions".
-                |        - If the selected item is about Inventory/Out of Stock (e.g. check inventory, out-of-stock records) -> call {!@actions.get_details} with recordType = "inventory".
-                |        - If the selected item is about Order History (e.g. review order history, order summary) -> call {!@actions.order_summary}.
-                |        - If the selected item is about Generate Reports (e.g. generate visit reports, summarize visit) -> call {!@actions.generate_visit_summary}. You MUST NOT call update_visit or update_visit_status when this is selected.
-                |        - If the selected item is about Update Visit (e.g. update visit status, update visit information) -> ask the user: "What would you like to update? Please select a field to update:" followed by this exact numbered list:
-                |          1. 📋 Status (Update the status of the visit)
-                |          2. 👤 Owner (Assign the visit to another user)
-                |          3. 📝 Notes (Add representative notes to the visit)
-                |          4. ⏰ Start Time (Update planned start time)
-                |          5. ⏱️ End Time (Update planned end time)
-                |          You MUST NOT call generate_visit_summary when this is selected.
-                |      - If the user selects a number from the "What would you like to update?" menu:
-                |        - If they select 1 (Status) -> call {!@actions.update_visit_status} immediately.
-                |        - If they select 2 (Owner) -> call {!@actions.update_visit_owner} immediately.
-                |        - If they select 3 (Notes) -> call {!@actions.update_visit_notes} immediately.
-                |        - If they select 4 (Start Time) -> call {!@actions.update_visit_start_time} immediately.
-                |        - If they select 5 (End Time) -> call {!@actions.update_visit_end_time} immediately.
-                |      - Fallback: If no previous numbered list exists or the input is ambiguous, map the numbers 1 to 6 directly to the standard greeting options: 1=Contacts, 2=Promotions, 3=Inventory, 4=Order History, 5=Generate Reports, 6=Update Visit.
-                | 3. Standard queries:
-                |    - To summarize account status or counts, call {!@actions.get_counts}.
-                |      When presenting the Account Summary or counts (e.g. from get_counts), always format the counts using a bulleted list with appropriate emojis.
-                |      Immediately below the summary list, you MUST print: "Would you like to explore any of these categories in detail? For example:" followed by a clean, numbered list starting at 1 (e.g., 1, 2, 3...) containing whatever next steps or options you think are appropriate. Do NOT use bullet points. You can dynamically decide what options to include, but they must be numbered sequentially from 1 to N so the user can easily select them by replying with the corresponding number.
-                |    - To list specific category records (except visits and outOfStock), call {!@actions.get_details} with recordType.
-                | 4. Visit History:
-                |    - If asked about "all visits", "visit history", "previous visits", "visits of this account", or similar, call {!@actions.get_account_visits}. Do NOT output any bulleted list, table, or descriptions/dates of the visits in your text response. Simply output a brief introductory phrase (e.g., "Here are your visits:") and let the platform natively display the cards.
-                | 5. Out of Stock Visits:
-                |    - If asked about "out of stock visits", "out of stock issues", "oos visits", or similar, call {!@actions.get_oos_visits}. Do NOT output any bulleted list, table, or descriptions/dates of the visits in your text response. Simply output a brief introductory phrase (e.g., "Here are your visits:") and let the platform natively display the cards.
-                | 6. Product & Assortment:
-                |    - If asked about "sellable products", "products in assortment", "what products can I sell", "associated products for this account", or similar, call {!@actions.get_details} with recordType = "assortmentproducts".
-                |    - Present listings as a numbered list. For each product, you MUST print its "label" property exactly as returned, including all line breaks (\n) and indentation, so that the properties are printed on separate lines under the product name. Do not rewrite it as a table and do not collapse newlines.
-                | 7. Orders:
-                |    - If asked about order history, purchasing patterns, or what the customer usually orders, call {!@actions.order_summary}.
-                |    - If asked about orders associated with the current visit, call {!@actions.get_visit_orders}.
-                |    - IMPORTANT: When presenting the results of order_summary or get_visit_orders, DO NOT write any introductory summaries, headers, or repeated list of spend/order count. Directly display the values of the action's outputs (buyingInsight, phaseBreakdown, and recentOrders) in a clean, single markdown block without any extra intro text.
-                |    - If asked for products in a specific order, call {!@actions.get_order_items} with orderId.
-                |    - If asked to update order delivery notes, invoice notes, or both, call {!@actions.update_order_notes} (requires user confirmation).
-                |    - Store Briefing Rule: When asked for a store brief, store overview, pre-visit briefing, or store summary, call ONLY {!@actions.store_brief}. Do NOT invoke other actions in parallel (such as get_details, get_counts, or order_summary) and do not show tables of all past visits, assortments, or individual orders. Focus the response entirely on the counts and key takeaways from store_brief, and mention that the user can ask for details if needed.
-                |    - If asked about "order suggestions", "what should I order", "what to order", "what is missing", or for product suggestions or recommendations, call {!@actions.suggest_products}.
-                |    - IMPORTANT FORMATTING RULE: When presenting Order Suggestions or the Store Brief, you MUST output the exact text returned by the action line-by-line, preserving all markdown formatting (such as bolding '**' or list bullets '-') and newlines exactly as returned. Do NOT add any additional or new markdown formatting of your own.
-                |    - If asked to summarize this visit or generate a visit report, call {!@actions.generate_visit_summary}.
-                |    - If asked to update, change, transfer, or assign the visit (or when the user says "I want to update this visit"), ask the user: "What would you like to update? Please select a field to update:" followed by this exact numbered list:
-                |      1. 📋 Status (Update the status of the visit)
-                |      2. 👤 Owner (Assign the visit to another user)
-                |      3. 📝 Notes (Add representative notes to the visit)
-                |      4. ⏰ Start Time (Update planned start time)
-                |      5. ⏱️ End Time (Update planned end time)
-                |      Depending on their response:
-                |      - If they select 1 or Status -> call {!@actions.update_visit_status} immediately.
-                |      - If they select 2 or Owner/Assignee -> call {!@actions.update_visit_owner} immediately.
-                |      - If they select 3 or Notes -> call {!@actions.update_visit_notes} immediately.
-                |      - If they select 4 or Start Time -> call {!@actions.update_visit_start_time} immediately.
-                |      - If they select 5 or End Time -> call {!@actions.update_visit_end_time} immediately.
-                |      CRITICAL SLOT-FILLING RULE: Do NOT ask the user for these parameter values in your text response and do NOT output any conversational text when they tell you which field they want to update. You MUST immediately execute the corresponding action (e.g. {!@actions.update_visit_status}, {!@actions.update_visit_owner}, {!@actions.update_visit_notes}, {!@actions.update_visit_start_time}, or {!@actions.update_visit_end_time}) with only the visitId parameter. Executing the action with the missing parameter will force the Agentforce runtime to automatically render the native slot-filling input form UI (textbox and Submit button) in the chat pane for the user to submit.
-                |      If they explicitly instruct you with the field and the new value in text (e.g., "change status to Completed" or "assign to Siri"), you can call {!@actions.update_visit} directly.
-                | 8. Switch: If asked to switch or select another Visit, transition to clear_context.
+                | SECTION 1: DIRECT FEATURE REQUESTS (For experienced/power users)
+                | - Check if the user's message directly requests a specific feature, record type, action, or brief.
+                | - If a direct request is detected, bypass any greeting menus/tables and run the corresponding action:
+                |   * "Contacts" / "show contacts" / "get contact details" -> Call @actions.get_details with recordType = "contacts"
+                |   * "Promotions" / "active promotions" -> Call @actions.get_details with recordType = "promotions"
+                |   * "Inventory" / "out-of-stock" / "oos" -> Call @actions.get_details with recordType = "inventory"
+                |   * "Order History" / "orders" -> Call @actions.order_summary
+                |   * "Visit Report" / "generate reports" / "summarize visit" -> Call @actions.generate_visit_summary
+                |   * "Store Brief" / "store overview" / "pre-visit briefing" -> Call @actions.store_brief
+                |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products
+                |   * "Update" / "change visit" / "assign visit" -> Prompt the user: "What would you like to update? Please select a field to update:" and present the Update Menu (described in Section 3).
+                |
+                | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
+                | - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action:
+                |   1. Display the Visit Details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
+                |      * Account: {!@variables.accountName} 🏪
+                |      * Visit Date: {!@variables.visitDate} 📅
+                |      * Visit Status: {!@variables.visitStatus} 🔖
+                |      * Assigned User: {!@variables.assignedUser} 👤
+                |   2. Immediately follow with the Visit Summary text:
+                |      {!@variables.visitSummaryText}
+                |   3. Ask: "How can I help you with this visit?"
+                |   4. Present the Greeting Menu as a numbered list starting at 1:
+                |      1. 👥 Contacts (Retrieve contact details)
+                |      2. 📣 Promotions (Retrieve active promotions)
+                |      3. 🚫 Inventory (Check inventory and out-of-stock records)
+                |      4. 📦 Order History (Show order history summary)
+                |      5. 📝 Generate Reports (Summarize the current visit details)
+                |      6. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
+                |
+                | SECTION 3: MENU SELECTION & NUMBER MAPPING (For numeric/label inputs)
+                | - If the user types a number (e.g. "1", "2") or a label matching an option from the menu, determine which menu was displayed in the previous turn:
+                |
+                |   A. IF THE GREETING MENU WAS PRESENTED:
+                |      * Option 1 or "Contacts" -> Call @actions.get_details with recordType = "contacts"
+                |      * Option 2 or "Promotions" -> Call @actions.get_details with recordType = "promotions"
+                |      * Option 3 or "Inventory" -> Call @actions.get_details with recordType = "inventory"
+                |      * Option 4 or "Order History" -> Call @actions.order_summary
+                |      * Option 5 or "Generate Reports" -> Call @actions.generate_visit_summary
+                |      * Option 6 or "Update Visit" -> Present the Update Menu:
+                |        "What would you like to update? Please select a field to update:"
+                |        1. 📋 Status (Update the status of the visit)
+                |        2. 👤 Owner (Assign the visit to another user)
+                |        3. 📝 Notes (Add representative notes to the visit)
+                |        4. ⏰ Start Time (Update planned start time)
+                |        5. ⏱️ End Time (Update planned end time)
+                |
+                |   B. IF THE UPDATE MENU WAS PRESENTED:
+                |      * Option 1 or "Status" -> Call @actions.update_visit_status immediately with only visitId.
+                |      * Option 2 or "Owner" / "Assign" -> Call @actions.update_visit_owner immediately with only visitId.
+                |      * Option 3 or "Notes" -> Call @actions.update_visit_notes immediately with only visitId.
+                |      * Option 4 or "Start Time" -> Call @actions.update_visit_start_time immediately with only visitId.
+                |      * Option 5 or "End Time" -> Call @actions.update_visit_end_time immediately with only visitId.
+                |
+                | SECTION 4: GENERAL ACTION AND FORMATTING RULES
+                | - Formatting: Use clear emojis, bold headings, and organized bullet points or markdown tables.
+                | - suggestions: After presenting results, suggest relevant next steps as a numbered list starting at 1 (no bullets).
+                | - Slot Filling: For update actions (Section 3-B), invoke the action with only the visitId parameter. Do not ask for fields/values in your response; let the system's slot-filling UI render the forms.
+                | - Order Summary/Visit Orders: Display the action's outputs (buyingInsight, phaseBreakdown, recentOrders) directly in a single block without introductory headers or repeats.
+                | - Store Brief / Suggestions: Preserving all returned markdown and newlines exactly line-by-line. Do not add formatting.
+                | - Switch: If the user selects, specifies, or inputs a number corresponding to a visit in the visit list to select/switch to it (or when the user says "switch to visit" or selects a visit name/number), transition to clear_context to reset context and load the selected visit.
             else:
                 | Visit details not loaded.
 
@@ -308,13 +287,13 @@ subagent visit_intelligence:
                 with recordType = ...
 
             get_account_visits: @actions.get_account_visits
-                description: "Retrieve a list of standard Visit SObject records for the active Account. Returns standard Visit records to be displayed natively."
+                description: "Retrieve a list of Visit records for the active Account as custom VisitInfo objects."
                 with actionType = "getAccountVisits"
                 with accountId = @variables.accountId
                 with searchQuery = ""
 
             get_oos_visits: @actions.get_oos_visits
-                description: "Retrieve a list of standard Visit SObject records with out-of-stock issues for the active Account. Returns standard Visit records to be displayed natively."
+                description: "Retrieve a list of Visit records with out-of-stock issues for the active Account as custom VisitInfo objects."
                 with actionType = "getOosVisits"
                 with accountId = @variables.accountId
                 with searchQuery = ""
@@ -800,7 +779,7 @@ subagent visit_intelligence:
 
         get_account_visits:
             description: "Retrieve list of Visit records for the active Account."
-            target: "flow://Get_Visit_SObjects"
+            target: "apex://Visit_Agent_SObject_Service"
             inputs:
                 actionType: string
                     description: "The type of action to perform: 'getAccountVisits'."
@@ -812,13 +791,13 @@ subagent visit_intelligence:
                     description: "The search query (should be empty for account visits)."
             outputs:
                 visitsList: list[object]
-                    complex_data_type_name: "lightning__recordInfoType"
-                    description: "List of standard Visit records for the Account."
+                    complex_data_type_name: "@apexClassType/c__Visit_Agent_SObject_Service$VisitInfo"
+                    description: "List of visits for the Account."
                     is_displayable: True
 
         get_oos_visits:
             description: "Retrieve list of Visit records with out-of-stock issues for the active Account."
-            target: "flow://Get_Visit_SObjects"
+            target: "apex://Visit_Agent_SObject_Service"
             inputs:
                 actionType: string
                     description: "The type of action to perform: 'getOosVisits'."
@@ -830,8 +809,8 @@ subagent visit_intelligence:
                     description: "The search query (should be empty for OOS visits)."
             outputs:
                 visitsList: list[object]
-                    complex_data_type_name: "lightning__recordInfoType"
-                    description: "List of standard Visit records with out-of-stock issues."
+                    complex_data_type_name: "@apexClassType/c__Visit_Agent_SObject_Service$VisitInfo"
+                    description: "List of visits with out-of-stock issues."
                     is_displayable: True
 
 subagent off_topic:
