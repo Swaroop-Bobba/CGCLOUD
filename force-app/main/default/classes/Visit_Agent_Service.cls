@@ -720,12 +720,12 @@ public with sharing class Visit_Agent_Service {
             }
 
             if (req.startTime != null) {
-                v.ActualVisitStartTime = req.startTime;
+                v.PlannedVisitStartTime = req.startTime;
                 changed = true;
             }
 
             if (req.endTime != null) {
-                v.ActualVisitEndTime = req.endTime;
+                v.PlannedVisitEndTime = req.endTime;
                 changed = true;
             }
 
