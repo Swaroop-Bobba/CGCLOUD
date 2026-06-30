@@ -85,7 +85,6 @@
         </rules>
     </decisions>
     <description>Retrieve details of the current Visit record and its associated Account.</description>
-    <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
     <label>Get Visit Details</label>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>

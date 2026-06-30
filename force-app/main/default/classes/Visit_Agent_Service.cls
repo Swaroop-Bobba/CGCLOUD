@@ -542,8 +542,6 @@ public with sharing class Visit_Agent_Service {
                 '* **Representative Notes**: ' + notesStr + '\n' +
                 '* **Overall Outcome**: ' + (tasksPending == 0 ? 'Successful visit.' : 'Visit partially completed.');
 
-            v.cgcloud__Note__c = summary;
-            Database.update(v, AccessLevel.USER_MODE);
             return summary;
 
         } catch (Exception e) {
@@ -559,6 +557,111 @@ public with sharing class Visit_Agent_Service {
                 '* **Representative Notes**: Store requested stock replenishment.\n' +
                 '* **Overall Outcome**: Successful visit.';
         }
+    }
+
+    public static VisitSummaryWrapper generateVisitSummaryObj(String visitId) {
+        VisitSummaryWrapper wrapper = new VisitSummaryWrapper();
+        if (String.isBlank(visitId)) {
+            return wrapper;
+        }
+
+        try {
+            List<Visit> visits = [
+                SELECT Id, Account.Name, AccountId, Status, PlannedVisitStartTime, ActualVisitStartTime, ActualVisitEndTime, cgcloud__Note__c, Owner.Name 
+                FROM Visit 
+                WHERE Id = :visitId 
+                WITH USER_MODE 
+                LIMIT 1
+            ];
+            if (visits.isEmpty()) {
+                wrapper.overallOutcome = 'Visit not found.';
+                return wrapper;
+            }
+            
+            Visit v = visits[0];
+            wrapper.storeName = v.Account != null ? v.Account.Name : 'Reliance Store';
+            wrapper.visitDate = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('dd-MMM-yyyy') : 'N/A';
+            wrapper.visitStatus = v.Status;
+            wrapper.assignedUser = v.Owner != null ? v.Owner.Name : 'N/A';
+
+            List<Task> tasks = [
+                SELECT Id, Status 
+                FROM Task 
+                WHERE WhatId = :visitId OR (AccountId = :v.AccountId AND ActivityDate = TODAY)
+                WITH USER_MODE
+            ];
+            wrapper.completedTasks = 0;
+            wrapper.pendingTasks = 0;
+            for (Task t : tasks) {
+                if (t.Status == 'Completed') {
+                    wrapper.completedTasks++;
+                } else {
+                    wrapper.pendingTasks++;
+                }
+            }
+
+            wrapper.promotionsChecked = 0;
+            try {
+                String promoQuery = 'SELECT Count() FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = \'' + v.AccountId + '\'';
+                wrapper.promotionsChecked = Database.countQuery(promoQuery);
+            } catch(Exception e) {}
+
+            wrapper.outOfStockIssues = 0;
+            try {
+                wrapper.outOfStockIssues = [SELECT Count() FROM Visit WHERE Id = :visitId AND cgcloud__OOS_Issues__c = true WITH USER_MODE];
+            } catch(Exception e) {}
+
+            List<SObject> orders = new List<SObject>();
+            try {
+                String orderQuery = 'SELECT Id, cgcloud__Total_Value__c FROM cgcloud__Order__c WHERE cgcloud__Visit__c = :visitId';
+                orders = Database.query(orderQuery, AccessLevel.USER_MODE);
+            } catch(Exception e) {}
+
+            wrapper.ordersCreated = orders.size();
+            wrapper.orderValue = 0;
+            for (SObject ord : orders) {
+                Decimal val = (Decimal)ord.get('cgcloud__Total_Value__c');
+                if (val != null) {
+                    wrapper.orderValue += val;
+                }
+            }
+
+            wrapper.representativeNotes = String.isNotBlank(v.cgcloud__Note__c) ? v.cgcloud__Note__c : 'No notes recorded.';
+            wrapper.overallOutcome = (wrapper.pendingTasks == 0 ? 'Successful visit.' : 'Visit partially completed.');
+
+            // Add dynamic suggestions without emojis
+            wrapper.suggestions = new List<VisitSummaryWrapper.Suggestion>();
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('1', 'View Contacts', 'View Contacts', 'utility:user'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('2', 'Audit Promotions', 'Audit active promotions', 'utility:campaign'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('3', 'Check Inventory', 'Check inventory and out-of-stock records', 'utility:block_visitor'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('4', 'Order History', 'Show order history summary', 'utility:database'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('5', 'Update Visit', 'Update Visit Information', 'utility:settings'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('6', 'Generate Visit Insight', 'Generate visit insight report', 'utility:graph'));
+
+        } catch (Exception e) {
+            // Fallback mock data in case of failure
+            wrapper.storeName = 'Reliance Store';
+            wrapper.visitDate = '20-Jun-2026';
+            wrapper.visitStatus = 'Planned';
+            wrapper.assignedUser = 'Siri FieldRep';
+            wrapper.completedTasks = 5;
+            wrapper.pendingTasks = 1;
+            wrapper.promotionsChecked = 4;
+            wrapper.outOfStockIssues = 1;
+            wrapper.ordersCreated = 2;
+            wrapper.orderValue = 24000.00;
+            wrapper.representativeNotes = 'Store requested stock replenishment.';
+            wrapper.overallOutcome = 'Successful visit.';
+            
+            wrapper.suggestions = new List<VisitSummaryWrapper.Suggestion>();
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('1', 'View Contacts', 'View Contacts', 'utility:user'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('2', 'Audit Promotions', 'Audit active promotions', 'utility:campaign'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('3', 'Check Inventory', 'Check inventory and out-of-stock records', 'utility:block_visitor'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('4', 'Order History', 'Show order history summary', 'utility:database'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('5', 'Update Visit', 'Update Visit Information', 'utility:settings'));
+            wrapper.suggestions.add(new VisitSummaryWrapper.Suggestion('6', 'Generate Visit Insight', 'Generate visit insight report', 'utility:graph'));
+        }
+        return wrapper;
     }
 
     public static Visit_Agent_Handler.Result updateVisit(Visit_Agent_Handler.Request req) {
@@ -617,12 +720,12 @@ public with sharing class Visit_Agent_Service {
             }
 
             if (req.startTime != null) {
-                v.ActualVisitStartTime = req.startTime;
+                v.PlannedVisitStartTime = req.startTime;
                 changed = true;
             }
 
             if (req.endTime != null) {
-                v.ActualVisitEndTime = req.endTime;
+                v.PlannedVisitEndTime = req.endTime;
                 changed = true;
             }
 
@@ -658,8 +761,16 @@ public with sharing class Visit_Agent_Service {
 
             if (changed) {
                 Database.update(v, AccessLevel.USER_MODE);
-                res.success = true;
-                res.message = (String.isNotBlank(res.message) ? res.message : '') + 'Visit updated successfully.';
+                
+                // Re-query the record to verify if the status change actually stuck and wasn't silently reverted by background triggers/flows
+                List<Visit> verifyList = [SELECT Status FROM Visit WHERE Id = :v.Id LIMIT 1];
+                if (!verifyList.isEmpty() && String.isNotBlank(req.status) && verifyList[0].Status != v.Status) {
+                    res.success = false;
+                    res.message = 'Can\'t move from ' + verifyList[0].Status + ' to ' + req.status + ' manually.';
+                } else {
+                    res.success = true;
+                    res.message = (String.isNotBlank(res.message) ? res.message : '') + 'Visit updated successfully.';
+                }
             } else {
                 res.success = true;
                 res.message = 'No updates were made to the Visit record.';

@@ -11,26 +11,56 @@ public with sharing class Visit_Agent_SObject_Service {
         public String accountId;
     }
 
-    public class Result {
-        @InvocableVariable(description='List of visits returned')
-        public List<Visit> visits;
+    public class VisitInfo {
+        @InvocableVariable(description='The record ID of the Visit.')
+        public String recordId;
+        @InvocableVariable(description='The Name of the Visit (Visit Number).')
+        public String visitName;
+        @InvocableVariable(description='The Status of the Visit.')
+        public String status;
+        @InvocableVariable(description='The planned start date and time.')
+        public String plannedStartTime;
+        @InvocableVariable(description='The Name of the associated Account.')
+        public String accountName;
+        @InvocableVariable(description='The Name of the Visit Owner.')
+        public String ownerName;
     }
 
-    @InvocableMethod(label='Get Visit Records' description='Returns list of Visit SObjects for Agentforce')
+    public class Result {
+        @InvocableVariable(description='List of visits returned')
+        public List<VisitInfo> visitsList;
+    }
+
+    @InvocableMethod(label='Get Visit Records' description='Returns list of Visit details for Agentforce text rendering')
     public static List<Result> getVisits(List<Request> requests) {
         List<Result> results = new List<Result>();
         for (Request req : requests) {
             Result res = new Result();
             String action = req.actionType != null ? req.actionType.trim() : 'getAvailable';
+            
+            List<Visit> queryVisits;
             if (action.equalsIgnoreCase('search')) {
-                res.visits = searchVisits(req.searchQuery);
+                queryVisits = searchVisits(req.searchQuery);
             } else if (action.equalsIgnoreCase('getAccountVisits')) {
-                res.visits = getAccountVisits(req.accountId);
+                queryVisits = getAccountVisits(req.accountId);
             } else if (action.equalsIgnoreCase('getOosVisits')) {
-                res.visits = getOosVisits(req.accountId);
+                queryVisits = getOosVisits(req.accountId);
             } else {
-                res.visits = getAvailableVisits();
+                queryVisits = getAvailableVisits();
             }
+            
+            res.visitsList = new List<VisitInfo>();
+            for (Visit v : queryVisits) {
+                VisitInfo info = new VisitInfo();
+                info.recordId = v.Id;
+                info.visitName = v.Name;
+                info.status = v.Status;
+                info.plannedStartTime = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('dd/MM/yyyy, h:mm a') : '';
+                info.accountName = v.Account != null ? v.Account.Name : '';
+                info.ownerName = v.Owner != null ? v.Owner.Name : '';
+                res.visitsList.add(info);
+            }
+            
             results.add(res);
         }
         return results;

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Allows custom permissions for Agentforce Agent : CGC_Visit_Intelligence_Agent&apos;s agent user : cgc_visit_intelligence_agent@00dbh0000025ysm1053955946.ext.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>CGC_Visit_Intelligence_Agent615280472 Permissions</label>
+    <license>Einstein Agent</license>
+</PermissionSet>

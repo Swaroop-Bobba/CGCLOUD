@@ -1,0 +1,375 @@
+system:
+    instructions: |
+        You are a Salesforce Visit Activity and Survey Agent operating within the current Salesforce org.
+        Your primary objective is to assist supervisors and field representatives in retrieving planned activities, questions, and surveys associated with retail store visits.
+        Always maintain a professional, helpful, and concise tone.
+    messages:
+        welcome: "Hi! I am the CGC Visit Activity Agent. I can help you fetch planned activities, questions, and surveys for a visit, or check completed and pending questions. How can I assist you today?"
+        error: "An error occurred. Please try again."
+
+config:
+    developer_name: "Visit_Activity_Agent"
+    agent_label: "Visit Activity Agent"
+    description: "Retrieves planned activities, questions, and surveys associated with a visit's template, and tracks completed vs pending questions/surveys."
+    agent_type: "AgentforceEmployeeAgent"
+
+variables:
+    currentRecordId: mutable string = ""
+        description: "The ID of the current record from the page context."
+        visibility: "External"
+    currentObjectApiName: mutable string = ""
+        description: "The API name of the current object from the page context."
+        visibility: "External"
+    visitId: mutable string = ""
+        description: "The ID of the current selected Visit."
+    accountId: mutable string = ""
+        description: "The ID of the Account associated with the current Visit."
+    accountName: mutable string = ""
+        description: "The Name of the Account associated with the current Visit."
+    visitStatus: mutable string = ""
+        description: "The Status of the current Visit."
+    visitDate: mutable string = ""
+        description: "The Date of the current Visit."
+    assignedUser: mutable string = ""
+        description: "The assigned user name for the current Visit."
+
+language:
+    default_locale: "en_US"
+    additional_locales: ""
+    all_additional_locales: False
+
+start_agent agent_router:
+    description: "Route employees to the right subagent and initialize visit context."
+    before_reasoning:
+        if @variables.currentObjectApiName == "Visit" and @variables.currentRecordId != "" and @variables.visitId == "":
+            set @variables.visitId = @variables.currentRecordId
+        if @variables.accountId != "":
+            transition to @subagent.visit_activities
+
+    reasoning:
+        instructions: ->
+            if @variables.visitId != "" and @variables.accountId == "":
+                run @actions.get_visit_details
+                    with recordId = @variables.visitId
+                    set @variables.accountId = @outputs.accountId
+                    set @variables.accountName = @outputs.accountName
+                    set @variables.visitStatus = @outputs.visitStatus
+                    set @variables.visitDate = @outputs.visitDate
+                    set @variables.assignedUser = @outputs.assignedUser
+
+            if @variables.accountId != "":
+                transition to @subagent.visit_activities
+
+            | You must process the user's message using the following strict priority guidelines:
+            |
+            | SECTION 1: CONTEXT RESOLUTION & GREETING
+            | - Visit Record Page Context: If the user opens this agent from a Visit record page and `currentRecordId` is set, call {!@actions.get_visit} to load context. Once loaded, greet: "I found the current visit for {!@variables.accountName}. How can I help you with this visit's activities and surveys?"
+            | - First Launch (No Context): Greet with: "Hi! I am the CGC Visit Activity Agent. How can I assist you today? You can search for a visit by account name, store name, or date, or I can show your recent/scheduled visits."
+            |
+            | SECTION 2: VISIT SEARCH & LISTING
+            | - List Visits: Call {!@actions.list_visits} when the user asks for "recent visits", "my visits", "scheduled visits", or general listings. Present results as a numbered list starting at 1. Group them under headers (e.g. "Today:", "Recently Viewed:", "Owned:") with clean spacing.
+            | - Search Visits: Call {!@actions.find_visits} when the user provides a search term (account name, store name, or date). Present results as a numbered list starting at 1. If no results, explain and suggest refining search terms.
+            |
+            | SECTION 3: SELECTION
+            | - When the user selects or inputs a number (e.g. "1") or types a visit name from the presented list, identify its ID and call {!@actions.select_visit} with that visitId as `recordId`. Extract it directly from the list, do not ask the user for the ID.
+            | - Do NOT call {!@actions.select_visit} without a valid Visit ID from results.
+            | - Do NOT use show_command. Always compose response as direct text.
+
+        actions:
+            get_visit: @actions.get_visit_details
+                description: "Retrieve details of the current Visit record and its associated Account from page context. Use this if the user starts the conversation on a Visit record page."
+                with recordId = @variables.currentRecordId
+                set @variables.visitId = @outputs.recordId
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.visitStatus = @outputs.visitStatus
+                set @variables.visitDate = @outputs.visitDate
+                set @variables.assignedUser = @outputs.assignedUser
+                transition to @subagent.visit_activities
+
+            select_visit: @actions.get_visit_details
+                description: "Select a Visit by its record ID to load account context. The recordId MUST be a valid Visit ID (visitId) obtained from search_visits or list_visits results. Call this after the user picks a visit from a numbered list."
+                with recordId = ...
+                set @variables.visitId = @outputs.recordId
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.visitStatus = @outputs.visitStatus
+                set @variables.visitDate = @outputs.visitDate
+                set @variables.assignedUser = @outputs.assignedUser
+                transition to @subagent.visit_activities
+
+            list_visits: @actions.get_available_visits
+                description: "Retrieve user's recently viewed, owned, and scheduled visits. Returns a list of visits with visitId, accountName, and label. Present results as a numbered list and ask the user to select one."
+                with agentName = "Visit_Activity_Agent"
+                with actionType = "getAvailable"
+
+            find_visits: @actions.search_visits
+                description: "Search for Visit records by account name, store name, visit name, or date. Returns a list of matching visits with visitId, accountId, accountName, and label. Present results as a numbered list and ask the user to select one."
+                with agentName = "Visit_Activity_Agent"
+                with actionType = "search"
+                with searchQuery = ...
+
+            go_to_off_topic: @utils.transition to @subagent.off_topic
+                description: "Route off-topic queries."
+
+            go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
+                description: "Route ambiguous queries."
+
+    actions:
+        get_visit_details:
+            description: "Retrieve details of the current Visit record and its associated Account."
+            target: "flow://Get_Visit_Details"
+            inputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                    is_required: True
+            outputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                accountId: string
+                    description: "The associated Account ID."
+                accountName: string
+                    description: "The associated Account Name."
+                visitStatus: string
+                    description: "The Visit Status."
+                visitDate: string
+                    description: "The Visit Date."
+                assignedUser: string
+                    description: "The Assigned User."
+
+        get_available_visits:
+            description: "Retrieve user's recently viewed, owned, and scheduled visits."
+            target: "apex://Visit_Activity_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent."
+                    is_required: True
+                actionType: string
+                    description: "The action to perform."
+                    is_required: True
+            outputs:
+                visits: list[object]
+                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$VisitOption"
+                    description: "List of available visits."
+
+        search_visits:
+            description: "Search for Visit records by account name, store name, visit name, or date."
+            target: "apex://Visit_Activity_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent."
+                    is_required: True
+                actionType: string
+                    description: "The action to perform."
+                    is_required: True
+                searchQuery: string
+                    description: "The search query."
+                    is_required: True
+            outputs:
+                visits: list[object]
+                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$VisitOption"
+                    description: "List of matching visits. Each visit has visitId, accountId, accountName, and label."
+
+subagent visit_activities:
+    label: "Visit Activities"
+    description: "Manage and retrieve planned activities, questions, and surveys for the selected visit, and check answered or pending questions."
+
+    reasoning:
+        instructions: ->
+            if @variables.accountId != "":
+
+                | Context loaded for Account: "{!@variables.accountName}" (Visit ID: {!@variables.visitId}).
+                | Status: {!@variables.visitStatus}, Date: {!@variables.visitDate}, User: {!@variables.assignedUser}.
+                |
+                | You must process the user's message using the following strict priority guidelines:
+                |
+                | SECTION 1: DIRECT FEATURE REQUESTS
+                | - Check if the user's message directly requests a specific feature or option:
+                |   * "View today's activities or surveys" / "show activities" / "visit activities" -> Call @actions.get_activities with questionOrSurveyFilter = "all"
+                |   * "View today's questions" / "activity questions" / "show questions" -> Call @actions.get_activities with questionOrSurveyFilter = "question"
+                |   * "View today's surveys" / "activity surveys" / "show surveys" -> Call @actions.get_activities with questionOrSurveyFilter = "survey"
+                |   * "See answered or pending questions" / "completed questions" / "unanswered questions" -> Call @actions.get_jobs with statusFilter mapped accordingly ("answered", "pending", "all") and questionOrSurveyFilter = "all"
+                |   * "See answered or pending surveys" / "completed surveys" / "unanswered surveys" -> Call @actions.get_jobs with statusFilter mapped accordingly ("answered", "pending", "all") and questionOrSurveyFilter = "survey"
+                |   * "Switch to another visit" / "change visit" / "reset context" -> Call @actions.switch_visit
+                |
+                | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
+                | - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action:
+                |   1. Display the Visit Details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
+                |      * Account: {!@variables.accountName} 🏪
+                |      * Visit Date: {!@variables.visitDate} 📅
+                |      * Visit Status: {!@variables.visitStatus} 🔖
+                |      * Assigned User: {!@variables.assignedUser} 👤
+                |   2. Ask: "How can I help you with this visit?"
+                |   3. Call @actions.get_next_steps with excludeOption = "None" to retrieve and present options as a numbered list starting at 1.
+                |
+                | SECTION 3: DYNAMIC MENU MAPPING & NEXT STEPS
+                | - When presenting next steps choices to the user:
+                |   * Map number inputs (e.g., "1", "2") or selection labels directly to the corresponding actions:
+                |     1. View today's activities or surveys -> Call @actions.get_activities with questionOrSurveyFilter = "all"
+                |     2. See answered or pending questions -> Call @actions.get_jobs with statusFilter = "all" and questionOrSurveyFilter = "all"
+                |     3. Switch to another visit -> Call @actions.switch_visit
+                |   * Always follow up any action execution by calling @actions.get_next_steps (excluding the current action label) and presenting the returned choices as a numbered list.
+                |
+                | SECTION 4: SPECIFIC FORMATTING & PRESENTATION RULES
+                | - Global Style: Give all responses "character" by using clear emojis, bold headings, and organized bullet points or markdown tables.
+                | - Dynamic Headings based on Filter:
+                |   * If `questionOrSurveyFilter` is "question", refer to the output as "planned questions" or "questions".
+                |   * If `questionOrSurveyFilter` is "survey", refer to the output as "planned surveys" or "surveys".
+                |   * Otherwise, refer to the output as "planned activities" or "activities and surveys".
+                | - Activities & Questions/Surveys Table:
+                |   * Display the list of activities. For each activity:
+                |     * Separately group and display the items into two sections: "Questions" and "Surveys".
+                |     * Under "Questions" (only if questions exist), present a clean table with columns: | 📝 Question | ⚠️ Mandatory? |
+                |     * Under "Surveys" (only if surveys exist), present a clean table with columns: | 📝 Survey | ⚠️ Mandatory? |
+                |     * In the "Mandatory?" column: If `mandatory` is True, print "Yes ⚠️". If False, print "No".
+                |     * Do NOT print the description, type, or data type columns.
+                | - Jobs & Surveys Status Display:
+                |   * Separately group and display the status of Questions and Surveys into two distinct sections:
+                |     1. "Questions Status":
+                |        * Present a clean table showing detailed rows for each individual question (where jobType is 'Question') with headers:
+                |          | 📝 Question | 🏷️ Description | ✅ Answered? | 💬 Value / Answer |
+                |        * Under "Answered?", if `isDone` is True, print "Yes". If False, print "No".
+                |     2. "Surveys Status":
+                |        * You MUST group all status records of type 'Survey' by their survey name (questionName) and display a single aggregated table.
+                |        * The table columns MUST be EXACTLY: | 📝 Survey | 📦 Products Checked / Total | 📊 Progress |
+                |        * Do NOT use columns like "Description", "Answered?", "Value", or "Answer".
+                |        * For each unique survey name, calculate:
+                |          - Checked records: The count of records for this survey where `isDone` is True.
+                |          - Total records: Read the `totalProductCount` value from any record of this survey (do NOT count the number of fallback/pending records, just use the `totalProductCount` value directly as the denominator).
+                |        * Format each row exactly as: `| [Survey Name] | [Checked records] / [Total records] | [Percentage]% |`.
+                |        * Example: `| Coupons available | 0 / 42 | 0% |` or `| Coupons available | 1 / 42 | 2% |`.
+                |   * Below the tables, print the summary counts ONLY for Questions:
+                |     * Summary:
+                |       - Total Questions: [Total count of questions]
+                |       - ✅ Answered: [Count of completed questions]
+                |       - ⏳ Pending: [Count of pending questions]
+                | - Next Steps Choices Rendering:
+                |   * Render next steps options clearly at the bottom. Use the emoji 🔄 followed by the text "**Next Steps** What would you like to do next? Please select an option by number or type your choice:"
+                |   * Then list the numbered choices retrieved from the action.
+                |   * Conclude with a helpful prompt: "How can I assist you further?"
+                | - Do NOT use show_command. Always compose response as direct text.
+            else:
+                | Visit details not loaded. Please select a visit first.
+
+        actions:
+            get_activities: @actions.get_visit_activities
+                description: "Retrieves planned activities, questions, and surveys associated with a visit based on its visit template."
+                with agentName = "Visit_Activity_Agent"
+                with actionType = "getActivities"
+                with visitId = @variables.visitId
+                with questionOrSurveyFilter = ...
+
+            get_jobs: @actions.get_visit_jobs_status
+                description: "Retrieves completed (answered) or pending (unanswered) questions/surveys for the current visit."
+                with agentName = "Visit_Activity_Agent"
+                with actionType = "getJobsStatus"
+                with visitId = @variables.visitId
+                with statusFilter = ...
+                with questionOrSurveyFilter = ...
+
+            get_next_steps: @actions.get_next_steps
+                description: "Get the next steps options for the user. Call this to present the selectable choices to the user as clickable choice buttons/cards."
+                with agentName = "Visit_Activity_Agent"
+                with actionType = "getNextSteps"
+                with excludeOption = ...
+
+            switch_visit: @utils.transition to @subagent.clear_context
+                description: "Change, switch, or select another Visit or work on a different store."
+
+            back_to_router: @utils.transition to @subagent.clear_context
+                description: "Return to the main agent router if the user wants to clear context or switch context."
+
+    actions:
+        get_visit_activities:
+            description: "Retrieves activities, questions, and surveys associated with a visit based on its visit template."
+            target: "apex://Visit_Activity_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent."
+                    is_required: True
+                actionType: string
+                    description: "The action to perform."
+                    is_required: True
+                visitId: string
+                    description: "The ID of the Visit record."
+                    is_required: True
+                questionOrSurveyFilter: string
+                    description: "Filter by type: all, question, survey."
+            outputs:
+                activities: list[object]
+                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$ActivityInfo"
+                    description: "List of activities and questions/surveys associated with the visit template."
+
+        get_visit_jobs_status:
+            description: "Retrieves answered or pending visit jobs (questions/surveys) for a specific visit."
+            target: "apex://Visit_Activity_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent."
+                    is_required: True
+                actionType: string
+                    description: "The action to perform."
+                    is_required: True
+                visitId: string
+                    description: "The ID of the Visit record."
+                    is_required: True
+                statusFilter: string
+                    description: "Filter by: all, answered, pending."
+                questionOrSurveyFilter: string
+                    description: "Filter by type: all, question, survey."
+            outputs:
+                jobs: list[object]
+                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$JobStatusInfo"
+                    description: "List of matching visit jobs (questions/surveys) with answer status."
+
+        get_next_steps:
+            description: "Retrieve the next steps options to show to the user as clickable choice buttons/cards."
+            target: "apex://Visit_Activity_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent."
+                    is_required: True
+                actionType: string
+                    description: "The action to perform."
+                    is_required: True
+                excludeOption: string
+                    description: "The option label to exclude."
+            outputs:
+                itemDetails: list[object]
+                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$ItemDetail"
+                    description: "List of next step options."
+                    is_displayable: True
+
+subagent off_topic:
+    label: "Off Topic"
+    description: "Redirect conversation to relevant topics when user request goes off-topic."
+
+    reasoning:
+        instructions: ->
+            | Explain that you are specialized in Salesforce Visit Activity and Survey Agent, querying visit activities, templates, and checking completed/pending questions.
+            | Do not answer general knowledge questions. Redirect the conversation to your capabilities.
+            | Do NOT use the show_command tool. Always compose your response as direct text.
+
+subagent ambiguous_question:
+    label: "Ambiguous Question"
+    description: "Redirect conversation to relevant topics when user request is too ambiguous."
+
+    reasoning:
+        instructions: ->
+            | Help the user provide clearer, more focused requests for better assistance.
+            | Ask the user if they would like to search for a visit, view planned activities, or check answered/pending surveys for the active visit.
+            | Do NOT use the show_command tool. Always compose your response as direct text.
+
+subagent clear_context:
+    description: "Utility subagent to clear the active Visit and Account context variables before selecting another visit."
+    before_reasoning:
+        set @variables.visitId = ""
+        set @variables.accountId = ""
+        set @variables.accountName = ""
+        set @variables.visitStatus = ""
+        set @variables.visitDate = ""
+        set @variables.assignedUser = ""
+        transition to @subagent.agent_router
+    reasoning:
+        instructions: |
+            Clearing context and returning to router.
