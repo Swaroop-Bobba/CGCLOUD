@@ -949,16 +949,30 @@ subagent visit_activities:
                 |   * If `questionOrSurveyFilter` is "survey", refer to the output as "planned surveys" or "surveys".
                 |   * Otherwise, refer to the output as "planned activities" or "activities and surveys".
                 | - Activities & Questions/Surveys Table:
-                |   * Display the list of activities. For each activity, show a table listing its related questions.
-                |   * The table columns MUST be: | 📝 Question | 🏷️ Description | ⚠️ Mandatory? |
-                |   * In the "Mandatory?" column: If `mandatory` is True, print "Yes ⚠️". If False, print "No".
-                |   * Do NOT display the data type or data type column.
+                |   * Display the list of activities. For each activity:
+                |     * Separately group and display the items into two sections: "Questions" and "Surveys".
+                |     * Under "Questions" (only if questions exist), present a clean table with columns: | 📝 Question | ⚠️ Mandatory? |
+                |     * Under "Surveys" (only if surveys exist), present a clean table with columns: | 📝 Survey | ⚠️ Mandatory? |
+                |     * In the "Mandatory?" column: If `mandatory` is True, print "Yes ⚠️". If False, print "No".
+                |     * Do NOT print the description, type, or data type columns.
                 | - Jobs & Surveys Status Display:
-                |   * Present the jobs list in a clean table with headers:
-                |     | 📝 Question | 🏷️ Description | ✅ Answered? | 💬 Value / Answer | 📦 Related Product | 📣 Related Promotion |
-                |   * Under "Answered?", if `isDone` is True, print "Yes". If False, print "No".
-                |   * Clearly summarize which ones are pending and which ones are completed:
+                |   * Separately group and display the status of Questions and Surveys into two distinct sections:
+                |     1. "Questions Status":
+                |        * Present a clean table showing detailed rows for each individual question (where jobType is 'Question') with headers:
+                |          | 📝 Question | 🏷️ Description | ✅ Answered? | 💬 Value / Answer |
+                |        * Under "Answered?", if `isDone` is True, print "Yes". If False, print "No".
+                |     2. "Surveys Status":
+                |        * You MUST group all status records of type 'Survey' by their survey name (questionName) and display a single aggregated table.
+                |        * The table columns MUST be EXACTLY: | 📝 Survey | 📦 Products Checked / Total | 📊 Progress |
+                |        * Do NOT use columns like "Description", "Answered?", "Value", or "Answer".
+                |        * For each unique survey name, calculate:
+                |          - Checked records: The count of status records with this name where `isDone` is True.
+                |          - Total records: Read the `totalProductCount` value from any record of this survey (do NOT count the number of fallback/pending records, just use the `totalProductCount` value directly as the denominator).
+                |        * Format each row exactly as: `| [Survey Name] | [Checked records] / [Total records] | [Percentage]% |`.
+                |        * Example: `| Coupons available | 0 / 42 | 0% |` or `| Coupons available | 1 / 42 | 2% |`.
+                |   * Below the tables, print the summary counts ONLY for Questions:
                 |     * Summary:
+                |       - Total Questions: [Total count of questions]
                 |       - ✅ Answered: [Count of completed questions]
                 |       - ⏳ Pending: [Count of pending questions]
                 | - Next Steps Choices Rendering:

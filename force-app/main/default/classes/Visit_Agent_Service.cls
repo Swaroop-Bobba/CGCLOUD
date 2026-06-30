@@ -761,8 +761,16 @@ public with sharing class Visit_Agent_Service {
 
             if (changed) {
                 Database.update(v, AccessLevel.USER_MODE);
-                res.success = true;
-                res.message = (String.isNotBlank(res.message) ? res.message : '') + 'Visit updated successfully.';
+                
+                // Re-query the record to verify if the status change actually stuck and wasn't silently reverted by background triggers/flows
+                List<Visit> verifyList = [SELECT Status FROM Visit WHERE Id = :v.Id LIMIT 1];
+                if (!verifyList.isEmpty() && String.isNotBlank(req.status) && verifyList[0].Status != v.Status) {
+                    res.success = false;
+                    res.message = 'Can\'t move from ' + verifyList[0].Status + ' to ' + req.status + ' manually.';
+                } else {
+                    res.success = true;
+                    res.message = (String.isNotBlank(res.message) ? res.message : '') + 'Visit updated successfully.';
+                }
             } else {
                 res.success = true;
                 res.message = 'No updates were made to the Visit record.';

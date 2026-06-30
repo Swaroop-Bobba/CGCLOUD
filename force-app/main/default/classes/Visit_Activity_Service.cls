@@ -311,7 +311,7 @@ public with sharing class Visit_Activity_Service {
 
         try {
             List<Visit> visits = [
-                SELECT Id, cgcloud__Visit_Template__c
+                SELECT Id, cgcloud__Visit_Template__c, AccountId
                 FROM Visit
                 WHERE Id = :visitId
                 WITH USER_MODE
@@ -322,6 +322,50 @@ public with sharing class Visit_Activity_Service {
             }
 
             Id visitTemplateId = visits[0].cgcloud__Visit_Template__c;
+            Id visitAccountId = visits[0].AccountId;
+
+            // Target Account-specific JDL inclusions and exclusions
+            Set<Id> includedDirectJdlIds = new Set<Id>();
+            Set<Id> excludedDirectJdlIds = new Set<Id>();
+            Set<Id> includedSetJdlIds = new Set<Id>();
+
+            if (visitAccountId != null) {
+                List<cgcloud__Job_Definition_List_Account__c> jdlAccounts = [
+                    SELECT cgcloud__Job_Definition_List__c, cgcloud__Excluded__c
+                    FROM cgcloud__Job_Definition_List_Account__c
+                    WHERE cgcloud__Account__c = :visitAccountId
+                ];
+                for (cgcloud__Job_Definition_List_Account__c jda : jdlAccounts) {
+                    if (jda.cgcloud__Excluded__c == true) {
+                        excludedDirectJdlIds.add(jda.cgcloud__Job_Definition_List__c);
+                    } else {
+                        includedDirectJdlIds.add(jda.cgcloud__Job_Definition_List__c);
+                    }
+                }
+
+                List<cgcloud__Account_Set_Account__c> customerSets = [
+                    SELECT cgcloud__Account_Set__c
+                    FROM cgcloud__Account_Set_Account__c
+                    WHERE cgcloud__Account_Set_Account__c = :visitAccountId
+                ];
+                Set<Id> accountSetIds = new Set<Id>();
+                for (cgcloud__Account_Set_Account__c csa : customerSets) {
+                    if (csa.cgcloud__Account_Set__c != null) {
+                        accountSetIds.add(csa.cgcloud__Account_Set__c);
+                    }
+                }
+
+                if (!accountSetIds.isEmpty()) {
+                    List<cgcloud__Job_Definition_List_Account_Set__c> jdlSets = [
+                        SELECT cgcloud__Job_Definition_List__c
+                        FROM cgcloud__Job_Definition_List_Account_Set__c
+                        WHERE cgcloud__Account_Set__c IN :accountSetIds
+                    ];
+                    for (cgcloud__Job_Definition_List_Account_Set__c jds : jdlSets) {
+                        includedSetJdlIds.add(jds.cgcloud__Job_Definition_List__c);
+                    }
+                }
+            }
 
             // 1. Query unique instantiated template IDs for this specific visit
             List<cgcloud__Visit_Job__c> actualJobs = [
@@ -339,20 +383,41 @@ public with sharing class Visit_Activity_Service {
 
             String resolvedType = String.isNotBlank(typeFilter) ? typeFilter.toLowerCase().trim() : '';
 
-            // 2. Query links to identify which JDLs contain at least one instantiated question template (or fallback to all active links if no jobs exist yet)
+            // 2. Query links to identify which JDLs contain at least one question template mapped to the visit template
             String linksQuery = 'SELECT cgcloud__Job_Definition_List__c FROM cgcloud__Job_DL_Job_Definition_Template__c WHERE cgcloud__Job_Definition_List__r.cgcloud__Visit_Template__c = :visitTemplateId AND cgcloud__Job_Definition_List__r.cgcloud__Active__c = true';
-            if (!instantiatedJdtIds.isEmpty()) {
-                linksQuery += ' AND cgcloud__Job_Definition_Template__c IN :instantiatedJdtIds';
-            }
             if (resolvedType == 'question' || resolvedType == 'questions') {
                 linksQuery += ' AND cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name = \'Question\'';
             } else if (resolvedType == 'survey' || resolvedType == 'surveys') {
                 linksQuery += ' AND cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name = \'Survey\'';
             }
             List<cgcloud__Job_DL_Job_Definition_Template__c> links = Database.query(linksQuery);
-            Set<Id> activeJdlIds = new Set<Id>();
+            Set<Id> candidateJdlIds = new Set<Id>();
             for (cgcloud__Job_DL_Job_Definition_Template__c link : links) {
-                activeJdlIds.add(link.cgcloud__Job_Definition_List__c);
+                candidateJdlIds.add(link.cgcloud__Job_Definition_List__c);
+            }
+
+            // Apply JDL Customer Targeting filters in memory
+            Set<Id> activeJdlIds = new Set<Id>();
+            if (!candidateJdlIds.isEmpty()) {
+                List<cgcloud__Job_Definition_List__c> filteredJdls = [
+                    SELECT Id, cgcloud__Consider_Account__c
+                    FROM cgcloud__Job_Definition_List__c
+                    WHERE Id IN :candidateJdlIds
+                ];
+                for (cgcloud__Job_Definition_List__c jdl : filteredJdls) {
+                    if (jdl.cgcloud__Consider_Account__c == false) {
+                        // Standard JDL -> include globally
+                        activeJdlIds.add(jdl.Id);
+                    } else {
+                        // Customer JDL -> check if target matches and not excluded
+                        if (excludedDirectJdlIds.contains(jdl.Id)) {
+                            continue;
+                        }
+                        if (includedDirectJdlIds.contains(jdl.Id) || includedSetJdlIds.contains(jdl.Id)) {
+                            activeJdlIds.add(jdl.Id);
+                        }
+                    }
+                }
             }
 
             // 3. Query the active JDLs and pull their planned questions (retaining pending/uninstantiated questions)
@@ -367,8 +432,9 @@ public with sharing class Visit_Activity_Service {
                 'cgcloud__Field_Sales_Activity__c, cgcloud__Field_Sales_Activity__r.Name, cgcloud__Field_Sales_Activity__r.cgcloud__Description__c, ' +
                 '(SELECT Id, Name, cgcloud__Job_Definition_Template__c, cgcloud__Job_Definition_Template__r.Name, ' +
                 'cgcloud__Job_Definition_Template__r.cgcloud__Description__c, cgcloud__Job_Definition_Template__r.cgcloud__Data_Type__c, ' +
+                'cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name, ' +
                 'cgcloud__Mandatory__c FROM cgcloud__Job_Definition_Links__r' + subqueryFilter + ') ' +
-                'FROM cgcloud__Job_Definition_List__c WHERE Id IN :activeJdlIds WITH USER_MODE';
+                'FROM cgcloud__Job_Definition_List__c WHERE Id IN :activeJdlIds';
 
             List<cgcloud__Job_Definition_List__c> jdls = Database.query(jdlQueryStr);
 
@@ -392,6 +458,11 @@ public with sharing class Visit_Activity_Service {
                         q.questionName = linkItem.cgcloud__Job_Definition_Template__r.Name;
                         q.description = linkItem.cgcloud__Job_Definition_Template__r.cgcloud__Description__c;
                         q.mandatory = linkItem.cgcloud__Mandatory__c;
+                        if (linkItem.cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__c != null) {
+                            q.jobType = linkItem.cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name;
+                        } else {
+                            q.jobType = 'Question';
+                        }
                         act.questions.add(q);
                     }
                 }
@@ -410,7 +481,7 @@ public with sharing class Visit_Activity_Service {
 
         try {
             List<Visit> visits = [
-                SELECT Id, cgcloud__Visit_Template__c
+                SELECT Id, cgcloud__Visit_Template__c, AccountId
                 FROM Visit
                 WHERE Id = :visitId
                 WITH USER_MODE
@@ -425,10 +496,53 @@ public with sharing class Visit_Activity_Service {
             String filter = String.isNotBlank(statusFilter) ? statusFilter.toLowerCase().trim() : 'all';
             String resolvedType = String.isNotBlank(typeFilter) ? typeFilter.toLowerCase().trim() : '';
 
+            // Query sellable products count for the account of this visit
+            Integer sellableProductsCount = 0;
+            if (v.AccountId != null) {
+                Set<Id> assortmentIds = new Set<Id>();
+                String customAssQuery = 'SELECT cgcloud__Assortment__c FROM cgcloud__Product_Assortment_Store__c WHERE cgcloud__Store__c = \'' + v.AccountId + '\'';
+                try {
+                    List<SObject> customAssortments = Database.query(customAssQuery);
+                    for (SObject ca : customAssortments) {
+                        Id assId = (Id)ca.get('cgcloud__Assortment__c');
+                        if (assId != null) {
+                            assortmentIds.add(assId);
+                        }
+                    }
+                } catch (Exception e) {}
+
+                List<StoreAssortment> standardAssortments = [
+                    SELECT AssortmentId 
+                    FROM StoreAssortment 
+                    WHERE AccountId = :v.AccountId
+                    WITH USER_MODE
+                ];
+                for (StoreAssortment sa : standardAssortments) {
+                    if (sa.AssortmentId != null) {
+                        assortmentIds.add(sa.AssortmentId);
+                    }
+                }
+
+                if (!assortmentIds.isEmpty()) {
+                    List<AggregateResult> aggResults = [
+                        SELECT COUNT_DISTINCT(ProductId) totalCount
+                        FROM AssortmentProduct
+                        WHERE AssortmentId IN :assortmentIds
+                        WITH USER_MODE
+                    ];
+                    if (!aggResults.isEmpty()) {
+                        sellableProductsCount = (Integer)aggResults[0].get('totalCount');
+                    }
+                }
+            }
+            if (sellableProductsCount <= 0) {
+                sellableProductsCount = 1;
+            }
+
             // Query planned template questions
             Map<Id, cgcloud__Job_DL_Job_Definition_Template__c> plannedMap = new Map<Id, cgcloud__Job_DL_Job_Definition_Template__c>();
             if (visitTemplateId != null) {
-                String plannedQueryStr = 'SELECT cgcloud__Job_Definition_Template__c, cgcloud__Job_Definition_Template__r.Name, cgcloud__Job_Definition_Template__r.cgcloud__Description__c FROM cgcloud__Job_DL_Job_Definition_Template__c WHERE cgcloud__Job_Definition_List__r.cgcloud__Visit_Template__c = :visitTemplateId AND cgcloud__Job_Definition_List__r.cgcloud__Active__c = true';
+                String plannedQueryStr = 'SELECT cgcloud__Job_Definition_Template__c, cgcloud__Job_Definition_Template__r.Name, cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name, cgcloud__Job_Definition_Template__r.cgcloud__Description__c FROM cgcloud__Job_DL_Job_Definition_Template__c WHERE cgcloud__Job_Definition_List__r.cgcloud__Visit_Template__c = :visitTemplateId AND cgcloud__Job_Definition_List__r.cgcloud__Active__c = true';
                 if (resolvedType == 'question' || resolvedType == 'questions') {
                     plannedQueryStr += ' AND cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name = \'Question\'';
                 } else if (resolvedType == 'survey' || resolvedType == 'surveys') {
@@ -442,7 +556,7 @@ public with sharing class Visit_Activity_Service {
             }
 
             // Query actual jobs
-            String jobQueryStr = 'SELECT Id, Name, cgcloud__Job_Definition_Template__c, cgcloud__Job_Definition_Template__r.Name, cgcloud__Job_Definition_Template_Description__c, cgcloud__Done__c, cgcloud__Value__c, cgcloud__Display_Value__c, cgcloud__Product__r.Name, cgcloud__Promotion__r.Name FROM cgcloud__Visit_Job__c WHERE cgcloud__Visit__c = :visitId';
+            String jobQueryStr = 'SELECT Id, Name, cgcloud__Job_Definition_Template__c, cgcloud__Job_Definition_Template__r.Name, cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name, cgcloud__Job_Definition_Template_Description__c, cgcloud__Done__c, cgcloud__Value__c, cgcloud__Display_Value__c, cgcloud__Product__r.Name, cgcloud__Promotion__r.Name FROM cgcloud__Visit_Job__c WHERE cgcloud__Visit__c = :visitId';
             if (resolvedType == 'question' || resolvedType == 'questions') {
                 jobQueryStr += ' AND cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name = \'Question\'';
             } else if (resolvedType == 'survey' || resolvedType == 'surveys') {
@@ -474,6 +588,18 @@ public with sharing class Visit_Activity_Service {
                 info.displayValue = job.cgcloud__Display_Value__c;
                 info.productName = job.cgcloud__Product__r != null ? job.cgcloud__Product__r.Name : '';
                 info.promotionName = job.cgcloud__Promotion__r != null ? job.cgcloud__Promotion__r.Name : '';
+                
+                if (job.cgcloud__Job_Definition_Template__r != null && job.cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__c != null) {
+                    info.jobType = job.cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name;
+                } else {
+                    info.jobType = 'Question';
+                }
+
+                if (info.jobType == 'Survey') {
+                    info.totalProductCount = sellableProductsCount;
+                } else {
+                    info.totalProductCount = 1;
+                }
 
                 if (isDone) {
                     info.isDone = true;
@@ -500,6 +626,19 @@ public with sharing class Visit_Activity_Service {
                     info.displayValue = '';
                     info.productName = '';
                     info.promotionName = '';
+                    
+                    if (planned.cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__c != null) {
+                        info.jobType = planned.cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name;
+                    } else {
+                        info.jobType = 'Question';
+                    }
+
+                    if (info.jobType == 'Survey') {
+                        info.totalProductCount = sellableProductsCount;
+                    } else {
+                        info.totalProductCount = 1;
+                    }
+                    
                     pendingJobsList.add(info);
                 }
             }

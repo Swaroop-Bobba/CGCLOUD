@@ -126,6 +126,7 @@ public class Visit_Activity_HandlerTest {
         List<Visit_Activity_Handler.Result> resAct = Visit_Activity_Handler.execute(new List<Visit_Activity_Handler.Request>{reqAct});
         System.assertEquals(1, resAct.size());
         System.assertEquals(1, resAct[0].activities.size());
+        System.assertEquals('Question', resAct[0].activities[0].questions[0].jobType);
 
         // 4. Test getJobsStatus
         Visit_Activity_Handler.Request reqJobs = new Visit_Activity_Handler.Request();

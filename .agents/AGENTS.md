@@ -18,3 +18,6 @@ After modifying or analyzing an agent, always provide the exact Salesforce CLI (
    ```bash
    sf agent activate --json --api-name <AgentApiName>
    ```
+
+## Permission Set Management Rule
+Always update the `Visit_Intel_Access` permission set (`Visit_Intel_Access.permissionset-meta.xml`) with the required accesses (e.g. Apex classes, wrappers, handlers, or flows) whenever custom Apex classes, actions, or flows are added, updated, or created for the Agent.

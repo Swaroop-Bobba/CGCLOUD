@@ -85,6 +85,9 @@ public with sharing class Visit_Activity_Handler {
 
         @InvocableVariable(description='Is this question mandatory?')
         public Boolean mandatory;
+
+        @InvocableVariable(description='The type of job definition template: Question or Survey.')
+        public String jobType;
     }
 
     public class JobStatusInfo {
@@ -111,6 +114,12 @@ public with sharing class Visit_Activity_Handler {
 
         @InvocableVariable(description='Associated promotion name if applicable.')
         public String promotionName;
+
+        @InvocableVariable(description='The type of job: Question or Survey.')
+        public String jobType;
+
+        @InvocableVariable(description='The total number of products to check for this survey.')
+        public Integer totalProductCount;
     }
 
     public class ItemDetail {
