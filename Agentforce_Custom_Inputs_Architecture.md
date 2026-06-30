@@ -38,34 +38,34 @@ Below is the directory structure and reference path for each component implement
 
 ### A. Apex Wrappers
 To allow Agentforce to serialize and deserialize the complex objects, each data type maps to a dedicated global wrapper class:
-* **Status**: [VisitStatusWrapper.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/VisitStatusWrapper.cls)
-* **Owner**: [VisitOwnerWrapper.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/VisitOwnerWrapper.cls)
-* **Date & Time**: [VisitDateTimeWrapper.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/VisitDateTimeWrapper.cls)
+* **Status**: [VisitStatusWrapper.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/VisitStatusWrapper.cls)
+* **Owner**: [VisitOwnerWrapper.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/VisitOwnerWrapper.cls)
+* **Date & Time**: [VisitDateTimeWrapper.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/VisitDateTimeWrapper.cls)
 
 ### B. Custom Lightning Types
 Registered under the `force-app/main/default/lightningTypes/` directory:
 1. **visitStatusWrapperType**:
-   * Schema: [schema.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/lightningTypes/visitStatusWrapperType/schema.json) (Maps to `c__VisitStatusWrapper`)
-   * Editor Bindings: [editor.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/lightningTypes/visitStatusWrapperType/lightningDesktopGenAi/editor.json) (Points to `c/visitStatusEditor`)
+   * Schema: [schema.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/lightningTypes/visitStatusWrapperType/schema.json) (Maps to `c__VisitStatusWrapper`)
+   * Editor Bindings: [editor.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/lightningTypes/visitStatusWrapperType/lightningDesktopGenAi/editor.json) (Points to `c/visitStatusEditor`)
 2. **visitOwnerWrapperType**:
-   * Schema: [schema.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/lightningTypes/visitOwnerWrapperType/schema.json) (Maps to `c__VisitOwnerWrapper`)
-   * Editor Bindings: [editor.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/lightningTypes/visitOwnerWrapperType/lightningDesktopGenAi/editor.json) (Points to `c/visitOwnerEditor`)
+   * Schema: [schema.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/lightningTypes/visitOwnerWrapperType/schema.json) (Maps to `c__VisitOwnerWrapper`)
+   * Editor Bindings: [editor.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/lightningTypes/visitOwnerWrapperType/lightningDesktopGenAi/editor.json) (Points to `c/visitOwnerEditor`)
 3. **visitDateTimeWrapperType**:
-   * Schema: [schema.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/lightningTypes/visitDateTimeWrapperType/schema.json) (Maps to `c__VisitDateTimeWrapper`)
-   * Editor Bindings: [editor.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/lightningTypes/visitDateTimeWrapperType/lightningDesktopGenAi/editor.json) (Points to `c/visitDateTimeEditor`)
+   * Schema: [schema.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/lightningTypes/visitDateTimeWrapperType/schema.json) (Maps to `c__VisitDateTimeWrapper`)
+   * Editor Bindings: [editor.json](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/lightningTypes/visitDateTimeWrapperType/lightningDesktopGenAi/editor.json) (Points to `c/visitDateTimeEditor`)
 
 ### C. Lightning Web Components
 Created to provide custom, mobile-friendly forms in the chat feed:
-* **visitStatusEditor**: [visitStatusEditor](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/lwc/visitStatusEditor) (Combobox selection mapping to `InProgress`, `Completed`, `Canceled`, `Abandoned`, `Planned`).
-* **visitOwnerEditor**: [visitOwnerEditor](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/lwc/visitOwnerEditor) (Dynamic user selection pulling active reps via an Apex wire call).
-* **visitDateTimeEditor**: [visitDateTimeEditor](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/lwc/visitDateTimeEditor) (Calendar date-time input form).
+* **visitStatusEditor**: [visitStatusEditor](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/lwc/visitStatusEditor) (Combobox selection mapping to `InProgress`, `Completed`, `Canceled`, `Abandoned`, `Planned`).
+* **visitOwnerEditor**: [visitOwnerEditor](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/lwc/visitOwnerEditor) (Dynamic user selection pulling active reps via an Apex wire call).
+* **visitDateTimeEditor**: [visitDateTimeEditor](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/lwc/visitDateTimeEditor) (Calendar date-time input form).
 
 ### D. Invocable Action Apex Classes
 Apex actions executing the update logic receive the complex parameter wrapper and extract the value to update the Visit:
-* [Update_Visit_Status_Action.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/Update_Visit_Status_Action.cls)
-* [Update_Visit_Owner_Action.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/Update_Visit_Owner_Action.cls)
-* [Update_Visit_StartTime_Action.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/Update_Visit_StartTime_Action.cls)
-* [Update_Visit_EndTime_Action.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/Update_Visit_EndTime_Action.cls)
+* [Update_Visit_Status_Action.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/Update_Visit_Status_Action.cls)
+* [Update_Visit_Owner_Action.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/Update_Visit_Owner_Action.cls)
+* [Update_Visit_StartTime_Action.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/Update_Visit_StartTime_Action.cls)
+* [Update_Visit_EndTime_Action.cls](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/Update_Visit_EndTime_Action.cls)
 
 ---
 

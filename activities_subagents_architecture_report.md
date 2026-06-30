@@ -38,12 +38,12 @@ graph TD
 When the subagent triggers a query, it calls the Apex Invocable method `Visit_Activity_Handler.execute` with the active `visitId` stored in the agent session variable.
 
 1. **`getVisitActivities` (Planned Checklists/Surveys):**
-   * **Visit Status check:** Inspects if the visit has any active `cgcloud__Visit_Job__c` records.
-   * **Smart Fallback:** If the visit is in `Planned` status (and has no instantiated jobs yet), it queries the setup-time configuration on the **Visit Template** (`cgcloud__Visit_Template__c`) and **Job Definition List** (JDL).
-   * **Bypasses Instantiation Block:** This fallback prevents the agent from returning empty results before the visit is officially started.
+   * **Target Account Alignment:** Queries active JDLs mapped to the Visit Template, filtering them in-memory to respect target account inclusions/exclusions (`cgcloud__Job_Definition_List_Account__c` and `cgcloud__Account_Set_Account__c`).
+   * **Omission of Instantiation Restrictions:** Fetches all planned JDL questions and surveys regardless of whether any job records have been started or instantiated for the visit (resolved the issue where customer-specific checklists disappeared once the visit was started).
+   * **System Mode Setup Queries:** Queries for setup-time configuration objects are run in **System Mode** (without the `WITH USER_MODE` suffix in `Visit_Activity_Service.cls`) to bypass profile constraints, allowing standard CG Cloud user profiles to retrieve planned activities.
 
 2. **`getVisitJobsStatus` (Completed vs. Pending Tracking):**
-   * Queries the database for `cgcloud__Visit_Job__c` records associated with the `visitId`.
+   * Queries the database for active `cgcloud__Visit_Job__c` records associated with the `visitId`.
    * Maps questions to their response state:
      * **Answered:** Job has a response value recorded.
      * **Pending:** Job has no response value.

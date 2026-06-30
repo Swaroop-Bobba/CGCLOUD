@@ -89,7 +89,7 @@ graph TD
     VS -->|Queries| ORD_ITEM
 ```
 
-### Class: [Order_Agent_Handler](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/Order_Agent_Handler.cls)
+### Class: [Order_Agent_Handler](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/Order_Agent_Handler.cls)
 This class serves as the invocable router for order actions. It accepts a list of `Request` transfer objects, extracts the `actionType`, and calls the corresponding method on the `Order_Agent_Service` class.
 
 *   **Method:** `execute(List<Request> requests)`
@@ -102,7 +102,7 @@ This class serves as the invocable router for order actions. It accepts a list o
         *   `'getlineitems'` $\rightarrow$ `Order_Agent_Service.getOrderLineItems(req.orderId)`
         *   `'updatenotes'` $\rightarrow$ `Order_Agent_Service.updateOrderNotes(...)`
 
-### Class: [Order_Agent_Service](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/Order_Agent_Service.cls)
+### Class: [Order_Agent_Service](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/Order_Agent_Service.cls)
 Implements query execution and data formatting for all order actions.
 
 *   **Method:** `getOrderDetails(String orderId)`
@@ -131,7 +131,7 @@ Implements query execution and data formatting for all order actions.
 
 ---
 
-### Class: [Account_Agent_Service](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/Account_Agent_Service.cls)
+### Class: [Account_Agent_Service](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/Account_Agent_Service.cls)
 Implements product catalog analysis and scoring to suggest products.
 
 *   **Method:** `suggestProducts(String accountId)`
@@ -150,7 +150,7 @@ Implements product catalog analysis and scoring to suggest products.
 
 ---
 
-### Class: [Visit_Agent_Service](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCORG/force-app/main/default/classes/Visit_Agent_Service.cls)
+### Class: [Visit_Agent_Service](file:///c:/Users/Bhanu%20Bobba/Documents/CGCCloud/CGCMain/CGCLOUD/force-app/main/default/classes/Visit_Agent_Service.cls)
 Implements visit-related logic, including order summaries embedded in store briefs and visit reports.
 
 *   **Method:** `getStoreBrief(String visitId, String accountId)`

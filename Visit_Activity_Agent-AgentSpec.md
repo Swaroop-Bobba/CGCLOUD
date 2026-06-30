@@ -108,14 +108,15 @@ graph TD
 
 ### get_visit_activities (visit_activities)
 
-- **Target:** `apex://GetVisitActivities`
-- **Backing Status:** NEEDS STUB / NEEDS IMPLEMENTATION
+- **Target:** `apex://Visit_Activity_Handler`
+- **Backing Status:** EXISTS
 
 #### Inputs
 
 | Name | Type | Required | Source |
 |------|------|----------|--------|
 | visitId | string | Yes | Variable `visitId` |
+| questionOrSurveyFilter | string | No | "all", "question", or "survey" |
 
 #### Outputs
 
@@ -123,28 +124,28 @@ graph TD
 |------|------|-------------------|--------|-------|
 | activities | list[object] | Yes | Apex | Activities and questions/surveys associated with the visit template |
 
-#### Stubbing Requirement
+#### Wrapper Details
 
-- Apex class name: `GetVisitActivities`
+- Apex class name: `Visit_Activity_Handler`
 - Inner class wrapper: `ActivityInfo` containing:
   - `activityId` (string)
   - `activityName` (string)
   - `description` (string)
-  - `questions` (list[object], complex_data_type_name: `@apexClassType/c__GetVisitActivities$QuestionInfo`)
+  - `questions` (list[object], complex_data_type_name: `@apexClassType/c__Visit_Activity_Handler$QuestionInfo`)
 - Inner class wrapper: `QuestionInfo` containing:
   - `questionId` (string)
   - `questionName` (string)
   - `description` (string)
-  - `dataType` (string)
   - `mandatory` (boolean)
-- Output `complex_data_type_name`: `@apexClassType/c__GetVisitActivities$ActivityInfo`
+  - `jobType` (string)
+- Output `complex_data_type_name`: `@apexClassType/c__Visit_Activity_Handler$ActivityInfo`
 
 ---
 
 ### get_visit_jobs_status (visit_activities)
 
-- **Target:** `apex://GetVisitJobsStatus`
-- **Backing Status:** NEEDS STUB / NEEDS IMPLEMENTATION
+- **Target:** `apex://Visit_Activity_Handler`
+- **Backing Status:** EXISTS
 
 #### Inputs
 
@@ -152,6 +153,7 @@ graph TD
 |------|------|----------|--------|
 | visitId | string | Yes | Variable `visitId` |
 | statusFilter | string | No | "answered", "pending", or "all" |
+| questionOrSurveyFilter | string | No | "all", "question", or "survey" |
 
 #### Outputs
 
@@ -159,18 +161,21 @@ graph TD
 |------|------|-------------------|--------|-------|
 | jobs | list[object] | Yes | Apex | List of visit jobs (questions/surveys) with answer status |
 
-#### Stubbing Requirement
+#### Wrapper Details
 
-- Apex class name: `GetVisitJobsStatus`
+- Apex class name: `Visit_Activity_Handler`
 - Inner class wrapper: `JobStatusInfo` containing:
   - `jobId` (string)
+  - `questionName` (string)
   - `questionDescription` (string)
   - `isDone` (boolean)
-  - `answerValue` (string)
+  - `value` (string)
   - `displayValue` (string)
   - `productName` (string)
   - `promotionName` (string)
-- Output `complex_data_type_name`: `@apexClassType/c__GetVisitJobsStatus$JobStatusInfo`
+  - `jobType` (string)
+  - `totalProductCount` (integer)
+- Output `complex_data_type_name`: `@apexClassType/c__Visit_Activity_Handler$JobStatusInfo`
 
 ## Gating Logic
 
