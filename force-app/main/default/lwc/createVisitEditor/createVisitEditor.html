@@ -1,0 +1,164 @@
+<template>
+    <div class="slds-card create-visit-card">
+        <!-- Form Body -->
+        <div class="form-body slds-form">
+            <!-- Spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+            </template>
+
+            <!-- Simple Header with Blue Text -->
+            <div class="slds-p-bottom_medium">
+                <h2 class="form-title-simple">Schedule a Store Visit</h2>
+            </div>
+            <div class="slds-grid slds-wrap slds-gutters_direct">
+                <!-- Subject -->
+                <div class="slds-col slds-size_1-of-1 slds-p-bottom_small">
+                    <lightning-input 
+                        type="text" 
+                        name="subject" 
+                        label="Subject" 
+                        value={subject} 
+                        placeholder="e.g., Bi-weekly Audit, Stock Replenishment" 
+                        onchange={handleFieldChange} 
+                        required>
+                    </lightning-input>
+                </div>
+
+                <!-- Account Dynamic Lookup -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_small lookup-container">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">
+                            <abbr class="slds-required" title="required">*</abbr>Account
+                        </label>
+                        <div class="slds-form-element__control lookup-relative-container">
+                            <lightning-input
+                                type="search"
+                                name="accountSearch"
+                                value={accountSearchTerm}
+                                placeholder="Search Accounts..."
+                                onchange={handleAccountSearch}
+                                onfocus={handleAccountFocus}
+                                onblur={handleAccountBlur}
+                                variant="label-hidden"
+                                required>
+                            </lightning-input>
+                            
+                            <!-- Dropdown Results -->
+                            <template if:true={showAccountDropdown}>
+                                <div class="custom-lookup-dropdown" role="listbox">
+                                    <ul>
+                                        <template if:true={isLoadingAccounts}>
+                                            <li class="slds-p-around_x-small slds-text-align_center">
+                                                <lightning-spinner size="small" variant="brand" alternative-text="Searching..."></lightning-spinner>
+                                            </li>
+                                        </template>
+                                        <template if:false={isLoadingAccounts}>
+                                            <template for:each={filteredAccounts} for:item="acc">
+                                                <li key={acc.value} data-id={acc.value} data-label={acc.label} onmousedown={handleAccountSelect}>
+                                                    <span class="slds-listbox__option-text_entity">{acc.label}</span>
+                                                </li>
+                                            </template>
+                                            <template if:true={isAccountListEmpty}>
+                                                <li class="slds-p-around_x-small slds-text-align_center slds-text-color_weak">
+                                                    No Accounts found
+                                                </li>
+                                            </template>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Place -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_small">
+                    <lightning-combobox 
+                        name="placeId" 
+                        label="Place" 
+                        value={placeId} 
+                        placeholder="Select Place..." 
+                        options={placeOptions} 
+                        onchange={handleFieldChange} 
+                        required>
+                    </lightning-combobox>
+                </div>
+            </div>
+
+
+            <div class="slds-grid slds-wrap slds-gutters_direct">
+                <!-- Planned Start -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_small">
+                    <lightning-input 
+                        type="datetime" 
+                        name="plannedStartTime" 
+                        label="Planned Visit Start" 
+                        value={plannedStartTime} 
+                        onchange={handleFieldChange} 
+                        required>
+                    </lightning-input>
+                </div>
+
+                <!-- Planned End -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_small">
+                    <lightning-input 
+                        type="datetime" 
+                        name="plannedEndTime" 
+                        label="Planned End" 
+                        value={plannedEndTime} 
+                        onchange={handleFieldChange}>
+                    </lightning-input>
+                </div>
+
+                <!-- All Day Event -->
+                <div class="slds-col slds-size_1-of-1 slds-p-vertical_small">
+                    <lightning-input 
+                        type="checkbox" 
+                        name="isAllDayEvent" 
+                        label="All Day Event" 
+                        checked={isAllDayEvent} 
+                        onchange={handleCheckboxChange}>
+                    </lightning-input>
+                </div>
+
+                <!-- Visit Template -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_small">
+                    <lightning-combobox 
+                        name="visitTemplateId" 
+                        label="Visit Template" 
+                        value={visitTemplateId} 
+                        placeholder="Select Template..." 
+                        options={templateOptions} 
+                        onchange={handleFieldChange}
+                        required>
+                    </lightning-combobox>
+                </div>
+
+                <!-- Accountable -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_small">
+                    <lightning-combobox 
+                        name="accountableId" 
+                        label="Accountable" 
+                        value={accountableId} 
+                        placeholder="Select Accountable User..." 
+                        options={userOptions} 
+                        onchange={handleFieldChange}>
+                    </lightning-combobox>
+                </div>
+
+                <!-- Responsible (Read-Only) -->
+                <div class="slds-col slds-size_1-of-1 slds-p-bottom_medium">
+                    <lightning-input 
+                        type="text" 
+                        name="responsibleName" 
+                        label="Responsible User" 
+                        value={responsibleName} 
+                        disabled>
+                    </lightning-input>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</template>

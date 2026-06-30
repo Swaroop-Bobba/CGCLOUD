@@ -1,0 +1,4 @@
+{
+  "title": "Create Visit Wrapper Type",
+  "lightning:type": "@apexClassType/c__CreateVisitWrapper"
+}
