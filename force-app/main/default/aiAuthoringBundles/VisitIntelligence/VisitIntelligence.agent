@@ -40,7 +40,7 @@ variables:
     visitSummaryText: mutable string = ""
         description: "The automatically pre-loaded visit summary text for the current Visit."
     activeSubagent: mutable string = "visit_intelligence"
-        description: "The active subagent name: 'visit_intelligence' or 'visit_activities'."
+        description: "The active subagent name: 'visit_intelligence', 'visit_activities', or 'create_visit'."
 
 
 language:
@@ -79,6 +79,9 @@ start_agent agent_router:
             if @variables.accountId != "" and @variables.activeSubagent == "visit_intelligence":
                 transition to @subagent.visit_intelligence
 
+            if @variables.activeSubagent == "create_visit":
+                transition to @subagent.create_visit
+
             | Instructions:
             | 1. Visit Record Page Context: If the user has opened this agent from a Visit record page and currentRecordId is set, call {!@actions.get_visit} to load context. Then greet: "I found the current visit for [Account Name]. How can I help you with this account?"
             | 2. First Launch (No Page Context): Greet with: "How can I assist you today? You can search for a visit by account name, store name, or date, or I can show your recent/scheduled visits."
@@ -88,6 +91,7 @@ start_agent agent_router:
             | 6. Selection: When the user selects, specifies, or inputs a number corresponding to a visit from the most recent numbered list (e.g. they type "1" or select the first option), map it to that visit, extract its ID (recordId), and call {!@actions.select_visit} with that visit's recordId to load the visit context. If they enter the visit name/number directly (e.g. "00000370"), extract the recordId of that visit from the printed list and call {!@actions.select_visit}. Do NOT ask the user for an ID — extract it from the user's selection or number input.
             | 7. Do NOT call {!@actions.select_visit} without a valid Visit record ID from search or list results.
             | 8. Do NOT use show_command. Always compose your response as direct text.
+            | 9. Create/Plan/Schedule/Add Visit: If the user explicitly requests to create, schedule, plan, or add a new visit (utilizing expressions such as "Create Visit", "New Visit", "Schedule Visit", "Plan a Visit", "Create a Store Visit", "Add Visit", "Create Customer Visit", or "Visit Creation"), transition immediately to the Create Visit Agent using {!@actions.go_to_create_visit}. Do NOT load existing visit details, select a visit, or run get_visit_details.
  
         actions:
             get_visit: @actions.get_visit_details
@@ -132,6 +136,9 @@ start_agent agent_router:
 
             go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
                 description: "Route ambiguous queries."
+
+            go_to_create_visit: @utils.transition to @subagent.create_visit
+                description: "Route the user to the Create Visit Agent when they request to create, plan, schedule, or add a new visit."
 
     actions:
         get_visit_details:
@@ -232,6 +239,7 @@ subagent visit_intelligence:
                 |   * "Sellable Products" / "products in assortment" -> Call @actions.get_details with recordType = "assortmentproducts"
                 |   * "Switch" / "reset context" / "change visit" -> Call @actions.switch_visit
                 |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products
+                |   * "Create Visit" / "New Visit" / "Schedule Visit" / "Plan a Visit" / "Add Visit" / "Create Customer Visit" / "Visit Creation" -> Transition immediately to the Create Visit Agent using go_to_create_visit
                 |
                 | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
                 | - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action:
@@ -364,6 +372,9 @@ subagent visit_intelligence:
 
             go_to_activities: @utils.transition to @subagent.visit_activities
                 description: "Transition to the Visit Activities subagent to check planned activities, surveys, checklists, or completed/pending questions."
+
+            go_to_create_visit: @utils.transition to @subagent.create_visit
+                description: "Transition to the Create Visit Agent to create, schedule, plan, or add a new Visit."
 
             store_brief: @actions.get_store_brief
                 description: "Retrieve a consolidated store brief and audit summary for the current visit and account context."
@@ -1079,3 +1090,59 @@ subagent visit_activities:
                     complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$ItemDetail"
                     description: "List of next step options."
                     is_displayable: True
+
+subagent create_visit:
+    label: "Create Visit Agent"
+    description: "Handle the creation of a new Visit record by presenting the creation form, validating fields, and inserting the record."
+    before_reasoning:
+        set @variables.activeSubagent = "create_visit"
+
+    reasoning:
+        instructions: ->
+            if @variables.visitId != "":
+                set @variables.activeSubagent = "visit_intelligence"
+                set @variables.accountId = ""
+                transition to @subagent.agent_router
+
+            if @variables.visitId == "":
+                | You are now in the Create Visit Agent.
+                | Please call the create_visit_record action immediately to present the record creation form to the user.
+                | Do NOT ask the user for any details in text. Let the form collect them.
+                |
+                | If the create_visit_record action returns success = False, you MUST display the error message returned in the message output field verbatim: "Failed to create visit: [message]" and do NOT transition.
+
+        actions:
+            create_visit_record: @actions.create_visit_record
+                description: "Validate fields and create a new Visit record."
+                with visitData = ...
+                set @variables.visitId = @outputs.visitId
+                set @variables.accountId = @outputs.accountId
+                set @variables.visitStatus = @outputs.visitStatus
+                set @variables.visitDate = @outputs.visitDate
+                set @variables.assignedUser = @outputs.assignedUser
+
+    actions:
+        create_visit_record:
+            description: "Validate fields and create a new Visit record. The visitData parameter must be populated using the form input."
+            target: "apex://CreateVisitAction"
+            inputs:
+                visitData: object
+                    complex_data_type_name: "c__createVisitWrapperType"
+                    description: "The visit details form data containing Subject, Account, Planned Start, Place, and optional fields."
+                    is_required: True
+                    is_user_input: True
+            outputs:
+                success: boolean
+                    description: "True if the Visit was successfully created."
+                message: string
+                    description: "Status message or error message from Salesforce."
+                visitId: string
+                    description: "The newly created Visit record ID."
+                accountId: string
+                    description: "The associated Account ID."
+                visitStatus: string
+                    description: "The Status of the new Visit."
+                visitDate: string
+                    description: "The Planned Start Date/Time."
+                assignedUser: string
+                    description: "The Assigned User."
