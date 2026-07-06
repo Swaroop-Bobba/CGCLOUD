@@ -1,13 +1,13 @@
 import { LightningElement, api, wire } from 'lwc';
-import searchAccounts from '@salesforce/apex/CreateVisitAction.searchAccounts';
-import getAccountName from '@salesforce/apex/CreateVisitAction.getAccountName';
-import searchPlaces from '@salesforce/apex/CreateVisitAction.searchPlaces';
-import getPlaceName from '@salesforce/apex/CreateVisitAction.getPlaceName';
-import searchTemplates from '@salesforce/apex/CreateVisitAction.searchTemplates';
-import getTemplateName from '@salesforce/apex/CreateVisitAction.getTemplateName';
-import searchUsers from '@salesforce/apex/CreateVisitAction.searchUsers';
-import getUserName from '@salesforce/apex/CreateVisitAction.getUserName';
-import getResponsibleUserContext from '@salesforce/apex/CreateVisitAction.getResponsibleUserContext';
+import searchAccounts from '@salesforce/apex/Visit_Agent_Service.searchAccounts';
+import getAccountName from '@salesforce/apex/Visit_Agent_Service.getAccountName';
+import searchPlaces from '@salesforce/apex/Visit_Agent_Service.searchPlaces';
+import getPlaceName from '@salesforce/apex/Visit_Agent_Service.getPlaceName';
+import searchTemplates from '@salesforce/apex/Visit_Agent_Service.searchTemplates';
+import getTemplateName from '@salesforce/apex/Visit_Agent_Service.getTemplateName';
+import searchUsers from '@salesforce/apex/Visit_Agent_Service.searchUsers';
+import getUserName from '@salesforce/apex/Visit_Agent_Service.getUserName';
+import getResponsibleUserContext from '@salesforce/apex/Visit_Agent_Service.getResponsibleUserContext';
 
 export default class CreateVisitEditor extends LightningElement {
     @api value; // Input value representing the CreateVisitWrapper

@@ -1,5 +1,5 @@
 import { LightningElement, api, wire } from 'lwc';
-import getActiveUsers from '@salesforce/apex/Update_Visit_Owner_Action.getActiveUsers';
+import getActiveUsers from '@salesforce/apex/Visit_Agent_Service.getActiveUsers';
 
 export default class VisitOwnerEditor extends LightningElement {
     @api value; // The raw input value object from the agent

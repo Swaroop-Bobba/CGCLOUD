@@ -6,7 +6,7 @@
       "description" : "List of matching users containing name, userId, alias, and profileName.",
       "maxItems" : 2000,
       "items" : {
-        "lightning:type" : "@apexClassType/c__User_Agent_Handler$UserOption"
+        "lightning:type" : "@apexClassType/c__Agent_Response$UserOption"
       },
       "lightning:type" : "lightning__listType",
       "lightning:isPII" : false,

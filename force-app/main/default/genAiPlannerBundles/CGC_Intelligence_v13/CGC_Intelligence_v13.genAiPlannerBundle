@@ -109,7 +109,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>get_order_summary_179Bh0000001UYm</fullName>
             <description>Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Account.</description>
             <developerName>get_order_summary_179Bh0000001UYm</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -120,7 +120,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>get_visit_orders_179Bh0000001UYm</fullName>
             <description>Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Visit ID.</description>
             <developerName>get_visit_orders_179Bh0000001UYm</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -131,7 +131,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>get_related_records_179Bh0000001UYm</fullName>
             <description>Retrieve list of detailed records of a specific type (contacts, visits, promotions, inventory, outOfStock, retailstores, assortments, storeproducts, tactics, assortmentproducts) for the current Account.</description>
             <developerName>get_related_records_179Bh0000001UYm</developerName>
-            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -142,7 +142,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>get_related_counts_179Bh0000001UYm</fullName>
             <description>Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account.</description>
             <developerName>get_related_counts_179Bh0000001UYm</developerName>
-            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -153,7 +153,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>get_order_items_179Bh0000001UYm</fullName>
             <description>Retrieve product line items for a specific CG Cloud Order.</description>
             <developerName>get_order_items_179Bh0000001UYm</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -164,7 +164,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>update_order_notes_179Bh0000001UYm</fullName>
             <description>Update delivery notes and/or invoice notes on a specific CG Cloud Order by its ID or Name/Number.</description>
             <developerName>update_order_notes_179Bh0000001UYm</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>true</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -175,7 +175,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>suggest_products_179Bh0000001UYm</fullName>
             <description>Get product recommendations for the active store based on catalog gaps and order history.</description>
             <developerName>suggest_products_179Bh0000001UYm</developerName>
-            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -186,7 +186,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>get_store_brief_179Bh0000001UYm</fullName>
             <description>Get store brief data including order totals, top products, active promotions, and open tasks.</description>
             <developerName>get_store_brief_179Bh0000001UYm</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -197,7 +197,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>update_visit_179Bh0000001UYm</fullName>
             <description>Update fields on the current Visit record. Requires user confirmation.</description>
             <developerName>update_visit_179Bh0000001UYm</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>true</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -208,7 +208,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>generate_visit_summary_179Bh0000001UYm</fullName>
             <description>Collect visit execution metrics and return a formatted visit report.</description>
             <developerName>generate_visit_summary_179Bh0000001UYm</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -219,7 +219,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>search_users_179Bh0000001UYm</fullName>
             <description>Search for users by name.</description>
             <developerName>search_users_179Bh0000001UYm</developerName>
-            <invocationTarget>User_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -302,7 +302,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>search_accounts_179Bh0000001UYn</fullName>
             <description>Search for Account records by name.</description>
             <developerName>search_accounts_179Bh0000001UYn</developerName>
-            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -313,7 +313,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>search_orders_179Bh0000001UYn</fullName>
             <description>Search for Order records by name or account name.</description>
             <developerName>search_orders_179Bh0000001UYn</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -324,7 +324,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>get_account_details_179Bh0000001UYn</fullName>
             <description>Retrieve details of an Account.</description>
             <developerName>get_account_details_179Bh0000001UYn</developerName>
-            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -335,7 +335,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>search_visits_179Bh0000001UYn</fullName>
             <description>Search for Visit records by account name, store name, visit name, or date.</description>
             <developerName>search_visits_179Bh0000001UYn</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -346,7 +346,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>get_order_details_179Bh0000001UYn</fullName>
             <description>Retrieve Order and associated Account details.</description>
             <developerName>get_order_details_179Bh0000001UYn</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -357,7 +357,7 @@ Always maintain an engaging, helpful, and polished tone.</description>
             <fullName>get_available_visits_179Bh0000001UYn</fullName>
             <description>Retrieve user&apos;s recently viewed, owned, and scheduled visits.</description>
             <developerName>get_available_visits_179Bh0000001UYn</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>Agent_Global_Handler</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>

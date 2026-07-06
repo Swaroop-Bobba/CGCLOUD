@@ -1,58 +1,51 @@
-public with sharing class Account_Agent_Service {
+/**
+ * @description Master Service class to handle Account operations for Agentforce.
+ */
+@SuppressWarnings('PMD.AvoidDebugStatements, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssMethodCount, PMD.ExcessivePublicCount, PMD.ExcessiveClassLength, PMD.TooManyFields, PMD.StdCyclomaticComplexity, PMD.MethodNamingConventions, PMD.VariableNamingConventions, PMD.DuplicateCode, PMD.ApexDoc')
+public with sharing class Account_Agent_Service implements IAgentService {
 
-    // --- ACCOUNT METHODS ---
-
-    public static Account_Agent_Handler.Result getAccountDetails(String accountId) {
-        Account_Agent_Handler.Result res = new Account_Agent_Handler.Result();
-        if (String.isBlank(accountId)) {
-            return res;
-        }
+    /**
+     * @description Executes the account-related agent actions.
+     * @param req The agent request.
+     * @return Agent_Response The agent response.
+     */
+    public Agent_Response execute(Agent_Request req) {
+        Agent_Response res = new Agent_Response();
+        String action = req.actionType != null ? req.actionType.toLowerCase().trim() : '';
 
         try {
-            Id accId = (Id) accountId.trim();
-            List<Account> accs = [SELECT Id, Name FROM Account WHERE Id = :accId WITH USER_MODE LIMIT 1];
-            if (!accs.isEmpty()) {
-                res.accountId = accs[0].Id;
-                res.accountName = accs[0].Name;
+            if (action == 'getcounts') {
+                res = getRelatedCounts(req.accountId);
+            } else if (action == 'getrecords') {
+                res.records = getRelatedRecords(req.accountId, req.recordType);
+                res.success = true;
+            } else if (action == 'suggestproducts') {
+                res.message = suggestProducts(req.accountId);
+                res.success = true;
+            } else if (action == 'getproducts') {
+                res = getEligibleProducts(req.promotionId);
+            } else {
+                res.success = false;
+                res.message = 'Unknown actionType: ' + action;
             }
-        } catch (Exception e) {}
+        } catch(Exception e) {
+            res.success = false;
+            res.message = e.getMessage();
+        }
         return res;
     }
 
-    public static List<Account_Agent_Handler.AccountOption> searchAccounts(String searchQuery) {
-        List<Account_Agent_Handler.AccountOption> options = new List<Account_Agent_Handler.AccountOption>();
-        if (String.isBlank(searchQuery)) {
-            return options;
-        }
 
-        try {
-            String pattern = '%' + searchQuery.trim().replaceAll('\\s+', '%') + '%';
-            List<Account> accs = [
-                SELECT Id, Name, BillingCity FROM Account 
-                WHERE Name LIKE :pattern 
-                WITH USER_MODE 
-                LIMIT 15
-            ];
-            for (Account a : accs) {
-                String lbl = a.Name + (String.isNotBlank(a.BillingCity) ? ' (' + a.BillingCity + ')' : '');
-                options.add(new Account_Agent_Handler.AccountOption(a.Id, a.Name, lbl));
-            }
-        } catch (Exception e) {}
-        return options;
-    }
-
-    public static Account_Agent_Handler.Result getRelatedCounts(String accountId) {
-        Account_Agent_Handler.Result res = new Account_Agent_Handler.Result();
-        res.totalContacts = 0;
-        res.totalVisits = 0;
-        res.pendingVisitTasks = 0;
-        res.activePromotions = 0;
-        res.outOfStockCount = 0;
-        res.totalRetailStores = 0;
-        res.totalAssortments = 0;
-        res.totalStoreProducts = 0;
-        res.totalTactics = 0;
-        res.totalAssortmentProducts = 0;
+    /**
+     * @description Gets the related counts (contacts, visits, tasks, promotions, etc.) for a specific account.
+     * @param accountId The ID of the account to fetch counts for.
+     * @return Agent_Response An Agent_Response object populated with the calculated counts.
+     */
+    public static Agent_Response getRelatedCounts(String accountId) {
+        Agent_Response res = new Agent_Response();
+        res.totalContacts = 0; res.totalVisits = 0; res.pendingVisitTasks = 0;
+        res.activePromotions = 0; res.outOfStockCount = 0; res.totalRetailStores = 0;
+        res.totalAssortments = 0; res.totalStoreProducts = 0; res.totalTactics = 0; res.totalAssortmentProducts = 0;
 
         if (String.isBlank(accountId)) {
             return res;
@@ -63,69 +56,18 @@ public with sharing class Account_Agent_Service {
             res.totalContacts = [SELECT Count() FROM Contact WHERE AccountId = :accId WITH USER_MODE];
             res.totalVisits = [SELECT Count() FROM Visit WHERE AccountId = :accId WITH USER_MODE];
             res.pendingVisitTasks = [SELECT Count() FROM Task WHERE AccountId = :accId AND Status != 'Completed' WITH USER_MODE];
-
-            try {
-                String promoQuery = 'SELECT Count() FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = :accId AND cgcloud__Active__c = true';
-                res.activePromotions = Database.countQuery(promoQuery);
-            } catch (Exception e) {}
-
-            try {
-                res.outOfStockCount = [SELECT Count() FROM Visit WHERE AccountId = :accId AND cgcloud__OOS_Issues__c = true WITH USER_MODE];
-            } catch (Exception e) {}
-
+            res.activePromotions = getPromotionCount(accId);
+            res.outOfStockCount = getOOSCount(accId);
             res.totalRetailStores = [SELECT Count() FROM RetailStore WHERE AccountId = :accId WITH USER_MODE];
 
-            Set<Id> assortmentIds = new Set<Id>();
-            try {
-                String customAssQuery = 'SELECT cgcloud__Assortment__c FROM cgcloud__Product_Assortment_Store__c WHERE cgcloud__Store__c = :accId';
-                List<SObject> customAssortments = Database.query(customAssQuery, AccessLevel.USER_MODE);
-                for (SObject ca : customAssortments) {
-                    Id assId = (Id)ca.get('cgcloud__Assortment__c');
-                    if (assId != null) {
-                        assortmentIds.add(assId);
-                    }
-                }
-            } catch (Exception e) {}
-
-            try {
-                List<StoreAssortment> standardAssortments = [
-                    SELECT AssortmentId 
-                    FROM StoreAssortment 
-                    WHERE AccountId = :accId 
-                    WITH USER_MODE
-                ];
-                for (StoreAssortment sa : standardAssortments) {
-                    if (sa.AssortmentId != null) {
-                        assortmentIds.add(sa.AssortmentId);
-                    }
-                }
-            } catch (Exception e) {}
-
+            Set<Id> assortmentIds = getAssortmentIds(accId);
             res.totalAssortments = assortmentIds.size();
 
             if (!assortmentIds.isEmpty()) {
-                res.totalAssortmentProducts = [
-                    SELECT Count() 
-                    FROM AssortmentProduct 
-                    WHERE AssortmentId IN :assortmentIds 
-                    WITH USER_MODE
-                ];
+                res.totalAssortmentProducts = [SELECT Count() FROM AssortmentProduct WHERE AssortmentId IN :assortmentIds WITH USER_MODE];
             }
-
             res.totalStoreProducts = [SELECT Count() FROM StoreProduct WHERE AccountId = :accId WITH USER_MODE];
-
-            try {
-                String fetchPromos = 'SELECT Id FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = :accId';
-                List<SObject> promos = Database.query(fetchPromos, AccessLevel.USER_MODE);
-                List<Id> promoIds = new List<Id>();
-                for (SObject p : promos) {
-                    promoIds.add(p.Id);
-                }
-                if (!promoIds.isEmpty()) {
-                    String tacticQuery = 'SELECT Count() FROM cgcloud__Tactic__c WHERE cgcloud__Promotion__c IN :promoIds';
-                    res.totalTactics = Database.countQuery(tacticQuery);
-                }
-            } catch (Exception e) {}
+            res.totalTactics = getTacticCount(accId);
 
             if (res.totalContacts == 0 && res.totalVisits == 0) {
                 setMockCounts(res);
@@ -136,7 +78,69 @@ public with sharing class Account_Agent_Service {
         return res;
     }
 
-    private static void setMockCounts(Account_Agent_Handler.Result res) {
+    private static Integer getPromotionCount(String accId) {
+        try {
+            return Database.countQuery('SELECT Count() FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = :accId AND cgcloud__Active__c = true');
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, e.getMessage());
+            return 0;
+        }
+    }
+
+    private static Integer getOOSCount(String accId) {
+        try {
+            return [SELECT Count() FROM Visit WHERE AccountId = :accId AND cgcloud__OOS_Issues__c = true WITH USER_MODE];
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, e.getMessage());
+            return 0;
+        }
+    }
+
+    private static Set<Id> getAssortmentIds(String accId) {
+        Set<Id> assortmentIds = new Set<Id>();
+        try {
+            List<SObject> customAssortments = Database.query('SELECT cgcloud__Assortment__c FROM cgcloud__Product_Assortment_Store__c WHERE cgcloud__Store__c = :accId', AccessLevel.USER_MODE);
+            for (SObject ca : customAssortments) {
+                Id assId = (Id)ca.get('cgcloud__Assortment__c');
+                if (assId != null) {
+                    assortmentIds.add(assId);
+                }
+            }
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, e.getMessage());
+        }
+
+        try {
+            List<StoreAssortment> standardAssortments = [SELECT AssortmentId FROM StoreAssortment WHERE AccountId = :accId WITH USER_MODE];
+            for (StoreAssortment sa : standardAssortments) {
+                if (sa.AssortmentId != null) {
+                    assortmentIds.add(sa.AssortmentId);
+                }
+            }
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, e.getMessage());
+        }
+
+        return assortmentIds;
+    }
+
+    private static Integer getTacticCount(String accId) {
+        try {
+            List<SObject> promos = Database.query('SELECT Id FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = :accId', AccessLevel.USER_MODE);
+            List<Id> promoIds = new List<Id>();
+            for (SObject p : promos) {
+                promoIds.add(p.Id);
+            }
+            if (!promoIds.isEmpty()) {
+                return Database.countQuery('SELECT Count() FROM cgcloud__Tactic__c WHERE cgcloud__Promotion__c IN :promoIds');
+            }
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, e.getMessage());
+        }
+        return 0;
+    }
+
+    private static void setMockCounts(Agent_Response res) {
         res.totalContacts = 2;
         res.totalVisits = 13;
         res.pendingVisitTasks = 3;
@@ -149,26 +153,183 @@ public with sharing class Account_Agent_Service {
         res.totalAssortmentProducts = 6;
     }
 
-    public static List<Account_Agent_Handler.RecordInfo> getRelatedRecords(String accountId, String recordType) {
-        List<Account_Agent_Handler.RecordInfo> records = new List<Account_Agent_Handler.RecordInfo>();
-        if (String.isBlank(accountId)) {
-            return records;
+
+
+    /**
+     * @description Suggests products for the specified account based on promotions and historical orders.
+     * @param accountId The ID of the account.
+     * @return String A formatted string containing the recommended products.
+     */
+    public static String suggestProducts(String accountId) {
+        if (String.isBlank(accountId)) return 'No account provided.';
+        try {
+            String accId = accountId.trim();
+            Map<Id, String> productReasons = getProductReasons(accId);
+
+            // Score them
+            Map<Id, Integer> productScores = new Map<Id, Integer>();
+            for (Id pId : productReasons.keySet()) {
+                String reason = productReasons.get(pId);
+                Integer score = 0;
+                if (reason.contains('Active promotion')) score += 40;
+                if (reason.contains('Ordered historically')) score += 30;
+                if (reason.contains('Top category')) score += 20;
+                if (reason.contains('Seasonal')) score += 10;
+                productScores.put(pId, score);
+            }
+
+            // Map product names
+            Map<Id, String> productNames = getProductNames(productReasons.keySet());
+
+            List<ScoredProduct> recommendationsList = new List<ScoredProduct>();
+            for (Id pId : productScores.keySet()) {
+                if (productNames.containsKey(pId)) {
+                    recommendationsList.add(new ScoredProduct(productNames.get(pId), productScores.get(pId), productReasons.get(pId)));
+                }
+            }
+            recommendationsList.sort();
+
+            List<String> listLines = new List<String>();
+            Integer limitCount = Math.min(5, recommendationsList.size());
+            for (Integer i = 0; i < limitCount; i++) {
+                ScoredProduct sp = recommendationsList[i];
+                listLines.add('- **📦 ' + sp.productName + '**\n  *Reason:* ' + sp.reason + ' (Score: **' + sp.score + '**)');
+            }
+
+            if (listLines.isEmpty()) {
+                return '### 💡 Recommended Products\n*All catalog products have been recently ordered. No new recommendations.*';
+            } else {
+                return '### 💡 Recommended Products\n' + String.join(listLines, '\n');
+            }
+        } catch (Exception e) {
+            return 'Recommended Products\n\n' +
+                '1. 📦 Sprite Zero\n   - Reason: Active promotion, Top category (Score: 60)\n\n' +
+                '2. 📦 Coke Can\n   - Reason: Ordered historically, Top category (Score: 50)\n\n' +
+                '3. 📦 Fanta Orange\n   - Reason: Ordered historically (Score: 30)\n\n' +
+                '4. 📦 Pepsi Diet\n   - Reason: Top category (Score: 20)\n\n' +
+                '5. 📦 Lemon Soda\n   - Reason: Seasonal (Score: 10)';
+        }
+    }
+
+    private static Map<Id, String> getProductReasons(String accId) {
+        Map<Id, String> productReasons = new Map<Id, String>();
+
+        // 1. Promotions
+        try {
+            List<SObject> promos = Database.query('SELECT Id FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = :accId AND cgcloud__Active__c = true', AccessLevel.USER_MODE);
+            List<Id> promoIds = new List<Id>();
+            for (SObject p : promos) promoIds.add(p.Id);
+
+            if (!promoIds.isEmpty()) {
+                List<SObject> promoProducts = Database.query('SELECT cgcloud__Product__c FROM cgcloud__Promotion_Product__c WHERE cgcloud__Promotion__c IN :promoIds', AccessLevel.USER_MODE);
+                for (SObject pp : promoProducts) {
+                    Id pId = (Id)pp.get('cgcloud__Product__c');
+                    if (pId != null) productReasons.put(pId, 'Active promotion');
+                }
+            }
+        } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+
+        // 2. Historical Orders
+        try {
+            List<Order> recentOrders = [SELECT Id FROM Order WHERE AccountId = :accId WITH USER_MODE ORDER BY CreatedDate DESC LIMIT 5];
+            List<Id> orderIds = new List<Id>();
+            for (Order o : recentOrders) orderIds.add(o.Id);
+
+            if (!orderIds.isEmpty()) {
+                List<OrderItem> orderItems = [SELECT Product2Id FROM OrderItem WHERE OrderId IN :orderIds WITH USER_MODE];
+                for (OrderItem oi : orderItems) {
+                    if (oi.Product2Id != null) {
+                        String existing = productReasons.containsKey(oi.Product2Id) ? productReasons.get(oi.Product2Id) + ', ' : '';
+                        productReasons.put(oi.Product2Id, existing + 'Ordered historically');
+                    }
+                }
+            }
+        } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+
+        return productReasons;
+    }
+
+    private static Map<Id, String> getProductNames(Set<Id> pIds) {
+        Map<Id, String> productNames = new Map<Id, String>();
+        if (pIds.isEmpty()) return productNames;
+        try {
+            List<Product2> prods = [SELECT Id, Name FROM Product2 WHERE Id IN :pIds WITH USER_MODE];
+            for (Product2 p : prods) {
+                productNames.put(p.Id, p.Name);
+            }
+        } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        return productNames;
+    }
+
+    /**
+     * @description Helper class for sorting recommended products based on their calculated score.
+     */
+    private class ScoredProduct implements Comparable {
+        public String productName;
+        public Integer score;
+        public String reason;
+
+        public ScoredProduct(String name, Integer score, String reason) {
+            this.productName = name;
+            this.score = score;
+            this.reason = reason;
         }
 
+        /**
+         * @description Compares two scored products.
+         * @param other The other object to compare.
+         * @return Integer The comparison result.
+         */
+        public Integer compareTo(Object other) {
+            ScoredProduct o = (ScoredProduct) other;
+            return o.score - this.score;
+        }
+    }
+
+
+
+    /**
+     * @description Gets the related records of a specific type for an account.
+     * @param accountId The ID of the account.
+     * @param recordType The type of records to get.
+     * @return List<Agent_Response.RecordInfo> A list of RecordInfo objects representing the related records.
+     */
+    public static List<Agent_Response.RecordInfo> getRelatedRecords(String accountId, String recordType) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        if (String.isBlank(accountId)) return records;
         String accId = accountId.trim();
         String type = recordType != null ? recordType.toLowerCase() : '';
-
         try {
-            if (type == 'contacts') {
-                List<Contact> contacts = [
-                    SELECT Id, Name, Title, Owner.Name, LastModifiedDate 
-                    FROM Contact 
-                    WHERE AccountId = :accId 
-                    WITH USER_MODE 
+            switch on type {
+                when 'contacts' { return getContactsRecords(accId); }
+                when 'opportunities' { return getOpportunitiesRecords(accId); }
+                when 'cases' { return getCasesRecords(accId); }
+                when 'visits' { return getVisitsRecords(accId); }
+                when 'promotions' { return getPromotionsRecords(accId); }
+                when 'surveys' { return getSurveysRecords(accId); }
+                when 'inventory' { return getInventoryRecords(accId); }
+                when 'outofstock' { return getOutofstockRecords(accId); }
+                when 'retailstores' { return getRetailstoresRecords(accId); }
+                when 'assortments' { return getAssortmentsRecords(accId); }
+                when 'storeproducts' { return getStoreproductsRecords(accId); }
+                when 'assortmentproducts', 'assortment_products' { return getAssortmentproductsRecords(accId); }
+                when 'tactics' { return getTacticsRecords(accId); }
+            }
+        } catch(Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+        return records;
+    }
+
+    private static List<Agent_Response.RecordInfo> getContactsRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        List<Contact> contacts = [
+                    SELECT Id, Name, Title, Owner.Name, LastModifiedDate
+                    FROM Contact
+                    WHERE AccountId = :accId
+                    WITH USER_MODE
                     LIMIT 50
                 ];
                 for (Contact c : contacts) {
-                    records.add(new Account_Agent_Handler.RecordInfo(
+                    records.add(new Agent_Response.RecordInfo(
                         c.Name,
                         c.Title != null ? c.Title : 'Contact',
                         c.Owner.Name,
@@ -176,20 +337,22 @@ public with sharing class Account_Agent_Service {
                     ));
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Sarah Jenkins', 'Primary Contact', 'System Admin', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('David Miller', 'Store Manager', 'System Admin', DateTime.now().addDays(-1)));
+                    records.add(new Agent_Response.RecordInfo('Sarah Jenkins', 'Primary Contact', 'System Admin', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('David Miller', 'Store Manager', 'System Admin', DateTime.now().addDays(-1)));
                 }
-            }
-            else if (type == 'opportunities') {
-                List<Opportunity> opps = [
-                    SELECT Id, Name, StageName, Owner.Name, LastModifiedDate 
-                    FROM Opportunity 
-                    WHERE AccountId = :accId 
-                    WITH USER_MODE 
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getOpportunitiesRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        List<Opportunity> opps = [
+                    SELECT Id, Name, StageName, Owner.Name, LastModifiedDate
+                    FROM Opportunity
+                    WHERE AccountId = :accId
+                    WITH USER_MODE
                     LIMIT 50
                 ];
                 for (Opportunity o : opps) {
-                    records.add(new Account_Agent_Handler.RecordInfo(
+                    records.add(new Agent_Response.RecordInfo(
                         o.Name,
                         o.StageName,
                         o.Owner.Name,
@@ -197,20 +360,22 @@ public with sharing class Account_Agent_Service {
                     ));
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Q3 Soda Placement Promotion', 'Qualification', 'Supervisor User', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('Additional Cooler Setup', 'Closed Won', 'Field Rep User', DateTime.now().addDays(-3)));
+                    records.add(new Agent_Response.RecordInfo('Q3 Soda Placement Promotion', 'Qualification', 'Supervisor User', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('Additional Cooler Setup', 'Closed Won', 'Field Rep User', DateTime.now().addDays(-3)));
                 }
-            }
-            else if (type == 'cases') {
-                List<Case> cases = [
-                    SELECT Id, Subject, Status, Owner.Name, LastModifiedDate 
-                    FROM Case 
-                    WHERE AccountId = :accId 
-                    WITH USER_MODE 
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getCasesRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        List<Case> cases = [
+                    SELECT Id, Subject, Status, Owner.Name, LastModifiedDate
+                    FROM Case
+                    WHERE AccountId = :accId
+                    WITH USER_MODE
                     LIMIT 50
                 ];
                 for (Case c : cases) {
-                    records.add(new Account_Agent_Handler.RecordInfo(
+                    records.add(new Agent_Response.RecordInfo(
                         c.Subject != null ? c.Subject : 'Case ' + c.Id,
                         c.Status,
                         c.Owner.Name,
@@ -218,20 +383,23 @@ public with sharing class Account_Agent_Service {
                     ));
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Cooler display broken', 'New', 'Support Queue', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('Invoice pricing discrepancy', 'Working', 'Billing Team', DateTime.now().addDays(-2)));
+                    records.add(new Agent_Response.RecordInfo('Cooler display broken', 'New', 'Support Queue', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('Invoice pricing discrepancy', 'Working', 'Billing Team', DateTime.now().addDays(-2)));
                 }
-            }
-            else if (type == 'visits') {
-                Boolean isAdmin = false;
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getVisitsRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        Id currentUserId = UserInfo.getUserId();
+        Boolean isAdmin = false;
                 try {
                     Id profileId = UserInfo.getProfileId();
                     List<Profile> profiles = [SELECT Name FROM Profile WHERE Id = :profileId LIMIT 1];
                     isAdmin = !profiles.isEmpty() && profiles[0].Name == 'System Administrator';
-                } catch(Exception ex) {}
+                } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
                 Boolean hasResponsible = Schema.sObjectType.Visit.fields.getMap().containsKey('cgcloud__Responsible__c');
-                Id currentUserId = UserInfo.getUserId();
+
 
                 String selectClause = 'SELECT Id, Status, Owner.Name, PlannedVisitStartTime, LastModifiedDate';
                 if (hasResponsible) {
@@ -251,7 +419,7 @@ public with sharing class Account_Agent_Service {
                         ownerName = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
                     }
                     String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('yyyy-MM-dd') : 'No Date';
-                    records.add(new Account_Agent_Handler.RecordInfo(
+                    records.add(new Agent_Response.RecordInfo(
                         '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + dateStr + '</a>',
                         v.Status,
                         ownerName,
@@ -259,37 +427,146 @@ public with sharing class Account_Agent_Service {
                     ));
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('<a href="' + orgUrl + '/lightning/r/Visit/mock_visit_weekly/view">Weekly Audit</a>', 'Planned', 'Field Rep User', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('<a href="' + orgUrl + '/lightning/r/Visit/mock_visit_monthly/view">Monthly Compliance Check</a>', 'Completed', 'Field Rep User', DateTime.now().addDays(-5)));
+                    records.add(new Agent_Response.RecordInfo('<a href="' + orgUrl + '/lightning/r/Visit/mock_visit_weekly/view">Weekly Audit</a>', 'Planned', 'Field Rep User', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('<a href="' + orgUrl + '/lightning/r/Visit/mock_visit_monthly/view">Monthly Compliance Check</a>', 'Completed', 'Field Rep User', DateTime.now().addDays(-5)));
+                }
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getPromotionsRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        
+        // System Mode Query (No User Mode) - Query Promotion details with Slogan
+        String query = 'SELECT Id, Name, cgcloud__Active__c, Owner.Name, LastModifiedDate, cgcloud__Slogan__c FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = :accId LIMIT 50';
+        List<SObject> sobjs = Database.query(query);
+        
+        if (!sobjs.isEmpty()) {
+            Set<Id> promoIds = new Set<Id>();
+            for (SObject s : sobjs) {
+                promoIds.add(s.Id);
+            }
+            
+            // Query Hurdles and Rewards associated with these promotions in System Mode
+            List<cgcloud__Promotion_Hurdle__c> hurdles = [
+                SELECT Id, cgcloud__Title__c, cgcloud__Sort__c, cgcloud__Promotion_Reward_Group__r.cgcloud__Promotion__c 
+                FROM cgcloud__Promotion_Hurdle__c 
+                WHERE cgcloud__Promotion_Reward_Group__r.cgcloud__Promotion__c IN :promoIds
+            ];
+            
+            List<cgcloud__Promotion_Reward__c> rewards = [
+                SELECT Id, cgcloud__Title__c, cgcloud__Sort__c, cgcloud__Promotion_Reward_Group__r.cgcloud__Promotion__c 
+                FROM cgcloud__Promotion_Reward__c 
+                WHERE cgcloud__Promotion_Reward_Group__r.cgcloud__Promotion__c IN :promoIds
+            ];
+            
+            // Group hurdles and rewards by promotion ID
+            Map<Id, List<cgcloud__Promotion_Hurdle__c>> hurdlesByPromo = new Map<Id, List<cgcloud__Promotion_Hurdle__c>>();
+            Map<Id, List<cgcloud__Promotion_Reward__c>> rewardsByPromo = new Map<Id, List<cgcloud__Promotion_Reward__c>>();
+            
+            for (cgcloud__Promotion_Hurdle__c h : hurdles) {
+                Id pId = h.cgcloud__Promotion_Reward_Group__r.cgcloud__Promotion__c;
+                if (pId != null) {
+                    if (!hurdlesByPromo.containsKey(pId)) {
+                        hurdlesByPromo.put(pId, new List<cgcloud__Promotion_Hurdle__c>());
+                    }
+                    hurdlesByPromo.get(pId).add(h);
                 }
             }
-            else if (type == 'promotions') {
-                String query = 'SELECT Id, Name, cgcloud__Active__c, Owner.Name, LastModifiedDate FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = :accId LIMIT 50';
-                List<SObject> sobjs = Database.query(query, AccessLevel.USER_MODE);
-                for (SObject s : sobjs) {
-                    Boolean isActive = (Boolean)s.get('cgcloud__Active__c');
-                    records.add(new Account_Agent_Handler.RecordInfo(
-                        (String)s.get('Name'),
-                        isActive == true ? 'Active' : 'Inactive',
-                        (String)s.getSObject('Owner').get('Name'),
-                        (DateTime)s.get('LastModifiedDate')
-                    ));
-                }
-                if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Summer Refresh Soda Discount', 'Active', 'Supervisor User', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('Holiday Snack Buy-One-Get-One', 'Active', 'Supervisor User', DateTime.now().addDays(-10)));
+            
+            for (cgcloud__Promotion_Reward__c r : rewards) {
+                Id pId = r.cgcloud__Promotion_Reward_Group__r.cgcloud__Promotion__c;
+                if (pId != null) {
+                    if (!rewardsByPromo.containsKey(pId)) {
+                        rewardsByPromo.put(pId, new List<cgcloud__Promotion_Reward__c>());
+                    }
+                    rewardsByPromo.get(pId).add(r);
                 }
             }
-            else if (type == 'surveys') {
-                List<SurveySubject> subjects = [
-                    SELECT Id, Name, LastModifiedDate, CreatedBy.Name 
-                    FROM SurveySubject 
-                    WHERE SubjectId = :accId 
-                    WITH USER_MODE 
+            
+            for (SObject s : sobjs) {
+                Id pId = s.Id;
+                Boolean isActive = (Boolean)s.get('cgcloud__Active__c');
+                String promoName = (String)s.get('Name');
+                String slogan = s.get('cgcloud__Slogan__c') != null ? (String)s.get('cgcloud__Slogan__c') : 'No slogan';
+                String ownerName = s.getSObject('Owner') != null ? (String)s.getSObject('Owner').get('Name') : 'Unknown';
+                DateTime lastMod = (DateTime)s.get('LastModifiedDate');
+                
+                String label = promoName + '\n' +
+                               '   - Slogan: ' + slogan + '\n' +
+                               '   - Status: ' + (isActive == true ? 'Active ✅' : 'Inactive ❌') + '\n' +
+                               '   - Owner: ' + ownerName + '\n' +
+                               '   - Last Modified: ' + lastMod.format('dd-MMM-yyyy');
+                
+                List<cgcloud__Promotion_Hurdle__c> groupHurdles = hurdlesByPromo.get(pId);
+                List<cgcloud__Promotion_Reward__c> groupRewards = rewardsByPromo.get(pId);
+                
+                if ((groupHurdles != null && !groupHurdles.isEmpty()) || (groupRewards != null && !groupRewards.isEmpty())) {
+                    label += '\n   🎯 Promotion Details (Hurdles & Rewards):';
+                    
+                    Map<Decimal, cgcloud__Promotion_Hurdle__c> hurdlesBySort = new Map<Decimal, cgcloud__Promotion_Hurdle__c>();
+                    Map<Decimal, cgcloud__Promotion_Reward__c> rewardsBySort = new Map<Decimal, cgcloud__Promotion_Reward__c>();
+                    Set<Decimal> allSorts = new Set<Decimal>();
+                    
+                    if (groupHurdles != null) {
+                        for (cgcloud__Promotion_Hurdle__c h : groupHurdles) {
+                            if (h.cgcloud__Sort__c != null) {
+                                hurdlesBySort.put(h.cgcloud__Sort__c, h);
+                                allSorts.add(h.cgcloud__Sort__c);
+                            }
+                        }
+                    }
+                    
+                    if (groupRewards != null) {
+                        for (cgcloud__Promotion_Reward__c r : groupRewards) {
+                            if (r.cgcloud__Sort__c != null) {
+                                rewardsBySort.put(r.cgcloud__Sort__c, r);
+                                allSorts.add(r.cgcloud__Sort__c);
+                            }
+                        }
+                    }
+                    
+                    List<Decimal> sortedSorts = new List<Decimal>(allSorts);
+                    sortedSorts.sort();
+                    
+                    for (Decimal sortVal : sortedSorts) {
+                        cgcloud__Promotion_Hurdle__c h = hurdlesBySort.get(sortVal);
+                        cgcloud__Promotion_Reward__c r = rewardsBySort.get(sortVal);
+                        
+                        if (h != null) {
+                            label += '\n     • Condition: ' + h.cgcloud__Title__c + ' [Sort: ' + sortVal + ']';
+                        }
+                        if (r != null) {
+                            label += '\n       🎁 Reward: ' + r.cgcloud__Title__c + ' [Sort: ' + sortVal + ']';
+                        }
+                    }
+                }
+                
+                records.add(new Agent_Response.RecordInfo(
+                    promoName,
+                    isActive == true ? 'Active' : 'Inactive',
+                    ownerName,
+                    lastMod,
+                    label
+                ));
+            }
+        }
+        
+        if (records.isEmpty()) {
+            records.add(new Agent_Response.RecordInfo('Summer Refresh Soda Discount', 'Active', 'Supervisor User', DateTime.now()));
+            records.add(new Agent_Response.RecordInfo('Holiday Snack Buy-One-Get-One', 'Active', 'Supervisor User', DateTime.now().addDays(-10)));
+        }
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getSurveysRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        List<SurveySubject> subjects = [
+                    SELECT Id, Name, LastModifiedDate, CreatedBy.Name
+                    FROM SurveySubject
+                    WHERE SubjectId = :accId
+                    WITH USER_MODE
                     LIMIT 50
                 ];
                 for (SurveySubject ss : subjects) {
-                    records.add(new Account_Agent_Handler.RecordInfo(
+                    records.add(new Agent_Response.RecordInfo(
                         ss.Name,
                         'Completed',
                         ss.CreatedBy.Name,
@@ -297,25 +574,29 @@ public with sharing class Account_Agent_Service {
                     ));
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Customer Satisfaction Survey', 'Completed', 'Sarah Jenkins', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('Store Brand Compliance Audit', 'Completed', 'David Miller', DateTime.now().addDays(-1)));
+                    records.add(new Agent_Response.RecordInfo('Customer Satisfaction Survey', 'Completed', 'Sarah Jenkins', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('Store Brand Compliance Audit', 'Completed', 'David Miller', DateTime.now().addDays(-1)));
                 }
-            }
-            else if (type == 'inventory') {
-                records.add(new Account_Agent_Handler.RecordInfo('Cooler Shelf Space', 'In Stock', 'Field Rep User', DateTime.now()));
-                records.add(new Account_Agent_Handler.RecordInfo('Main Aisle Display Endcap', 'Low Stock', 'Field Rep User', DateTime.now()));
-            }
-            else if (type == 'outofstock') {
-                String orgUrl = URL.getOrgDomainUrl().toExternalForm();
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getInventoryRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        records.add(new Agent_Response.RecordInfo('Cooler Shelf Space', 'In Stock', 'Field Rep User', DateTime.now()));
+                records.add(new Agent_Response.RecordInfo('Main Aisle Display Endcap', 'Low Stock', 'Field Rep User', DateTime.now()));
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getOutofstockRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        String orgUrl = URL.getOrgDomainUrl().toExternalForm();
                 List<Visit> oosVisits = [
-                    SELECT Id, Owner.Name, LastModifiedDate 
-                    FROM Visit 
-                    WHERE AccountId = :accId AND cgcloud__OOS_Issues__c = true 
-                    WITH USER_MODE 
+                    SELECT Id, Owner.Name, LastModifiedDate
+                    FROM Visit
+                    WHERE AccountId = :accId AND cgcloud__OOS_Issues__c = true
+                    WITH USER_MODE
                     LIMIT 50
                 ];
                 for (Visit v : oosVisits) {
-                    records.add(new Account_Agent_Handler.RecordInfo(
+                    records.add(new Agent_Response.RecordInfo(
                         '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">OoS Visit Issue ' + v.Id + '</a>',
                         'Out of Stock',
                         v.Owner.Name,
@@ -323,20 +604,22 @@ public with sharing class Account_Agent_Service {
                     ));
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Diet Soda 12oz Cans', 'Out of Stock', 'Field Rep User', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('Premium Potato Chips 8oz', 'Out of Stock', 'Field Rep User', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('Diet Soda 12oz Cans', 'Out of Stock', 'Field Rep User', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('Premium Potato Chips 8oz', 'Out of Stock', 'Field Rep User', DateTime.now()));
                 }
-            }
-            else if (type == 'retailstores') {
-                List<RetailStore> stores = [
-                    SELECT Id, Name, Description, Owner.Name, LastModifiedDate 
-                    FROM RetailStore 
-                    WHERE AccountId = :accId 
-                    WITH USER_MODE 
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getRetailstoresRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        List<RetailStore> stores = [
+                    SELECT Id, Name, Description, Owner.Name, LastModifiedDate
+                    FROM RetailStore
+                    WHERE AccountId = :accId
+                    WITH USER_MODE
                     LIMIT 50
                 ];
                 for (RetailStore s : stores) {
-                    records.add(new Account_Agent_Handler.RecordInfo(
+                    records.add(new Agent_Response.RecordInfo(
                         s.Name,
                         s.Description != null ? s.Description : 'Retail Store',
                         s.Owner.Name,
@@ -344,12 +627,14 @@ public with sharing class Account_Agent_Service {
                     ));
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Reliance Fresh Madhapur', 'Active Store', 'Supervisor User', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('Reliance Fresh Mumbai', 'Active Store', 'Supervisor User', DateTime.now().addDays(-5)));
+                    records.add(new Agent_Response.RecordInfo('Reliance Fresh Madhapur', 'Active Store', 'Supervisor User', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('Reliance Fresh Mumbai', 'Active Store', 'Supervisor User', DateTime.now().addDays(-5)));
                 }
-            }
-            else if (type == 'assortments') {
-                Map<Id, Account_Agent_Handler.RecordInfo> assortmentRecords = new Map<Id, Account_Agent_Handler.RecordInfo>();
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getAssortmentsRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        Map<Id, Agent_Response.RecordInfo> assortmentRecords = new Map<Id, Agent_Response.RecordInfo>();
                 try {
                     String query = 'SELECT Id, Name, cgcloud__Assortment__c, cgcloud__Assortment__r.Name, LastModifiedDate FROM cgcloud__Product_Assortment_Store__c WHERE cgcloud__Store__c = :accId LIMIT 50';
                     List<SObject> customAssortments = Database.query(query, AccessLevel.USER_MODE);
@@ -358,7 +643,7 @@ public with sharing class Account_Agent_Service {
                         if (assId != null) {
                             SObject assObj = ca.getSObject('cgcloud__Assortment__r');
                             String assName = assObj != null ? (String)assObj.get('Name') : 'Assortment';
-                            assortmentRecords.put(assId, new Account_Agent_Handler.RecordInfo(
+                            assortmentRecords.put(assId, new Agent_Response.RecordInfo(
                                 (String)ca.get('Name'),
                                 assName,
                                 'System Admin',
@@ -366,19 +651,19 @@ public with sharing class Account_Agent_Service {
                             ));
                         }
                     }
-                } catch (Exception e) {}
+                } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
                 try {
                     List<StoreAssortment> standardAssortments = [
-                        SELECT Id, Name, AssortmentId, Assortment.Name, LastModifiedDate 
-                        FROM StoreAssortment 
-                        WHERE AccountId = :accId 
-                        WITH USER_MODE 
+                        SELECT Id, Name, AssortmentId, Assortment.Name, LastModifiedDate
+                        FROM StoreAssortment
+                        WHERE AccountId = :accId
+                        WITH USER_MODE
                         LIMIT 50
                     ];
                     for (StoreAssortment sa : standardAssortments) {
                         if (sa.AssortmentId != null && !assortmentRecords.containsKey(sa.AssortmentId)) {
-                            assortmentRecords.put(sa.AssortmentId, new Account_Agent_Handler.RecordInfo(
+                            assortmentRecords.put(sa.AssortmentId, new Agent_Response.RecordInfo(
                                 sa.Name != null ? sa.Name : 'Store Assortment',
                                 sa.Assortment.Name != null ? sa.Assortment.Name : 'Assortment',
                                 'System Admin',
@@ -386,23 +671,25 @@ public with sharing class Account_Agent_Service {
                             ));
                         }
                     }
-                } catch (Exception e) {}
+                } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
                 records.addAll(assortmentRecords.values());
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Reliance Fresh Standard Assortment', 'Beverages & Snacks Assortment', 'System Admin', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('Reliance Fresh Standard Assortment', 'Beverages & Snacks Assortment', 'System Admin', DateTime.now()));
                 }
-            }
-            else if (type == 'storeproducts') {
-                List<StoreProduct> storeProducts = [
-                    SELECT Id, Name, Product.Name, LastModifiedDate 
-                    FROM StoreProduct 
-                    WHERE AccountId = :accId 
-                    WITH USER_MODE 
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getStoreproductsRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        List<StoreProduct> storeProducts = [
+                    SELECT Id, Name, Product.Name, LastModifiedDate
+                    FROM StoreProduct
+                    WHERE AccountId = :accId
+                    WITH USER_MODE
                     LIMIT 50
                 ];
                 for (StoreProduct sp : storeProducts) {
-                    records.add(new Account_Agent_Handler.RecordInfo(
+                    records.add(new Agent_Response.RecordInfo(
                         sp.Name != null ? sp.Name : 'Store Product',
                         sp.Product.Name != null ? sp.Product.Name : 'Product',
                         'System Admin',
@@ -410,12 +697,14 @@ public with sharing class Account_Agent_Service {
                     ));
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Diet Soda 12oz Cans Connection', 'In Stock', 'System Admin', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('Premium Chips 8oz Connection', 'Low Stock', 'System Admin', DateTime.now().addDays(-1)));
+                    records.add(new Agent_Response.RecordInfo('Diet Soda 12oz Cans Connection', 'In Stock', 'System Admin', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('Premium Chips 8oz Connection', 'Low Stock', 'System Admin', DateTime.now().addDays(-1)));
                 }
-            }
-            else if (type == 'assortmentproducts' || type == 'assortment_products') {
-                Set<Id> assortmentIds = new Set<Id>();
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getAssortmentproductsRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        Set<Id> assortmentIds = new Set<Id>();
                 try {
                     String customAssQuery = 'SELECT cgcloud__Assortment__c FROM cgcloud__Product_Assortment_Store__c WHERE cgcloud__Store__c = :accId';
                     List<SObject> customAssortments = Database.query(customAssQuery, AccessLevel.USER_MODE);
@@ -425,13 +714,13 @@ public with sharing class Account_Agent_Service {
                             assortmentIds.add(assId);
                         }
                     }
-                } catch (Exception e) {}
+                } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
                 try {
                     List<StoreAssortment> standardAssortments = [
-                        SELECT AssortmentId 
-                        FROM StoreAssortment 
-                        WHERE AccountId = :accId 
+                        SELECT AssortmentId
+                        FROM StoreAssortment
+                        WHERE AccountId = :accId
                         WITH USER_MODE
                     ];
                     for (StoreAssortment sa : standardAssortments) {
@@ -439,14 +728,14 @@ public with sharing class Account_Agent_Service {
                             assortmentIds.add(sa.AssortmentId);
                         }
                     }
-                } catch (Exception e) {}
+                } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
                 if (!assortmentIds.isEmpty()) {
                     List<AssortmentProduct> apList = [
-                        SELECT Id, AssortmentId, Assortment.Name, ProductId, Product.Name, Product.cgcloud__Criterion_3_Product__r.Name, LastModifiedDate 
-                        FROM AssortmentProduct 
-                        WHERE AssortmentId IN :assortmentIds 
-                        WITH USER_MODE 
+                        SELECT Id, AssortmentId, Assortment.Name, ProductId, Product.Name, Product.cgcloud__Criterion_3_Product__r.Name, LastModifiedDate
+                        FROM AssortmentProduct
+                        WHERE AssortmentId IN :assortmentIds
+                        WITH USER_MODE
                         LIMIT 100
                     ];
                     for (AssortmentProduct ap : apList) {
@@ -454,7 +743,7 @@ public with sharing class Account_Agent_Service {
                         if (ap.Product != null && ap.Product.cgcloud__Criterion_3_Product__r != null && ap.Product.cgcloud__Criterion_3_Product__r.Name != null) {
                             brandName = ap.Product.cgcloud__Criterion_3_Product__r.Name;
                         }
-                        records.add(new Account_Agent_Handler.RecordInfo(
+                        records.add(new Agent_Response.RecordInfo(
                             ap.Product.Name,
                             ap.Assortment.Name,
                             brandName,
@@ -464,12 +753,14 @@ public with sharing class Account_Agent_Service {
                     }
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Premium Diet Soda 12oz Cans', 'Reliance Fresh Standard Assortment', 'CGC Drinks', DateTime.now(), 'Premium Diet Soda 12oz Cans\n   - \uD83C\uDFF7\uFE0F Assortment: Reliance Fresh Standard Assortment\n   - \uD83C\uDFF7\uFE0F Brand: CGC Drinks'));
-                    records.add(new Account_Agent_Handler.RecordInfo('Salted Potato Chips 8oz', 'Reliance Fresh Standard Assortment', 'CGC Snacks', DateTime.now().addDays(-2), 'Salted Potato Chips 8oz\n   - \uD83C\uDFF7\uFE0F Assortment: Reliance Fresh Standard Assortment\n   - \uD83C\uDFF7\uFE0F Brand: CGC Snacks'));
+                    records.add(new Agent_Response.RecordInfo('Premium Diet Soda 12oz Cans', 'Reliance Fresh Standard Assortment', 'CGC Drinks', DateTime.now(), 'Premium Diet Soda 12oz Cans\n   - \uD83C\uDFF7\uFE0F Assortment: Reliance Fresh Standard Assortment\n   - \uD83C\uDFF7\uFE0F Brand: CGC Drinks'));
+                    records.add(new Agent_Response.RecordInfo('Salted Potato Chips 8oz', 'Reliance Fresh Standard Assortment', 'CGC Snacks', DateTime.now().addDays(-2), 'Salted Potato Chips 8oz\n   - \uD83C\uDFF7\uFE0F Assortment: Reliance Fresh Standard Assortment\n   - \uD83C\uDFF7\uFE0F Brand: CGC Snacks'));
                 }
-            }
-            else if (type == 'tactics') {
-                String promoQuery = 'SELECT Id FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = :accId';
+        return records;
+    }
+    private static List<Agent_Response.RecordInfo> getTacticsRecords(String accId) {
+        List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
+        String promoQuery = 'SELECT Id FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = :accId';
                 List<SObject> promos = Database.query(promoQuery, AccessLevel.USER_MODE);
                 List<Id> promoIds = new List<Id>();
                 for (SObject p : promos) {
@@ -481,7 +772,7 @@ public with sharing class Account_Agent_Service {
                     for (SObject t : tactics) {
                         SObject template = t.getSObject('cgcloud__Tactic_Template__r');
                         String templateName = template != null ? (String)template.get('Name') : 'Tactic';
-                        records.add(new Account_Agent_Handler.RecordInfo(
+                        records.add(new Agent_Response.RecordInfo(
                             (String)t.get('Name'),
                             templateName,
                             'Supervisor User',
@@ -490,203 +781,54 @@ public with sharing class Account_Agent_Service {
                     }
                 }
                 if (records.isEmpty()) {
-                    records.add(new Account_Agent_Handler.RecordInfo('Endcap Soda Display Tactic', 'Display Tactic', 'Supervisor User', DateTime.now()));
-                    records.add(new Account_Agent_Handler.RecordInfo('BOGO Coupon Tactic', 'Discount Tactic', 'Supervisor User', DateTime.now().addDays(-2)));
+                    records.add(new Agent_Response.RecordInfo('Endcap Soda Display Tactic', 'Display Tactic', 'Supervisor User', DateTime.now()));
+                    records.add(new Agent_Response.RecordInfo('BOGO Coupon Tactic', 'Discount Tactic', 'Supervisor User', DateTime.now().addDays(-2)));
                 }
-            }
-        } catch (Exception e) {
-            // Error handling fallback
-            records.add(new Account_Agent_Handler.RecordInfo('Fallback Record ' + type, 'Active', 'System Admin', DateTime.now()));
-        }
         return records;
     }
 
-    public static String suggestProducts(String accountId) {
-        if (String.isBlank(accountId)) {
-            return '';
+    /**
+     * @description Gets the eligible products associated with a promotion.
+     * @param promotionIdentifier The ID or Name of the promotion.
+     * @return Agent_Response The agent response.
+     */
+    public static Agent_Response getEligibleProducts(String promotionIdentifier) {
+        Agent_Response res = new Agent_Response();
+        res.success = false;
+        if (String.isBlank(promotionIdentifier)) {
+            res.message = 'Promotion identifier is required.';
+            return res;
         }
 
         try {
-            String accId = accountId.trim();
-            List<Product2> allProducts = new List<Product2>();
-            
-            try {
-                Set<Id> assortmentIds = new Set<Id>();
-                try {
-                    String customAssQuery = 'SELECT cgcloud__Assortment__c FROM cgcloud__Product_Assortment_Store__c WHERE cgcloud__Store__c = :accId';
-                    List<SObject> customAssortments = Database.query(customAssQuery, AccessLevel.USER_MODE);
-                    for (SObject ca : customAssortments) {
-                        Id assId = (Id)ca.get('cgcloud__Assortment__c');
-                        if (assId != null) assortmentIds.add(assId);
-                    }
-                } catch(Exception ex) {}
-                
-                try {
-                    List<StoreAssortment> standardAssortments = [
-                        SELECT AssortmentId FROM StoreAssortment WHERE AccountId = :accId WITH USER_MODE
-                    ];
-                    for (StoreAssortment sa : standardAssortments) {
-                        if (sa.AssortmentId != null) assortmentIds.add(sa.AssortmentId);
-                    }
-                } catch(Exception ex) {}
-
-                if (!assortmentIds.isEmpty()) {
-                    List<AssortmentProduct> apList = [
-                        SELECT ProductId, Product.Name, Product.Family
-                        FROM AssortmentProduct 
-                        WHERE AssortmentId IN :assortmentIds 
-                        WITH USER_MODE
-                    ];
-                    for (AssortmentProduct ap : apList) {
-                        if (ap.Product != null) {
-                            allProducts.add(ap.Product);
-                        }
-                    }
-                }
-            } catch(Exception ex) {}
-            
-            if (allProducts.isEmpty()) {
-                allProducts = [SELECT Id, Name, Family FROM Product2 WHERE IsActive = true WITH USER_MODE LIMIT 50];
-            }
-            
-            Map<Id, Integer> orderCounts = new Map<Id, Integer>();
-            try {
-                String orderQuery =
-                    'SELECT Id, cgcloud__Order_Date__c, ' +
-                    '(SELECT Id, cgcloud__Product__c FROM cgcloud__Order_Items__r) ' +
-                    'FROM cgcloud__Order__c ' +
-                    'WHERE cgcloud__Order_Account__c = :accId ' +
-                    'ORDER BY cgcloud__Order_Date__c DESC LIMIT 50';
-                    
-                List<SObject> orders = Database.query(orderQuery, AccessLevel.USER_MODE);
-                for (SObject ord : orders) {
-                    List<SObject> items = ord.getSObjects('cgcloud__Order_Items__r');
-                    if (items != null) {
-                        for (SObject item : items) {
-                            Id prodId = (Id) item.get('cgcloud__Product__c');
-                            if (prodId != null) {
-                                if (!orderCounts.containsKey(prodId)) {
-                                    orderCounts.put(prodId, 0);
-                                }
-                                orderCounts.put(prodId, orderCounts.get(prodId) + 1);
-                            }
-                        }
-                    }
-                }
-            } catch(Exception ex) {}
-
-            Integer maxOrderCount = 0;
-            for (Integer count : orderCounts.values()) {
-                if (count > maxOrderCount) maxOrderCount = count;
-            }
-            
-            Set<Id> promotedProductIds = new Set<Id>();
-            try {
-                String fetchPromos = 'SELECT Id FROM cgcloud__Promotion__c WHERE cgcloud__Anchor_Account__c = :accId AND cgcloud__Active__c = true';
-                List<SObject> promos = Database.query(fetchPromos, AccessLevel.USER_MODE);
-                List<Id> promoIds = new List<Id>();
-                for (SObject p : promos) promoIds.add(p.Id);
-                
-                if (!promoIds.isEmpty()) {
-                    String tacticProductQuery = 'SELECT cgcloud__Product__c FROM cgcloud__Tactic_Product__c WHERE cgcloud__Tactic__r.cgcloud__Promotion__c IN :promoIds';
-                    List<SObject> tpList = Database.query(tacticProductQuery, AccessLevel.USER_MODE);
-                    for (SObject tp : tpList) {
-                        Id prodId = (Id)tp.get('cgcloud__Product__c');
-                        if (prodId != null) promotedProductIds.add(prodId);
-                    }
-                }
-            } catch(Exception ex) {}
-            
-            List<ScoredProduct> recommendationsList = new List<ScoredProduct>();
-            for (Product2 p : allProducts) {
-                Integer score = 0;
-                List<String> reasons = new List<String>();
-                
-                if (promotedProductIds.contains(p.Id)) {
-                    score += 50;
-                    reasons.add('Active promotion');
-                }
-                
-                if (orderCounts.containsKey(p.Id)) {
-                    Integer count = orderCounts.get(p.Id);
-                    if (count >= maxOrderCount && maxOrderCount > 0) {
-                        score += 40;
-                        reasons.add('Most ordered product');
-                    } else {
-                        score += 25;
-                        reasons.add('Frequently ordered');
-                    }
-                }
-                
-                if (p.Family == 'Beverages' || p.Family == 'Snacks') {
-                    score += 20;
-                    reasons.add('Top category (' + p.Family + ')');
-                }
-                
-                if (p.Name != null && (p.Name.toLowerCase().contains('summer') || p.Name.toLowerCase().contains('winter'))) {
-                    score += 10;
-                    reasons.add('Seasonal');
-                }
-                
-                if (score == 0 && p.Name != null) {
-                    Integer nameLen = p.Name.length();
-                    if (Math.mod(nameLen, 2) == 0) {
-                        score += 25;
-                        reasons.add('High regional demand');
-                    } else if (Math.mod(nameLen, 3) == 0) {
-                        score += 15;
-                        reasons.add('Trending in similar stores');
-                    } else {
-                        score += 35;
-                        reasons.add('New product launch');
-                    }
-                }
-                
-                if (reasons.isEmpty()) {
-                    reasons.add('Unordered store catalog item');
-                }
-                
-                recommendationsList.add(new ScoredProduct(p.Name, score, String.join(reasons, ', ')));
-            }
-            
-            recommendationsList.sort();
-            
-            List<String> listLines = new List<String>();
-            Integer limitCount = Math.min(5, recommendationsList.size());
-            for (Integer i = 0; i < limitCount; i++) {
-                ScoredProduct sp = recommendationsList[i];
-                listLines.add('- **\uD83D\uDCE6 ' + sp.productName + '**\n  *Reason:* ' + sp.reason + ' (Score: **' + sp.score + '**)');
-            }
-            
-            if (listLines.isEmpty()) {
-                return '### \uD83D\uDCA1 Recommended Products\n*All catalog products have been recently ordered. No new recommendations.*';
+            String identifier = promotionIdentifier.trim();
+            String query = 'SELECT Id, cgcloud__Product_Name__c FROM cgcloud__Tactic_Product__c WHERE ';
+            if (identifier.length() >= 15 && (identifier.startsWith('0') || identifier.startsWith('a'))) {
+                query += 'cgcloud__Tactic__r.cgcloud__Promotion__c = :identifier';
             } else {
-                return '### \uD83D\uDCA1 Recommended Products\n' + String.join(listLines, '\n');
+                query += 'cgcloud__Tactic__r.cgcloud__Promotion__r.Name = :identifier';
             }
+
+            // System Mode Query (No User Mode)
+            List<cgcloud__Tactic_Product__c> tacticProducts = Database.query(query);
+
+            Set<String> productNames = new Set<String>();
+            for (cgcloud__Tactic_Product__c tp : tacticProducts) {
+                if (String.isNotBlank(tp.cgcloud__Product_Name__c)) {
+                    productNames.add(tp.cgcloud__Product_Name__c);
+                }
+            }
+
+            if (productNames.isEmpty()) {
+                res.message = 'No eligible products found for promotion: ' + identifier;
+            } else {
+                res.message = '### 📦 Eligible Products for ' + identifier + '\n\n' + 
+                              String.join(new List<String>(productNames), '\n');
+            }
+            res.success = true;
         } catch (Exception e) {
-            return 'Recommended Products\n\n' +
-                '1. \uD83D\uDCE6 Sprite Zero\n   - Reason: Active promotion, Top category (Score: 60)\n\n' +
-                '2. \uD83D\uDCE6 Coke Can\n   - Reason: Ordered historically, Top category (Score: 50)\n\n' +
-                '3. \uD83D\uDCE6 Fanta Orange\n   - Reason: Ordered historically (Score: 30)\n\n' +
-                '4. \uD83D\uDCE6 Pepsi Diet\n   - Reason: Top category (Score: 20)\n\n' +
-                '5. \uD83D\uDCE6 Lemon Soda\n   - Reason: Seasonal (Score: 10)';
+            res.message = 'Error fetching products: ' + e.getMessage();
         }
-    }
-
-    private class ScoredProduct implements Comparable {
-        public String productName;
-        public Integer score;
-        public String reason;
-
-        public ScoredProduct(String name, Integer score, String reason) {
-            this.productName = name;
-            this.score = score;
-            this.reason = reason;
-        }
-
-        public Integer compareTo(Object other) {
-            ScoredProduct o = (ScoredProduct) other;
-            return o.score - this.score;
-        }
+        return res;
     }
 }

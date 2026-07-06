@@ -6,7 +6,7 @@
       "description" : "List of matching visits. Each visit has visitId, accountId, accountName, and label.",
       "maxItems" : 2000,
       "items" : {
-        "lightning:type" : "@apexClassType/c__Visit_Agent_Handler$VisitOption"
+        "lightning:type" : "@apexClassType/c__Agent_Response$VisitOption"
       },
       "lightning:type" : "lightning__listType",
       "lightning:isPII" : false,
