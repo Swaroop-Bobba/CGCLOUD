@@ -8,6 +8,7 @@ export default class VisitStatusEditor extends LightningElement {
         { label: 'Planned', value: 'Planned' },
         { label: 'In Progress', value: 'InProgress' },
         { label: 'Completed', value: 'Completed' },
+        { label: 'Canceled', value: 'Canceled' },
         { label: 'Abandoned', value: 'Abandoned' }
     ];
 

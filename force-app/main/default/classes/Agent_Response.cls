@@ -9,6 +9,8 @@ public with sharing class Agent_Response {
     @InvocableVariable(description='List of users')
     public List<UserOption> users;
 
+    @InvocableVariable(description='The CreateVisitWrapper object populated with the current visit details.')
+    public CreateVisitWrapper createVisitWrapper;
 
     // Generic IDs and Names
     @InvocableVariable(description='The Account ID.')

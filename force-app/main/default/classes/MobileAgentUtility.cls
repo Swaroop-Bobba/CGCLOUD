@@ -76,6 +76,7 @@ public with sharing class MobileAgentUtility {
      */
     private static DateTime parseNaturalLanguageDateTime(String input) {
         String str = input.trim().toLowerCase();
+        str = str.replace(',', ' ');
         str = str.replaceAll('\\bat\\b', ' ');
         str = str.replaceAll('(\\d+)\\s*(am|pm)', '$1$2');
         str = str.replaceAll('\\s+', ' ').trim();
@@ -169,25 +170,63 @@ public with sharing class MobileAgentUtility {
             parts = dateTokens;
         }
 
+        // Clean up whitespace and any commas from individual parts
+        for (Integer i = 0; i < parts.size(); i++) {
+            parts[i] = parts[i].replace(',', '').trim();
+        }
+
         if (parts.size() < 2) return null;
 
         Integer day = 0;
         Integer month = 0;
         Integer year = Date.today().year();
 
-        try {
-            day = Integer.valueOf(parts[0]);
-        } catch(Exception e) {
-            return null;
-        }
+        // 1. Detect if the first part is a month name (e.g. "July 6 2026")
+        String first = parts[0].toLowerCase();
+        Integer firstMonthNum = getMonthNumber(first);
 
-        String monthPart = parts[1].toLowerCase();
-        month = getMonthNumber(monthPart);
-        if (month == 0) {
+        if (firstMonthNum > 0) {
+            month = firstMonthNum;
             try {
-                month = Integer.valueOf(monthPart);
+                day = Integer.valueOf(parts[1]);
             } catch(Exception e) {
                 return null;
+            }
+        } else {
+            // 2. Detect if the second part is a month name (e.g. "6 July 2026")
+            String second = parts[1].toLowerCase();
+            Integer secondMonthNum = getMonthNumber(second);
+            if (secondMonthNum > 0) {
+                month = secondMonthNum;
+                try {
+                    day = Integer.valueOf(parts[0]);
+                } catch(Exception e) {
+                    return null;
+                }
+            } else {
+                // 3. Both are integers (e.g. "07/06/2026")
+                Integer p0 = 0;
+                Integer p1 = 0;
+                try {
+                    p0 = Integer.valueOf(parts[0]);
+                    p1 = Integer.valueOf(parts[1]);
+                } catch(Exception e) {
+                    return null;
+                }
+                
+                if (p0 > 12) {
+                    // Day Month Year (e.g. 15/07/2026)
+                    day = p0;
+                    month = p1;
+                } else if (p1 > 12) {
+                    // Month Day Year (e.g. 07/15/2026)
+                    month = p0;
+                    day = p1;
+                } else {
+                    // Fallback default: Day Month Year
+                    day = p0;
+                    month = p1;
+                }
             }
         }
 
@@ -305,7 +344,7 @@ public with sharing class MobileAgentUtility {
             try {
                 Id tempId = (Id) cleanInput;
                 String objType = tempId.getSObjectType().getDescribe().getName();
-                Boolean typeMatch = (sObjectType == 'Place') ? (objType == 'RetailStore' || objType == 'Location') : (objType == sObjectType);
+                Boolean typeMatch = (sObjectType == 'Place' || sObjectType == 'RetailStore' || sObjectType == 'Schema.Location' || sObjectType == 'Location') ? (objType == 'RetailStore' || objType == 'Location') : (objType == sObjectType);
 
                 if (typeMatch) {
                     String query = 'SELECT Id, Name FROM ' + objType + ' WHERE Id = :tempId LIMIT 1';
@@ -331,7 +370,7 @@ public with sharing class MobileAgentUtility {
         if (sObjectType == 'Account') candidates = queryCandidates('Account', words);
         else if (sObjectType == 'cgcloud__Visit_Template__c') candidates = queryCandidates('cgcloud__Visit_Template__c', words);
         else if (sObjectType == 'User') candidates = queryUserCandidates(words);
-        else if (sObjectType == 'Place') {
+        else if (sObjectType == 'Place' || sObjectType == 'RetailStore' || sObjectType == 'Schema.Location' || sObjectType == 'Location') {
             candidates.addAll(queryCandidates('RetailStore', words));
             candidates.addAll(queryCandidates('Location', words));
         }
@@ -354,13 +393,13 @@ public with sharing class MobileAgentUtility {
         String query = 'SELECT Id, Name FROM ' + objType + ' WHERE ';
         for (Integer i = 0; i < words.size(); i++) {
             if (i > 0) query += ' AND ';
-            query += ' Name LIKE \'%\' + String.escapeSingleQuotes(words[i]) + \'%\'';
+            query += ' Name LIKE \'%' + String.escapeSingleQuotes(words[i]) + '%\'';
         }
         query += ' WITH USER_MODE LIMIT 20';
         try { candidates = Database.query(query); } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
         if (candidates.isEmpty() && words.size() > 0) {
-            String queryFallback = 'SELECT Id, Name FROM ' + objType + ' WHERE Name LIKE \'%\' + String.escapeSingleQuotes(words[0]) + \'%\' WITH USER_MODE LIMIT 10';
+            String queryFallback = 'SELECT Id, Name FROM ' + objType + ' WHERE Name LIKE \'%' + String.escapeSingleQuotes(words[0]) + '%\' WITH USER_MODE LIMIT 10';
             try { candidates = Database.query(queryFallback); } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         }
         return candidates;
@@ -371,13 +410,13 @@ public with sharing class MobileAgentUtility {
         String query = 'SELECT Id, Name FROM User WHERE IsActive = true AND (';
         for (Integer i = 0; i < words.size(); i++) {
             if (i > 0) query += ' AND ';
-            query += ' Name LIKE \'%\' + String.escapeSingleQuotes(words[i]) + \'%\'';
+            query += ' Name LIKE \'%' + String.escapeSingleQuotes(words[i]) + '%\'';
         }
         query += ') WITH USER_MODE LIMIT 20';
         try { candidates = Database.query(query); } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
         if (candidates.isEmpty() && words.size() > 0) {
-            String queryFallback = 'SELECT Id, Name FROM User WHERE IsActive = true AND Name LIKE \'%\' + String.escapeSingleQuotes(words[0]) + \'%\' WITH USER_MODE LIMIT 10';
+            String queryFallback = 'SELECT Id, Name FROM User WHERE IsActive = true AND Name LIKE \'%' + String.escapeSingleQuotes(words[0]) + '%\' WITH USER_MODE LIMIT 10';
             try { candidates = Database.query(queryFallback); } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         }
         return candidates;
@@ -387,7 +426,7 @@ public with sharing class MobileAgentUtility {
         List<SObject> allRecs = new List<SObject>();
         if (sObjectType == 'Account') {
             allRecs = [SELECT Id, Name FROM Account WITH USER_MODE ORDER BY LastModifiedDate DESC LIMIT 50];
-        } else if (sObjectType == 'Place') {
+        } else if (sObjectType == 'Place' || sObjectType == 'RetailStore' || sObjectType == 'Schema.Location' || sObjectType == 'Location') {
             try { allRecs.addAll((List<SObject>) [SELECT Id, Name FROM RetailStore WITH USER_MODE ORDER BY LastModifiedDate DESC LIMIT 25]); } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
             try { allRecs.addAll((List<SObject>) [SELECT Id, Name FROM Location WITH USER_MODE ORDER BY LastModifiedDate DESC LIMIT 25]); } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         } else if (sObjectType == 'cgcloud__Visit_Template__c') {

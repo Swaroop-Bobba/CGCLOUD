@@ -37,6 +37,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 }
                 res.success = true;
             } else if (action == 'updatevisit' || 
+                       action == 'update_visit_record' ||
                        action == 'update_visit_status' || 
                        action == 'update_visit_owner' || 
                        action == 'update_visit_notes' || 
@@ -48,6 +49,8 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                        action == 'update_visit_start_time_mobile_action' ||
                        action == 'update_visit_end_time_mobile_action') {
                 res = updateVisit(req);
+            } else if (action == 'get_visit_for_update') {
+                res = getVisitForUpdate(req);
             } else if (action == 'createvisit' || action == 'create_visit_record' || action == 'create_visit_record_mobile') {
                 createVisit(req, res);
             } else if (action == 'getstorebrief') {
@@ -116,7 +119,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
                 }
                 String timeStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'Today';
-                String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + v.Account.Name + '</a>' +
+                String label = '[Visit - ' + v.Account.Name + '](' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view)' +
                     '\n   - \uD83D\uDCC5 Date: ' + timeStr +
                     '\n   - \uD83D\uDCCB Status: ' + v.Status +
                     '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -137,7 +140,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
                 }
                 String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'Upcoming';
-                String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + v.Account.Name + '</a>' +
+                String label = '[Visit - ' + v.Account.Name + '](' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view)' +
                     '\n   - \uD83D\uDCC5 Date: ' + dateStr +
                     '\n   - \uD83D\uDCCB Status: ' + v.Status +
                     '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -158,7 +161,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
                 }
                 String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'Recently Viewed';
-                String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + v.Account.Name + '</a>' +
+                String label = '[Visit - ' + v.Account.Name + '](' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view)' +
                     '\n   - \uD83D\uDCC5 Date: ' + dateStr +
                     '\n   - \uD83D\uDCCB Status: ' + v.Status +
                     '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -181,7 +184,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
                 }
                 String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'N/A';
-                String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + v.Account.Name + '</a>' +
+                String label = '[Visit - ' + v.Account.Name + '](' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view)' +
                     '\n   - \uD83D\uDCC5 Date: ' + dateStr +
                     '\n   - \uD83D\uDCCB Status: ' + v.Status +
                     '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -197,7 +200,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
                 }
                 String dateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'N/A';
-                String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + v.Account.Name + '</a>' +
+                String label = '[Visit - ' + v.Account.Name + '](' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view)' +
                     '\n   - \uD83D\uDCC5 Date: ' + dateStr +
                     '\n   - \uD83D\uDCCB Status: ' + v.Status +
                     '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -333,7 +336,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     assignedUser = (String) v.getSObject('cgcloud__Responsible__r').get('Name');
                 }
                 String timeStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a') : 'N/A';
-                String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view">Visit - ' + v.Account.Name + ' (OOS)</a>' +
+                String label = '[Visit - ' + v.Account.Name + ' (OOS)](' + orgUrl + '/lightning/r/Visit/' + v.Id + '/view)' +
                     '\n   - \uD83D\uDCC5 Date: ' + timeStr +
                     '\n   - \uD83D\uDCCB Status: ' + v.Status +
                     '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -400,7 +403,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             if (hasResponsible) {
                 selectFields += ', cgcloud__Responsible__c, cgcloud__Responsible__r.Name';
             }
-            selectFields += ', cgcloud__Start_Date__c FROM Visit';
+            selectFields += ', PlannedVisitStartTime FROM Visit';
 
             List<String> conditions = new List<String>();
 
@@ -455,12 +458,12 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             if (!queryAll) {
                 if (parsed.dateType == 'SINGLE') {
                     singleDate = parsed.startDate;
-                    conditions.add('cgcloud__Start_Date__c = :singleDate');
+                    conditions.add('DAY_ONLY(PlannedVisitStartTime) = :singleDate');
                 } else if (parsed.dateType == 'RANGE') {
                     rangeStart = parsed.startDate;
                     rangeEnd = parsed.endDate;
-                    conditions.add('cgcloud__Start_Date__c >= :rangeStart');
-                    conditions.add('cgcloud__Start_Date__c <= :rangeEnd');
+                    conditions.add('DAY_ONLY(PlannedVisitStartTime) >= :rangeStart');
+                    conditions.add('DAY_ONLY(PlannedVisitStartTime) <= :rangeEnd');
                 }
             }
 
@@ -473,7 +476,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 whereClause = ' WHERE ' + String.join(conditions, ' AND ');
             }
 
-            String searchQueryStr = selectFields + whereClause + ' WITH USER_MODE ORDER BY cgcloud__Start_Date__c DESC';
+            String searchQueryStr = selectFields + whereClause + ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC';
             if (queryAll) {
                 searchQueryStr += ' LIMIT 20';
             }
@@ -565,8 +568,8 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     assignedUser = (String) v.getSObject('cgcloud__Responsible__r').get('Name');
                 }
 
-                Date startDate = (Date) v.get('cgcloud__Start_Date__c');
-                String dateStr = formatDate(startDate);
+                Datetime startDateTime = (Datetime) v.get('PlannedVisitStartTime');
+                String dateStr = formatDate(startDateTime);
 
                 Id placeId = null;
                 try {
@@ -581,7 +584,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     displayAccount += ' (' + placeName + ')';
                 }
 
-                String label = '<a href="' + orgUrl + '/lightning/r/Visit/' + visitId + '/view">' + visitName + '</a>  \u2014  ' + displayAccount +
+                String label = '[' + visitName + '](' + orgUrl + '/lightning/r/Visit/' + visitId + '/view)  \u2014  ' + displayAccount +
                     '\n   - \uD83D\uDCC5 Date: ' + dateStr +
                     '\n   - \uD83D\uDCCB Status: ' + status +
                     '\n   - \uD83D\uDC64 Assigned: ' + assignedUser;
@@ -828,15 +831,15 @@ public with sharing class Visit_Agent_Service implements IAgentService {
      * @param d The date.
      * @return String The formatted date.
      */
-    private static String formatDate(Date d) {
-        if (d == null) {
+    private static String formatDate(Datetime dt) {
+        if (dt == null) {
             return 'N/A';
         }
         List<String> months = new List<String>{
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         };
-        return String.valueOf(d.day()) + ' ' + months[d.month() - 1] + ' ' + String.valueOf(d.year());
+        return String.valueOf(dt.day()) + ' ' + months[dt.month() - 1] + ' ' + String.valueOf(dt.year());
     }
 
     /**
@@ -861,6 +864,61 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         res.success = false;
 
         try {
+            String action = req.actionType != null ? req.actionType.toLowerCase().trim() : '';
+
+            // Intercept empty/blank, placeholder, or 'manual input' values
+            if (action == 'update_visit_status' || action == 'update_visit_status_mobile_action') {
+                if ((req.statusWrapper != null && req.statusWrapper.statusValue == 'manual input') || 
+                    (action == 'update_visit_status_mobile_action' && (String.isBlank(req.status) || req.status.trim() == '' || req.status.trim() == '__user_input__'))) {
+                    res.success = false;
+                    res.message = 'Please select the new status for the visit:\n1. InProgress\n2. Completed\n3. Canceled\n4. Abandoned';
+                    return res;
+                }
+            } 
+            if (action == 'update_visit_owner' || action == 'update_visit_owner_mobile_action') {
+                if ((req.ownerWrapper != null && req.ownerWrapper.ownerName == 'manual input') || 
+                    (action == 'update_visit_owner_mobile_action' && (String.isBlank(req.ownerName) || req.ownerName.trim() == '' || req.ownerName.trim() == '__user_input__'))) {
+                    res.success = false;
+                    res.message = 'Please provide the name of the user you want to reassign this visit to.';
+                    return res;
+                }
+            } 
+            if (action == 'update_visit_notes_mobile_action') {
+                if (String.isBlank(req.notes) || req.notes.trim() == '' || req.notes.trim() == '__user_input__') {
+                    res.success = false;
+                    res.message = 'Please enter the notes you want to add to this visit.';
+                    return res;
+                }
+            } 
+            if (action == 'update_visit_start_time' || action == 'update_visit_start_time_mobile_action') {
+                if ((req.plannedStartTimeWrapper != null && req.plannedStartTimeWrapper.dateTimeValue != null && req.plannedStartTimeWrapper.dateTimeValue.format('yyyy-MM-dd') == '1900-01-01') || 
+                    (action == 'update_visit_start_time_mobile_action' && (String.isBlank(req.plannedStartTimeStr) || req.plannedStartTimeStr.trim() == '' || req.plannedStartTimeStr.trim() == '__user_input__'))) {
+                    res.success = false;
+                    res.message = 'Please provide the new planned start date and time for the visit (e.g. "Tomorrow at 2 PM", "July 16, 2026 at 10:00 AM").';
+                    return res;
+                }
+            } 
+            if (action == 'update_visit_end_time' || action == 'update_visit_end_time_mobile_action') {
+                if ((req.plannedEndTimeWrapper != null && req.plannedEndTimeWrapper.dateTimeValue != null && req.plannedEndTimeWrapper.dateTimeValue.format('yyyy-MM-dd') == '1900-01-01') || 
+                    (action == 'update_visit_end_time_mobile_action' && (String.isBlank(req.plannedEndTimeStr) || req.plannedEndTimeStr.trim() == '' || req.plannedEndTimeStr.trim() == '__user_input__'))) {
+                    res.success = false;
+                    res.message = 'Please provide the new planned end date and time for the visit (e.g. "Tomorrow at 3 PM", "July 16, 2026 at 11:00 AM").';
+                    return res;
+                }
+            }
+
+            if (action == 'update_visit_owner_mobile_action' && String.isNotBlank(req.ownerName)) {
+                MobileAgentUtility.MatchResult mr = MobileAgentUtility.matchRecord(req.ownerName, 'User', req.suggestions);
+                if (mr.success) {
+                    req.ownerId = mr.matchedId;
+                } else {
+                    res.success = false;
+                    res.message = mr.message;
+                    res.suggestions = mr.suggestions;
+                    return res;
+                }
+            }
+
             if (req.statusWrapper != null && String.isNotBlank(req.statusWrapper.statusValue)) {
                 req.status = req.statusWrapper.statusValue;
             }
@@ -885,7 +943,8 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             }
 
             List<Visit> visits = [
-                SELECT Id, Status, PlannedVisitStartTime, PlannedVisitEndTime, cgcloud__Note__c, OwnerId, cgcloud__Responsible__c
+                SELECT Id, Status, PlannedVisitStartTime, PlannedVisitEndTime, cgcloud__Note__c, OwnerId, cgcloud__Responsible__c,
+                       cgcloud__Subject__c, AccountId, PlaceId, cgcloud__Visit_Template__c, cgcloud__IsAllDayEvent__c, cgcloud__Accountable__c
                 FROM Visit
                 WHERE Id = :visitId
                 WITH USER_MODE
@@ -901,22 +960,42 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             DateTime targetPlannedEnd = req.plannedEndTime != null ? req.plannedEndTime : req.endTime;
             Boolean changed = false;
 
+            if (action == 'update_visit_record' && req.createVisitWrapper != null) {
+                v.cgcloud__Subject__c = req.createVisitWrapper.subject;
+                v.AccountId = req.createVisitWrapper.accountId;
+                v.PlaceId = req.createVisitWrapper.placeId;
+                v.cgcloud__Visit_Template__c = req.createVisitWrapper.visitTemplateId;
+                v.PlannedVisitStartTime = req.createVisitWrapper.plannedStartTime;
+                v.PlannedVisitEndTime = req.createVisitWrapper.plannedEndTime;
+                v.cgcloud__IsAllDayEvent__c = req.createVisitWrapper.isAllDayEvent != null ? req.createVisitWrapper.isAllDayEvent : false;
+                v.cgcloud__Responsible__c = req.createVisitWrapper.responsibleId;
+                v.cgcloud__Accountable__c = req.createVisitWrapper.accountableId;
+                
+                if (req.createVisitWrapper.responsibleId != null) {
+                    v.OwnerId = req.createVisitWrapper.responsibleId;
+                }
+                changed = true;
+            }
+
             if (String.isNotBlank(req.status)) {
                 String statusCmd = req.status.toLowerCase().trim();
-                if (statusCmd.contains('in progress') || statusCmd.contains('inprogress') || statusCmd == 'start') {
+                if (statusCmd == '1' || statusCmd.contains('in progress') || statusCmd.contains('inprogress') || statusCmd == 'start') {
                     v.Status = 'InProgress';
                     if (targetPlannedStart == null) {
                         targetPlannedStart = DateTime.now();
                     }
                     changed = true;
-                } else if (statusCmd.contains('complete') || statusCmd == 'end') {
+                } else if (statusCmd == '2' || statusCmd.contains('complete') || statusCmd == 'end') {
                     v.Status = 'Completed';
                     if (targetPlannedEnd == null) {
                         targetPlannedEnd = DateTime.now();
                     }
                     changed = true;
-                } else if (statusCmd.contains('cancel')) {
+                } else if (statusCmd == '3' || statusCmd.contains('cancel')) {
                     v.Status = 'Canceled';
+                    changed = true;
+                } else if (statusCmd == '4' || statusCmd.contains('abandon')) {
+                    v.Status = 'Abandoned';
                     changed = true;
                 } else {
                     v.Status = req.status;
@@ -965,13 +1044,20 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     users = [SELECT Id FROM User WHERE Id = :cleanId AND IsActive = true WITH USER_MODE LIMIT 1];
                 } else if (String.isNotBlank(req.ownerName)) {
                     String cleanName = req.ownerName.trim();
-                    users = [SELECT Id FROM User WHERE (Name = :cleanName OR Username = :cleanName) AND IsActive = true WITH USER_MODE LIMIT 1];
+                    if ((cleanName.length() == 15 || cleanName.length() == 18) && Pattern.matches('[a-zA-Z0-9]{15,18}', cleanName)) {
+                        users = [SELECT Id FROM User WHERE Id = :cleanName AND IsActive = true WITH USER_MODE LIMIT 1];
+                    } else {
+                        users = [SELECT Id FROM User WHERE (Name = :cleanName OR Username = :cleanName) AND IsActive = true WITH USER_MODE LIMIT 1];
+                    }
                 }
 
                 if (!users.isEmpty()) {
                     v.OwnerId = users[0].Id;
                     try {
-                        v.cgcloud__Responsible__c = users[0].Id;
+                        List<User> targetUser = [SELECT Profile.Name FROM User WHERE Id = :users[0].Id LIMIT 1];
+                        if (!targetUser.isEmpty() && targetUser[0].Profile.Name == 'CGCloud_User_Profile') {
+                            v.cgcloud__Responsible__c = users[0].Id;
+                        }
                     } catch (Exception e) { 
                         // Ignored
                     }
@@ -1004,6 +1090,55 @@ public with sharing class Visit_Agent_Service implements IAgentService {
     }
 
     /**
+     * @description Retrieves current visit details formatted for full-form update.
+     * @param req The agent request containing the visitId.
+     * @return Agent_Response containing the pre-populated CreateVisitWrapper.
+     */
+    public static Agent_Response getVisitForUpdate(Agent_Request req) {
+        Agent_Response res = new Agent_Response();
+        res.success = false;
+        try {
+            String visitId = req.visitId;
+            if (String.isBlank(visitId)) {
+                res.message = 'Visit ID cannot be empty.';
+                return res;
+            }
+            List<Visit> visits = [
+                SELECT Id, cgcloud__Subject__c, AccountId, PlaceId, cgcloud__Visit_Template__c, 
+                       PlannedVisitStartTime, PlannedVisitEndTime, cgcloud__IsAllDayEvent__c, 
+                       cgcloud__Responsible__c, cgcloud__Accountable__c
+                FROM Visit
+                WHERE Id = :visitId
+                WITH USER_MODE
+                LIMIT 1
+            ];
+            if (visits.isEmpty()) {
+                res.message = 'Visit record not found with ID: ' + visitId;
+                return res;
+            }
+            Visit v = visits[0];
+            CreateVisitWrapper wrapper = new CreateVisitWrapper();
+            wrapper.subject = v.cgcloud__Subject__c;
+            wrapper.accountId = v.AccountId;
+            wrapper.placeId = v.PlaceId;
+            wrapper.visitTemplateId = v.cgcloud__Visit_Template__c;
+            wrapper.plannedStartTime = v.PlannedVisitStartTime;
+            wrapper.plannedEndTime = v.PlannedVisitEndTime;
+            wrapper.isAllDayEvent = v.cgcloud__IsAllDayEvent__c;
+            wrapper.accountableId = v.cgcloud__Accountable__c;
+            wrapper.responsibleId = v.cgcloud__Responsible__c;
+            
+            res.createVisitWrapper = wrapper;
+            res.success = true;
+            res.message = 'Loaded visit details successfully.';
+        } catch (Exception e) {
+            res.success = false;
+            res.message = 'Error loading visit for update: ' + e.getMessage();
+        }
+        return res;
+    }
+
+    /**
      * @description Creates a new visit based on the agent request.
      * @param req The agent request containing creation parameters.
      * @param res The agent response to populate.
@@ -1025,14 +1160,27 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     newVisit.PlannedVisitEndTime = req.createVisitWrapper.plannedEndTime;
                 }
                 newVisit.cgcloud__IsAllDayEvent__c = req.createVisitWrapper.isAllDayEvent != null ? req.createVisitWrapper.isAllDayEvent : false;
+                
+                Id respId = req.createVisitWrapper.responsibleId;
+                if (respId == null) {
+                    List<User> runningUser = [SELECT Profile.Name FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+                    if (!runningUser.isEmpty() && runningUser[0].Profile.Name == 'CGCloud_User_Profile') {
+                        respId = UserInfo.getUserId();
+                    } else {
+                        List<User> cgUsers = [SELECT Id FROM User WHERE Profile.Name = 'CGCloud_User_Profile' AND IsActive = true LIMIT 1];
+                        respId = !cgUsers.isEmpty() ? cgUsers[0].Id : UserInfo.getUserId();
+                    }
+                }
+                newVisit.cgcloud__Responsible__c = respId;
                 if (req.createVisitWrapper.accountableId != null) {
                     newVisit.cgcloud__Accountable__c = req.createVisitWrapper.accountableId;
+                } else {
+                    newVisit.cgcloud__Accountable__c = respId;
                 }
-                newVisit.cgcloud__Responsible__c = req.createVisitWrapper.responsibleId != null ? req.createVisitWrapper.responsibleId : UserInfo.getUserId();
             } else {
                 newVisit.cgcloud__Subject__c = req.subject;
-                newVisit.AccountId = req.accountId;
-                newVisit.PlaceId = req.placeId;
+                newVisit.AccountId = req.accountInput != null ? req.accountInput : req.accountId;
+                newVisit.PlaceId = req.placeInput != null ? req.placeInput : req.placeId;
                 if (req.templateInput != null) {
                     newVisit.cgcloud__Visit_Template__c = req.templateInput;
                 }
@@ -1045,7 +1193,17 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                     newVisit.PlannedVisitEndTime = req.plannedEndTime;
                 }
                 newVisit.cgcloud__IsAllDayEvent__c = req.isAllDayEvent != null ? req.isAllDayEvent : false;
-                newVisit.cgcloud__Responsible__c = UserInfo.getUserId();
+                
+                Id respId = null;
+                List<User> runningUser = [SELECT Profile.Name FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+                if (!runningUser.isEmpty() && runningUser[0].Profile.Name == 'CGCloud_User_Profile') {
+                    respId = UserInfo.getUserId();
+                } else {
+                    List<User> cgUsers = [SELECT Id FROM User WHERE Profile.Name = 'CGCloud_User_Profile' AND IsActive = true LIMIT 1];
+                    respId = !cgUsers.isEmpty() ? cgUsers[0].Id : UserInfo.getUserId();
+                }
+                newVisit.cgcloud__Responsible__c = respId;
+                newVisit.cgcloud__Accountable__c = respId;
             }
 
             Id recordTypeId = null;
@@ -1471,19 +1629,38 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         res.isSubmitted = false;
         res.suggestions = '';
 
-        if (req.accountInput != null && !isPlaceholder(req.accountInput)) {
+        if (req.plannedStartTimeStr != null && !isPlaceholder(req.plannedStartTimeStr)) {
             try {
-                MobileAgentUtility.MatchResult mr = MobileAgentUtility.matchRecord(req.accountInput, 'Account', req.suggestions);
+                DateTime parsedDt = MobileAgentUtility.parseDateTime(req.plannedStartTimeStr);
+                if (parsedDt != null) {
+                    res.success = true;
+                    res.isSubmitted = true;
+                    res.plannedStartTimeStr = parsedDt.formatGmt('yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'');
+                    res.message = 'Excellent! I\'ve scheduled the visit for ' + parsedDt.format('dd-MMM-yyyy h:mm a') + ' .. Let me create it for you.';
+                } else {
+                    res.success = false;
+                    res.isSubmitted = true;
+                    res.message = 'Failed to parse date/time "' + req.plannedStartTimeStr + '". Please enter a valid date/time.';
+                }
+            } catch (Exception e) {
+                res.message = 'Error parsing date/time: ' + e.getMessage();
+            }
+            return;
+        }
+
+        if (req.templateInput != null && !isPlaceholder(req.templateInput)) {
+            try {
+                MobileAgentUtility.MatchResult mr = MobileAgentUtility.matchRecord(req.templateInput, 'cgcloud__Visit_Template__c', req.suggestions);
                 res.success = mr.success;
                 res.isSubmitted = true;
                 res.message = mr.message;
                 res.suggestions = mr.suggestions;
                 if (mr.success) {
-                    res.accountId = mr.matchedId;
-                    res.accountName = mr.matchedName;
+                    res.templateId = mr.matchedId;
+                    res.templateName = mr.matchedName;
                 }
             } catch (Exception e) {
-                res.message = 'Error resolving Account: ' + e.getMessage();
+                res.message = 'Error resolving Template: ' + e.getMessage();
             }
             return;
         }
@@ -1508,38 +1685,19 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             return;
         }
 
-        if (req.templateInput != null && !isPlaceholder(req.templateInput)) {
+        if (req.accountInput != null && !isPlaceholder(req.accountInput)) {
             try {
-                MobileAgentUtility.MatchResult mr = MobileAgentUtility.matchRecord(req.templateInput, 'cgcloud__Visit_Template__c', req.suggestions);
+                MobileAgentUtility.MatchResult mr = MobileAgentUtility.matchRecord(req.accountInput, 'Account', req.suggestions);
                 res.success = mr.success;
                 res.isSubmitted = true;
                 res.message = mr.message;
                 res.suggestions = mr.suggestions;
                 if (mr.success) {
-                    res.templateId = mr.matchedId;
-                    res.templateName = mr.matchedName;
+                    res.accountId = mr.matchedId;
+                    res.accountName = mr.matchedName;
                 }
             } catch (Exception e) {
-                res.message = 'Error resolving Template: ' + e.getMessage();
-            }
-            return;
-        }
-
-        if (req.plannedStartTimeStr != null && !isPlaceholder(req.plannedStartTimeStr)) {
-            try {
-                DateTime parsedDt = MobileAgentUtility.parseDateTime(req.plannedStartTimeStr);
-                if (parsedDt != null) {
-                    res.success = true;
-                    res.isSubmitted = true;
-                    res.plannedStartTimeStr = parsedDt.formatGmt('yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'');
-                    res.message = 'Excellent! I\'ve scheduled the visit for ' + parsedDt.format('dd-MMM-yyyy h:mm a') + ' .. Let me create it for you.';
-                } else {
-                    res.success = false;
-                    res.isSubmitted = true;
-                    res.message = 'Failed to parse date/time "' + req.plannedStartTimeStr + '". Please enter a valid date/time.';
-                }
-            } catch (Exception e) {
-                res.message = 'Error parsing date/time: ' + e.getMessage();
+                res.message = 'Error resolving Account: ' + e.getMessage();
             }
             return;
         }
