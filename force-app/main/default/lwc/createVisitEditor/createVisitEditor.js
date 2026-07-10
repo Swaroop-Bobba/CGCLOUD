@@ -8,9 +8,11 @@ import getTemplateName from '@salesforce/apex/Visit_Agent_Service.getTemplateNam
 import searchUsers from '@salesforce/apex/Visit_Agent_Service.searchUsers';
 import getUserName from '@salesforce/apex/Visit_Agent_Service.getUserName';
 import getResponsibleUserContext from '@salesforce/apex/Visit_Agent_Service.getResponsibleUserContext';
+import getVisitDataForLwc from '@salesforce/apex/Visit_Agent_Service.getVisitDataForLwc';
 
 export default class CreateVisitEditor extends LightningElement {
     @api value; // Input value representing the CreateVisitWrapper
+    @api visitId; // Input value representing the Visit ID for update mode
 
     isLoading = false;
     subject = '';
@@ -82,6 +84,30 @@ export default class CreateVisitEditor extends LightningElement {
             this.dispatchChange();
         } else if (error) {
             console.error('Error loading Responsible User Context:', error);
+        }
+    }
+
+    get computedVisitId() {
+        return this.visitId && this.visitId.trim() !== '' ? this.visitId : null;
+    }
+
+    @wire(getVisitDataForLwc, { visitId: '$computedVisitId' })
+    wiredVisit({ error, data }) {
+        if (data) {
+            this.subject = data.subject || '';
+            this.accountId = data.accountId || '';
+            this.plannedStartTime = data.plannedStartTime || null;
+            this.placeId = data.placeId || '';
+            this.visitTemplateId = data.visitTemplateId || '';
+            this.plannedEndTime = data.plannedEndTime || null;
+            this.isAllDayEvent = data.isAllDayEvent || false;
+            this.accountableId = data.accountableId || '';
+            this.responsibleId = data.responsibleId || '';
+
+            this.loadLookupNames();
+            this.dispatchChange();
+        } else if (error) {
+            console.error('Error loading visit data for LWC:', error);
         }
     }
 

@@ -59,7 +59,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             } else if (action == 'generatesummary') {
                 res.message = generateVisitSummary(req.visitId);
                 res.success = true;
-            } else if (action == 'promptvisitmobile') {
+            } else if (action == 'promptvisitmobile' || action == 'prompt_visit_mobile') {
                 promptVisitMobile(req, res);
             } else {
                 res.success = false;
@@ -936,9 +936,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 req.plannedEndTime = MobileAgentUtility.parseDateTime(req.plannedEndTimeStr);
             }
 
-            String visitId = req.visitId;
-            if (String.isBlank(visitId)) {
-                res.message = 'Visit ID cannot be empty.';
+            Id parsedVisitId = resolveVisitId(req.visitId);
+            if (parsedVisitId == null) {
+                res.message = 'Visit record not found for: ' + req.visitId;
                 return res;
             }
 
@@ -946,12 +946,12 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 SELECT Id, Status, PlannedVisitStartTime, PlannedVisitEndTime, cgcloud__Note__c, OwnerId, cgcloud__Responsible__c,
                        cgcloud__Subject__c, AccountId, PlaceId, cgcloud__Visit_Template__c, cgcloud__IsAllDayEvent__c, cgcloud__Accountable__c
                 FROM Visit
-                WHERE Id = :visitId
+                WHERE Id = :parsedVisitId
                 WITH USER_MODE
                 LIMIT 1
             ];
             if (visits.isEmpty()) {
-                res.message = 'Visit record not found with ID: ' + visitId;
+                res.message = 'Visit record not found with ID: ' + req.visitId;
                 return res;
             }
 
@@ -1013,27 +1013,12 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 changed = true;
             }
 
-            if (targetPlannedStart != null || targetPlannedEnd != null) {
-                Long durationMs = 3600000; // default 1 hour
-                if (v.PlannedVisitStartTime != null && v.PlannedVisitEndTime != null) {
-                    Long diff = v.PlannedVisitEndTime.getTime() - v.PlannedVisitStartTime.getTime();
-                    if (diff > 0) {
-                        durationMs = diff;
-                    }
-                }
-
-                if (targetPlannedStart != null && targetPlannedEnd != null) {
-                    v.PlannedVisitStartTime = targetPlannedStart;
-                    v.PlannedVisitEndTime = targetPlannedEnd;
-                } else if (targetPlannedStart != null) {
-                    v.PlannedVisitStartTime = targetPlannedStart;
-                    v.PlannedVisitEndTime = DateTime.newInstance(targetPlannedStart.getTime() + durationMs);
-                } else if (targetPlannedEnd != null) {
-                    v.PlannedVisitEndTime = targetPlannedEnd;
-                    if (v.PlannedVisitStartTime == null || targetPlannedEnd < v.PlannedVisitStartTime) {
-                        v.PlannedVisitStartTime = DateTime.newInstance(targetPlannedEnd.getTime() - durationMs);
-                    }
-                }
+            if (targetPlannedStart != null) {
+                v.PlannedVisitStartTime = targetPlannedStart;
+                changed = true;
+            }
+            if (targetPlannedEnd != null) {
+                v.PlannedVisitEndTime = targetPlannedEnd;
                 changed = true;
             }
 
@@ -1090,6 +1075,24 @@ public with sharing class Visit_Agent_Service implements IAgentService {
     }
 
     /**
+     * @description Helper to resolve a string identifier to a valid Visit Id. Handles Auto-Number / Name format.
+     */
+    private static Id resolveVisitId(String identifier) {
+        if (String.isBlank(identifier)) {
+            return null;
+        }
+        try {
+            return (Id)identifier;
+        } catch (Exception e) {
+            List<Visit> matched = [SELECT Id FROM Visit WHERE Name = :identifier WITH USER_MODE LIMIT 1];
+            if (!matched.isEmpty()) {
+                return matched[0].Id;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @description Retrieves current visit details formatted for full-form update.
      * @param req The agent request containing the visitId.
      * @return Agent_Response containing the pre-populated CreateVisitWrapper.
@@ -1098,9 +1101,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         Agent_Response res = new Agent_Response();
         res.success = false;
         try {
-            String visitId = req.visitId;
-            if (String.isBlank(visitId)) {
-                res.message = 'Visit ID cannot be empty.';
+            Id parsedVisitId = resolveVisitId(req.visitId);
+            if (parsedVisitId == null) {
+                res.message = 'Visit record not found for: ' + req.visitId;
                 return res;
             }
             List<Visit> visits = [
@@ -1108,12 +1111,12 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                        PlannedVisitStartTime, PlannedVisitEndTime, cgcloud__IsAllDayEvent__c, 
                        cgcloud__Responsible__c, cgcloud__Accountable__c
                 FROM Visit
-                WHERE Id = :visitId
+                WHERE Id = :parsedVisitId
                 WITH USER_MODE
                 LIMIT 1
             ];
             if (visits.isEmpty()) {
-                res.message = 'Visit record not found with ID: ' + visitId;
+                res.message = 'Visit record not found with ID: ' + req.visitId;
                 return res;
             }
             Visit v = visits[0];
@@ -1926,6 +1929,42 @@ public with sharing class Visit_Agent_Service implements IAgentService {
     }
 
     /**
+     * @description Gets the visit details to pre-populate the LWC editor form.
+     * @param visitId The ID of the visit.
+     * @return CreateVisitWrapper The wrapper object populated with visit details.
+     */
+    @AuraEnabled(cacheable=true)
+    public static CreateVisitWrapper getVisitDataForLwc(Id visitId) {
+        if (visitId == null) {
+            return null;
+        }
+        try {
+            Visit v = [
+                SELECT Id, cgcloud__Subject__c, AccountId, PlaceId, cgcloud__Visit_Template__c, 
+                       PlannedVisitStartTime, PlannedVisitEndTime, cgcloud__IsAllDayEvent__c, 
+                       cgcloud__Responsible__c, cgcloud__Accountable__c
+                FROM Visit
+                WHERE Id = :visitId
+                WITH USER_MODE
+                LIMIT 1
+            ];
+            CreateVisitWrapper wrapper = new CreateVisitWrapper();
+            wrapper.subject = v.cgcloud__Subject__c;
+            wrapper.accountId = v.AccountId;
+            wrapper.placeId = v.PlaceId;
+            wrapper.visitTemplateId = v.cgcloud__Visit_Template__c;
+            wrapper.plannedStartTime = v.PlannedVisitStartTime;
+            wrapper.plannedEndTime = v.PlannedVisitEndTime;
+            wrapper.isAllDayEvent = v.cgcloud__IsAllDayEvent__c;
+            wrapper.accountableId = v.cgcloud__Accountable__c;
+            wrapper.responsibleId = v.cgcloud__Responsible__c;
+            return wrapper;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * @description Gets the responsible user context.
      * @return Map<String, Object> The context map.
      */
@@ -1945,4 +1984,35 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         return result;
     }
 
+    /**
+     * @description Gets current field values of a visit for LWC editor pre-population.
+     * @param visitId The Visit ID.
+     * @return Map<String, Object> A map of field names to values.
+     */
+    @AuraEnabled(cacheable=true)
+    public static Map<String, Object> getVisitFieldValues(Id visitId) {
+        Map<String, Object> result = new Map<String, Object>();
+        if (visitId == null) {
+            return result;
+        }
+        try {
+            Visit v = [
+                SELECT Id, Status, OwnerId, Owner.Name, PlannedVisitStartTime, PlannedVisitEndTime
+                FROM Visit
+                WHERE Id = :visitId
+                WITH USER_MODE
+                LIMIT 1
+            ];
+            result.put('status', v.Status);
+            result.put('ownerId', v.OwnerId);
+            result.put('ownerName', v.Owner.Name);
+            result.put('plannedStartTime', v.PlannedVisitStartTime);
+            result.put('plannedEndTime', v.PlannedVisitEndTime);
+        } catch (Exception e) {
+            // Ignored
+        }
+        return result;
+    }
+
 }
+

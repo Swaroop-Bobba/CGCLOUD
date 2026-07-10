@@ -20,8 +20,8 @@ public with sharing class Agent_Global_Handler {
                         String act = req.actionType.toLowerCase().trim();
                         if (act == 'getavailable' || act == 'getaccountvisits' || act == 'getoosvisits' || 
                             act == 'updatevisit' || act.startsWith('update_visit') || act == 'generate_visit_summary' ||
-                            act == 'promptvisitmobile' || act == 'createvisit' || act == 'create_visit_record' || 
-                            act == 'create_visit_record_mobile' || act == 'generatesummary') {
+                            act == 'promptvisitmobile' || act == 'prompt_visit_mobile' || act == 'createvisit' || act == 'create_visit_record' || 
+                            act == 'create_visit_record_mobile' || act == 'generatesummary' || act == 'get_visit_for_update') {
                             req.domain = 'Visit';
                         } else if (act == 'getcounts' || act == 'getrecords' || act == 'suggestproducts' || act == 'getproducts') {
                             req.domain = 'Account';

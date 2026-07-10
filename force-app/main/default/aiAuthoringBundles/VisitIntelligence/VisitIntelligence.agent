@@ -85,6 +85,8 @@ variables:
         description: "The suggestions for Owner matching."
     tempCreateVisitWrapper: mutable object
         description: "Temporary storage for visit details loaded for full-form updates."
+    tempIsUpdated: mutable boolean = False
+        description: "True if a visit was recently updated, to prevent routing loops."
 
 
 language:
@@ -95,11 +97,6 @@ language:
 start_agent agent_router:
     description: "Route employees to the right subagent and initialize visit context."
     before_reasoning:
-        if @variables.userProfileName == "":
-            run @actions.get_current_user_profile
-                with domain = "GetCurrentUserProfile"
-                with actionType = "getProfile"
-                set @variables.userProfileName = @outputs.profileName
         
         if @variables.channelType == "web" and @variables.currentObjectApiName == "Visit" and @variables.currentRecordId != "" and @variables.currentRecordId != @variables.lastRecordId:
             set @variables.visitId = @variables.currentRecordId
@@ -152,7 +149,8 @@ start_agent agent_router:
             |
             | ===== SHARED INSTRUCTIONS (Both Web and Mobile) =====
             |
-            | 1. Versatile Visit Retrieval: Users can ask for visits in many ways. Interpret user intent and call the appropriate action:
+            | 1. Profile Check: If @variables.userProfileName is empty (""), you MUST first run {!@actions.get_current_user_profile} with domain = "GetCurrentUserProfile" and actionType = "getProfile" to retrieve the user's profile name, and then set @variables.userProfileName. Do NOT attempt any transitions or other tasks before executing this action.
+            | 2. Versatile Visit Retrieval: Users can ask for visits in many ways. Interpret user intent and call the appropriate action:
             |    a. "recent visits", "my visits", "show me visits" → call {!@actions.list_visits}
             |    b. "all visits", "all the visits", "all of the visits", "all visits in the org" → call {!@actions.find_visits} with searchQuery = "all"
             |    c. "today's visits", "visits for today", "today's planned visits" → call {!@actions.find_visits} with searchQuery = "today planned" (or just "today" if no status mentioned)
@@ -164,23 +162,29 @@ start_agent agent_router:
             |    i. Status-based: "planned visits", "completed visits", "in progress visits" → call {!@actions.find_visits} with searchQuery = "<status>"
             |    j. Combined: "today's planned visits", "this week's completed visits" → call {!@actions.find_visits} with searchQuery = "today planned" / "this week completed"
             |    k. By account/store name: call {!@actions.find_visits} with searchQuery = "<account or store name>"
-            | 2. User-Specified Limits: If the user asks "show me 5 visits" or "last 10 visits", retrieve all matching results first, then present ONLY the requested number. Do NOT hardcode any limit — show ALL results unless the user specifies a limit.
-            | 3. Output Format (STRICT NUMBERED LIST): Present ALL visit results as a formal numbered list starting at 1. For each visit, show these fields in a bulleted sub-list under each numbered visit (YOU MUST USE A NEW LINE FOR EVERY BULLET POINT):
+            | 3. User-Specified Limits: If the user asks "show me 5 visits" or "last 10 visits", retrieve all matching results first, then present ONLY the requested number. Do NOT hardcode any limit — show ALL results unless the user specifies a limit.
+            | 4. Output Format (STRICT NUMBERED LIST): Present ALL visit results as a formal numbered list starting at 1. For each visit, show these fields in a bulleted sub-list under each numbered visit (YOU MUST USE A NEW LINE FOR EVERY BULLET POINT):
             |    - Subject: <subject>
             |    - Visit Name: <visit name> (hyperlinked on Web, plain text on Mobile)
             |    - Account: <account name>
             |    - Status: <status>
             |    - Planned Start: <date/time>
             |    - Owner: <owner name>
-            | 4. Selection: When the user selects, specifies, or inputs a number corresponding to a visit from the most recent numbered list (e.g. they type "1" or select the first option), map it to that visit, extract its ID (recordId), and call {!@actions.select_visit} with that visit's recordId to load the visit context. If they enter the visit name/number directly (e.g. "00000370"), extract the recordId of that visit from the printed list and call {!@actions.select_visit}. Do NOT ask the user for an ID — extract it from the user's selection or number input.
-            | 5. Do NOT call {!@actions.select_visit} without a valid Visit record ID from search or list results.
-            | 6. Do NOT use show_command. Always compose your response as direct text.
-            | 7. Create/Plan/Schedule/Add Visit: If the user explicitly requests to create, schedule, plan, or add a new visit (utilizing expressions such as "Create Visit", "New Visit", "Schedule Visit", "Plan a Visit", "Create a Store Visit", "Add Visit", "Create Customer Visit", or "Visit Creation"):
-            |    - If channelType is "web": transition immediately to the Create Visit Agent using {!@actions.go_to_create_visit}.
-            |    - If channelType is "mobile": transition immediately to the Create Visit Mobile Agent using {!@actions.go_to_create_visit_mobile}.
+            | 5. Selection: When the user selects, specifies, or inputs a number corresponding to a visit from the most recent numbered list (e.g. they type "1" or select the first option), map it to that visit, extract its ID (recordId), and call {!@actions.select_visit} with that visit's recordId to load the visit context. If they enter the visit name/number directly (e.g. "00000370"), extract the recordId of that visit from the printed list and call {!@actions.select_visit}. Do NOT ask the user for an ID — extract it from the user's selection or number input.
+            | 6. Do NOT call {!@actions.select_visit} without a valid Visit record ID from search or list results.
+            | 7. Do NOT use show_command. Always compose your response as direct text.
+            | 8. Create/Plan/Schedule/Add Visit: If the user explicitly requests to create, schedule, plan, or add a new visit (utilizing expressions such as "Create Visit", "New Visit", "Schedule Visit", "Plan a Visit", "Create a Store Visit", "Add Visit", "Create Customer Visit", or "Visit Creation"):
+            |    - If userProfileName is NOT "CGCloud_User_Profile": transition immediately to the Create Visit Agent using {!@actions.go_to_create_visit}.
+            |    - If userProfileName is "CGCloud_User_Profile": transition immediately to the Create Visit Mobile Agent using {!@actions.go_to_create_visit_mobile}.
             |    Do NOT load existing visit details, select a visit, or run get_visit_details.
  
         actions:
+            get_current_user_profile: @actions.get_current_user_profile
+                description: "Retrieve the current user's profile name."
+                with domain = "GetCurrentUserProfile"
+                with actionType = "getProfile"
+                set @variables.userProfileName = @outputs.profileName
+
             get_visit: @actions.get_visit_details
                 description: "Retrieve details of the current Visit record and its associated Account from page context. Use this ONLY on web channel if the user starts the conversation on a Visit record page."
                 available when @variables.channelType == "web"
@@ -222,19 +226,18 @@ start_agent agent_router:
             go_to_off_topic: @utils.transition to @subagent.off_topic
                 description: "Route off-topic queries."
 
-            go_to_device_identifier: @utils.transition to @subagent.device_identifier
-                description: "Identify or tell the user which device, platform, or channel they are currently using."
-
             go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
                 description: "Route ambiguous queries."
 
             go_to_create_visit: @utils.transition to @subagent.create_visit
-                description: "Route the user to the Create Visit Agent (web form) when they request to create, plan, schedule, or add a new visit. Web channel only."
-                available when @variables.channelType == "web"
+                description: "Route the user to the Create Visit Agent (LWC form) when they request to create, plan, schedule, or add a new visit."
+                available when @variables.userProfileName != "" and @variables.userProfileName != "CGCloud_User_Profile"
+                set @variables.visitId = ""
+                set @variables.accountId = ""
 
             go_to_create_visit_mobile: @utils.transition to @subagent.create_visit_mobile
-                description: "Route the user to the Create Visit Mobile Agent (conversational) when they request to create, plan, schedule, or add a new visit. Mobile channel only."
-                available when @variables.channelType == "mobile"
+                description: "Route the user to the Create Visit Mobile Agent (conversational manual input) when they request to create, plan, schedule, or add a new visit."
+                available when @variables.userProfileName != "" and @variables.userProfileName == "CGCloud_User_Profile"
                 set @variables.visitId = ""
                 set @variables.accountId = ""
                 set @variables.tempAccountId = ""
@@ -259,7 +262,8 @@ start_agent agent_router:
                 available when @variables.userProfileName != "CGCloud_User_Profile"
 
             go_to_update_visit_text: @utils.transition to @subagent.update_visit_text
-                description: "Route the user to the Update Visit Text Agent (conversational text) when they request to update, change, edit, or modify visit details (status, owner, notes, timings)."
+                description: "Route the user to the Update Visit Text Agent (conversational text) when they request to update, change, edit, or modify visit details (status, owner, notes, timings) and are a CGCloud_User_Profile user."
+                available when @variables.userProfileName == "CGCloud_User_Profile"
 
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
                 description: "Return to the main Visit Intelligence subagent dashboard."
@@ -369,7 +373,17 @@ subagent visit_intelligence:
                 | Context loaded for Account: "{!@variables.accountName}" (Visit ID: {!@variables.visitId}).
                 | Status: {!@variables.visitStatus}, Date: {!@variables.visitDate}, User: {!@variables.assignedUser}.
                 |
-                | You must process the user's message using the following strict priority guidelines:
+                | SECTION 0: POST-UPDATE RETURN HANDLER (STRICT)
+                | - If @variables.tempIsUpdated is True:
+                |   1. Set @variables.tempIsUpdated = False.
+                |   2. Greet: "I have successfully updated the visit details. Here is the latest information:"
+                |   3. Display the Visit Details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
+                |      * Account: {!@variables.accountName} 🏪
+                |      * Visit Date: {!@variables.visitDate} 📅
+                |      * Visit Status: {!@variables.visitStatus} 🔖
+                |      * Assigned User: {!@variables.assignedUser} 👤
+                |   4. Ask: "How can I help you with this visit next?" and present the Greeting Menu.
+                |   5. Immediately stop and wait for user input. Do NOT run any transitions or other actions.
                 |
                 | SECTION 1: DIRECT FEATURE REQUESTS (For experienced/power users)
                 | - Check if the user's message directly requests a specific feature, record type, action, or brief.
@@ -386,7 +400,7 @@ subagent visit_intelligence:
                 |   * "Sellable Products" / "products in assortment" -> Call @actions.get_details with recordType = "assortmentproducts"
                 |   * "Switch" / "reset context" / "change visit" -> Call @actions.switch_visit
                 |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products
-                |   * "Create Visit" / "New Visit" / "Schedule Visit" / "Plan a Visit" / "Add Visit" / "Create Customer Visit" / "Visit Creation" -> Transition immediately to the Create Visit Agent using go_to_create_visit (for web) or go_to_create_visit_mobile (for mobile)
+                |   * "Create Visit" / "New Visit" / "Schedule Visit" / "Plan a Visit" / "Add Visit" / "Create Customer Visit" / "Visit Creation" -> Transition immediately to the Create Visit Agent (LWC) using go_to_create_visit if userProfileName != "CGCloud_User_Profile", or the Create Visit Mobile Agent (Manual Input) using go_to_create_visit_mobile if userProfileName == "CGCloud_User_Profile"
                 |
                 | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
                 | - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action:
@@ -515,6 +529,8 @@ subagent visit_intelligence:
                 with deliveryNote = ...
                 with invoiceNote = ...
 
+
+
             switch_visit: @utils.transition to @subagent.clear_context
                 description: "Change, switch, or select another Visit or work on a different store."
 
@@ -526,10 +542,11 @@ subagent visit_intelligence:
 
             go_to_create_visit: @utils.transition to @subagent.create_visit
                 description: "Transition to the Create Visit Agent (web form) to create, schedule, plan, or add a new Visit."
-                available when @variables.userProfileName != "CGCloud_User_Profile"
+                available when @variables.userProfileName != "" and @variables.userProfileName != "CGCloud_User_Profile"
 
             go_to_create_visit_mobile: @utils.transition to @subagent.create_visit_mobile
                 description: "Transition to the Create Visit Mobile Agent (conversational) to create, schedule, plan, or add a new Visit. If the user is NOT a CGCloud_User_Profile, ONLY use this action if they explicitly request manual input."
+                available when @variables.userProfileName != ""
                 set @variables.visitId = ""
                 set @variables.accountId = ""
                 set @variables.tempAccountId = ""
@@ -580,6 +597,7 @@ subagent visit_intelligence:
                 with searchQuery = ...
 
     actions:
+
         get_related_counts:
             description: "Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account."
             target: "apex://Agent_Global_Handler"
@@ -949,6 +967,7 @@ subagent clear_context:
         set @variables.assignedUser = ""
         set @variables.visitSummaryText = ""
         set @variables.lastRecordId = ""
+        set @variables.tempCreateVisitWrapper = None
         set @variables.activeSubagent = "visit_intelligence"
         transition to @subagent.agent_router
     reasoning:
@@ -960,32 +979,28 @@ subagent update_visit_lwc:
     description: "Update the status, owner, notes, start time, or end time of the current visit using Custom LWC forms for non-field reps."
     before_reasoning:
         set @variables.activeSubagent = "update_visit_lwc"
+        set @variables.tempCreateVisitWrapper = None
     reasoning:
         instructions: |
             You are now in the Update Visit LWC subagent.
-            Your goal is to update details (status, owner, notes, start time, or end time) of the current Visit (ID: {!@variables.visitId}) using the appropriate LWC form.
+            Your goal is to execute the appropriate record update action using custom LWC inputs.
+            Under all circumstances, do NOT output any option menus, text choice prompts, field lists, or text descriptions of status options/fields to the user. All fields and choices must be rendered strictly by the LWC UI.
 
-            SECTION 1: DISPATCH UPDATE ACTION
-            - If the user requests a general visit update (e.g., "update visit", "edit visit", "modify visit") without mentioning any specific fields (or if they just entered the subagent this way):
-              1. First, call get_visit_for_update with visitId.
-              2. Save the output createVisitWrapper into @variables.tempCreateVisitWrapper.
-              3. Immediately call update_visit_record with visitId and createVisitWrapper = @variables.tempCreateVisitWrapper.
-            - If the user requests to update a specific field, or selects from the field menu:
-              * "Status" / Option 1 -> Call update_visit_status with only visitId.
-              * "Owner" / Option 2 -> Call update_visit_owner with only visitId.
-              * "Notes" / Option 3 -> Call update_visit_notes with only visitId.
-              * "Start Time" / Option 4 -> Call update_visit_start_time with only visitId.
-              * "End Time" / Option 5 -> Call update_visit_end_time with only visitId.
-            - If the user's message does not specify a field to update (and is not a general visit update request), prompt them:
-              "What would you like to update? Please select a field to update:
-              1. Status
-              2. Owner
-              3. Notes
-              4. Start Time
-              5. End Time"
+            SECTION 1: DETERMINING THE DIRECT ACTION OR GENERAL UPDATE FLOW
+            Analyze the user's latest query or the active context:
+            - If the user explicitly asks to update a specific field:
+              * status -> Call the `update_visit_status` action to render the status update LWC form and collect `statusWrapper` value from the user.
+              * owner/assignee -> Call the `update_visit_owner` action to render the owner assignment LWC form and collect `ownerWrapper` value from the user.
+              * notes -> Call the `update_visit_notes` action to render the notes entry form and collect `notes` value from the user.
+              * start time -> Call the `update_visit_start_time` action to render the start time calendar picker LWC form and collect `plannedStartTimeWrapper` value from the user.
+              * end time -> Call the `update_visit_end_time` action to render the end time calendar picker LWC form and collect `plannedEndTimeWrapper` value from the user.
+            - For general updates (if the user's latest message or query is "7", "Update Visit", "Update Visit Information", "General Update", or any generic/ambiguous request that does not specify a single field):
+              * First step: You MUST call the `get_visit_for_update` action with `visitId = @variables.visitId` and `domain = "Visit"` to load the full-form wrapper. Do NOT output any options menu, list of choices, or text prompts asking the user what field they want to update.
+              * Second step: Once `get_visit_for_update` completes successfully, call the `update_visit_record` action to render the full-form LWC editor and collect `createVisitWrapper` value from the user.
+            - GUARD: You are strictly forbidden from calling `update_visit_record` unless `get_visit_for_update` has already run successfully and returned success = True, and `createVisitWrapper` is populated with actual form data (not placeholder or empty values like '...' or '__user_input__').
 
             SECTION 2: LWC SLOT-FILLING AND MANUAL INPUT TRANSITION
-            - Since the LWC parameters (statusWrapper, ownerWrapper, plannedStartTimeWrapper, plannedEndTimeWrapper, createVisitWrapper) are required, the platform will prompt the user to fill the form in the chat.
+            - Since the LWC parameters (statusWrapper, ownerWrapper, plannedStartTimeWrapper, plannedEndTimeWrapper, createVisitWrapper) are slot-filled (using ...), the platform will prompt the user to fill the form in the chat.
             - If the user types "manual input" in the chat box while they are viewing the LWC form:
               * Do NOT transition to another action or subagent.
               * Populate the required input wrapper parameter of the active action with the manual input dummy indicator:
@@ -995,25 +1010,43 @@ subagent update_visit_lwc:
                 - If End Time update -> set plannedEndTimeWrapper.dateTimeValue = "1900-01-01T00:00:00Z".
               * Once the action returns the conversational choices prompt text, immediately transition to the Update Visit Text subagent using go_to_update_visit_text.
 
-            SECTION 3: RETURN ON SUCCESS
-            - If any update action returns success = True:
-              * Print a success message (e.g. "Perfect! I've updated the visit status to InProgress ✅").
+            SECTION 3: RETURN ON SUCCESS AND FAILURE HANDLING
+            - If any update action (including `update_visit_record`) returns success = True:
+              * Run get_visit to load the latest visit details.
+              * Set @variables.tempIsUpdated = True
+              * Print a success message (e.g., "Perfect! I've updated the visit status to Completed ✅").
+              * Print the updated visit details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
+                - Account: {!@variables.accountName} 🏪
+                - Visit Date: {!@variables.visitDate} 📅
+                - Visit Status: {!@variables.visitStatus} 🔖
+                - Assigned User: {!@variables.assignedUser} 👤
               * Transition back to the main dashboard using go_to_intelligence.
-            - If any update action returns success = False (other than the manual input fallback), print the returned message verbatim and prompt the user to try again or type "manual input".
-            - If the action execution fails (e.g. shows a red cross or throws a platform/binding error), do NOT print a success message, do NOT show the updated details table, and do NOT transition. Ask the user to click the "Reset" button at the top right of the Preview Settings to apply the latest agent version.
+            - If `get_visit_for_update` or any update action returns success = False (other than the manual input fallback), surface the specific error message verbatim and re-prompt the user for the missing inputs, ask them to try again, or type "manual input" to route to the manual input fallback (go_to_update_visit_text).
+            - If the action execution fails (e.g. shows a red cross or throws a platform/binding error like FIELD_INTEGRITY_EXCEPTION), do NOT print a success message, do NOT show the updated details table, and do NOT transition. Surface the specific error message, and if it recommends resetting, ask the user to click the "Reset" button at the top right of the Preview Settings.
 
         actions:
             get_visit_for_update: @actions.get_visit_for_update
                 with agentName = "VisitIntelligence"
                 with actionType = "get_visit_for_update"
+                with domain = "Visit"
                 with visitId = @variables.visitId
                 set @variables.tempCreateVisitWrapper = @outputs.createVisitWrapper
 
+            get_visit: @actions.get_visit_details
+                with recordId = @variables.visitId
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.visitStatus = @outputs.visitStatus
+                set @variables.visitDate = @outputs.visitDate
+                set @variables.assignedUser = @outputs.assignedUser
+
             update_visit_record: @actions.update_visit_record
+                available when @variables.tempCreateVisitWrapper is not None
                 with agentName = "VisitIntelligence"
                 with actionType = "update_visit_record"
+                with domain = "Visit"
                 with visitId = @variables.visitId
-                with createVisitWrapper = @variables.tempCreateVisitWrapper
+                with createVisitWrapper = ...
 
             update_visit_status: @actions.update_visit_status
                 with agentName = "VisitIntelligence"
@@ -1060,6 +1093,9 @@ subagent update_visit_lwc:
                     description: "The name of the agent."
                 actionType: string
                     description: "The action to perform."
+                domain: string
+                    description: "The domain parameter."
+                    is_required: True
                 visitId: string
                     description: "The active Visit record ID."
                     is_required: True
@@ -1080,13 +1116,16 @@ subagent update_visit_lwc:
                     description: "The name of the agent."
                 actionType: string
                     description: "The action to perform."
+                domain: string
+                    description: "The domain parameter."
+                    is_required: True
                 visitId: string
                     description: "The active Visit record ID."
                     is_required: True
                 createVisitWrapper: object
                     complex_data_type_name: "c__createVisitWrapperType"
                     description: "The updated visit details form data."
-                    is_required: True
+                    is_required: False
                     is_user_input: True
             outputs:
                 success: boolean
@@ -1108,7 +1147,7 @@ subagent update_visit_lwc:
                 statusWrapper: object
                     complex_data_type_name: "c__visitStatusWrapperType"
                     description: "The new status of the visit (e.g., InProgress, Completed, Canceled, Abandoned, Planned)."
-                    is_required: True
+                    is_required: False
                     is_user_input: True
             outputs:
                 success: boolean
@@ -1131,7 +1170,7 @@ subagent update_visit_lwc:
                 ownerWrapper: object
                     complex_data_type_name: "c__visitOwnerWrapperType"
                     description: "The new owner of the visit."
-                    is_required: True
+                    is_required: False
                     is_user_input: True
             outputs:
                 success: boolean
@@ -1216,6 +1255,27 @@ subagent update_visit_lwc:
                     description: "Result status message."
                     is_displayable: True
 
+        get_visit_details:
+            description: "Retrieve details of the current Visit record and its associated Account."
+            target: "flow://Get_Visit_Details"
+            inputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                    is_required: True
+            outputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                accountId: string
+                    description: "The associated Account ID."
+                accountName: string
+                    description: "The associated Account Name."
+                visitStatus: string
+                    description: "The Visit Status."
+                visitDate: string
+                    description: "The Visit Date."
+                assignedUser: string
+                    description: "The Assigned User."
+
 
 subagent update_visit_text:
     label: "Update Visit Text"
@@ -1228,27 +1288,43 @@ subagent update_visit_text:
             Your goal is to update details (status, owner, notes, start time, or end time) of the current Visit (ID: {!@variables.visitId}) conversationally using text inputs.
 
             SECTION 1: DISPATCH UPDATE ACTION
+            - If the user has just transitioned here due to manual input, or if their message does not specify a field to update, first present the fields that can be updated in a numbered list:
+              "Please select a field to update:
+              1. Status (currently: {!@variables.visitStatus})
+              2. Owner (currently: {!@variables.assignedUser})
+              3. Notes
+              4. Start Time (currently: {!@variables.visitDate})
+              5. End Time"
             - If the user selects a field or option from the menu, call the corresponding conversational mobile action:
               * "Status" / Option 1 -> Call update_visit_status_mobile with only visitId.
               * "Owner" / Option 2 -> Call update_visit_owner_mobile with only visitId.
               * "Notes" / Option 3 -> Call update_visit_notes_mobile with only visitId.
               * "Start Time" / Option 4 -> Call update_visit_start_time_mobile with only visitId.
               * "End Time" / Option 5 -> Call update_visit_end_time_mobile with only visitId.
-            - If the user has just transitioned here due to manual input, or if their message does not specify a field to update, prompt them:
-              "What would you like to update? Please select a field to update:
-              1. Status
-              2. Owner
-              3. Notes
-              4. Start Time
-              5. End Time"
+            - If they provide both the field and the value in the same request (e.g., "change status to completed", "assign to Siri FieldRep"), map the field and pass the value directly to the corresponding action (e.g., `status = "completed"` or `ownerName = "Siri FieldRep"`).
 
             SECTION 2: RETURN ON SUCCESS
             - If any update action returns success = True:
-              * Print a success message (e.g. "Perfect! I've updated the visit status to InProgress ✅").
+              * Run get_visit to load the latest visit details.
+              * Set @variables.tempIsUpdated = True
+              * Print a success message (e.g., "Perfect! I've updated the visit details conversationally ✅").
+              * Print the updated visit details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
+                - Account: {!@variables.accountName} 🏪
+                - Visit Date: {!@variables.visitDate} 📅
+                - Visit Status: {!@variables.visitStatus} 🔖
+                - Assigned User: {!@variables.assignedUser} 👤
               * Transition back to the main dashboard using go_to_intelligence.
             - If any update action returns success = False, print the returned message verbatim and capture their subsequent text input.
 
         actions:
+            get_visit: @actions.get_visit_details
+                with recordId = @variables.visitId
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.visitStatus = @outputs.visitStatus
+                set @variables.visitDate = @outputs.visitDate
+                set @variables.assignedUser = @outputs.assignedUser
+
             update_visit_status_mobile: @actions.update_visit_status_mobile_action
                 with agentName = "VisitIntelligence"
                 with actionType = "update_visit_status_mobile_action"
@@ -1400,6 +1476,27 @@ subagent update_visit_text:
                 message: string
                     description: "Result status message."
                     is_displayable: True
+
+        get_visit_details:
+            description: "Retrieve details of the current Visit record and its associated Account."
+            target: "flow://Get_Visit_Details"
+            inputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                    is_required: True
+            outputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                accountId: string
+                    description: "The associated Account ID."
+                accountName: string
+                    description: "The associated Account Name."
+                visitStatus: string
+                    description: "The Visit Status."
+                visitDate: string
+                    description: "The Visit Date."
+                assignedUser: string
+                    description: "The Assigned User."
 
 
 subagent visit_activities:
@@ -1638,6 +1735,10 @@ subagent create_visit:
                 | You are now in the Create Visit Agent.
                 | Please call the create_visit_record action immediately to present the record creation form to the user.
                 | Do NOT ask the user for any details in text. Let the form collect them.
+                | Greet the user verbatim with: "I've opened the Create Visit form for you. Please fill in the details in the form that appears in the chat."
+                |
+                | If the user requests manual input or types "manual input" while they are in the Create Visit Agent:
+                |   - Immediately transition to the Create Visit Mobile Agent (Manual Input Agent) using go_to_create_visit_mobile.
                 |
                 | If the create_visit_record action returns success = False, you MUST display the error message returned in the message output field verbatim: "Failed to create visit: [message]" and do NOT transition.
 
@@ -1653,7 +1754,25 @@ subagent create_visit:
                 set @variables.visitDate = @outputs.visitDate
                 set @variables.assignedUser = @outputs.assignedUser
 
+            go_to_create_visit_mobile: @utils.transition to @subagent.create_visit_mobile
+
     actions:
+        get_current_user_profile:
+            description: "Retrieve the current user's profile name."
+            target: "apex://Agent_Global_Handler"
+            inputs:
+                domain: string
+                    description: "The domain of execution. Must be GetCurrentUserProfile."
+                    is_required: False
+                actionType: string
+                    description: "The action to perform. Must be getProfile."
+                    is_required: False
+            outputs:
+                success: boolean
+                    description: "True if the query was successful."
+                profileName: string
+                    description: "The name of the user profile."
+
         create_visit_record:
             description: "Validate fields and create a new Visit record. The visitData parameter must be populated using the form input."
             target: "apex://Agent_Global_Handler"
@@ -1665,7 +1784,7 @@ subagent create_visit:
                 createVisitWrapper: object
                     complex_data_type_name: "c__createVisitWrapperType"
                     description: "The visit details form data containing Subject, Account, Planned Start, Place, and optional fields."
-                    is_required: True
+                    is_required: False
                     is_user_input: True
             outputs:
                 success: boolean
@@ -1856,27 +1975,22 @@ subagent create_visit_mobile:
                 actionType: string
                     description: "The action to perform."
                 subject: string
-                    complex_data_type_name: "lightning__textType"
                     description: "Subject of the visit"
                     is_required: False
                     is_user_input: False
                 accountInput: string
-                    complex_data_type_name: "lightning__textType"
                     description: "Account name or ID"
                     is_required: False
                     is_user_input: False
                 placeInput: string
-                    complex_data_type_name: "lightning__textType"
                     description: "Place/Store/Location name or ID"
                     is_required: False
                     is_user_input: False
                 plannedStartTimeStr: string
-                    complex_data_type_name: "lightning__textType"
                     description: "Planned start time of the visit"
                     is_required: False
                     is_user_input: False
                 templateInput: string
-                    complex_data_type_name: "lightning__textType"
                     description: "Visit Template name or ID"
                     is_required: False
                     is_user_input: False
@@ -1906,17 +2020,14 @@ subagent create_visit_mobile:
                 actionType: string
                     description: "The action to perform."
                 accountInput: string
-                    complex_data_type_name: "lightning__textType"
                     description: "Enter Account Name"
                     is_required: False
                     is_user_input: False
                 placeInput: string
-                    complex_data_type_name: "lightning__textType"
                     description: "Enter Place / Store Name"
                     is_required: False
                     is_user_input: False
                 templateInput: string
-                    complex_data_type_name: "lightning__textType"
                     description: "Enter Visit Template Name"
                     is_required: False
                     is_user_input: False
@@ -1925,7 +2036,6 @@ subagent create_visit_mobile:
                     is_required: False
                     is_user_input: False
                 matchedTemplate: string
-                    complex_data_type_name: "lightning__textType"
                     description: "Matched Template Name"
                     is_required: False
                     is_user_input: False
@@ -1958,11 +2068,25 @@ subagent create_visit_mobile:
                 suggestions: string
                     description: "Matched IDs if ambiguous."
 
-subagent device_identifier:
-    description: "Identify or tell the user which device, platform, or channel they are currently using."
-    reasoning:
-        instructions: |
-            You are a helpful device identifier assistant. Your sole purpose is to tell the user what device or channel they are using.
-            If @variables.channelType is "mobile", say: "You are currently using a Mobile device."
-            If @variables.channelType is "web", say: "You are currently using a Desktop device."
+        get_visit_details:
+            description: "Retrieve details of the current Visit record and its associated Account."
+            target: "flow://Get_Visit_Details"
+            inputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                    is_required: True
+            outputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                accountId: string
+                    description: "The associated Account ID."
+                accountName: string
+                    description: "The associated Account Name."
+                visitStatus: string
+                    description: "The Visit Status."
+                visitDate: string
+                    description: "The Visit Date."
+                assignedUser: string
+                    description: "The Assigned User."
+
 
