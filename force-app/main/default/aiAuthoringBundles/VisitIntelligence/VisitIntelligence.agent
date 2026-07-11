@@ -979,14 +979,13 @@ subagent update_visit_lwc:
     description: "Update the status, owner, notes, start time, or end time of the current visit using Custom LWC forms for non-field reps."
     before_reasoning:
         set @variables.activeSubagent = "update_visit_lwc"
-        set @variables.tempCreateVisitWrapper = None
     reasoning:
         instructions: |
             You are now in the Update Visit LWC subagent.
             Your goal is to execute the appropriate record update action using custom LWC inputs.
             Under all circumstances, do NOT output any option menus, text choice prompts, field lists, or text descriptions of status options/fields to the user. All fields and choices must be rendered strictly by the LWC UI.
 
-            SECTION 1: DETERMINING THE DIRECT ACTION OR GENERAL UPDATE FLOW
+            SECTION 1: ROUTING TO LWC FORMS IMMEDIATELY
             Analyze the user's latest query or the active context:
             - If the user explicitly asks to update a specific field:
               * status -> Call the `update_visit_status` action to render the status update LWC form and collect `statusWrapper` value from the user.
@@ -995,9 +994,7 @@ subagent update_visit_lwc:
               * start time -> Call the `update_visit_start_time` action to render the start time calendar picker LWC form and collect `plannedStartTimeWrapper` value from the user.
               * end time -> Call the `update_visit_end_time` action to render the end time calendar picker LWC form and collect `plannedEndTimeWrapper` value from the user.
             - For general updates (if the user's latest message or query is "7", "Update Visit", "Update Visit Information", "General Update", or any generic/ambiguous request that does not specify a single field):
-              * First step: You MUST call the `get_visit_for_update` action with `visitId = @variables.visitId` and `domain = "Visit"` to load the full-form wrapper. Do NOT output any options menu, list of choices, or text prompts asking the user what field they want to update.
-              * Second step: Once `get_visit_for_update` completes successfully, call the `update_visit_record` action to render the full-form LWC editor and collect `createVisitWrapper` value from the user.
-            - GUARD: You are strictly forbidden from calling `update_visit_record` unless `get_visit_for_update` has already run successfully and returned success = True, and `createVisitWrapper` is populated with actual form data (not placeholder or empty values like '...' or '__user_input__').
+              * Immediately call the `update_visit_record` action to render the full-form LWC editor and collect `createVisitWrapper` value from the user. Do NOT call any other actions or print any options/introductory text.
 
             SECTION 2: LWC SLOT-FILLING AND MANUAL INPUT TRANSITION
             - Since the LWC parameters (statusWrapper, ownerWrapper, plannedStartTimeWrapper, plannedEndTimeWrapper, createVisitWrapper) are slot-filled (using ...), the platform will prompt the user to fill the form in the chat.
@@ -1014,24 +1011,17 @@ subagent update_visit_lwc:
             - If any update action (including `update_visit_record`) returns success = True:
               * Run get_visit to load the latest visit details.
               * Set @variables.tempIsUpdated = True
-              * Print a success message (e.g., "Perfect! I've updated the visit status to Completed ✅").
+              * Print a success message (e.g., "Perfect! I've updated the visit details ✅").
               * Print the updated visit details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
                 - Account: {!@variables.accountName} 🏪
                 - Visit Date: {!@variables.visitDate} 📅
                 - Visit Status: {!@variables.visitStatus} 🔖
                 - Assigned User: {!@variables.assignedUser} 👤
               * Transition back to the main dashboard using go_to_intelligence.
-            - If `get_visit_for_update` or any update action returns success = False (other than the manual input fallback), surface the specific error message verbatim and re-prompt the user for the missing inputs, ask them to try again, or type "manual input" to route to the manual input fallback (go_to_update_visit_text).
+            - If any update action returns success = False (other than the manual input fallback), surface the specific error message verbatim and re-prompt the user for the missing inputs, ask them to try again, or type "manual input" to route to the manual input fallback (go_to_update_visit_text).
             - If the action execution fails (e.g. shows a red cross or throws a platform/binding error like FIELD_INTEGRITY_EXCEPTION), do NOT print a success message, do NOT show the updated details table, and do NOT transition. Surface the specific error message, and if it recommends resetting, ask the user to click the "Reset" button at the top right of the Preview Settings.
 
         actions:
-            get_visit_for_update: @actions.get_visit_for_update
-                with agentName = "VisitIntelligence"
-                with actionType = "get_visit_for_update"
-                with domain = "Visit"
-                with visitId = @variables.visitId
-                set @variables.tempCreateVisitWrapper = @outputs.createVisitWrapper
-
             get_visit: @actions.get_visit_details
                 with recordId = @variables.visitId
                 set @variables.accountId = @outputs.accountId
@@ -1041,7 +1031,6 @@ subagent update_visit_lwc:
                 set @variables.assignedUser = @outputs.assignedUser
 
             update_visit_record: @actions.update_visit_record
-                available when @variables.tempCreateVisitWrapper is not None
                 with agentName = "VisitIntelligence"
                 with actionType = "update_visit_record"
                 with domain = "Visit"
@@ -1125,7 +1114,7 @@ subagent update_visit_lwc:
                 createVisitWrapper: object
                     complex_data_type_name: "c__createVisitWrapperType"
                     description: "The updated visit details form data."
-                    is_required: False
+                    is_required: True
                     is_user_input: True
             outputs:
                 success: boolean
@@ -1147,7 +1136,7 @@ subagent update_visit_lwc:
                 statusWrapper: object
                     complex_data_type_name: "c__visitStatusWrapperType"
                     description: "The new status of the visit (e.g., InProgress, Completed, Canceled, Abandoned, Planned)."
-                    is_required: False
+                    is_required: True
                     is_user_input: True
             outputs:
                 success: boolean
@@ -1170,7 +1159,7 @@ subagent update_visit_lwc:
                 ownerWrapper: object
                     complex_data_type_name: "c__visitOwnerWrapperType"
                     description: "The new owner of the visit."
-                    is_required: False
+                    is_required: True
                     is_user_input: True
             outputs:
                 success: boolean
@@ -1215,7 +1204,7 @@ subagent update_visit_lwc:
                 plannedStartTimeWrapper: object
                     complex_data_type_name: "c__visitDateTimeWrapperType"
                     description: "The new planned start date and time."
-                    is_required: False
+                    is_required: True
                     is_user_input: True
                 plannedStartTimeStr: string
                     description: "The new planned start date and time as a text string."
@@ -1242,7 +1231,7 @@ subagent update_visit_lwc:
                 plannedEndTimeWrapper: object
                     complex_data_type_name: "c__visitDateTimeWrapperType"
                     description: "The new planned end date and time."
-                    is_required: False
+                    is_required: True
                     is_user_input: True
                 plannedEndTimeStr: string
                     description: "The new planned end date and time as a text string."
@@ -1784,7 +1773,7 @@ subagent create_visit:
                 createVisitWrapper: object
                     complex_data_type_name: "c__createVisitWrapperType"
                     description: "The visit details form data containing Subject, Account, Planned Start, Place, and optional fields."
-                    is_required: False
+                    is_required: True
                     is_user_input: True
             outputs:
                 success: boolean
