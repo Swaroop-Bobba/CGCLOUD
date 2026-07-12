@@ -1,8 +1,40 @@
-public with sharing class Order_Agent_Service {
+public with sharing class Order_Agent_Service  implements IAgentService {
+
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public Agent_Response execute(Agent_Request req) {
+        Agent_Response res = new Agent_Response();
+        String action = req.actionType != null ? req.actionType.toLowerCase().trim() : '';
+
+        try {
+            if (action == 'getdetails') {
+                res = getOrderDetails(req.orderId);
+            } else if (action == 'search') {
+                res.orders = searchOrders(req.searchQuery);
+            } else if (action == 'getaccountsummary') {
+                res = getAccountOrderSummary(req.accountId);
+            } else if (action == 'getvisitsummary') {
+                res = getVisitOrderSummary(req.visitId);
+            } else if (action == 'getlineitems') {
+                res = getOrderLineItems(req.orderId);
+            } else if (action == 'updatenotes') {
+                res = updateOrderNotes(req.orderIdentifier, req.deliveryNote, req.invoiceNote);
+            }
+        } catch(Exception e) {
+            res.success = false;
+            res.message = e.getMessage();
+        }
+        return res;
+    }
+
     // --- ORDER METHODS ---
 
-    public static Order_Agent_Handler.Result getOrderDetails(String orderId) {
-        Order_Agent_Handler.Result res = new Order_Agent_Handler.Result();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response getOrderDetails(String orderId) {
+        Agent_Response res = new Agent_Response();
         if (String.isBlank(orderId)) {
             return res;
         }
@@ -10,10 +42,10 @@ public with sharing class Order_Agent_Service {
         try {
             Id ordId = (Id) orderId.trim();
             cgcloud__Order__c ord = [
-                SELECT Id, Name, cgcloud__Phase__c, cgcloud__Order_Account__c, cgcloud__Order_Account__r.Name 
-                FROM cgcloud__Order__c 
-                WHERE Id = :ordId 
-                WITH USER_MODE 
+                SELECT Id, Name, cgcloud__Phase__c, cgcloud__Order_Account__c, cgcloud__Order_Account__r.Name
+                FROM cgcloud__Order__c
+                WHERE Id = :ordId
+                WITH USER_MODE
                 LIMIT 1
             ];
             res.orderId = ord.Id;
@@ -21,12 +53,12 @@ public with sharing class Order_Agent_Service {
             res.accountName = ord.cgcloud__Order_Account__r != null ? ord.cgcloud__Order_Account__r.Name : '';
             res.orderName = ord.Name;
             res.orderStatus = ord.cgcloud__Phase__c;
-        } catch (Exception e) {}
+        } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         return res;
     }
 
-    public static List<Order_Agent_Handler.OrderOption> searchOrders(String searchQuery) {
-        List<Order_Agent_Handler.OrderOption> options = new List<Order_Agent_Handler.OrderOption>();
+    public static List<Agent_Response.OrderOption> searchOrders(String searchQuery) {
+        List<Agent_Response.OrderOption> options = new List<Agent_Response.OrderOption>();
         if (String.isBlank(searchQuery)) {
             return options;
         }
@@ -34,23 +66,26 @@ public with sharing class Order_Agent_Service {
         try {
             String pattern = '%' + searchQuery.trim().replaceAll('\\s+', '%') + '%';
             List<cgcloud__Order__c> ords = [
-                SELECT Id, Name, cgcloud__Phase__c, cgcloud__Order_Account__c, cgcloud__Order_Account__r.Name 
-                FROM cgcloud__Order__c 
+                SELECT Id, Name, cgcloud__Phase__c, cgcloud__Order_Account__c, cgcloud__Order_Account__r.Name
+                FROM cgcloud__Order__c
                 WHERE Name LIKE :pattern OR cgcloud__Order_Account__r.Name LIKE :pattern
-                WITH USER_MODE 
+                WITH USER_MODE
                 LIMIT 15
             ];
             for (cgcloud__Order__c o : ords) {
                 String accName = o.cgcloud__Order_Account__r != null ? o.cgcloud__Order_Account__r.Name : 'Unknown';
                 String lbl = 'Order ' + o.Name + ' \u2014 ' + accName + ' (Status: ' + o.cgcloud__Phase__c + ')';
-                options.add(new Order_Agent_Handler.OrderOption(o.Id, o.Name, o.cgcloud__Order_Account__c, accName, lbl));
+                options.add(new Agent_Response.OrderOption(o.Id, o.Name, o.cgcloud__Order_Account__c, accName, lbl));
             }
-        } catch (Exception e) {}
+        } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         return options;
     }
 
-    public static Order_Agent_Handler.Result getAccountOrderSummary(String accountId) {
-        Order_Agent_Handler.Result res = new Order_Agent_Handler.Result();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response getAccountOrderSummary(String accountId) {
+        Agent_Response res = new Agent_Response();
         res.totalOrders = 0;
         res.totalSpend = 0;
         res.buyingInsight = 'No historical order data available.';
@@ -217,8 +252,11 @@ public with sharing class Order_Agent_Service {
         return res;
     }
 
-    public static Order_Agent_Handler.Result getVisitOrderSummary(String visitId) {
-        Order_Agent_Handler.Result res = new Order_Agent_Handler.Result();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response getVisitOrderSummary(String visitId) {
+        Agent_Response res = new Agent_Response();
         res.totalOrders = 0;
         res.totalSpend = 0;
         res.buyingInsight = 'No historical order data available for this visit.';
@@ -395,9 +433,12 @@ public with sharing class Order_Agent_Service {
         return res;
     }
 
-    public static Order_Agent_Handler.Result getOrderLineItems(String orderId) {
-        Order_Agent_Handler.Result res = new Order_Agent_Handler.Result();
-        res.items = new List<Order_Agent_Handler.OrderItem>();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response getOrderLineItems(String orderId) {
+        Agent_Response res = new Agent_Response();
+        res.items = new List<Agent_Response.OrderItem>();
         res.itemCount = 0;
         res.itemsSummary = 'No items found.';
 
@@ -407,7 +448,7 @@ public with sharing class Order_Agent_Service {
 
         try {
             String ordId = orderId.trim();
-            String itemQuery = 
+            String itemQuery =
                 'SELECT Id, cgcloud__Product__r.Name, cgcloud__Quantity__c, cgcloud__UOM__c ' +
                 'FROM cgcloud__Order_Item__c ' +
                 'WHERE cgcloud__Order__c = :ordId ' +
@@ -422,7 +463,7 @@ public with sharing class Order_Agent_Service {
             summaryLines.add('\uD83D\uDCCB Order Line Items (' + sItems.size() + ' total)');
 
             for (SObject si : sItems) {
-                Order_Agent_Handler.OrderItem oi = new Order_Agent_Handler.OrderItem();
+                Agent_Response.OrderItem oi = new Agent_Response.OrderItem();
                 SObject productRef = si.getSObject('cgcloud__Product__r');
                 oi.productName = (productRef != null) ? (String) productRef.get('Name') : 'Unknown Product';
                 Decimal qty = (Decimal) si.get('cgcloud__Quantity__c');
@@ -442,37 +483,40 @@ public with sharing class Order_Agent_Service {
         return res;
     }
 
-    public static Order_Agent_Handler.Result updateOrderNotes(String orderIdentifier, String deliveryNote, String invoiceNote) {
-        Order_Agent_Handler.Result res = new Order_Agent_Handler.Result();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response updateOrderNotes(String orderIdentifier, String deliveryNote, String invoiceNote) {
+        Agent_Response res = new Agent_Response();
         res.success = false;
 
         if (String.isBlank(orderIdentifier)) {
-            res.resultMessage = 'Order identifier cannot be empty.';
+            res.message = 'Order identifier cannot be empty.';
             return res;
         }
 
         try {
             String ident = orderIdentifier.trim();
             List<cgcloud__Order__c> orders = new List<cgcloud__Order__c>();
-            
+
             if (ident.length() == 15 || ident.length() == 18) {
-                orders = [SELECT Id, cgcloud__Delivery_Note__c, cgcloud__Invoice_Note__c 
-                          FROM cgcloud__Order__c 
-                          WHERE Id = :ident 
-                          WITH USER_MODE 
-                          LIMIT 1];
-            }
-            
-            if (orders.isEmpty()) {
-                orders = [SELECT Id, cgcloud__Delivery_Note__c, cgcloud__Invoice_Note__c 
-                          FROM cgcloud__Order__c 
-                          WHERE Name = :ident 
-                          WITH USER_MODE 
+                orders = [SELECT Id, cgcloud__Delivery_Note__c, cgcloud__Invoice_Note__c
+                          FROM cgcloud__Order__c
+                          WHERE Id = :ident
+                          WITH USER_MODE
                           LIMIT 1];
             }
 
             if (orders.isEmpty()) {
-                res.resultMessage = 'Order record not found with identifier: ' + ident;
+                orders = [SELECT Id, cgcloud__Delivery_Note__c, cgcloud__Invoice_Note__c
+                          FROM cgcloud__Order__c
+                          WHERE Name = :ident
+                          WITH USER_MODE
+                          LIMIT 1];
+            }
+
+            if (orders.isEmpty()) {
+                res.message = 'Order record not found with identifier: ' + ident;
                 return res;
             }
 
@@ -492,14 +536,14 @@ public with sharing class Order_Agent_Service {
             if (changed) {
                 Database.update(orderToUpdate, AccessLevel.USER_MODE);
                 res.success = true;
-                res.resultMessage = 'Order notes updated successfully.';
+                res.message = 'Order notes updated successfully.';
             } else {
                 res.success = true;
-                res.resultMessage = 'No updates provided.';
+                res.message = 'No updates provided.';
             }
         } catch (Exception e) {
             res.success = false;
-            res.resultMessage = 'Error updating order: ' + e.getMessage();
+            res.message = 'Error updating order: ' + e.getMessage();
         }
         return res;
     }
@@ -542,6 +586,9 @@ public with sharing class Order_Agent_Service {
         return String.valueOf(month);
     }
 
+    /**
+     * @description Auto-generated ApexDoc for class.
+     */
     private class ProductStat {
         public Decimal totalQuantity;
         public Integer orderCount;
@@ -554,6 +601,9 @@ public with sharing class Order_Agent_Service {
         }
     }
 
+    /**
+     * @description Auto-generated ApexDoc for class.
+     */
     private class ProductEntry implements Comparable {
         public String name;
         public Decimal totalQuantity;
@@ -567,6 +617,9 @@ public with sharing class Order_Agent_Service {
             this.uom = uom;
         }
 
+        /**
+         * @description Auto-generated ApexDoc for method.
+         */
         public Integer compareTo(Object other) {
             ProductEntry o = (ProductEntry) other;
             return o.orderCount - this.orderCount;

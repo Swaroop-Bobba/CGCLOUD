@@ -1,16 +1,18 @@
 import { LightningElement, api, wire } from 'lwc';
-import searchAccounts from '@salesforce/apex/CreateVisitAction.searchAccounts';
-import getAccountName from '@salesforce/apex/CreateVisitAction.getAccountName';
-import searchPlaces from '@salesforce/apex/CreateVisitAction.searchPlaces';
-import getPlaceName from '@salesforce/apex/CreateVisitAction.getPlaceName';
-import searchTemplates from '@salesforce/apex/CreateVisitAction.searchTemplates';
-import getTemplateName from '@salesforce/apex/CreateVisitAction.getTemplateName';
-import searchUsers from '@salesforce/apex/CreateVisitAction.searchUsers';
-import getUserName from '@salesforce/apex/CreateVisitAction.getUserName';
-import getResponsibleUserContext from '@salesforce/apex/CreateVisitAction.getResponsibleUserContext';
+import searchAccounts from '@salesforce/apex/Visit_Agent_Service.searchAccounts';
+import getAccountName from '@salesforce/apex/Visit_Agent_Service.getAccountName';
+import searchPlaces from '@salesforce/apex/Visit_Agent_Service.searchPlaces';
+import getPlaceName from '@salesforce/apex/Visit_Agent_Service.getPlaceName';
+import searchTemplates from '@salesforce/apex/Visit_Agent_Service.searchTemplates';
+import getTemplateName from '@salesforce/apex/Visit_Agent_Service.getTemplateName';
+import searchUsers from '@salesforce/apex/Visit_Agent_Service.searchUsers';
+import getUserName from '@salesforce/apex/Visit_Agent_Service.getUserName';
+import getResponsibleUserContext from '@salesforce/apex/Visit_Agent_Service.getResponsibleUserContext';
+import getVisitDataForLwc from '@salesforce/apex/Visit_Agent_Service.getVisitDataForLwc';
 
 export default class CreateVisitEditor extends LightningElement {
     @api value; // Input value representing the CreateVisitWrapper
+    @api visitId; // Input value representing the Visit ID for update mode
 
     isLoading = false;
     subject = '';
@@ -82,6 +84,30 @@ export default class CreateVisitEditor extends LightningElement {
             this.dispatchChange();
         } else if (error) {
             console.error('Error loading Responsible User Context:', error);
+        }
+    }
+
+    get computedVisitId() {
+        return this.visitId && this.visitId.trim() !== '' ? this.visitId : null;
+    }
+
+    @wire(getVisitDataForLwc, { visitId: '$computedVisitId' })
+    wiredVisit({ error, data }) {
+        if (data) {
+            this.subject = data.subject || '';
+            this.accountId = data.accountId || '';
+            this.plannedStartTime = data.plannedStartTime || null;
+            this.placeId = data.placeId || '';
+            this.visitTemplateId = data.visitTemplateId || '';
+            this.plannedEndTime = data.plannedEndTime || null;
+            this.isAllDayEvent = data.isAllDayEvent || false;
+            this.accountableId = data.accountableId || '';
+            this.responsibleId = data.responsibleId || '';
+
+            this.loadLookupNames();
+            this.dispatchChange();
+        } else if (error) {
+            console.error('Error loading visit data for LWC:', error);
         }
     }
 

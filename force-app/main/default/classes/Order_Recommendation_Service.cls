@@ -1,7 +1,41 @@
-public with sharing class Order_Recommendation_Service {
+public with sharing class Order_Recommendation_Service  implements IAgentService {
 
-    public static Order_Recommendation_Handler.Result getOrderContext(String orderId) {
-        Order_Recommendation_Handler.Result res = new Order_Recommendation_Handler.Result();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public Agent_Response execute(Agent_Request req) {
+        Agent_Response res = new Agent_Response();
+        String action = req.actionType != null ? req.actionType.toLowerCase().trim() : '';
+
+        try {
+            if (action == 'getcontext') {
+                res = getOrderContext(req.orderId);
+            } else if (action == 'suggestproducts') {
+                res = suggestProducts(req.accountId, req.orderId);
+            } else if (action == 'getaccountcontext') {
+                res = getAccountContext(req.accountId);
+            } else if (action == 'getfullorderlist') {
+                res = getFullOrderList(req.accountId);
+            } else if (action == 'getordersummary') {
+                res = getOrderSummary(req.accountId);
+            } else if (action == 'getsellableproducts') {
+                res = getSellableProducts(req.accountId);
+            } else if (action == 'searchaccounts') {
+                res = searchAccounts(req.searchQuery);
+            }
+        } catch(Exception e) {
+            res.success = false;
+            res.message = e.getMessage();
+        }
+        return res;
+    }
+
+
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response getOrderContext(String orderId) {
+        Agent_Response res = new Agent_Response();
         if (String.isBlank(orderId)) {
             return res;
         }
@@ -13,10 +47,10 @@ public with sharing class Order_Recommendation_Service {
             // Attempt to treat it as a Salesforce ID first
             Id ordId = (Id) searchKey;
             ordList = [
-                SELECT Id, Name, cgcloud__Phase__c, cgcloud__Order_Account__c, cgcloud__Order_Account__r.Name 
-                FROM cgcloud__Order__c 
-                WHERE Id = :ordId 
-                WITH USER_MODE 
+                SELECT Id, Name, cgcloud__Phase__c, cgcloud__Order_Account__c, cgcloud__Order_Account__r.Name
+                FROM cgcloud__Order__c
+                WHERE Id = :ordId
+                WITH USER_MODE
                 LIMIT 1
             ];
         } catch (Exception e) {
@@ -26,10 +60,10 @@ public with sharing class Order_Recommendation_Service {
         // If not found by ID (or casting failed), search by Order Name (e.g., 'O-01155')
         if (ordList.isEmpty()) {
             ordList = [
-                SELECT Id, Name, cgcloud__Phase__c, cgcloud__Order_Account__c, cgcloud__Order_Account__r.Name 
-                FROM cgcloud__Order__c 
-                WHERE Name = :searchKey 
-                WITH USER_MODE 
+                SELECT Id, Name, cgcloud__Phase__c, cgcloud__Order_Account__c, cgcloud__Order_Account__r.Name
+                FROM cgcloud__Order__c
+                WHERE Name = :searchKey
+                WITH USER_MODE
                 LIMIT 1
             ];
         }
@@ -51,14 +85,17 @@ public with sharing class Order_Recommendation_Service {
         return res;
     }
 
-    public static Order_Recommendation_Handler.Result suggestProducts(String accountId, String orderId) {
-        Order_Recommendation_Handler.Result res = new Order_Recommendation_Handler.Result();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response suggestProducts(String accountId, String orderId) {
+        Agent_Response res = new Agent_Response();
         res.orderId = orderId;
         res.accountId = accountId;
 
         // Resolve IDs if blank
         if (String.isBlank(accountId) && String.isNotBlank(orderId)) {
-            Order_Recommendation_Handler.Result context = getOrderContext(orderId);
+            Agent_Response context = getOrderContext(orderId);
             accountId = context.accountId;
             res.accountName = context.accountName;
             res.orderName = context.orderName;
@@ -85,7 +122,7 @@ public with sharing class Order_Recommendation_Service {
                     Id assId = (Id)ca.get('cgcloud__Assortment__c');
                     if (assId != null) assortmentIds.add(assId);
                 }
-            } catch (Exception ex) {}
+            } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
             try {
                 // Query standard store assortments
@@ -95,13 +132,13 @@ public with sharing class Order_Recommendation_Service {
                 for (StoreAssortment sa : standardAssortments) {
                     if (sa.AssortmentId != null) assortmentIds.add(sa.AssortmentId);
                 }
-            } catch (Exception ex) {}
+            } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
             if (!assortmentIds.isEmpty()) {
                 List<AssortmentProduct> apList = [
                     SELECT ProductId, Product.Name, Product.Family
-                    FROM AssortmentProduct 
-                    WHERE AssortmentId IN :assortmentIds 
+                    FROM AssortmentProduct
+                    WHERE AssortmentId IN :assortmentIds
                     WITH USER_MODE
                     LIMIT 100
                 ];
@@ -150,7 +187,7 @@ public with sharing class Order_Recommendation_Service {
                         }
                     }
                 }
-            } catch (Exception ex) {}
+            } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
             // Step 4: Active Promotions
             Set<Id> promotedProductIds = new Set<Id>();
@@ -168,7 +205,7 @@ public with sharing class Order_Recommendation_Service {
                         if (prodId != null) promotedProductIds.add(prodId);
                     }
                 }
-            } catch (Exception ex) {}
+            } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
             // Score and categorize products
             List<ScoredRecommendation> listFreq = new List<ScoredRecommendation>();
@@ -352,8 +389,8 @@ public with sharing class Order_Recommendation_Service {
         }
 
         return res;
-    }    public static Order_Recommendation_Handler.Result getAccountContext(String accountId) {
-        Order_Recommendation_Handler.Result res = new Order_Recommendation_Handler.Result();
+    }    public static Agent_Response getAccountContext(String accountId) {
+        Agent_Response res = new Agent_Response();
         if (String.isBlank(accountId)) {
             return res;
         }
@@ -369,11 +406,11 @@ public with sharing class Order_Recommendation_Service {
 
         // Query 3 recent orders
         List<cgcloud__Order__c> ordList = [
-            SELECT Id, Name, cgcloud__Phase__c 
-            FROM cgcloud__Order__c 
-            WHERE cgcloud__Order_Account__c = :accountId 
-            WITH USER_MODE 
-            ORDER BY cgcloud__Order_Date__c DESC, CreatedDate DESC 
+            SELECT Id, Name, cgcloud__Phase__c
+            FROM cgcloud__Order__c
+            WHERE cgcloud__Order_Account__c = :accountId
+            WITH USER_MODE
+            ORDER BY cgcloud__Order_Date__c DESC, CreatedDate DESC
             LIMIT 3
         ];
 
@@ -389,8 +426,11 @@ public with sharing class Order_Recommendation_Service {
         return res;
     }
 
-    public static Order_Recommendation_Handler.Result getFullOrderList(String accountId) {
-        Order_Recommendation_Handler.Result res = new Order_Recommendation_Handler.Result();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response getFullOrderList(String accountId) {
+        Agent_Response res = new Agent_Response();
         if (String.isBlank(accountId)) {
             res.recommendations = 'Error: Account ID is required to retrieve the order list.';
             return res;
@@ -421,8 +461,11 @@ public with sharing class Order_Recommendation_Service {
         return res;
     }
 
-    public static Order_Recommendation_Handler.Result getOrderSummary(String accountId) {
-        Order_Recommendation_Handler.Result res = new Order_Recommendation_Handler.Result();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response getOrderSummary(String accountId) {
+        Agent_Response res = new Agent_Response();
         if (String.isBlank(accountId)) {
             res.recommendations = 'Error: Account ID is required for order summary.';
             return res;
@@ -472,8 +515,11 @@ public with sharing class Order_Recommendation_Service {
         return res;
     }
 
-    public static Order_Recommendation_Handler.Result searchAccounts(String searchQuery) {
-        Order_Recommendation_Handler.Result res = new Order_Recommendation_Handler.Result();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response searchAccounts(String searchQuery) {
+        Agent_Response res = new Agent_Response();
         if (String.isBlank(searchQuery)) {
             res.recommendations = 'Error: Search query is required.';
             return res;
@@ -481,10 +527,10 @@ public with sharing class Order_Recommendation_Service {
 
         String pattern = '%' + searchQuery.trim() + '%';
         List<Account> accs = [
-            SELECT Id, Name 
-            FROM Account 
-            WHERE Name LIKE :pattern 
-            WITH USER_MODE 
+            SELECT Id, Name
+            FROM Account
+            WHERE Name LIKE :pattern
+            WITH USER_MODE
             LIMIT 10
         ];
 
@@ -496,14 +542,14 @@ public with sharing class Order_Recommendation_Service {
             Account singleAcc = accs[0];
             res.accountId = singleAcc.Id;
             res.accountName = singleAcc.Name;
-            
+
             // Pre-load recent orders for this account
             List<cgcloud__Order__c> ordList = [
-                SELECT Id, Name, cgcloud__Phase__c 
-                FROM cgcloud__Order__c 
-                WHERE cgcloud__Order_Account__c = :singleAcc.Id 
-                WITH USER_MODE 
-                ORDER BY cgcloud__Order_Date__c DESC, CreatedDate DESC 
+                SELECT Id, Name, cgcloud__Phase__c
+                FROM cgcloud__Order__c
+                WHERE cgcloud__Order_Account__c = :singleAcc.Id
+                WITH USER_MODE
+                ORDER BY cgcloud__Order_Date__c DESC, CreatedDate DESC
                 LIMIT 3
             ];
             List<String> orderLines = new List<String>();
@@ -526,8 +572,11 @@ public with sharing class Order_Recommendation_Service {
         return res;
     }
 
-    public static Order_Recommendation_Handler.Result getSellableProducts(String accountId) {
-        Order_Recommendation_Handler.Result res = new Order_Recommendation_Handler.Result();
+    /**
+     * @description Auto-generated ApexDoc for method.
+     */
+    public static Agent_Response getSellableProducts(String accountId) {
+        Agent_Response res = new Agent_Response();
         if (String.isBlank(accountId)) {
             res.recommendations = 'Error: Account ID is required to retrieve sellable products.';
             return res;
@@ -544,7 +593,7 @@ public with sharing class Order_Recommendation_Service {
                     assortmentIds.add(assId);
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
         try {
             List<StoreAssortment> standardAssortments = [
@@ -555,14 +604,14 @@ public with sharing class Order_Recommendation_Service {
                     assortmentIds.add(sa.AssortmentId);
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
         List<Product2> products = new List<Product2>();
         if (!assortmentIds.isEmpty()) {
             List<AssortmentProduct> apList = [
                 SELECT ProductId, Product.Name, Product.Family
-                FROM AssortmentProduct 
-                WHERE AssortmentId IN :assortmentIds 
+                FROM AssortmentProduct
+                WHERE AssortmentId IN :assortmentIds
                 WITH USER_MODE
                 LIMIT 100
             ];
@@ -591,6 +640,9 @@ public with sharing class Order_Recommendation_Service {
         return res;
     }
 
+    /**
+     * @description Auto-generated ApexDoc for class.
+     */
     private class ProductHistory {
         public Integer orderCount;
         public Decimal totalQuantity;
@@ -603,6 +655,9 @@ public with sharing class Order_Recommendation_Service {
         }
     }
 
+    /**
+     * @description Auto-generated ApexDoc for class.
+     */
     private class ScoredRecommendation implements Comparable {
         public String productName;
         public Integer score;
@@ -614,6 +669,9 @@ public with sharing class Order_Recommendation_Service {
             this.reason = reason;
         }
 
+        /**
+         * @description Auto-generated ApexDoc for method.
+         */
         public Integer compareTo(Object other) {
             ScoredRecommendation o = (ScoredRecommendation) other;
             return o.score - this.score; // sort descending

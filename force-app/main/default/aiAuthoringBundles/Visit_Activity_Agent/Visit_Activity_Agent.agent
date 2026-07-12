@@ -139,7 +139,7 @@ start_agent agent_router:
 
         get_available_visits:
             description: "Retrieve user's recently viewed, owned, and scheduled visits."
-            target: "apex://Visit_Activity_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent."
@@ -149,12 +149,12 @@ start_agent agent_router:
                     is_required: True
             outputs:
                 visits: list[object]
-                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$VisitOption"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
                     description: "List of available visits."
 
         search_visits:
             description: "Search for Visit records by account name, store name, visit name, or date."
-            target: "apex://Visit_Activity_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent."
@@ -167,7 +167,7 @@ start_agent agent_router:
                     is_required: True
             outputs:
                 visits: list[object]
-                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$VisitOption"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
                     description: "List of matching visits. Each visit has visitId, accountId, accountName, and label."
 
 subagent visit_activities:
@@ -282,7 +282,7 @@ subagent visit_activities:
     actions:
         get_visit_activities:
             description: "Retrieves activities, questions, and surveys associated with a visit based on its visit template."
-            target: "apex://Visit_Activity_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent."
@@ -297,12 +297,12 @@ subagent visit_activities:
                     description: "Filter by type: all, question, survey."
             outputs:
                 activities: list[object]
-                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$ActivityInfo"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$ActivityInfo"
                     description: "List of activities and questions/surveys associated with the visit template."
 
         get_visit_jobs_status:
             description: "Retrieves answered or pending visit jobs (questions/surveys) for a specific visit."
-            target: "apex://Visit_Activity_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent."
@@ -319,12 +319,12 @@ subagent visit_activities:
                     description: "Filter by type: all, question, survey."
             outputs:
                 jobs: list[object]
-                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$JobStatusInfo"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$JobStatusInfo"
                     description: "List of matching visit jobs (questions/surveys) with answer status."
 
         get_next_steps:
             description: "Retrieve the next steps options to show to the user as clickable choice buttons/cards."
-            target: "apex://Visit_Activity_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent."
@@ -336,7 +336,7 @@ subagent visit_activities:
                     description: "The option label to exclude."
             outputs:
                 itemDetails: list[object]
-                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$ItemDetail"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$ItemDetail"
                     description: "List of next step options."
                     is_displayable: True
 

@@ -1,8 +1,8 @@
-Visit v = [SELECT Id, Status, ActualVisitStartTime FROM Visit WHERE Name = '00001309' LIMIT 1];
-System.debug('Admin Test - Before Update: ' + v.Status + ' | Start Time: ' + v.ActualVisitStartTime);
+Visit v = [SELECT Id, Status, PlannedVisitStartTime FROM Visit WHERE Name = '00001309' LIMIT 1];
+System.debug('Admin Test - Before Update: ' + v.Status + ' | Start Time: ' + v.PlannedVisitStartTime);
 
 v.Status = 'InProgress';
-v.ActualVisitStartTime = DateTime.now();
+v.PlannedVisitStartTime = DateTime.now();
 
 try {
     Database.SaveResult sr = Database.update(v, false);
@@ -17,5 +17,5 @@ try {
     System.debug('Admin Test - Exception: ' + e.getMessage());
 }
 
-Visit vAfter = [SELECT Id, Status, ActualVisitStartTime FROM Visit WHERE Id = :v.Id];
-System.debug('Admin Test - After Update: ' + vAfter.Status + ' | Start Time: ' + vAfter.ActualVisitStartTime);
+Visit vAfter = [SELECT Id, Status, PlannedVisitStartTime FROM Visit WHERE Id = :v.Id];
+System.debug('Admin Test - After Update: ' + vAfter.Status + ' | Start Time: ' + vAfter.PlannedVisitStartTime);

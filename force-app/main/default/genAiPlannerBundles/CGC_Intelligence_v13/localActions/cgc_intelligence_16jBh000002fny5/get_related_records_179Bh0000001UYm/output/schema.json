@@ -6,7 +6,7 @@
       "description" : "List of related records containing name, status, owner, and lastModified.",
       "maxItems" : 2000,
       "items" : {
-        "lightning:type" : "@apexClassType/c__Account_Agent_Handler$RecordInfo"
+        "lightning:type" : "@apexClassType/c__Agent_Response$RecordInfo"
       },
       "lightning:type" : "lightning__listType",
       "lightning:isPII" : false,

@@ -3256,8 +3256,8 @@
         <members>VehicleUserAssignment.Status</members>
         <members>VehicleUserAssignment.VehicleId</members>
         <members>Visit.AccountId</members>
-        <members>Visit.ActualVisitEndTime</members>
-        <members>Visit.ActualVisitStartTime</members>
+        <members>Visit.PlannedVisitEndTime</members>
+        <members>Visit.PlannedVisitStartTime</members>
         <members>Visit.Additional_Status__c</members>
         <members>Visit.AddressId</members>
         <members>Visit.ContactId</members>

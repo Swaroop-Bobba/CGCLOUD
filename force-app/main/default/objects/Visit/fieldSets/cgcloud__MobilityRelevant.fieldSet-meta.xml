@@ -88,12 +88,12 @@
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
-        <field>ActualVisitStartTime</field>
+        <field>PlannedVisitStartTime</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
-        <field>ActualVisitEndTime</field>
+        <field>PlannedVisitEndTime</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>

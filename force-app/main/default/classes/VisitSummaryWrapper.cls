@@ -1,75 +1,93 @@
-global class VisitSummaryWrapper {
+/**
+ * @description Wrapper class for Visit Summary properties.
+ */
+public class VisitSummaryWrapper {
     @AuraEnabled
     @InvocableVariable(description='The store name.')
-    global String storeName;
+    public String storeName;
 
     @AuraEnabled
     @InvocableVariable(description='The visit date string.')
-    global String visitDate;
+    public String visitDate;
 
     @AuraEnabled
     @InvocableVariable(description='The visit status.')
-    global String visitStatus;
+    public String visitStatus;
 
     @AuraEnabled
     @InvocableVariable(description='The assigned representative.')
-    global String assignedUser;
+    public String assignedUser;
 
     @AuraEnabled
     @InvocableVariable(description='The number of completed tasks.')
-    global Integer completedTasks;
+    public Integer completedTasks;
 
     @AuraEnabled
     @InvocableVariable(description='The number of pending tasks.')
-    global Integer pendingTasks;
+    public Integer pendingTasks;
 
     @AuraEnabled
     @InvocableVariable(description='The number of promotions checked.')
-    global Integer promotionsChecked;
+    public Integer promotionsChecked;
 
     @AuraEnabled
     @InvocableVariable(description='The number of out-of-stock issues found.')
-    global Integer outOfStockIssues;
+    public Integer outOfStockIssues;
 
     @AuraEnabled
     @InvocableVariable(description='The number of orders created during this visit.')
-    global Integer ordersCreated;
+    public Integer ordersCreated;
 
     @AuraEnabled
     @InvocableVariable(description='The total value of orders created.')
-    global Decimal orderValue;
+    public Decimal orderValue;
 
     @AuraEnabled
     @InvocableVariable(description='The notes recorded for this visit.')
-    global String representativeNotes;
+    public String representativeNotes;
 
     @AuraEnabled
     @InvocableVariable(description='The overall outcome of the visit.')
-    global String overallOutcome;
+    public String overallOutcome;
 
     @AuraEnabled
     @InvocableVariable(description='Recommended next steps for the user.')
-    global List<Suggestion> suggestions;
+    public List<Suggestion> suggestions;
 
-    global class Suggestion {
+    /**
+     * @description Auto-generated ApexDoc for class.
+     */
+    public class Suggestion {
         @AuraEnabled
         @InvocableVariable(description='ID of the suggestion.')
-        global String id;
+        public String id;
 
         @AuraEnabled
         @InvocableVariable(description='The label to display on the button.')
-        global String label;
+        public String label;
 
         @AuraEnabled
         @InvocableVariable(description='The text command to inject on click.')
-        global String command;
+        public String command;
 
         @AuraEnabled
         @InvocableVariable(description='The SLDS icon name for the button.')
-        global String icon;
+        public String icon;
 
-        global Suggestion() {}
-        global Suggestion(String id, String label, String command, String icon) {
+        /**
+         * @description Default empty constructor required for serialization.
+         */
+        @SuppressWarnings('PMD.EmptyStatementBlock')
+        public Suggestion() { /* empty block */ }
+        /**
+         * @description Parameterized constructor for Suggestion.
+         * @param id The ID of the suggestion.
+         * @param label The label to display.
+         * @param command The text command.
+         * @param icon The SLDS icon name.
+         */
+        @SuppressWarnings('PMD.ExcessiveParameterList')
+        public Suggestion(String id, String label, String command, String icon) {
             this.id = id;
             this.label = label;
             this.command = command;
@@ -77,5 +95,9 @@ global class VisitSummaryWrapper {
         }
     }
 
-    global VisitSummaryWrapper() {}
+    /**
+     * @description Default empty constructor required for serialization.
+     */
+    @SuppressWarnings('PMD.EmptyStatementBlock')
+    public VisitSummaryWrapper() { /* empty block */ }
 }

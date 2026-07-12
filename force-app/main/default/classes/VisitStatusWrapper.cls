@@ -1,7 +1,9 @@
-global class VisitStatusWrapper {
+/**
+ * @description Wrapper class for Visit Status properties.
+ */
+public class VisitStatusWrapper {
     @AuraEnabled
     @InvocableVariable(required=true description='The status value.')
-    global String statusValue;
-    
-    global VisitStatusWrapper() {}
+    public String statusValue;
+
 }
