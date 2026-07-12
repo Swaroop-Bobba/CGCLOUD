@@ -1197,16 +1197,8 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 }
                 newVisit.cgcloud__IsAllDayEvent__c = req.isAllDayEvent != null ? req.isAllDayEvent : false;
                 
-                Id respId = null;
-                List<User> runningUser = [SELECT Profile.Name FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
-                if (!runningUser.isEmpty() && runningUser[0].Profile.Name == 'CGCloud_User_Profile') {
-                    respId = UserInfo.getUserId();
-                } else {
-                    List<User> cgUsers = [SELECT Id FROM User WHERE Profile.Name = 'CGCloud_User_Profile' AND IsActive = true LIMIT 1];
-                    respId = !cgUsers.isEmpty() ? cgUsers[0].Id : UserInfo.getUserId();
-                }
-                newVisit.cgcloud__Responsible__c = respId;
-                newVisit.cgcloud__Accountable__c = respId;
+                newVisit.OwnerId = UserInfo.getUserId();
+                newVisit.cgcloud__Responsible__c = UserInfo.getUserId();
             }
 
             Id recordTypeId = null;
@@ -1631,6 +1623,56 @@ public with sharing class Visit_Agent_Service implements IAgentService {
     public static void promptVisitMobile(Agent_Request req, Agent_Response res) {
         res.isSubmitted = false;
         res.suggestions = '';
+
+        if (req.responsibleInput != null && !isPlaceholder(req.responsibleInput)) {
+            try {
+                String cleanName = req.responsibleInput.trim();
+                List<User> users = new List<User>();
+                if ((cleanName.length() == 15 || cleanName.length() == 18) && Pattern.matches('[a-zA-Z0-9]{15,18}', cleanName)) {
+                    users = [SELECT Id, Name FROM User WHERE Id = :cleanName AND IsActive = true WITH USER_MODE LIMIT 1];
+                } else {
+                    users = [SELECT Id, Name FROM User WHERE (Name = :cleanName OR Username = :cleanName) AND IsActive = true WITH USER_MODE LIMIT 1];
+                }
+
+                if (!users.isEmpty()) {
+                    res.success = true;
+                    res.isSubmitted = true;
+                    res.ownerId = users[0].Id;
+                    res.ownerName = users[0].Name;
+                    res.message = 'Matched Owner/User: ' + users[0].Name;
+                } else {
+                    String patternText = '%' + cleanName + '%';
+                    List<User> matches = [SELECT Id, Name FROM User WHERE (Name LIKE :patternText OR Username LIKE :patternText) AND IsActive = true WITH USER_MODE LIMIT 5];
+                    if (!matches.isEmpty()) {
+                        if (matches.size() == 1) {
+                            res.success = true;
+                            res.isSubmitted = true;
+                            res.ownerId = matches[0].Id;
+                            res.ownerName = matches[0].Name;
+                            res.message = 'Matched Owner/User: ' + matches[0].Name;
+                        } else {
+                            res.success = false;
+                            res.isSubmitted = true;
+                            List<String> names = new List<String>();
+                            List<String> ids = new List<String>();
+                            for (User u : matches) {
+                                names.add(u.Name);
+                                ids.add(u.Id);
+                            }
+                            res.message = 'I found multiple matching records. Please reply with the number of your choice:\n\n' + String.join(names, '\n');
+                            res.suggestions = String.join(ids, ',');
+                        }
+                    } else {
+                        res.success = false;
+                        res.isSubmitted = true;
+                        res.message = 'No active user found matching "' + cleanName + '". Please enter a valid User/Owner name.';
+                    }
+                }
+            } catch (Exception e) {
+                res.message = 'Error resolving Responsible User: ' + e.getMessage();
+            }
+            return;
+        }
 
         if (req.plannedStartTimeStr != null && !isPlaceholder(req.plannedStartTimeStr)) {
             try {

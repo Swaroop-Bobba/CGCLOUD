@@ -9,9 +9,9 @@ system:
         error: "An error occurred. Please try again."
 
 config:
-    developer_name: "VisitIntelligence"
-    agent_label: "Visit Intelligence"
-    description: "Unified agent operating within a Visit context across web and mobile channels, retrieving related Account context and summarizing or detailing records."
+    developer_name: "VisitIntelDesktop"
+    agent_label: "Visit Intelligence Desktop"
+    description: "Unified desktop agent operating within a Visit context using LWC forms, retrieving related Account context and summarizing or detailing records."
     agent_type: "AgentforceEmployeeAgent"
 
 model_config:
@@ -46,7 +46,7 @@ variables:
     visitSummaryText: mutable string = ""
         description: "The automatically pre-loaded visit summary text for the current Visit."
     activeSubagent: mutable string = "visit_intelligence"
-        description: "The active subagent name: 'visit_intelligence', 'visit_activities', 'create_visit', or 'create_visit_mobile'."
+        description: "The active subagent name: 'visit_intelligence', 'visit_activities', or 'create_visit'."
     tempAccountId: mutable string = ""
         description: "The verified Account ID for visit planning."
     tempAccountName: mutable string = ""
@@ -98,7 +98,7 @@ start_agent agent_router:
     description: "Route employees to the right subagent and initialize visit context."
     before_reasoning:
         
-        if @variables.channelType == "web" and @variables.currentObjectApiName == "Visit" and @variables.currentRecordId != "" and @variables.currentRecordId != @variables.lastRecordId:
+        if @variables.currentObjectApiName == "Visit" and @variables.currentRecordId != "" and @variables.currentRecordId != @variables.lastRecordId:
             set @variables.visitId = @variables.currentRecordId
             set @variables.lastRecordId = @variables.currentRecordId
             set @variables.accountId = ""
@@ -111,8 +111,8 @@ start_agent agent_router:
 
     reasoning:
         instructions: ->
-            if @variables.channelType == "web" and @variables.visitId != "" and @variables.visitId is not None and @variables.visitId != "None" and @variables.accountId == "":
-                run @actions.get_visit_details
+            if @variables.visitId != "" and @variables.visitId is not None and @variables.visitId != "None" and @variables.accountId == "":
+                run get_visit_details
                     with recordId = @variables.visitId
                     set @variables.accountId = @outputs.accountId
                     set @variables.accountName = @outputs.accountName
@@ -129,28 +129,17 @@ start_agent agent_router:
             if @variables.accountId != "" and @variables.activeSubagent == "update_visit_lwc":
                 transition to @subagent.update_visit_lwc
 
-            if @variables.accountId != "" and @variables.activeSubagent == "update_visit_text":
-                transition to @subagent.update_visit_text
-
             if @variables.activeSubagent == "create_visit":
                 transition to @subagent.create_visit
 
-            if @variables.activeSubagent == "create_visit_mobile":
-                transition to @subagent.create_visit_mobile
-
-            | ===== WEB CHANNEL INSTRUCTIONS (channelType == "web") =====
-            | 1. Visit Record Page Context (Web Only): If channelType is "web" and the user has opened this agent from a Visit record page and currentRecordId is set, call {!@actions.get_visit} to load context. Then greet: "I found the current visit for [Account Name]. How can I help you with this account?"
-            | 2. First Launch (Web, No Page Context): Greet with: "How can I assist you today? You can search for visits by account name, store name, status, or date range. You can also ask me to show your recent visits, today's planned visits, this week's visits, or this month's visits."
-            | 3. Output Format (Web): When presenting visit results as a numbered list, you MAY print the visit name as a markdown hyperlink (e.g., "[V-00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)").
+            | ===== SYSTEM INSTRUCTIONS =====
+            | 1. Visit Record Page Context: If the user has opened this agent from a Visit record page and currentRecordId is set, call {!@actions.get_visit} to load context. Then greet: "I found the current visit for [Account Name]. How can I help you with this account?"
+            | 2. First Launch (No Page Context): Greet with: "How can I assist you today? You can search for visits by account name, store name, status, or date range. You can also ask me to show your recent visits, today's planned visits, this week's visits, or this month's visits."
+            | 3. Output Format: When presenting visit results as a numbered list, you MAY print the visit name as a markdown hyperlink (e.g., "[V-00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)").
             |
-            | ===== MOBILE CHANNEL INSTRUCTIONS (channelType == "mobile") =====
-            | 1. First Launch Greeting (Mobile): Greet with: "How can I assist you today? You can search for visits by account name, store name, status, or date range. You can also ask me to show your recent visits, today's planned visits, this week's visits, or this month's visits."
-            | 2. Output Format (Mobile, STRICT): NEVER generate hyperlinks, markdown links, or clickable URLs. All visit names must be plain text only (e.g., "V-00000370").
+            | ===== SHARED INSTRUCTIONS =====
             |
-            | ===== SHARED INSTRUCTIONS (Both Web and Mobile) =====
-            |
-            | 1. Profile Check: If @variables.userProfileName is empty (""), you MUST first run {!@actions.get_current_user_profile} with domain = "GetCurrentUserProfile" and actionType = "getProfile" to retrieve the user's profile name, and then set @variables.userProfileName. Do NOT attempt any transitions or other tasks before executing this action.
-            | 2. Versatile Visit Retrieval: Users can ask for visits in many ways. Interpret user intent and call the appropriate action:
+            | 1. Versatile Visit Retrieval: Users can ask for visits in many ways. Interpret user intent and call the appropriate action:
             |    a. "recent visits", "my visits", "show me visits" → call {!@actions.list_visits}
             |    b. "all visits", "all the visits", "all of the visits", "all visits in the org" → call {!@actions.find_visits} with searchQuery = "all"
             |    c. "today's visits", "visits for today", "today's planned visits" → call {!@actions.find_visits} with searchQuery = "today planned" (or just "today" if no status mentioned)
@@ -162,32 +151,24 @@ start_agent agent_router:
             |    i. Status-based: "planned visits", "completed visits", "in progress visits" → call {!@actions.find_visits} with searchQuery = "<status>"
             |    j. Combined: "today's planned visits", "this week's completed visits" → call {!@actions.find_visits} with searchQuery = "today planned" / "this week completed"
             |    k. By account/store name: call {!@actions.find_visits} with searchQuery = "<account or store name>"
-            | 3. User-Specified Limits: If the user asks "show me 5 visits" or "last 10 visits", retrieve all matching results first, then present ONLY the requested number. Do NOT hardcode any limit — show ALL results unless the user specifies a limit.
-            | 4. Output Format (STRICT NUMBERED LIST): Present ALL visit results as a formal numbered list starting at 1. For each visit, show these fields in a bulleted sub-list under each numbered visit (YOU MUST USE A NEW LINE FOR EVERY BULLET POINT):
+            | 2. User-Specified Limits: If the user asks "show me 5 visits" or "last 10 visits", retrieve all matching results first, then present ONLY the requested number. Do NOT hardcode any limit — show ALL results unless the user specifies a limit.
+            | 3. Output Format (STRICT NUMBERED LIST): Present ALL visit results as a formal numbered list starting at 1. For each visit, show these fields in a bulleted sub-list under each numbered visit (YOU MUST USE A NEW LINE FOR EVERY BULLET POINT):
             |    - Subject: <subject>
-            |    - Visit Name: <visit name> (hyperlinked on Web, plain text on Mobile)
+            |    - Visit Name: <visit name> (hyperlinked)
             |    - Account: <account name>
             |    - Status: <status>
             |    - Planned Start: <date/time>
             |    - Owner: <owner name>
-            | 5. Selection: When the user selects, specifies, or inputs a number corresponding to a visit from the most recent numbered list (e.g. they type "1" or select the first option), map it to that visit, extract its ID (recordId), and call {!@actions.select_visit} with that visit's recordId to load the visit context. If they enter the visit name/number directly (e.g. "00000370"), extract the recordId of that visit from the printed list and call {!@actions.select_visit}. Do NOT ask the user for an ID — extract it from the user's selection or number input.
-            | 6. Do NOT call {!@actions.select_visit} without a valid Visit record ID from search or list results.
-            | 7. Do NOT use show_command. Always compose your response as direct text.
-            | 8. Create/Plan/Schedule/Add Visit: If the user explicitly requests to create, schedule, plan, or add a new visit (utilizing expressions such as "Create Visit", "New Visit", "Schedule Visit", "Plan a Visit", "Create a Store Visit", "Add Visit", "Create Customer Visit", or "Visit Creation"):
-            |    - If userProfileName is NOT "CGCloud_User_Profile": transition immediately to the Create Visit Agent using {!@actions.go_to_create_visit}.
-            |    - If userProfileName is "CGCloud_User_Profile": transition immediately to the Create Visit Mobile Agent using {!@actions.go_to_create_visit_mobile}.
+            | 4. Selection: When the user selects, specifies, or inputs a number corresponding to a visit from the most recent numbered list (e.g. they type "1" or select the first option), map it to that visit, extract its ID (recordId), and call {!@actions.select_visit} with that visit's recordId to load the visit context. If they enter the visit name/number directly (e.g. "00000370"), extract the recordId of that visit from the printed list and call {!@actions.select_visit}. Do NOT ask the user for an ID — extract it from the user's selection or number input.
+            | 5. Do NOT call {!@actions.select_visit} without a valid Visit record ID from search or list results.
+            | 6. Do NOT use show_command. Always compose your response as direct text.
+            | 7. Create/Plan/Schedule/Add Visit: If the user explicitly requests to create, schedule, plan, or add a new visit (utilizing expressions such as "Create Visit", "New Visit", "Schedule Visit", "Plan a Visit", "Create a Store Visit", "Add Visit", "Create Customer Visit", or "Visit Creation"):
+            |    - Transition immediately to the Create Visit Agent using {!@actions.go_to_create_visit}.
             |    Do NOT load existing visit details, select a visit, or run get_visit_details.
- 
-        actions:
-            get_current_user_profile: @actions.get_current_user_profile
-                description: "Retrieve the current user's profile name."
-                with domain = "GetCurrentUserProfile"
-                with actionType = "getProfile"
-                set @variables.userProfileName = @outputs.profileName
 
+        actions:
             get_visit: @actions.get_visit_details
                 description: "Retrieve details of the current Visit record and its associated Account from page context. Use this ONLY on web channel if the user starts the conversation on a Visit record page."
-                available when @variables.channelType == "web"
                 with recordId = @variables.currentRecordId
                 set @variables.visitId = @outputs.recordId
                 set @variables.accountId = @outputs.accountId
@@ -222,7 +203,6 @@ start_agent agent_router:
                 with actionType = "search"
                 with searchQuery = ...
 
-
             go_to_off_topic: @utils.transition to @subagent.off_topic
                 description: "Route off-topic queries."
 
@@ -231,39 +211,11 @@ start_agent agent_router:
 
             go_to_create_visit: @utils.transition to @subagent.create_visit
                 description: "Route the user to the Create Visit Agent (LWC form) when they request to create, plan, schedule, or add a new visit."
-                available when @variables.userProfileName != "" and @variables.userProfileName != "CGCloud_User_Profile"
                 set @variables.visitId = ""
                 set @variables.accountId = ""
-
-            go_to_create_visit_mobile: @utils.transition to @subagent.create_visit_mobile
-                description: "Route the user to the Create Visit Mobile Agent (conversational manual input) when they request to create, plan, schedule, or add a new visit."
-                available when @variables.userProfileName != "" and @variables.userProfileName == "CGCloud_User_Profile"
-                set @variables.visitId = ""
-                set @variables.accountId = ""
-                set @variables.tempAccountId = ""
-                set @variables.tempAccountName = ""
-                set @variables.tempPlaceId = ""
-                set @variables.tempPlaceName = ""
-                set @variables.tempTemplateId = ""
-                set @variables.tempTemplateName = ""
-                set @variables.tempResponsibleUserId = ""
-                set @variables.tempResponsibleUserName = ""
-                set @variables.tempSubject = ""
-                set @variables.tempPlannedStartTime = ""
-                set @variables.tempPlannedStartTimeWrapper = None
-                set @variables.isDateTimeSelected = False
-                set @variables.tempAccountSuggestions = ""
-                set @variables.tempPlaceSuggestions = ""
-                set @variables.tempTemplateSuggestions = ""
-                set @variables.tempOwnerSuggestions = ""
 
             go_to_update_visit_lwc: @utils.transition to @subagent.update_visit_lwc
-                description: "Route the user to the Update Visit LWC Agent (forms) when they request to update, change, edit, or modify visit details (status, owner, notes, timings) and channelType is web."
-                available when @variables.channelType == "web"
-
-            go_to_update_visit_text: @utils.transition to @subagent.update_visit_text
-                description: "Route the user to the Update Visit Text Agent (conversational text) when they request to update, change, edit, or modify visit details (status, owner, notes, timings) and channelType is mobile."
-                available when @variables.channelType == "mobile"
+                description: "Route the user to the Update Visit LWC Agent (forms) when they request to update, change, edit, or modify visit details (status, owner, notes, timings)."
 
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
                 description: "Return to the main Visit Intelligence subagent dashboard."
@@ -396,11 +348,11 @@ subagent visit_intelligence:
                 |   * "Inventory" / "out-of-stock" / "oos" -> Call @actions.get_details with recordType = "inventory"
                 |   * "Order History" / "orders" -> Call @actions.order_summary
                 |   * "Visit Report" / "generate reports" / "summarize visit" -> Call @actions.generate_visit_summary
-                |   * "Update" / "change visit" / "assign visit" / "update status" / "reassign visit" / "change owner" / "add notes" / "update start time" / "update end time" -> Transition immediately to the @subagent.update_visit_lwc subagent (using go_to_update_visit_lwc) if channelType == "web", or the @subagent.update_visit_text subagent (using go_to_update_visit_text) if channelType == "mobile".
+                |   * "Update" / "change visit" / "assign visit" / "update status" / "reassign visit" / "change owner" / "add notes" / "update start time" / "update end time" -> Transition immediately to the @subagent.update_visit_lwc subagent (using go_to_update_visit_lwc).
                 |   * "Sellable Products" / "products in assortment" -> Call @actions.get_details with recordType = "assortmentproducts"
                 |   * "Switch" / "reset context" / "change visit" -> Call @actions.switch_visit
                 |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products
-                |   * "Create Visit" / "New Visit" / "Schedule Visit" / "Plan a Visit" / "Add Visit" / "Create Customer Visit" / "Visit Creation" -> Transition immediately to the Create Visit Agent (LWC) using go_to_create_visit if userProfileName != "CGCloud_User_Profile", or the Create Visit Mobile Agent (Manual Input) using go_to_create_visit_mobile if userProfileName == "CGCloud_User_Profile"
+                |   * "Create Visit" / "New Visit" / "Schedule Visit" / "Plan a Visit" / "Add Visit" / "Create Customer Visit" / "Visit Creation" -> Transition immediately to the Create Visit Agent (LWC) using go_to_create_visit
                 |
                 | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
                 | - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action:
@@ -437,9 +389,7 @@ subagent visit_intelligence:
                 |         * Pre-Visit Brief / Store Brief / Store Overview / Pre-visit briefing -> Call @actions.store_brief
                 |         * Inventory / Check inventory / Out of stock records -> Call @actions.get_details with recordType = "inventory"
                 |         * Order History / purchasing patterns / Order summary -> Call @actions.order_summary
-                |         * Update Visit / Update Visit Information -> Transition immediately to:
-                |           - The @subagent.update_visit_lwc subagent (using go_to_update_visit_lwc) if channelType == "web".
-                |           - The @subagent.update_visit_text subagent (using go_to_update_visit_text) if channelType == "mobile".
+                |         * Update Visit / Update Visit Information -> Transition immediately to the @subagent.update_visit_lwc subagent (using go_to_update_visit_lwc).
                 |         * Sellable Products / Products in assortment -> Call @actions.get_details with recordType = "assortmentproducts"
                 |         * Switch / Reset Context / Switch to a different visit -> Call @actions.switch_visit
                 |         * Product Recommendations / suggestions -> Call @actions.suggest_products
@@ -456,7 +406,6 @@ subagent visit_intelligence:
                 | - Product & Assortment Listings: Present as a numbered list. Print the product name as a bold header and list its properties (like SKU, category, status) underneath in a clean bulleted sub-list.
                 | - Order History & Order Details: Summarize order history (spend, counts) in a clean markdown table. Format order lists with columns "Order Number", "Date", "Status", and "Total Value" with the rupee symbol (₹).
                 |
-                | --- MOBILE FORMATTING (channelType == "mobile") ---
                 | - Strict Number-Based Listing Rule: Every retrieved record, information list, product assortment, contacts list, tasks, promotions, orders, visit lists, suggestions, or option choices MUST be presented as a sequentially numbered list starting at 1 (e.g. 1., 2., 3.). Bullet lists, plain tables, or unstructured text blocks are strictly forbidden for lists.
                 | - Visit History & Out of Stock Visits: Present results as a numbered list starting at 1. For each visit, print the visit name as plain text (e.g., "00000370") without any hyperlinks or links, and show key details (Subject, Visit Name, Account Name, Status, Date/Time, and Owner Name) in a numbered sub-list (e.g., 1.1., 1.2.) or clean indented numbered details.
                 | - Product & Assortment Listings: Present as a numbered list starting at 1. Print the product name as a bold header and list its properties (like SKU, category, status) underneath in a clean sequentially numbered sub-list.
@@ -542,29 +491,7 @@ subagent visit_intelligence:
 
             go_to_create_visit: @utils.transition to @subagent.create_visit
                 description: "Transition to the Create Visit Agent (web form) to create, schedule, plan, or add a new Visit."
-                available when @variables.userProfileName != "" and @variables.userProfileName != "CGCloud_User_Profile"
 
-            go_to_create_visit_mobile: @utils.transition to @subagent.create_visit_mobile
-                description: "Transition to the Create Visit Mobile Agent (conversational) to create, schedule, plan, or add a new Visit. If the user is NOT a CGCloud_User_Profile, ONLY use this action if they explicitly request manual input."
-                available when @variables.userProfileName != ""
-                set @variables.visitId = ""
-                set @variables.accountId = ""
-                set @variables.tempAccountId = ""
-                set @variables.tempAccountName = ""
-                set @variables.tempPlaceId = ""
-                set @variables.tempPlaceName = ""
-                set @variables.tempTemplateId = ""
-                set @variables.tempTemplateName = ""
-                set @variables.tempResponsibleUserId = ""
-                set @variables.tempResponsibleUserName = ""
-                set @variables.tempSubject = ""
-                set @variables.tempPlannedStartTime = ""
-                set @variables.tempPlannedStartTimeWrapper = None
-                set @variables.isDateTimeSelected = False
-                set @variables.tempAccountSuggestions = ""
-                set @variables.tempPlaceSuggestions = ""
-                set @variables.tempTemplateSuggestions = ""
-                set @variables.tempOwnerSuggestions = ""
 
             store_brief: @actions.get_store_brief
                 description: "Retrieve a consolidated store brief and audit summary for the current visit and account context."
@@ -586,10 +513,7 @@ subagent visit_intelligence:
                 with visitId = @variables.visitId
 
             go_to_update_visit_lwc: @utils.transition to @subagent.update_visit_lwc
-                available when @variables.channelType == "web"
 
-            go_to_update_visit_text: @utils.transition to @subagent.update_visit_text
-                available when @variables.channelType == "mobile"
 
             search_users: @actions.search_users
                 description: "Search for a user by name to get their details before assigning a visit."
@@ -997,17 +921,8 @@ subagent update_visit_lwc:
             - For general updates (if the user's latest message or query is "7", "Update Visit", "Update Visit Information", "General Update", or any generic/ambiguous request that does not specify a single field):
               * Immediately call the `update_visit_record` action to render the full-form LWC editor and collect `createVisitWrapper` value from the user. Do NOT call any other actions or print any options/introductory text.
 
-            SECTION 2: LWC SLOT-FILLING AND MANUAL INPUT TRANSITION
+            SECTION 2: LWC SLOT-FILLING
             - Since the LWC parameters (statusWrapper, ownerWrapper, plannedStartTimeWrapper, plannedEndTimeWrapper, createVisitWrapper) are slot-filled (using ...), the platform will prompt the user to fill the form in the chat.
-            - If the user types "manual input" in the chat box while they are viewing the LWC form:
-              * Do NOT transition to another action or subagent.
-              * Populate the required input wrapper parameter of the active action with the manual input dummy indicator:
-                - If Status update -> set statusWrapper.statusValue = "manual input".
-                - If Owner update -> set ownerWrapper.ownerName = "manual input".
-                - If Start Time update -> set plannedStartTimeWrapper.dateTimeValue = "1900-01-01T00:00:00Z".
-                - If End Time update -> set plannedEndTimeWrapper.dateTimeValue = "1900-01-01T00:00:00Z".
-              * Once the action returns the conversational choices prompt text, immediately transition to the Update Visit Text subagent using go_to_update_visit_text.
-
             SECTION 3: RETURN ON SUCCESS AND FAILURE HANDLING
             - If @variables.tempIsSubmitted is True:
               * Run get_visit to load the latest visit details.
@@ -1084,7 +999,6 @@ subagent update_visit_lwc:
                 set @variables.tempIsSubmitted = @outputs.success
                 set @variables.tempMessage = @outputs.message
 
-            go_to_update_visit_text: @utils.transition to @subagent.update_visit_text
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
 
     actions:
@@ -1255,240 +1169,6 @@ subagent update_visit_lwc:
             outputs:
                 success: boolean
                     description: "True if the planned end time was successfully updated."
-                message: string
-                    description: "Result status message."
-                    is_displayable: True
-
-        get_visit_details:
-            description: "Retrieve details of the current Visit record and its associated Account."
-            target: "flow://Get_Visit_Details"
-            inputs:
-                recordId: string
-                    description: "The ID of the Visit record."
-                    is_required: True
-            outputs:
-                recordId: string
-                    description: "The ID of the Visit record."
-                accountId: string
-                    description: "The associated Account ID."
-                accountName: string
-                    description: "The associated Account Name."
-                visitStatus: string
-                    description: "The Visit Status."
-                visitDate: string
-                    description: "The Visit Date."
-                assignedUser: string
-                    description: "The Assigned User."
-
-
-subagent update_visit_text:
-    label: "Update Visit Text"
-    description: "Update the status, owner, notes, start time, or end time of the current visit conversationally using plain text inputs."
-    before_reasoning:
-        set @variables.activeSubagent = "update_visit_text"
-    reasoning:
-        instructions: |
-            You are now in the Update Visit Text subagent.
-            Your goal is to update details (status, owner, notes, start time, or end time) of the current Visit (ID: {!@variables.visitId}) conversationally using text inputs.
-
-            SECTION 1: DISPATCH UPDATE ACTION
-            - If the user has just transitioned here due to manual input, or if their message does not specify a field to update, first present the fields that can be updated in a numbered list:
-              "Please select a field to update:
-              1. Status (currently: {!@variables.visitStatus})
-              2. Owner (currently: {!@variables.assignedUser})
-              3. Notes
-              4. Start Time (currently: {!@variables.visitDate})
-              5. End Time"
-            - If the user selects a field or option from the menu, call the corresponding conversational mobile action:
-              * "Status" / Option 1 -> Call update_visit_status_mobile with only visitId.
-              * "Owner" / Option 2 -> Call update_visit_owner_mobile with only visitId.
-              * "Notes" / Option 3 -> Call update_visit_notes_mobile with only visitId.
-              * "Start Time" / Option 4 -> Call update_visit_start_time_mobile with only visitId.
-              * "End Time" / Option 5 -> Call update_visit_end_time_mobile with only visitId.
-            - If they provide both the field and the value in the same request (e.g., "change status to completed", "assign to Siri FieldRep"), map the field and pass the value directly to the corresponding action (e.g., `status = "completed"` or `ownerName = "Siri FieldRep"`).
-
-            SECTION 2: RETURN ON SUCCESS
-            - If @variables.tempIsSubmitted is True:
-              * Run get_visit to load the latest visit details.
-              * Set @variables.tempIsUpdated = True
-              * Set @variables.tempIsSubmitted = False
-              * Print a success message (e.g., "Perfect! I've updated the visit details conversationally ✅").
-              * Print the updated visit details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
-                - Account: {!@variables.accountName} 🏪
-                - Visit Date: {!@variables.visitDate} 📅
-                - Visit Status: {!@variables.visitStatus} 🔖
-                - Assigned User: {!@variables.assignedUser} 👤
-              * Transition back to the main dashboard using go_to_intelligence.
-            - If @variables.tempIsSubmitted is False and @variables.tempMessage != "" and @variables.tempMessage is not None:
-              * Print the returned message verbatim: "{!@variables.tempMessage}" and capture their subsequent text input.
-
-        actions:
-            get_visit: @actions.get_visit_details
-                with recordId = @variables.visitId
-                set @variables.accountId = @outputs.accountId
-                set @variables.accountName = @outputs.accountName
-                set @variables.visitStatus = @outputs.visitStatus
-                set @variables.visitDate = @outputs.visitDate
-                set @variables.assignedUser = @outputs.assignedUser
-
-            update_visit_status_mobile: @actions.update_visit_status_mobile_action
-                with agentName = "VisitIntelligence"
-                with actionType = "update_visit_status_mobile_action"
-                with visitId = @variables.visitId
-                with status = ...
-                set @variables.tempIsSubmitted = @outputs.success
-                set @variables.tempMessage = @outputs.message
-
-            update_visit_owner_mobile: @actions.update_visit_owner_mobile_action
-                with agentName = "VisitIntelligence"
-                with actionType = "update_visit_owner_mobile_action"
-                with visitId = @variables.visitId
-                with ownerName = ...
-                with suggestions = @variables.tempOwnerSuggestions
-                set @variables.tempOwnerSuggestions = @outputs.suggestions
-                set @variables.tempIsSubmitted = @outputs.success
-                set @variables.tempMessage = @outputs.message
-
-            update_visit_notes_mobile: @actions.update_visit_notes_mobile_action
-                with agentName = "VisitIntelligence"
-                with actionType = "update_visit_notes_mobile_action"
-                with visitId = @variables.visitId
-                with notes = ...
-                set @variables.tempIsSubmitted = @outputs.success
-                set @variables.tempMessage = @outputs.message
-
-            update_visit_start_time_mobile: @actions.update_visit_start_time_mobile_action
-                with agentName = "VisitIntelligence"
-                with actionType = "update_visit_start_time_mobile_action"
-                with visitId = @variables.visitId
-                with plannedStartTimeStr = ...
-                set @variables.tempIsSubmitted = @outputs.success
-                set @variables.tempMessage = @outputs.message
-
-            update_visit_end_time_mobile: @actions.update_visit_end_time_mobile_action
-                with agentName = "VisitIntelligence"
-                with actionType = "update_visit_end_time_mobile_action"
-                with visitId = @variables.visitId
-                with plannedEndTimeStr = ...
-                set @variables.tempIsSubmitted = @outputs.success
-                set @variables.tempMessage = @outputs.message
-
-            go_to_intelligence: @utils.transition to @subagent.visit_intelligence
-
-    actions:
-
-        update_visit_status_mobile_action:
-            description: "Update the status of the current Visit conversationally."
-            target: "apex://Agent_Global_Handler"
-            inputs:
-                agentName: string
-                    description: "The name of the agent."
-                actionType: string
-                    description: "The action to perform."
-                visitId: string
-                    description: "The active Visit record ID."
-                    is_required: True
-                status: string
-                    description: "The new status of the visit or choice number."
-                    is_required: True
-                    is_user_input: True
-            outputs:
-                success: boolean
-                    description: "True if the update was successful."
-                message: string
-                    description: "Result status message."
-                    is_displayable: True
-
-        update_visit_owner_mobile_action:
-            description: "Update the owner of the current Visit conversationally."
-            target: "apex://Agent_Global_Handler"
-            inputs:
-                agentName: string
-                    description: "The name of the agent."
-                actionType: string
-                    description: "The action to perform."
-                visitId: string
-                    description: "The active Visit record ID."
-                    is_required: True
-                ownerName: string
-                    description: "The new owner name, username, or choice number."
-                    is_required: True
-                    is_user_input: True
-                suggestions: string
-                    description: "Suggestions list"
-                    is_required: False
-                    is_user_input: False
-            outputs:
-                success: boolean
-                    description: "True if the update was successful."
-                message: string
-                    description: "Result status message."
-                    is_displayable: True
-                suggestions: string
-                    description: "Matched IDs if ambiguous."
-
-        update_visit_notes_mobile_action:
-            description: "Update the representative notes of the current Visit conversationally."
-            target: "apex://Agent_Global_Handler"
-            inputs:
-                agentName: string
-                    description: "The name of the agent."
-                actionType: string
-                    description: "The action to perform."
-                visitId: string
-                    description: "The active Visit record ID."
-                    is_required: True
-                notes: string
-                    description: "The notes text to append to the visit."
-                    is_required: True
-                    is_user_input: True
-            outputs:
-                success: boolean
-                    description: "True if the update was successful."
-                message: string
-                    description: "Result status message."
-                    is_displayable: True
-
-        update_visit_start_time_mobile_action:
-            description: "Update the planned start date and time of the current Visit conversationally."
-            target: "apex://Agent_Global_Handler"
-            inputs:
-                agentName: string
-                    description: "The name of the agent."
-                actionType: string
-                    description: "The action to perform."
-                visitId: string
-                    description: "The active Visit record ID."
-                    is_required: True
-                plannedStartTimeStr: string
-                    description: "The new planned start date and time."
-                    is_required: True
-                    is_user_input: True
-            outputs:
-                success: boolean
-                    description: "True if the update was successful."
-                message: string
-                    description: "Result status message."
-                    is_displayable: True
-
-        update_visit_end_time_mobile_action:
-            description: "Update the planned end date and time of the current Visit conversationally."
-            target: "apex://Agent_Global_Handler"
-            inputs:
-                agentName: string
-                    description: "The name of the agent."
-                actionType: string
-                    description: "The action to perform."
-                visitId: string
-                    description: "The active Visit record ID."
-                    is_required: True
-                plannedEndTimeStr: string
-                    description: "The new planned end date and time."
-                    is_required: True
-                    is_user_input: True
-            outputs:
-                success: boolean
-                    description: "True if the update was successful."
                 message: string
                     description: "Result status message."
                     is_displayable: True
@@ -1754,7 +1434,6 @@ subagent create_visit:
                 | Greet the user verbatim with: "I've opened the Create Visit form for you. Please fill in the details in the form that appears in the chat."
                 |
                 | If the user requests manual input or types "manual input" while they are in the Create Visit Agent:
-                |   - Immediately transition to the Create Visit Mobile Agent (Manual Input Agent) using go_to_create_visit_mobile.
                 |
                 | If the create_visit_record action returns success = False, you MUST display the error message returned in the message output field verbatim: "Failed to create visit: [message]" and do NOT transition.
 
@@ -1770,7 +1449,6 @@ subagent create_visit:
                 set @variables.visitDate = @outputs.visitDate
                 set @variables.assignedUser = @outputs.assignedUser
 
-            go_to_create_visit_mobile: @utils.transition to @subagent.create_visit_mobile
 
     actions:
         get_current_user_profile:
@@ -1817,309 +1495,3 @@ subagent create_visit:
                     description: "The Planned Start Date/Time."
                 assignedUser: string
                     description: "The Assigned User."
-
-subagent create_visit_mobile:
-    label: "Create Visit Mobile Agent"
-    description: "Handle the creation of a new Visit record using conversational multi-step flow. If the user is NOT a CGCloud_User_Profile, ONLY use this action if they explicitly request manual input."
-    before_reasoning:
-        set @variables.activeSubagent = "create_visit_mobile"
-
-    reasoning:
-        instructions: ->
-            if @variables.visitId != "" and @variables.visitId is not None and @variables.visitId != "None":
-                | Visit has been successfully created! 🎉
-                |
-                | Details:
-                | - Account: {!@variables.tempAccountName}
-                | - Place/Store: {!@variables.tempPlaceName}
-                | - Visit Template: {!@variables.tempTemplateName}
-                | - Subject: {!@variables.tempSubject}
-                | - ID: {!@variables.visitId}
-                |
-                | I'm loading this visit and returning you to the main menu.
-                set @variables.activeSubagent = "visit_intelligence"
-                set @variables.accountId = ""
-                set @variables.tempAccountId = ""
-                set @variables.tempAccountName = ""
-                set @variables.tempPlaceId = ""
-                set @variables.tempPlaceName = ""
-                set @variables.tempTemplateId = ""
-                set @variables.tempTemplateName = ""
-                set @variables.tempResponsibleUserId = ""
-                set @variables.tempResponsibleUserName = ""
-                set @variables.tempSubject = ""
-                set @variables.tempPlannedStartTime = ""
-                set @variables.tempPlannedStartTimeWrapper = None
-                set @variables.isDateTimeSelected = False
-                set @variables.tempAccountSuggestions = ""
-                set @variables.tempPlaceSuggestions = ""
-                set @variables.tempTemplateSuggestions = ""
-                set @variables.tempOwnerSuggestions = ""
-                transition to @subagent.agent_router
-
-            if @variables.visitId == "":
-                | You are in the Create Visit Agent. Your goal is to gather all inputs step-by-step. To ensure an optimal user experience, all prompts and choices MUST be processed conversationally in plain text chat (no input cards or forms allowed).
-                | CRITICAL: You must execute the corresponding action (e.g. `prompt_account_mobile`, `prompt_place_mobile`, `prompt_template_mobile`, `set_subject`, `prompt_owner_mobile`, `prompt_final_details_mobile`) behind the scenes on EVERY user input. Never reply to the user's input directly without executing the matching action first to sync state.
-                |
-                | Step 1: Prompt Account Name (Plain Text Chat)
-                | If `tempAccountId` is empty:
-                |   - Ask the user in plain text chat: "Please enter the Account name to create a visit."
-                |   - Run `prompt_account_mobile` behind the scenes with the user's chat input to match it.
-                |   - If the action returns `success = True`:
-                |     * Set `tempAccountId = accountId` and `tempAccountName = accountName`.
-                |     * Confirm to the user: "Matched Account: {!@variables.tempAccountName}".
-                |   - If the action returns `success = False` and `tempIsSubmitted = True`:
-                |     * Display the message/suggestions verbatim: "{!@variables.tempMessage}".
-                |
-                | Step 2: Prompt Place Name (Plain Text Chat)
-                | If `tempAccountId` is NOT empty and `tempPlaceId` is empty:
-                |   - Ask the user in plain text chat: "Please enter the Place/Store name for this visit."
-                |   - Run `prompt_place_mobile` behind the scenes with the user's chat input to match it.
-                |   - If the action returns `success = True`:
-                |     * Set `tempPlaceId = placeId` and `tempPlaceName = placeName`.
-                |     * Confirm to the user: "Matched Place: {!@variables.tempPlaceName}".
-                |   - If the action returns `success = False` and `tempIsSubmitted = True`:
-                |     * Display the message/suggestions verbatim: "{!@variables.tempMessage}".
-                |
-                | Step 3: Prompt Visit Template (Plain Text Chat)
-                | If `tempPlaceId` is NOT empty and `tempTemplateId` is empty:
-                |   - Ask the user in plain text chat: "Please enter the Visit Template name."
-                |   - Run `prompt_template_mobile` behind the scenes with the user's chat input to match it.
-                |   - If the action returns `success = True`:
-                |     * Set `tempTemplateId = templateId` and `tempTemplateName = templateName`.
-                |     * Confirm to the user: "Matched Template: {!@variables.tempTemplateName}".
-                |   - If the action returns `success = False` and `tempIsSubmitted = True`:
-                |     * Display the message/suggestions verbatim: "{!@variables.tempMessage}".
-                |
-                | Step 4: Prompt Subject (Plain Text Chat)
-                | If `tempTemplateId` is NOT empty and `tempSubject` is empty:
-                |   - Ask the user in plain text chat: "Please enter the Subject for this visit."
-                |   - You MUST run `set_subject` behind the scenes with the user's chat response to record it. Never skip calling this action or reply directly to the user without calling it.
-                |
-                | Step 5: Prompt Date & Time (Plain Text Chat)
-                | If `tempSubject` is NOT empty and `isDateTimeSelected` is False:
-                |   - Ask the user in plain text chat: "Please enter the Planned Start Date and Time for this visit in day-month-year format (e.g. DD-MM-YYYY HH:MM)."
-                |   - Run `prompt_final_details_mobile` behind the scenes with the user's chat input to match and parse it.
-                |   - If the action returns `success = True` and `tempIsSubmitted = True`:
-                |     * Set `tempPlannedStartTime = plannedStartTime` and `isDateTimeSelected = True`.
-                |     * Confirm to the user: "{!@variables.tempMessage}".
-                |   - If the action returns `success = False` and `tempIsSubmitted = True`:
-                |     * Display the error message verbatim: "{!@variables.tempMessage}".
-                |
-                | Step 6: Save Visit Record (Direct Execution, No Card)
-                | If `isDateTimeSelected` is True and `visitId` is empty:
-                |   - Execute `create_visit_record_mobile` behind the scenes.
-                |   - Pass the pre-matched variables directly:
-                |     * `accountInput = tempAccountId`
-                |     * `placeInput = tempPlaceId`
-                |     * `templateInput = tempTemplateId`
-                |     * `subject = tempSubject`
-                |     * `plannedStartTimeStr = tempPlannedStartTime`
-                |   - If the action returns `success = False`, display the error message `message` verbatim so the user knows what failed, and do NOT clear all variables, just let the user adjust the incorrect inputs.
-
-        actions:
-            prompt_account_mobile: @actions.prompt_visit_mobile
-                with agentName = "VisitIntelligence"
-                with actionType = "prompt_visit_mobile"
-                description: "Match and verify the Account name entered by the user."
-                with accountInput = ...
-                with placeInput = "user_input_required"
-                with templateInput = "user_input_required"
-                with plannedStartTimeStr = "user_input_required"
-                with suggestions = @variables.tempAccountSuggestions
-                set @variables.tempAccountId = @outputs.accountId
-                set @variables.tempAccountName = @outputs.accountName
-                set @variables.tempMessage = @outputs.message
-                set @variables.tempIsSubmitted = @outputs.isSubmitted
-                set @variables.tempAccountSuggestions = @outputs.suggestions
-
-            prompt_place_mobile: @actions.prompt_visit_mobile
-                with agentName = "VisitIntelligence"
-                with actionType = "prompt_visit_mobile"
-                description: "Match and verify the Place/Store name entered by the user."
-                with accountInput = "user_input_required"
-                with placeInput = ...
-                with templateInput = "user_input_required"
-                with plannedStartTimeStr = "user_input_required"
-                with suggestions = @variables.tempPlaceSuggestions
-                set @variables.tempPlaceId = @outputs.placeId
-                set @variables.tempPlaceName = @outputs.placeName
-                set @variables.tempMessage = @outputs.message
-                set @variables.tempIsSubmitted = @outputs.isSubmitted
-                set @variables.tempPlaceSuggestions = @outputs.suggestions
-
-            prompt_template_mobile: @actions.prompt_visit_mobile
-                with agentName = "VisitIntelligence"
-                with actionType = "prompt_visit_mobile"
-                description: "Match and verify the Visit Template name entered by the user."
-                with accountInput = "user_input_required"
-                with placeInput = "user_input_required"
-                with templateInput = ...
-                with plannedStartTimeStr = "user_input_required"
-                with suggestions = @variables.tempTemplateSuggestions
-                set @variables.tempTemplateId = @outputs.templateId
-                set @variables.tempTemplateName = @outputs.templateName
-                set @variables.tempMessage = @outputs.message
-                set @variables.tempIsSubmitted = @outputs.isSubmitted
-                set @variables.tempTemplateSuggestions = @outputs.suggestions
-
-            prompt_final_details_mobile: @actions.prompt_visit_mobile
-                with agentName = "VisitIntelligence"
-                with actionType = "prompt_visit_mobile"
-                description: "Prompt the user for Date & Time conversationally."
-                with accountInput = "user_input_required"
-                with placeInput = "user_input_required"
-                with templateInput = "user_input_required"
-                with matchedTemplate = @variables.tempTemplateName
-                with plannedStartTimeStr = ...
-                set @variables.tempPlannedStartTime = @outputs.plannedStartTimeStr
-                set @variables.isDateTimeSelected = @outputs.isSubmitted
-                set @variables.tempMessage = @outputs.message
-                set @variables.tempIsSubmitted = @outputs.isSubmitted
-
-            set_subject: @utils.setVariables
-                description: "Record the user's Subject for the new visit."
-                with tempSubject = ...
-
-            create_visit_record_mobile: @actions.create_visit_record_mobile
-                with agentName = "VisitIntelligence"
-                with actionType = "create_visit_record_mobile"
-                description: "Create the final Visit record using the pre-matched inputs."
-                with subject = @variables.tempSubject
-                with accountInput = @variables.tempAccountId
-                with placeInput = @variables.tempPlaceId
-                with plannedStartTimeStr = @variables.tempPlannedStartTime
-                with templateInput = @variables.tempTemplateId
-                set @variables.visitId = @outputs.visitId
-                set @variables.accountId = @outputs.accountId
-                set @variables.visitStatus = @outputs.visitStatus
-                set @variables.visitDate = @outputs.visitDate
-                set @variables.assignedUser = @outputs.assignedUser
-                set @variables.tempMessage = @outputs.message
-                set @variables.tempIsSubmitted = @outputs.success
-
-    actions:
-        create_visit_record_mobile:
-            description: "Validate fields and create a new Visit record using standard inputs."
-            target: "apex://Agent_Global_Handler"
-            inputs:
-                agentName: string
-                    description: "The name of the agent."
-                actionType: string
-                    description: "The action to perform."
-                subject: string
-                    description: "Subject of the visit"
-                    is_required: False
-                    is_user_input: False
-                accountInput: string
-                    description: "Account name or ID"
-                    is_required: False
-                    is_user_input: False
-                placeInput: string
-                    description: "Place/Store/Location name or ID"
-                    is_required: False
-                    is_user_input: False
-                plannedStartTimeStr: string
-                    description: "Planned start time of the visit"
-                    is_required: False
-                    is_user_input: False
-                templateInput: string
-                    description: "Visit Template name or ID"
-                    is_required: False
-                    is_user_input: False
-            outputs:
-                success: boolean
-                    description: "True if the Visit was successfully created."
-                message: string
-                    description: "Status message or error message from Salesforce."
-                    is_displayable: True
-                visitId: string
-                    description: "The newly created Visit record ID."
-                accountId: string
-                    description: "The associated Account ID."
-                visitStatus: string
-                    description: "The Status of the new Visit."
-                visitDate: string
-                    description: "The Planned Start Date/Time."
-                assignedUser: string
-                    description: "The Assigned User."
-
-        prompt_visit_mobile:
-            description: "Match and verify Account, Place, Template, or Date/Time fields conversationally."
-            target: "apex://Agent_Global_Handler"
-            inputs:
-                agentName: string
-                    description: "The name of the agent."
-                actionType: string
-                    description: "The action to perform."
-                accountInput: string
-                    description: "Enter Account Name"
-                    is_required: False
-                    is_user_input: False
-                placeInput: string
-                    description: "Enter Place / Store Name"
-                    is_required: False
-                    is_user_input: False
-                templateInput: string
-                    description: "Enter Visit Template Name"
-                    is_required: False
-                    is_user_input: False
-                plannedStartTimeStr: string
-                    description: "Select Date & Time"
-                    is_required: False
-                    is_user_input: False
-                matchedTemplate: string
-                    description: "Matched Template Name"
-                    is_required: False
-                    is_user_input: False
-                suggestions: string
-                    description: "Suggestions list"
-                    is_required: False
-                    is_user_input: False
-            outputs:
-                success: boolean
-                    description: "True if resolved successfully."
-                isSubmitted: boolean
-                    description: "True if user input has been submitted."
-                accountId: string
-                    description: "The resolved Account ID."
-                accountName: string
-                    description: "The resolved Account Name."
-                placeId: string
-                    description: "The resolved Place ID."
-                placeName: string
-                    description: "The resolved Place Name."
-                templateId: string
-                    description: "The resolved Template ID."
-                templateName: string
-                    description: "The resolved Template Name."
-                plannedStartTimeStr: string
-                    description: "The parsed Planned Start Time."
-                message: string
-                    description: "Status, error, or suggestion options message."
-                    is_displayable: True
-                suggestions: string
-                    description: "Matched IDs if ambiguous."
-
-        get_visit_details:
-            description: "Retrieve details of the current Visit record and its associated Account."
-            target: "flow://Get_Visit_Details"
-            inputs:
-                recordId: string
-                    description: "The ID of the Visit record."
-                    is_required: True
-            outputs:
-                recordId: string
-                    description: "The ID of the Visit record."
-                accountId: string
-                    description: "The associated Account ID."
-                accountName: string
-                    description: "The associated Account Name."
-                visitStatus: string
-                    description: "The Visit Status."
-                visitDate: string
-                    description: "The Visit Date."
-                assignedUser: string
-                    description: "The Assigned User."
-
-

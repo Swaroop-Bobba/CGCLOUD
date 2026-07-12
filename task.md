@@ -10,5 +10,6 @@
 - `[x]` Create VisitIntelligenceMobile Agent Script (.agent)
 - `[x]` Create createVisitMobileEditor LWC for native input card UI on mobile
 - `[x]` Deploy createVisitMobileEditor LWC, Apex Class, and Agent Bundle
-- `[x]` Publish and Activate VisitIntelligenceMobile Agent (Version 6)
+- `[x]` Publish both agent bundles
+- `[x]` Activate both agents in the org
 - `[x]` Validate and preview test the flow

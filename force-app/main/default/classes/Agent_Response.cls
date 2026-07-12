@@ -52,6 +52,12 @@ public with sharing class Agent_Response {
     @InvocableVariable(description='True if user input has been submitted.')
     public Boolean isSubmitted;
 
+    @InvocableVariable(description='The matched Owner/Responsible User ID.')
+    public String ownerId;
+
+    @InvocableVariable(description='The matched Owner/Responsible User Name.')
+    public String ownerName;
+
     // Order/Recommendation Specific
     @InvocableVariable(description='The Order Status/Phase.')
     public String orderStatus;

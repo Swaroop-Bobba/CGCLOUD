@@ -3,6 +3,8 @@
     <types>
         <members>CGC_Intelligence</members>
         <members>Visit_Intelligence</members>
+        <members>VisitIntelDesktop</members>
+        <members>VisitIntelMobile</members>
         <name>AiAuthoringBundle</name>
     </types>
     <types>
