@@ -258,12 +258,12 @@ start_agent agent_router:
                 set @variables.tempOwnerSuggestions = ""
 
             go_to_update_visit_lwc: @utils.transition to @subagent.update_visit_lwc
-                description: "Route the user to the Update Visit LWC Agent (forms) when they request to update, change, edit, or modify visit details (status, owner, notes, timings) and are NOT a CGCloud_User_Profile user."
-                available when @variables.userProfileName != "CGCloud_User_Profile"
+                description: "Route the user to the Update Visit LWC Agent (forms) when they request to update, change, edit, or modify visit details (status, owner, notes, timings) and channelType is web."
+                available when @variables.channelType == "web"
 
             go_to_update_visit_text: @utils.transition to @subagent.update_visit_text
-                description: "Route the user to the Update Visit Text Agent (conversational text) when they request to update, change, edit, or modify visit details (status, owner, notes, timings) and are a CGCloud_User_Profile user."
-                available when @variables.userProfileName == "CGCloud_User_Profile"
+                description: "Route the user to the Update Visit Text Agent (conversational text) when they request to update, change, edit, or modify visit details (status, owner, notes, timings) and channelType is mobile."
+                available when @variables.channelType == "mobile"
 
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
                 description: "Return to the main Visit Intelligence subagent dashboard."
@@ -396,7 +396,7 @@ subagent visit_intelligence:
                 |   * "Inventory" / "out-of-stock" / "oos" -> Call @actions.get_details with recordType = "inventory"
                 |   * "Order History" / "orders" -> Call @actions.order_summary
                 |   * "Visit Report" / "generate reports" / "summarize visit" -> Call @actions.generate_visit_summary
-                |   * "Update" / "change visit" / "assign visit" / "update status" / "reassign visit" / "change owner" / "add notes" / "update start time" / "update end time" -> Transition immediately to the @subagent.update_visit_lwc subagent (using go_to_update_visit_lwc) if userProfileName != "CGCloud_User_Profile", or the @subagent.update_visit_text subagent (using go_to_update_visit_text) if userProfileName == "CGCloud_User_Profile".
+                |   * "Update" / "change visit" / "assign visit" / "update status" / "reassign visit" / "change owner" / "add notes" / "update start time" / "update end time" -> Transition immediately to the @subagent.update_visit_lwc subagent (using go_to_update_visit_lwc) if channelType == "web", or the @subagent.update_visit_text subagent (using go_to_update_visit_text) if channelType == "mobile".
                 |   * "Sellable Products" / "products in assortment" -> Call @actions.get_details with recordType = "assortmentproducts"
                 |   * "Switch" / "reset context" / "change visit" -> Call @actions.switch_visit
                 |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products
@@ -438,8 +438,8 @@ subagent visit_intelligence:
                 |         * Inventory / Check inventory / Out of stock records -> Call @actions.get_details with recordType = "inventory"
                 |         * Order History / purchasing patterns / Order summary -> Call @actions.order_summary
                 |         * Update Visit / Update Visit Information -> Transition immediately to:
-                |           - The @subagent.update_visit_lwc subagent (using go_to_update_visit_lwc) if userProfileName != "CGCloud_User_Profile".
-                |           - The @subagent.update_visit_text subagent (using go_to_update_visit_text) if userProfileName == "CGCloud_User_Profile".
+                |           - The @subagent.update_visit_lwc subagent (using go_to_update_visit_lwc) if channelType == "web".
+                |           - The @subagent.update_visit_text subagent (using go_to_update_visit_text) if channelType == "mobile".
                 |         * Sellable Products / Products in assortment -> Call @actions.get_details with recordType = "assortmentproducts"
                 |         * Switch / Reset Context / Switch to a different visit -> Call @actions.switch_visit
                 |         * Product Recommendations / suggestions -> Call @actions.suggest_products
@@ -586,9 +586,10 @@ subagent visit_intelligence:
                 with visitId = @variables.visitId
 
             go_to_update_visit_lwc: @utils.transition to @subagent.update_visit_lwc
-                available when @variables.userProfileName != "CGCloud_User_Profile"
+                available when @variables.channelType == "web"
 
             go_to_update_visit_text: @utils.transition to @subagent.update_visit_text
+                available when @variables.channelType == "mobile"
 
             search_users: @actions.search_users
                 description: "Search for a user by name to get their details before assigning a visit."
@@ -1008,9 +1009,10 @@ subagent update_visit_lwc:
               * Once the action returns the conversational choices prompt text, immediately transition to the Update Visit Text subagent using go_to_update_visit_text.
 
             SECTION 3: RETURN ON SUCCESS AND FAILURE HANDLING
-            - If any update action (including `update_visit_record`) returns success = True:
+            - If @variables.tempIsSubmitted is True:
               * Run get_visit to load the latest visit details.
               * Set @variables.tempIsUpdated = True
+              * Set @variables.tempIsSubmitted = False
               * Print a success message (e.g., "Perfect! I've updated the visit details ✅").
               * Print the updated visit details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
                 - Account: {!@variables.accountName} 🏪
@@ -1018,7 +1020,8 @@ subagent update_visit_lwc:
                 - Visit Status: {!@variables.visitStatus} 🔖
                 - Assigned User: {!@variables.assignedUser} 👤
               * Transition back to the main dashboard using go_to_intelligence.
-            - If any update action returns success = False (other than the manual input fallback), surface the specific error message verbatim and re-prompt the user for the missing inputs, ask them to try again, or type "manual input" to route to the manual input fallback (go_to_update_visit_text).
+            - If @variables.tempIsSubmitted is False and @variables.tempMessage != "" and @variables.tempMessage is not None:
+              * Surface the specific error message verbatim: "{!@variables.tempMessage}" and re-prompt the user for the missing inputs or ask them to try again.
             - If the action execution fails (e.g. shows a red cross or throws a platform/binding error like FIELD_INTEGRITY_EXCEPTION), do NOT print a success message, do NOT show the updated details table, and do NOT transition. Surface the specific error message, and if it recommends resetting, ask the user to click the "Reset" button at the top right of the Preview Settings.
 
         actions:
@@ -1036,24 +1039,32 @@ subagent update_visit_lwc:
                 with domain = "Visit"
                 with visitId = @variables.visitId
                 with createVisitWrapper = ...
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             update_visit_status: @actions.update_visit_status
                 with agentName = "VisitIntelligence"
                 with actionType = "update_visit_status"
                 with visitId = @variables.visitId
                 with statusWrapper = ...
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             update_visit_owner: @actions.update_visit_owner
                 with agentName = "VisitIntelligence"
                 with actionType = "update_visit_owner"
                 with visitId = @variables.visitId
                 with ownerWrapper = ...
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             update_visit_notes: @actions.update_visit_notes
                 with agentName = "VisitIntelligence"
                 with actionType = "update_visit_notes"
                 with visitId = @variables.visitId
                 with notes = ...
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             update_visit_start_time: @actions.update_visit_start_time
                 with agentName = "VisitIntelligence"
@@ -1061,6 +1072,8 @@ subagent update_visit_lwc:
                 with visitId = @variables.visitId
                 with plannedStartTimeWrapper = ...
                 with plannedStartTimeStr = ...
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             update_visit_end_time: @actions.update_visit_end_time
                 with agentName = "VisitIntelligence"
@@ -1068,6 +1081,8 @@ subagent update_visit_lwc:
                 with visitId = @variables.visitId
                 with plannedEndTimeWrapper = ...
                 with plannedEndTimeStr = ...
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             go_to_update_visit_text: @utils.transition to @subagent.update_visit_text
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
@@ -1293,9 +1308,10 @@ subagent update_visit_text:
             - If they provide both the field and the value in the same request (e.g., "change status to completed", "assign to Siri FieldRep"), map the field and pass the value directly to the corresponding action (e.g., `status = "completed"` or `ownerName = "Siri FieldRep"`).
 
             SECTION 2: RETURN ON SUCCESS
-            - If any update action returns success = True:
+            - If @variables.tempIsSubmitted is True:
               * Run get_visit to load the latest visit details.
               * Set @variables.tempIsUpdated = True
+              * Set @variables.tempIsSubmitted = False
               * Print a success message (e.g., "Perfect! I've updated the visit details conversationally ✅").
               * Print the updated visit details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
                 - Account: {!@variables.accountName} 🏪
@@ -1303,7 +1319,8 @@ subagent update_visit_text:
                 - Visit Status: {!@variables.visitStatus} 🔖
                 - Assigned User: {!@variables.assignedUser} 👤
               * Transition back to the main dashboard using go_to_intelligence.
-            - If any update action returns success = False, print the returned message verbatim and capture their subsequent text input.
+            - If @variables.tempIsSubmitted is False and @variables.tempMessage != "" and @variables.tempMessage is not None:
+              * Print the returned message verbatim: "{!@variables.tempMessage}" and capture their subsequent text input.
 
         actions:
             get_visit: @actions.get_visit_details
@@ -1319,6 +1336,8 @@ subagent update_visit_text:
                 with actionType = "update_visit_status_mobile_action"
                 with visitId = @variables.visitId
                 with status = ...
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             update_visit_owner_mobile: @actions.update_visit_owner_mobile_action
                 with agentName = "VisitIntelligence"
@@ -1327,24 +1346,32 @@ subagent update_visit_text:
                 with ownerName = ...
                 with suggestions = @variables.tempOwnerSuggestions
                 set @variables.tempOwnerSuggestions = @outputs.suggestions
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             update_visit_notes_mobile: @actions.update_visit_notes_mobile_action
                 with agentName = "VisitIntelligence"
                 with actionType = "update_visit_notes_mobile_action"
                 with visitId = @variables.visitId
                 with notes = ...
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             update_visit_start_time_mobile: @actions.update_visit_start_time_mobile_action
                 with agentName = "VisitIntelligence"
                 with actionType = "update_visit_start_time_mobile_action"
                 with visitId = @variables.visitId
                 with plannedStartTimeStr = ...
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             update_visit_end_time_mobile: @actions.update_visit_end_time_mobile_action
                 with agentName = "VisitIntelligence"
                 with actionType = "update_visit_end_time_mobile_action"
                 with visitId = @variables.visitId
                 with plannedEndTimeStr = ...
+                set @variables.tempIsSubmitted = @outputs.success
+                set @variables.tempMessage = @outputs.message
 
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
 
