@@ -1,7 +1,9 @@
-global class VisitDateTimeWrapper {
+/**
+ * @description Wrapper class for Visit DateTime properties.
+ */
+public class VisitDateTimeWrapper {
     @AuraEnabled
     @InvocableVariable(required=true description='The datetime value.')
-    global DateTime dateTimeValue;
-    
-    global VisitDateTimeWrapper() {}
+    public DateTime dateTimeValue;
+
 }

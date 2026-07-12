@@ -1,39 +1,41 @@
-global class CreateVisitWrapper {
+/**
+ * @description Wrapper class containing all data required to create a new Visit.
+ */
+public class CreateVisitWrapper {
     @AuraEnabled
     @InvocableVariable(description='The Subject of the visit')
-    global String subject;
+    public String subject;
 
     @AuraEnabled
     @InvocableVariable(description='The Account ID associated with the visit')
-    global String accountId;
+    public String accountId;
 
     @AuraEnabled
     @InvocableVariable(description='The Planned Visit Start Time')
-    global DateTime plannedStartTime;
+    public DateTime plannedStartTime;
 
     @AuraEnabled
     @InvocableVariable(description='The Place ID associated with the visit')
-    global String placeId;
+    public String placeId;
 
     @AuraEnabled
     @InvocableVariable(description='The Visit Template ID')
-    global String visitTemplateId;
+    public String visitTemplateId;
 
     @AuraEnabled
     @InvocableVariable(description='The Planned End Time')
-    global DateTime plannedEndTime;
+    public DateTime plannedEndTime;
 
     @AuraEnabled
     @InvocableVariable(description='Is this an all day event?')
-    global Boolean isAllDayEvent;
+    public Boolean isAllDayEvent;
 
     @AuraEnabled
     @InvocableVariable(description='The Accountable User ID')
-    global String accountableId;
+    public String accountableId;
 
     @AuraEnabled
     @InvocableVariable(description='The Responsible User ID')
-    global String responsibleId;
+    public String responsibleId;
 
-    global CreateVisitWrapper() {}
 }

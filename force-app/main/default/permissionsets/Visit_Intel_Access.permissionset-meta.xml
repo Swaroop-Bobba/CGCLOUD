@@ -1,7 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>RunFlow</name>
+    </userPermissions>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>Get_Visit_Details</flow>
+    </flowAccesses>
+    <description>Grants access to Visit Intel Agent Apex classes</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Visit Intel Access</label>
     <classAccesses>
         <apexClass>Account_Agent_Handler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MobileAgentUtility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -9,7 +24,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CreateVisitAction</apexClass>
+        <apexClass>Account_Agent_Counts_Service</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Account_Agent_Records_Service</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Account_Agent_Products_Service</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CreateVisitMobileWrapper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -26,26 +53,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Order_Agent_Service</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Update_Visit_EndTime_Action</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Update_Visit_Notes_Action</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Update_Visit_Owner_Action</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Update_Visit_StartTime_Action</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Update_Visit_Status_Action</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -92,15 +99,32 @@
         <apexClass>Visit_Agent_SObject_Service</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <userPermissions>
+    <classAccesses>
+        <apexClass>GetCurrentUserProfile</apexClass>
         <enabled>true</enabled>
-        <name>RunFlow</name>
-    </userPermissions>
-    <flowAccesses>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Agent_Global_Handler</apexClass>
         <enabled>true</enabled>
-        <flow>Get_Visit_Details</flow>
-    </flowAccesses>
-    <description>Grants access to Visit Intel Agent Apex classes</description>
-    <hasActivationRequired>false</hasActivationRequired>
-    <label>Visit Intel Access</label>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Agent_Request</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Agent_Response</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IAgentService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Order_Recommendation_Service</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PromptVisitMobileAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 </PermissionSet>

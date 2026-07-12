@@ -130,7 +130,7 @@ start_agent agent_router:
     actions:
         get_order_context:
             description: "Retrieve details of the current Order and its parent Account."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -150,7 +150,7 @@ start_agent agent_router:
 
         get_account_context:
             description: "Retrieve details of the Account and recent orders."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -168,7 +168,7 @@ start_agent agent_router:
 
         search_accounts:
             description: "Search for Account records by name."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -187,7 +187,7 @@ start_agent agent_router:
 
         get_full_order_list:
             description: "Retrieve all historical orders for the current Account."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -204,7 +204,7 @@ start_agent agent_router:
 
         get_order_summary:
             description: "Retrieve a summary of order history for the current Account."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -221,7 +221,7 @@ start_agent agent_router:
 
         suggest_products:
             description: "Generate prioritized product recommendations for the active store based on gaps, history, replenishment, and similar store patterns."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -241,7 +241,7 @@ start_agent agent_router:
 
         get_sellable_products:
             description: "Retrieve a list of sellable products (assortment products) for the Account."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -322,7 +322,7 @@ subagent order_recommendation:
     actions:
         suggest_products:
             description: "Generate prioritized product recommendations for the active store based on gaps, history, replenishment, and similar store patterns."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -342,7 +342,7 @@ subagent order_recommendation:
 
         get_full_order_list:
             description: "Retrieve all historical orders for the current Account."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -359,7 +359,7 @@ subagent order_recommendation:
 
         get_order_summary:
             description: "Retrieve a summary of order history for the current Account."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -376,7 +376,7 @@ subagent order_recommendation:
 
         get_sellable_products:
             description: "Retrieve a list of sellable products (assortment products) for the Account."
-            target: "apex://Order_Recommendation_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."

@@ -223,7 +223,7 @@ start_agent agent_router:
 
         get_account_details:
             description: "Retrieve details of an Account."
-            target: "apex://Account_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -242,7 +242,7 @@ start_agent agent_router:
 
         get_order_details:
             description: "Retrieve Order and associated Account details."
-            target: "apex://Order_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -267,7 +267,7 @@ start_agent agent_router:
 
         get_available_visits:
             description: "Retrieve user's recently viewed, owned, and scheduled visits."
-            target: "apex://Visit_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -277,12 +277,12 @@ start_agent agent_router:
                     is_required: True
             outputs:
                 visits: list[object]
-                    complex_data_type_name: "@apexClassType/c__Visit_Agent_Handler$VisitOption"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
                     description: "List of available visits."
 
         search_visits:
             description: "Search for Visit records by account name, store name, visit name, or date."
-            target: "apex://Visit_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -295,12 +295,12 @@ start_agent agent_router:
                     is_required: True
             outputs:
                 visits: list[object]
-                    complex_data_type_name: "@apexClassType/c__Visit_Agent_Handler$VisitOption"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
                     description: "List of matching visits."
 
         search_accounts:
             description: "Search for Account records by name."
-            target: "apex://Account_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -313,12 +313,12 @@ start_agent agent_router:
                     is_required: True
             outputs:
                 accounts: list[object]
-                    complex_data_type_name: "@apexClassType/c__Account_Agent_Handler$AccountOption"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$AccountOption"
                     description: "List of matching accounts."
 
         search_orders:
             description: "Search for Order records by name or account name."
-            target: "apex://Order_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -331,7 +331,7 @@ start_agent agent_router:
                     is_required: True
             outputs:
                 orders: list[object]
-                    complex_data_type_name: "@apexClassType/c__Order_Agent_Handler$OrderOption"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$OrderOption"
                     description: "List of matching orders."
 
 subagent cgc_intelligence:
@@ -465,7 +465,7 @@ subagent cgc_intelligence:
     actions:
         get_related_counts:
             description: "Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account."
-            target: "apex://Account_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -510,7 +510,7 @@ subagent cgc_intelligence:
 
         get_related_records:
             description: "Retrieve list of detailed records of a specific type (contacts, visits, promotions, inventory, outOfStock, retailstores, assortments, storeproducts, tactics, assortmentproducts) for the current Account."
-            target: "apex://Account_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -526,13 +526,13 @@ subagent cgc_intelligence:
                     is_required: True
             outputs:
                 records: list[object]
-                    complex_data_type_name: "@apexClassType/c__Account_Agent_Handler$RecordInfo"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$RecordInfo"
                     description: "List of related records containing name, status, owner, and lastModified."
                     is_displayable: True
 
         get_order_summary:
             description: "Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Account."
-            target: "apex://Order_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -562,7 +562,7 @@ subagent cgc_intelligence:
 
         get_visit_orders:
             description: "Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Visit ID."
-            target: "apex://Order_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -592,7 +592,7 @@ subagent cgc_intelligence:
 
         get_order_items:
             description: "Retrieve product line items for a specific CG Cloud Order."
-            target: "apex://Order_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -613,7 +613,7 @@ subagent cgc_intelligence:
 
         update_order_notes:
             description: "Update delivery notes and/or invoice notes on a specific CG Cloud Order by its ID or Name/Number."
-            target: "apex://Order_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             require_user_confirmation: True
             inputs:
                 agentName: string
@@ -638,7 +638,7 @@ subagent cgc_intelligence:
 
         get_store_brief:
             description: "Get store brief data including order totals, top products, active promotions, and open tasks."
-            target: "apex://Visit_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -659,7 +659,7 @@ subagent cgc_intelligence:
 
         suggest_products:
             description: "Get product recommendations for the active store based on catalog gaps and order history."
-            target: "apex://Account_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -677,7 +677,7 @@ subagent cgc_intelligence:
 
         generate_visit_summary:
             description: "Collect visit execution metrics and return a formatted visit report."
-            target: "apex://Visit_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -695,7 +695,7 @@ subagent cgc_intelligence:
 
         update_visit:
             description: "Update fields on the current Visit record. Requires user confirmation."
-            target: "apex://Visit_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             require_user_confirmation: True
             inputs:
                 agentName: string
@@ -734,7 +734,7 @@ subagent cgc_intelligence:
 
         search_users:
             description: "Search for users by name."
-            target: "apex://User_Agent_Handler"
+            target: "apex://Agent_Global_Handler"
             inputs:
                 agentName: string
                     description: "The name of the agent executing the request."
@@ -747,7 +747,7 @@ subagent cgc_intelligence:
                     is_required: True
             outputs:
                 users: list[object]
-                    complex_data_type_name: "@apexClassType/c__User_Agent_Handler$UserOption"
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$UserOption"
                     description: "List of matching users containing name, userId, alias, and profileName."
                     is_displayable: True
 

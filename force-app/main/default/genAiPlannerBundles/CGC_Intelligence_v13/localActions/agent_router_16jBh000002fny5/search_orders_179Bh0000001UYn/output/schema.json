@@ -6,7 +6,7 @@
       "description" : "List of matching orders.",
       "maxItems" : 2000,
       "items" : {
-        "lightning:type" : "@apexClassType/c__Order_Agent_Handler$OrderOption"
+        "lightning:type" : "@apexClassType/c__Agent_Response$OrderOption"
       },
       "lightning:type" : "lightning__listType",
       "lightning:isPII" : false,
