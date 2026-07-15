@@ -1,0 +1,28 @@
+{
+  "required" : [ "createVisitWrapper" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "actionType" : {
+      "title" : "Action Type",
+      "description" : "The action to perform.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "agentName" : {
+      "title" : "Agent Name",
+      "description" : "The name of the agent.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "createVisitWrapper" : {
+      "title" : "Create Visit Wrapper",
+      "description" : "The visit details form data containing Subject, Account, Planned Start, Place, and optional fields.",
+      "lightning:type" : "c__createVisitWrapperType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

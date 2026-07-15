@@ -13,6 +13,8 @@ config:
     description: "Unified desktop agent operating within a Visit context using LWC forms, retrieving related Account context and summarizing or detailing records."
     agent_type: "AgentforceEmployeeAgent"
 
+model_config:
+    model: "model://sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet"
 
 variables:
     currentRecordId: mutable string = ""
@@ -350,7 +352,7 @@ subagent visit_intelligence:
                 |   * "Contacts" / "show contacts" / "get contact details" -> Call @actions.get_details with recordType = "contacts"
                 |   * "Promotions" / "active promotions" -> Call @actions.get_details with recordType = "promotions"
                 |   * "Eligible Products" / "eligible products of <index>" / "eligible products for <promotionName>" -> Call @actions.get_products with promotionId mapped to the selected promotion's ID or name.
-                |   * "Pre-Visit Brief" / "store brief" / "store overview" / "pre-visit briefing" -> Call @actions.store_brief
+                |   * "Pre-Visit Brief" / "store brief" / "store overview" / "pre-visit briefing" / "pre visit breif" -> Call @actions.store_brief
                 |   * "Inventory" / "out-of-stock" / "oos" -> Call @actions.get_details with recordType = "inventory"
                 |   * "Order History" / "orders" -> Call @actions.order_summary
                 |   * "Visit Report" / "generate reports" / "summarize visit" -> Call @actions.generate_visit_summary
@@ -372,7 +374,7 @@ subagent visit_intelligence:
                 |   2. If {!@variables.visitSummaryText} is not empty, null, or "None", immediately follow with the Visit Summary text: {!@variables.visitSummaryText}. Otherwise, do NOT print any Visit Summary text or header.
                 |   3. Ask: "How can I help you with this visit?"
                 |   4. Present the Greeting Menu as a numbered list starting at 1:
-                |      1. 🏢 Account Summary (Show Contact counts, Activities summary, and Account Age)
+                |      1. 🏢 Account Summary (Show Contact counts, Visit counts, and Account Age)
                 |      2. 👥 Contacts (Retrieve contact details)
                 |      3. 📣 Promotions (Retrieve active promotions)
                 |      4. 💡 Pre-Visit Brief (Summarize the current visit details)
@@ -390,18 +392,18 @@ subagent visit_intelligence:
                 |   A. IF THE GREETING MENU OR DYNAMIC NEXT STEPS MENU WAS PRESENTED:
                 |      1. Extract the text label of the numbered option corresponding to the user's input from the last message.
                 |      2. Execute the action for that option text:
-                |         * Account Summary / Account Details -> Call @actions.get_counts. When get_counts returns, format the output to display Contacts count, Visits count, Account Age, Activities summary (total, completed, pending), Phone, Email, and Location Navigate link (using the exact markdown hyperlink values of accountPhone, accountEmail, and locationNavigateLink outputs). Do NOT show a tasks count.
+                |         * Account Summary / Account Details -> Call @actions.get_counts. When get_counts returns, format the output to display Contacts count, Visits count, Account Age, Phone, Email, and Location Navigate link (using the exact markdown hyperlink values of accountPhone, accountEmail, and locationNavigateLink outputs). Do NOT show activities or tasks counts.
                 |         * Contacts / View Contacts / Contact details -> Call @actions.get_details with recordType = "contacts"
                 |         * Promotions / Audit active promotions / active promotions -> Call @actions.get_details with recordType = "promotions"
                 |         * Eligible Products / products for promotion / products of <number> -> Call @actions.get_products with promotionId resolved from index or name.
-                |         * Pre-Visit Brief / Store Brief / Store Overview / Pre-visit briefing -> Call @actions.store_brief
+                |         * Pre-Visit Brief / Store Brief / Store Overview / Pre-visit briefing / pre visit breif -> Call @actions.store_brief
                 |         * Inventory / Check inventory / Out of stock records -> Call @actions.get_details with recordType = "inventory"
                 |         * Order History / purchasing patterns / Order summary -> Call @actions.order_summary
                 |         * Update Visit / Update Visit Information / "7" -> You MUST NOT attempt to list fields or collect inputs yourself. You MUST transition immediately to the @subagent.visit_updater subagent by calling {!@actions.go_to_visit_updater}.
                 |         * Sellable Products / Products in assortment -> Call @actions.get_details with recordType = "assortmentproducts"
                 |         * Switch / Reset Context / Switch to a different visit -> Call @actions.switch_visit
                 |         * Product Recommendations / suggestions -> Call @actions.suggest_products
-                |         * Visit Activities / planned activities / surveys / checklists / questions -> Transition to @subagent.visit_activities
+                |         * Visit Activities / planned activities / surveys / checklists / questions / 📝 Visit Activities / 📝 Visit Activities (Fetch planned surveys, checklists, or check completed/pending questions) -> Transition to @subagent.visit_activities
                 |
                 |   B. FALLBACK MAPPING:
                 |      * If no previous list can be identified or input is ambiguous, map the numbers 1 to 10 directly to these default greeting options: 1=Account Summary, 2=Contacts, 3=Promotions, 4=Pre-Visit Brief, 5=Inventory, 6=Order History, 7=Transition immediately to @subagent.visit_updater (using {!@actions.go_to_visit_updater}), 8=Sellable Products, 9=Visit Activities, 10=Switch/Reset Context.
@@ -623,7 +625,7 @@ subagent visit_intelligence:
                 records: list[object]
                     complex_data_type_name: "@apexClassType/c__Agent_Response$RecordInfo"
                     description: "List of related records containing name, status, owner, and lastModified."
-                    is_displayable: True
+                    is_displayable: False
 
         get_promotion_products:
             description: "Retrieve eligible products associated with a promotion using its ID or Name."
@@ -1236,7 +1238,7 @@ subagent visit_updater:
             You are now in the Visit Updater Agent subagent.
             
             SECTION 1: DISPLAYING THE WIZARD
-            - If the user's message is initiating the update (e.g., they typed "7", "update visit", "update status", "change owner", "add notes", or similar):
+            - If the user's message is initiating the update (e.g., they typed "update visit", "update status", "change owner", "add notes", or similar):
               * You MUST treat the updatesPayload parameter as empty, ignore any cached value, and explicitly prompt the user fresh to configure the new updates using the wizard LWC.
               * You MUST immediately call the action {!@actions.update_visit_wizard} and prompt the user for the updatesPayload parameter.
             - Otherwise (e.g., the user has already configured the updates in the LWC and is now submitting):
@@ -1261,7 +1263,7 @@ subagent visit_updater:
                 - Accountable User: {!@variables.accountableUser} 👤 (If null or empty, display "None")
               * Ask: "How can I help you with this visit?"
               * Present the Greeting Menu as a numbered list starting at 1:
-                1. 🏢 Account Summary (Show Contact counts, Activities summary, and Account Age)
+                1. 🏢 Account Summary (Show Contact counts, Visit counts, and Account Age)
                 2. 👥 Contacts (Retrieve contact details)
                 3. 📣 Promotions (Retrieve active promotions)
                 4. 💡 Pre-Visit Brief (Summarize the current visit details)

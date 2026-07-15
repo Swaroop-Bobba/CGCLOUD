@@ -94,19 +94,10 @@ public with sharing class Account_Agent_Service implements IAgentService {
                 }
             } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
 
-            // Calculate Activities Summary
-            try {
-                List<Visit> visitsList = [SELECT Id FROM Visit WHERE AccountId = :accId WITH USER_MODE];
-                Set<Id> visitIds = new Set<Id>();
-                for (Visit v : visitsList) {
-                    visitIds.add(v.Id);
-                }
-                if (!visitIds.isEmpty()) {
-                    res.totalActivities = [SELECT Count() FROM cgcloud__Visit_Job__c WHERE cgcloud__Visit__c IN :visitIds WITH USER_MODE];
-                    res.completedActivities = [SELECT Count() FROM cgcloud__Visit_Job__c WHERE cgcloud__Visit__c IN :visitIds AND (cgcloud__Done__c = true OR cgcloud__Value__c != null) WITH USER_MODE];
-                    res.pendingActivities = res.totalActivities - res.completedActivities;
-                }
-            } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+            // Set Activities Summary counts to 0 on Account level as requested
+            res.totalActivities = 0;
+            res.completedActivities = 0;
+            res.pendingActivities = 0;
 
             res.activePromotions = getPromotionCount(accId);
             res.outOfStockCount = getOOSCount(accId);
@@ -196,9 +187,9 @@ public with sharing class Account_Agent_Service implements IAgentService {
         res.totalContacts = 2;
         res.totalVisits = 13;
         res.pendingVisitTasks = 0; // Removed tasks count
-        res.totalActivities = 10;
-        res.completedActivities = 6;
-        res.pendingActivities = 4;
+        res.totalActivities = 0;
+        res.completedActivities = 0;
+        res.pendingActivities = 0;
         res.accountAge = 180;
         res.accountPhone = '[+1 555-0100](tel:+15550100)';
         res.locationNavigateLink = '[Location - Navigate](https://www.google.com/maps/search/?api=1&query=123+Main+Street%2C+New+York%2C+NY+10001)';

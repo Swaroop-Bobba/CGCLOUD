@@ -1257,6 +1257,330 @@ public with sharing class Visit_Agent_Service implements IAgentService {
 
 
     /**
+     * @description Formats the planned activities with their child question/survey counts.
+     */
+    public static String getPlannedActivitiesDetails(String visitId) {
+        if (String.isBlank(visitId)) {
+            return '- Planned Activities: None\n';
+        }
+
+        try {
+            List<Visit> visits = [
+                SELECT Id, cgcloud__Visit_Template__c, AccountId
+                FROM Visit
+                WHERE Id = :visitId
+                WITH USER_MODE
+                LIMIT 1
+            ];
+            if (visits.isEmpty() || visits[0].cgcloud__Visit_Template__c == null) {
+                return '- Planned Activities: None\n';
+            }
+
+            Id visitTemplateId = visits[0].cgcloud__Visit_Template__c;
+            Id visitAccountId = visits[0].AccountId;
+
+            Set<Id> activeJdlIds = new Set<Id>();
+            // Customer targeting
+            Set<Id> includedDirectJdlIds = new Set<Id>();
+            Set<Id> excludedDirectJdlIds = new Set<Id>();
+            Set<Id> includedSetJdlIds = new Set<Id>();
+
+            if (visitAccountId != null) {
+                List<cgcloud__Job_Definition_List_Account__c> jdlAccounts = [
+                    SELECT cgcloud__Job_Definition_List__c, cgcloud__Excluded__c
+                    FROM cgcloud__Job_Definition_List_Account__c
+                    WHERE cgcloud__Account__c = :visitAccountId
+                ];
+                for (cgcloud__Job_Definition_List_Account__c jda : jdlAccounts) {
+                    if (jda.cgcloud__Excluded__c == true) {
+                        excludedDirectJdlIds.add(jda.cgcloud__Job_Definition_List__c);
+                    } else {
+                        includedDirectJdlIds.add(jda.cgcloud__Job_Definition_List__c);
+                    }
+                }
+
+                List<cgcloud__Account_Set_Account__c> customerSets = [
+                    SELECT cgcloud__Account_Set__c
+                    FROM cgcloud__Account_Set_Account__c
+                    WHERE cgcloud__Account_Set_Account__c = :visitAccountId
+                ];
+                Set<Id> accountSetIds = new Set<Id>();
+                for (cgcloud__Account_Set_Account__c csa : customerSets) {
+                    if (csa.cgcloud__Account_Set__c != null) {
+                        accountSetIds.add(csa.cgcloud__Account_Set__c);
+                    }
+                }
+
+                if (!accountSetIds.isEmpty()) {
+                    List<cgcloud__Job_Definition_List_Account_Set__c> jdlSets = [
+                        SELECT cgcloud__Job_Definition_List__c
+                        FROM cgcloud__Job_Definition_List_Account_Set__c
+                        WHERE cgcloud__Account_Set__c IN :accountSetIds
+                    ];
+                    for (cgcloud__Job_Definition_List_Account_Set__c jds : jdlSets) {
+                        if (jds.cgcloud__Job_Definition_List__c != null) {
+                            includedSetJdlIds.add(jds.cgcloud__Job_Definition_List__c);
+                        }
+                    }
+                }
+            }
+
+            // Query unique links for the visit template - dynamic SOQL for namespace relationship
+            List<SObject> links = Database.query(
+                'SELECT cgcloud__Job_Definition_List__c ' +
+                'FROM cgcloud__Job_DL_Job_Definition_Template__c ' +
+                'WHERE cgcloud__Job_Definition_List__r.cgcloud__Visit_Template__c = \'' + String.escapeSingleQuotes(visitTemplateId) + '\' ' +
+                  'AND cgcloud__Job_Definition_List__r.cgcloud__Active__c = true'
+            );
+            Set<Id> candidateJdlIds = new Set<Id>();
+            for (SObject link : links) {
+                Id jdlId = (Id)link.get('cgcloud__Job_Definition_List__c');
+                if (jdlId != null) {
+                    candidateJdlIds.add(jdlId);
+                }
+            }
+
+            if (candidateJdlIds.isEmpty()) {
+                return '- Planned Activities: None\n';
+            }
+
+            List<cgcloud__Job_Definition_List__c> filteredJdls = [
+                SELECT Id, Name, cgcloud__Description__c, cgcloud__Consider_Account__c,
+                       cgcloud__Field_Sales_Activity__r.Name, cgcloud__Field_Sales_Activity__r.cgcloud__Description__c
+                FROM cgcloud__Job_Definition_List__c
+                WHERE Id IN :candidateJdlIds
+            ];
+            for (cgcloud__Job_Definition_List__c jdl : filteredJdls) {
+                if (jdl.cgcloud__Consider_Account__c == false) {
+                    activeJdlIds.add(jdl.Id);
+                } else {
+                    if (excludedDirectJdlIds.contains(jdl.Id)) {
+                        continue;
+                    }
+                    if (includedDirectJdlIds.contains(jdl.Id) || includedSetJdlIds.contains(jdl.Id)) {
+                        activeJdlIds.add(jdl.Id);
+                    }
+                }
+            }
+
+            if (activeJdlIds.isEmpty()) {
+                return '- Planned Activities: None\n';
+            }
+
+            // Query links with their JDT job templates to count questions and surveys under each active JDL
+            List<SObject> linkTemplates = Database.query(
+                'SELECT cgcloud__Job_Definition_List__c, ' +
+                       'cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name ' +
+                'FROM cgcloud__Job_DL_Job_Definition_Template__c ' +
+                'WHERE cgcloud__Job_Definition_List__c IN :activeJdlIds'
+            );
+
+            Map<Id, Integer> jdlQuestionCounts = new Map<Id, Integer>();
+            Map<Id, Integer> jdlSurveyCounts = new Map<Id, Integer>();
+            for (Id jId : activeJdlIds) {
+                jdlQuestionCounts.put(jId, 0);
+                jdlSurveyCounts.put(jId, 0);
+            }
+
+            for (SObject lt : linkTemplates) {
+                Id jdlId = (Id)lt.get('cgcloud__Job_Definition_List__c');
+                String typeName = '';
+                try {
+                    typeName = (String)lt.getSObject('cgcloud__Job_Definition_Template__r').getSObject('cgcloud__Job_Template__r').get('Name');
+                } catch (Exception e) {}
+                
+                if (jdlId != null) {
+                    if (typeName == 'Question') {
+                        jdlQuestionCounts.put(jdlId, jdlQuestionCounts.get(jdlId) + 1);
+                    } else if (typeName == 'Survey') {
+                        jdlSurveyCounts.put(jdlId, jdlSurveyCounts.get(jdlId) + 1);
+                    }
+                }
+            }
+
+            String actString = '- Planned Activities:\n';
+            for (cgcloud__Job_Definition_List__c jdl : filteredJdls) {
+                if (activeJdlIds.contains(jdl.Id)) {
+                    String name = jdl.cgcloud__Field_Sales_Activity__r.Name != null ? jdl.cgcloud__Field_Sales_Activity__r.Name : jdl.Name;
+                    Integer qCount = jdlQuestionCounts.get(jdl.Id);
+                    Integer sCount = jdlSurveyCounts.get(jdl.Id);
+                    actString += '  * ' + name + ' (Questions: ' + qCount + ', Surveys: ' + sCount + ')\n';
+                }
+            }
+            return actString;
+
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, e.getMessage());
+            return '- Planned Activities: None\n';
+        }
+    }
+
+    /**
+     * @description Calculates activity counts for a visit, including planned templates.
+     */
+    public static Map<String, Integer> getActivityCounts(String visitId) {
+        Map<String, Integer> result = new Map<String, Integer>{
+            'total' => 0,
+            'completed' => 0,
+            'pending' => 0
+        };
+        if (String.isBlank(visitId)) {
+            return result;
+        }
+
+        try {
+            List<Visit> visits = [
+                SELECT Id, cgcloud__Visit_Template__c, AccountId
+                FROM Visit
+                WHERE Id = :visitId
+                WITH USER_MODE
+                LIMIT 1
+            ];
+            if (visits.isEmpty()) {
+                return result;
+            }
+
+            Visit v = visits[0];
+            Id visitTemplateId = v.cgcloud__Visit_Template__c;
+            Id visitAccountId = v.AccountId;
+
+            Set<Id> activeJdlIds = new Set<Id>();
+            if (visitTemplateId != null) {
+                // Customer targeting
+                Set<Id> includedDirectJdlIds = new Set<Id>();
+                Set<Id> excludedDirectJdlIds = new Set<Id>();
+                Set<Id> includedSetJdlIds = new Set<Id>();
+
+                if (visitAccountId != null) {
+                    List<cgcloud__Job_Definition_List_Account__c> jdlAccounts = [
+                        SELECT cgcloud__Job_Definition_List__c, cgcloud__Excluded__c
+                        FROM cgcloud__Job_Definition_List_Account__c
+                        WHERE cgcloud__Account__c = :visitAccountId
+                    ];
+                    for (cgcloud__Job_Definition_List_Account__c jda : jdlAccounts) {
+                        if (jda.cgcloud__Excluded__c == true) {
+                            excludedDirectJdlIds.add(jda.cgcloud__Job_Definition_List__c);
+                        } else {
+                            includedDirectJdlIds.add(jda.cgcloud__Job_Definition_List__c);
+                        }
+                    }
+
+                    List<cgcloud__Account_Set_Account__c> customerSets = [
+                        SELECT cgcloud__Account_Set__c
+                        FROM cgcloud__Account_Set_Account__c
+                        WHERE cgcloud__Account_Set_Account__c = :visitAccountId
+                    ];
+                    Set<Id> accountSetIds = new Set<Id>();
+                    for (cgcloud__Account_Set_Account__c csa : customerSets) {
+                        if (csa.cgcloud__Account_Set__c != null) {
+                            accountSetIds.add(csa.cgcloud__Account_Set__c);
+                        }
+                    }
+
+                    if (!accountSetIds.isEmpty()) {
+                        List<cgcloud__Job_Definition_List_Account_Set__c> jdlSets = [
+                            SELECT cgcloud__Job_Definition_List__c
+                            FROM cgcloud__Job_Definition_List_Account_Set__c
+                            WHERE cgcloud__Account_Set__c IN :accountSetIds
+                        ];
+                        for (cgcloud__Job_Definition_List_Account_Set__c jds : jdlSets) {
+                            if (jds.cgcloud__Job_Definition_List__c != null) {
+                                includedSetJdlIds.add(jds.cgcloud__Job_Definition_List__c);
+                            }
+                        }
+                    }
+                }
+
+                // Query unique links for the visit template - dynamic SOQL for namespace relationship
+                List<SObject> links = Database.query(
+                    'SELECT cgcloud__Job_Definition_List__c ' +
+                    'FROM cgcloud__Job_DL_Job_Definition_Template__c ' +
+                    'WHERE cgcloud__Job_Definition_List__r.cgcloud__Visit_Template__c = \'' + String.escapeSingleQuotes(visitTemplateId) + '\' ' +
+                      'AND cgcloud__Job_Definition_List__r.cgcloud__Active__c = true'
+                );
+                Set<Id> candidateJdlIds = new Set<Id>();
+                for (SObject link : links) {
+                    Id jdlId = (Id)link.get('cgcloud__Job_Definition_List__c');
+                    if (jdlId != null) {
+                        candidateJdlIds.add(jdlId);
+                    }
+                }
+
+                if (!candidateJdlIds.isEmpty()) {
+                    List<cgcloud__Job_Definition_List__c> filteredJdls = [
+                        SELECT Id, cgcloud__Consider_Account__c
+                        FROM cgcloud__Job_Definition_List__c
+                        WHERE Id IN :candidateJdlIds
+                    ];
+                    for (cgcloud__Job_Definition_List__c jdl : filteredJdls) {
+                        if (jdl.cgcloud__Consider_Account__c == false) {
+                            activeJdlIds.add(jdl.Id);
+                        } else {
+                            if (excludedDirectJdlIds.contains(jdl.Id)) {
+                                continue;
+                            }
+                            if (includedDirectJdlIds.contains(jdl.Id) || includedSetJdlIds.contains(jdl.Id)) {
+                                activeJdlIds.add(jdl.Id);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Get all unique template question/survey IDs planned for the active JDLs
+            Set<Id> plannedTemplateIds = new Set<Id>();
+            if (!activeJdlIds.isEmpty()) {
+                List<cgcloud__Job_DL_Job_Definition_Template__c> plannedList = [
+                    SELECT cgcloud__Job_Definition_Template__c
+                    FROM cgcloud__Job_DL_Job_Definition_Template__c
+                    WHERE cgcloud__Job_Definition_List__c IN :activeJdlIds
+                ];
+                for (cgcloud__Job_DL_Job_Definition_Template__c planned : plannedList) {
+                    if (planned.cgcloud__Job_Definition_Template__c != null) {
+                        plannedTemplateIds.add(planned.cgcloud__Job_Definition_Template__c);
+                    }
+                }
+            }
+
+            // Query actual jobs
+            List<cgcloud__Visit_Job__c> actualJobs = [
+                SELECT cgcloud__Job_Definition_Template__c, cgcloud__Done__c, cgcloud__Value__c
+                FROM cgcloud__Visit_Job__c
+                WHERE cgcloud__Visit__c = :visitId
+                WITH USER_MODE
+            ];
+
+            Set<Id> actualJdtIds = new Set<Id>();
+            Integer completed = 0;
+            for (cgcloud__Visit_Job__c job : actualJobs) {
+                if (job.cgcloud__Job_Definition_Template__c != null) {
+                    actualJdtIds.add(job.cgcloud__Job_Definition_Template__c);
+                }
+                if (job.cgcloud__Done__c == true || String.isNotBlank(job.cgcloud__Value__c)) {
+                    completed++;
+                }
+            }
+
+            // Total is planned templates + actual jobs that don't match planned templates
+            Integer total = plannedTemplateIds.size();
+            for (cgcloud__Visit_Job__c job : actualJobs) {
+                if (job.cgcloud__Job_Definition_Template__c == null || !plannedTemplateIds.contains(job.cgcloud__Job_Definition_Template__c)) {
+                    total++;
+                }
+            }
+
+            result.put('total', total);
+            result.put('completed', completed);
+            result.put('pending', Math.max(0, total - completed));
+
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, e.getMessage());
+        }
+
+        return result;
+    }
+
+    /**
      * @description Generates a brief summary for the store based on visit and account IDs.
      * @param visitId The ID of the Visit.
      * @param accountId The ID of the Account.
@@ -1364,16 +1688,12 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 }
             }
 
-            Integer openTasks = 0;
-            if (String.isNotBlank(accId)) {
-                openTasks = [SELECT Count() FROM Task WHERE AccountId = :accId AND Status != 'Completed' WITH USER_MODE];
-            }
+            String activitiesDetails = getPlannedActivitiesDetails(visitId);
 
-            if (orderCount == 0 && activePromotions == 0 && openTasks == 0) {
+            if (orderCount == 0 && activePromotions == 0 && activitiesDetails.contains('None')) {
                 orderCount = 3;
                 totalSpent = 72000;
                 activePromotions = 4;
-                openTasks = 2;
             }
 
             return 'Store Brief for ' + storeName + '\n\n' +
@@ -1385,7 +1705,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 '  2. ' + (topProductsList.size() > 1 ? topProductsList[1] : 'Sprite 1L') + '\n' +
                 '  3. ' + (topProductsList.size() > 2 ? topProductsList[2] : 'Fanta 500ml') + '\n' +
                 '- Active Promotions: ' + activePromotions + '\n' +
-                '- Open Tasks: ' + openTasks + '\n' +
+                activitiesDetails +
                 '- Potential Opportunities: Product XYZ not ordered in 45 days\n' +
                 '- Suggested Next Action: Capture replenishment order';
 
@@ -1399,7 +1719,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 '  2. Sprite 1L\n' +
                 '  3. Fanta 500ml\n' +
                 '- Active Promotions: 4\n' +
-                '- Open Tasks: 2\n' +
+                '- Planned Activities:\n' +
+                '  * Store Audit (Questions: 12, Surveys: 0)\n' +
+                '  * Inventory Check (Questions: 0, Surveys: 6)\n' +
                 '- Potential Opportunities: Product XYZ not ordered in 45 days\n' +
                 '- Suggested Next Action: Capture replenishment order';
         }
@@ -1432,21 +1754,10 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             String storeName = v.Account != null ? v.Account.Name : 'Reliance Store';
             String visitDateStr = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('dd-MMM-yyyy') : 'N/A';
 
-            List<Task> tasks = [
-                SELECT Id, Status
-                FROM Task
-                WHERE WhatId = :visitId OR (AccountId = :v.AccountId AND ActivityDate = TODAY)
-                WITH USER_MODE
-            ];
-            Integer tasksCompleted = 0;
-            Integer tasksPending = 0;
-            for (Task t : tasks) {
-                if (t.Status == 'Completed') {
-                    tasksCompleted++;
-                } else {
-                    tasksPending++;
-                }
-            }
+            Map<String, Integer> actCounts = getActivityCounts(visitId);
+            Integer totalActivities = actCounts.get('total');
+            Integer completedActivities = actCounts.get('completed');
+            Integer pendingActivities = actCounts.get('pending');
 
             Integer promotionsChecked = 0;
             Integer compliantPromos = 0;
@@ -1488,14 +1799,15 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             String summary = '### Visit Summary\n\n' +
                 '* **Store**: ' + storeName + '\n' +
                 '* **Visit Date**: ' + visitDateStr + '\n' +
-                '* **Tasks Completed**: ' + tasksCompleted + '\n' +
-                '* **Tasks Pending**: ' + tasksPending + '\n' +
+                '* **Total Activities**: ' + totalActivities + '\n' +
+                '* **Completed Activities**: ' + completedActivities + '\n' +
+                '* **Pending Activities**: ' + pendingActivities + '\n' +
                 '* **Promotions Checked**: ' + promotionsChecked + ' (Compliant: ' + compliantPromos + ', Issues: ' + nonCompliantPromos + ')\n' +
                 '* **Issues Found**: ' + oosIssues + ' Out of Stock\n' +
                 '* **Orders Created**: ' + ordersCreated + '\n' +
                 '* **Order Value**: \u20B9' + orderValue.setScale(2) + '\n' +
                 '* **Representative Notes**: ' + notesStr + '\n' +
-                '* **Overall Outcome**: ' + (tasksPending == 0 ? 'Successful visit.' : 'Visit partially completed.');
+                '* **Overall Outcome**: ' + (pendingActivities == 0 ? 'Successful visit.' : 'Visit partially completed.');
 
             return summary;
 
@@ -1503,8 +1815,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             return '### Visit Summary\n\n' +
                 '* **Store**: Reliance Store\n' +
                 '* **Visit Date**: 20-Jun-2026\n' +
-                '* **Tasks Completed**: 5\n' +
-                '* **Tasks Pending**: 1\n' +
+                '* **Total Activities**: 10\n' +
+                '* **Completed Activities**: 6\n' +
+                '* **Pending Activities**: 4\n' +
                 '* **Promotions Checked**: 4 (Compliant: 3, Issues: 1)\n' +
                 '* **Issues Found**: 1 Out of Stock\n' +
                 '* **Orders Created**: 2\n' +
