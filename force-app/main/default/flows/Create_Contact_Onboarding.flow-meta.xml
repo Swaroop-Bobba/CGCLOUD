@@ -3,46 +3,6 @@
     <apiVersion>61.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
-        <name>Set_Error_Outputs</name>
-        <label>Set Error Outputs</label>
-        <locationX>400</locationX>
-        <locationY>360</locationY>
-        <assignmentItems>
-            <assignToReference>success</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>errorMessage</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Flow.FaultMessage</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
-        <name>Set_Validation_Error</name>
-        <label>Set Validation Error</label>
-        <locationX>300</locationX>
-        <locationY>100</locationY>
-        <assignmentItems>
-            <assignToReference>success</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>errorMessage</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>The provided mobile number is invalid. Please provide a valid number with at least 10 digits.</stringValue>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
         <name>Set_Email_Validation_Error</name>
         <label>Set Email Validation Error</label>
         <locationX>350</locationX>
@@ -59,6 +19,26 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>The provided email address is invalid. Please provide a valid email address (for example: contact@example.com).</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Error_Outputs</name>
+        <label>Set Error Outputs</label>
+        <locationX>400</locationX>
+        <locationY>360</locationY>
+        <assignmentItems>
+            <assignToReference>success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -128,31 +108,26 @@
             </value>
         </assignmentItems>
     </assignments>
-    <decisions>
-        <name>Check_Mobile_Number</name>
-        <label>Check Mobile Number</label>
-        <locationX>176</locationX>
-        <locationY>50</locationY>
-        <defaultConnector>
-            <targetReference>Check_Email_Address</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Valid</defaultConnectorLabel>
-        <rules>
-            <name>Invalid</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>isInvalidMobile</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Set_Validation_Error</targetReference>
-            </connector>
-            <label>Invalid</label>
-        </rules>
-    </decisions>
+    <assignments>
+        <name>Set_Validation_Error</name>
+        <label>Set Validation Error</label>
+        <locationX>300</locationX>
+        <locationY>100</locationY>
+        <assignmentItems>
+            <assignToReference>success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>The provided mobile number is invalid. Please provide a valid number with at least 10 digits.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
     <decisions>
         <name>Check_Email_Address</name>
         <label>Check Email Address</label>
@@ -176,6 +151,31 @@
                 <targetReference>Set_Email_Validation_Error</targetReference>
             </connector>
             <label>Invalid Email</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Mobile_Number</name>
+        <label>Check Mobile Number</label>
+        <locationX>176</locationX>
+        <locationY>50</locationY>
+        <defaultConnector>
+            <targetReference>Check_Email_Address</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Valid</defaultConnectorLabel>
+        <rules>
+            <name>Invalid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isInvalidMobile</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Validation_Error</targetReference>
+            </connector>
+            <label>Invalid</label>
         </rules>
     </decisions>
     <decisions>
@@ -220,16 +220,15 @@
         <expression>MID({!contactName}, FIND(&quot; &quot;, {!contactName}) + 1, LEN({!contactName}))</expression>
     </formulas>
     <formulas>
-        <name>isInvalidMobile</name>
-        <dataType>Boolean</dataType>
-        <expression>LEN(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!mobileNumber}, &apos;-&apos;, &apos;&apos;), &apos; &apos;, &apos;&apos;), &apos;+&apos;, &apos;&apos;)) &lt; 10</expression>
-    </formulas>
-    <formulas>
         <name>isInvalidEmail</name>
         <dataType>Boolean</dataType>
         <expression>NOT(REGEX({!emailAddress}, &quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$&quot;))</expression>
     </formulas>
-    <isAdditionalPermissionRequiredToRun>false</isAdditionalPermissionRequiredToRun>
+    <formulas>
+        <name>isInvalidMobile</name>
+        <dataType>Boolean</dataType>
+        <expression>LEN(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!mobileNumber}, &apos;-&apos;, &apos;&apos;), &apos; &apos;, &apos;&apos;), &apos;+&apos;, &apos;&apos;)) &lt; 10</expression>
+    </formulas>
     <label>Create Contact Onboarding</label>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>
@@ -251,6 +250,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Email</field>
+            <value>
+                <elementReference>emailAddress</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>FirstName</field>
             <value>
                 <elementReference>parsedFirstName</elementReference>
@@ -260,12 +265,6 @@
             <field>LastName</field>
             <value>
                 <elementReference>parsedLastName</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Email</field>
-            <value>
-                <elementReference>emailAddress</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

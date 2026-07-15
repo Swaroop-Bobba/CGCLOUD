@@ -123,7 +123,7 @@
                 <leftValueReference>Lookup_Account.cgcloud__Number_Of_Extensions__c</leftValueReference>
                 <operator>GreaterThan</operator>
                 <rightValue>
-                    <numberValue>0</numberValue>
+                    <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -143,7 +143,6 @@
         <dataType>Date</dataType>
         <expression>ADDMONTHS({!formulaFromDate}, 1)</expression>
     </formulas>
-    <isAdditionalPermissionRequiredToRun>false</isAdditionalPermissionRequiredToRun>
     <label>Trigger Account Extension Onboarding</label>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>
@@ -159,127 +158,19 @@
             <targetReference>Set_Error_Outputs</targetReference>
         </faultConnector>
         <inputAssignments>
-            <field>cgcloud__account__c</field>
+            <field>cgcloud__Account__c</field>
             <value>
                 <elementReference>Lookup_Account.Id</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>cgcloud__customer_id__c</field>
-            <value>
-                <elementReference>Lookup_Account.Name</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__priority__c</field>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__Phase__c</field>
-            <value>
-                <stringValue>Priority ERP</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__Sales_Relevant__c</field>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__pricing_type__c</field>
-            <value>
-                <stringValue>Standard</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__Promotion_Valid_From__c</field>
+            <field>cgcloud__Bill_To_Role_Valid_From__c</field>
             <value>
                 <elementReference>formulaFromDate</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>cgcloud__Promotion_Valid_Thru__c</field>
-            <value>
-                <elementReference>formulaThruDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__Customer_Role_Price_Type__c</field>
-            <value>
-                <stringValue>Consumer</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__customer_role_valid_from__c</field>
-            <value>
-                <elementReference>formulaFromDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__customer_role_valid_thru__c</field>
-            <value>
-                <elementReference>formulaThruDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__bill_to_role_valid_from__c</field>
-            <value>
-                <elementReference>formulaFromDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__bill_to_role_valid_thru__c</field>
-            <value>
-                <elementReference>formulaThruDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__delivery_role_valid_from__c</field>
-            <value>
-                <elementReference>formulaFromDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__delivery_role_valid_thru__c</field>
-            <value>
-                <elementReference>formulaThruDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__Store_Role_Valid_From__c</field>
-            <value>
-                <elementReference>formulaFromDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__Store_Role_Valid_Thru__c</field>
-            <value>
-                <elementReference>formulaThruDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__Order_Role_Valid_From__c</field>
-            <value>
-                <elementReference>formulaFromDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__Order_Role_Valid_Thru__c</field>
-            <value>
-                <elementReference>formulaThruDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__Payer_Role_Valid_From__c</field>
-            <value>
-                <elementReference>formulaFromDate</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>cgcloud__Payer_Role_Valid_Thru__c</field>
+            <field>cgcloud__Bill_To_Role_Valid_Thru__c</field>
             <value>
                 <elementReference>formulaThruDate</elementReference>
             </value>
@@ -297,9 +188,45 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>cgcloud__Payer_Role_Credit_Rating__c</field>
+            <field>cgcloud__Customer_Id__c</field>
             <value>
-                <stringValue>A</stringValue>
+                <elementReference>Lookup_Account.Name</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Customer_Role_Price_Type__c</field>
+            <value>
+                <stringValue>Consumer</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Customer_Role_Valid_From__c</field>
+            <value>
+                <elementReference>formulaFromDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Customer_Role_Valid_Thru__c</field>
+            <value>
+                <elementReference>formulaThruDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Date_Closure__c</field>
+            <value>
+                <elementReference>formulaThruDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Delivery_Role_Valid_From__c</field>
+            <value>
+                <elementReference>formulaFromDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Delivery_Role_Valid_Thru__c</field>
+            <value>
+                <elementReference>formulaThruDate</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -309,13 +236,85 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>cgcloud__Order_Role_Valid_From__c</field>
+            <value>
+                <elementReference>formulaFromDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Order_Role_Valid_Thru__c</field>
+            <value>
+                <elementReference>formulaThruDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Payer_Role_Credit_Rating__c</field>
+            <value>
+                <stringValue>A</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Payer_Role_Valid_From__c</field>
+            <value>
+                <elementReference>formulaFromDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Payer_Role_Valid_Thru__c</field>
+            <value>
+                <elementReference>formulaThruDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>cgcloud__Payment_Mode__c</field>
             <value>
                 <stringValue>Cash</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>cgcloud__Date_Closure__c</field>
+            <field>cgcloud__Phase__c</field>
+            <value>
+                <stringValue>Priority ERP</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Pricing_Type__c</field>
+            <value>
+                <stringValue>Standard</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Priority__c</field>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Promotion_Valid_From__c</field>
+            <value>
+                <elementReference>formulaFromDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Promotion_Valid_Thru__c</field>
+            <value>
+                <elementReference>formulaThruDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Sales_Relevant__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Store_Role_Valid_From__c</field>
+            <value>
+                <elementReference>formulaFromDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Store_Role_Valid_Thru__c</field>
             <value>
                 <elementReference>formulaThruDate</elementReference>
             </value>

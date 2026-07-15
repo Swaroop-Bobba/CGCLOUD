@@ -2,7 +2,6 @@ system:
     instructions: |
         You are a Salesforce Visit Intelligence Agent operating within the current Salesforce org.
         Your primary objective is to assist internal users (supervisors and field reps) with analysis of Visit records and their associated Accounts.
-        Whenever you trigger a UI form for a user (like updating or creating a visit), you MUST append the following text to your message: 'If you prefer to enter this manually, please type "manual input"'.
         Always maintain a professional, helpful, and concise tone.
     messages:
         welcome: "Hi! I am the CGC Visit Intelligence Agent. I can help you summarize and detail related records for the current Visit and its Account. How can I assist you today?"
@@ -142,13 +141,7 @@ start_agent agent_router:
             |    j. Combined: "today's planned visits", "this week's completed visits" → call {!@actions.find_visits} with searchQuery = "today planned" / "this week completed"
             |    k. By account/store name: call {!@actions.find_visits} with searchQuery = "<account or store name>"
             | 2. User-Specified Limits: If the user asks "show me 5 visits" or "last 10 visits", retrieve all matching results first, then present ONLY the requested number. Do NOT hardcode any limit — show ALL results unless the user specifies a limit.
-            | 3. Output Format (STRICT NUMBERED LIST): Present ALL visit results as a formal numbered list starting at 1. For each visit, show these fields in a bulleted sub-list under each numbered visit (YOU MUST USE A NEW LINE FOR EVERY BULLET POINT):
-            |    - Subject: <subject>
-            |    - Visit Name: <visit name> (plain text only)
-            |    - Account: <account name>
-            |    - Status: <status>
-            |    - Planned Start: <date/time>
-            |    - Owner: <owner name>
+            | 3. Output Format (STRICT NUMBERED LIST): Whenever you execute get_available_visits (list_visits) or search_visits (find_visits), you MUST present ALL visit results as a single sequentially numbered list starting at 1 (do NOT restart numbering for categories like Today, Upcoming, etc.). For each visit in the visits list, print its number followed by its pre-formatted label property verbatim on a new line, but remove any markdown links or URLs to keep it as plain text (e.g., convert "[00001328](url)" to "00001328"). Do NOT print the label as raw JSON.
             | 4. Selection: When the user selects, specifies, or inputs a number corresponding to a visit from the most recent numbered list (e.g. they type "1" or select the first option), map it to that visit, extract its ID (recordId), and call {!@actions.select_visit} with that visit's recordId to load the visit context. If they enter the visit name/number directly (e.g. "00000370"), extract the recordId of that visit from the printed list and call {!@actions.select_visit}. Do NOT ask the user for an ID — extract it from the user's selection or number input.
             | 5. Do NOT call {!@actions.select_visit} without a valid Visit record ID from search or list results.
             | 6. Do NOT use show_command. Always compose your response as direct text.
@@ -187,7 +180,7 @@ start_agent agent_router:
                 description: "Route ambiguous queries."
 
             go_to_create_visit_mobile: @utils.transition to @subagent.create_visit_mobile
-                description: "Route the user to the Create Visit Mobile Agent (conversational manual input) when they request to create, plan, schedule, or add a new visit."
+                description: "Route the user to the Create Visit Mobile Agent (conversational) when they request to create, plan, schedule, or add a new visit."
                 set @variables.visitId = ""
                 set @variables.accountId = ""
                 set @variables.tempAccountId = ""
@@ -257,13 +250,13 @@ start_agent agent_router:
                 visits: list[object]
                     complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
                     description: "List of available visits."
-                    is_displayable: True
+                    is_displayable: False
                 totalVisits: object
                     complex_data_type_name: "lightning__integerType"
                     description: "The exact total count of all visits in the database."
                 message: string
                     description: "Total database count details."
-                    is_displayable: True
+                    is_displayable: False
 
         search_visits:
             description: "Search for Visit records by account name, store name, visit name, status, date range, or combined filters."
@@ -279,19 +272,21 @@ start_agent agent_router:
                 visits: list[object]
                     complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
                     description: "List of matching visits."
-                    is_displayable: True
+                    is_displayable: False
                 totalVisits: object
                     complex_data_type_name: "lightning__integerType"
                     description: "The exact total count of all visits in the database."
                 message: string
                     description: "Total database count details."
-                    is_displayable: True
+                    is_displayable: False
 
 subagent visit_intelligence:
     label: "Visit Intelligence"
     description: "Analyze the current Visit record and retrieve/summarize related Account context including Contacts, Tasks, Promotions, and Out-of-Stock records."
     before_reasoning:
         set @variables.activeSubagent = "visit_intelligence"
+        set @variables.tempIsSubmitted = False
+        set @variables.tempMessage = ""
         if @variables.channelType == "web" and @variables.currentObjectApiName == "Visit" and @variables.currentRecordId != "" and @variables.currentRecordId != @variables.lastRecordId:
             set @variables.visitId = ""
             set @variables.lastRecordId = @variables.currentRecordId
@@ -350,20 +345,19 @@ subagent visit_intelligence:
                 | - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action:
                 |   1. Display the Visit Details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
                 |      * Account: {!@variables.accountName} 🏪
-                |      * Visit Date: {!@variables.visitDate} 📅
+                |      * Visit Date: {!@variables.visitDate} 📅 (Format this raw ISO timestamp to a clean, human-readable date, e.g., "YYYY-MM-DD hh:mm AM/PM")
                 |      * Visit Status: {!@variables.visitStatus} 🔖
-                |      * Assigned User: {!@variables.assignedUser} 👤
-                |   2. Immediately follow with the Visit Summary text:
-                |      {!@variables.visitSummaryText}
+                |      * Responsible User: {!@variables.assignedUser} 👤
+                |   2. If {!@variables.visitSummaryText} is not empty, null, or "None", immediately follow with the Visit Summary text: {!@variables.visitSummaryText}. Otherwise, do NOT print any Visit Summary text or header.
                 |   3. Ask: "How can I help you with this visit?"
                 |   4. Present the Greeting Menu as a numbered list starting at 1:
-                |      1. 🏢 Account Summary (Retrieve Account details)
+                |      1. 🏢 Account Summary (Show Contact counts, Activities summary, and Account Age)
                 |      2. 👥 Contacts (Retrieve contact details)
                 |      3. 📣 Promotions (Retrieve active promotions)
                 |      4. 💡 Pre-Visit Brief (Summarize the current visit details)
                 |      5. 🚫 Inventory (Check inventory and out-of-stock records)
                 |      6. 📦 Order History (Show order history summary)
-                |      7. ⚙️ Update Visit Information (Update status, owner, notes, or timing)
+                |      7. ⚙️ Update Visit Information (Update status, responsible user, notes, or timing)
                 |      8. 🏷️ Sellable Products (Check products in assortment)
                 |      9. 📝 Visit Activities (Fetch planned surveys, checklists, or check completed/pending questions)
                 |      10. 🔄 Switch/Reset Context (Change visit or reset store context)
@@ -374,7 +368,7 @@ subagent visit_intelligence:
                 |   A. IF THE GREETING MENU OR DYNAMIC NEXT STEPS MENU WAS PRESENTED:
                 |      1. Extract the text label of the numbered option corresponding to the user's input from the last message.
                 |      2. Execute the action for that option text:
-                |         * Account Summary / Account Details -> Call @actions.get_counts
+                |         * Account Summary / Account Details -> Call @actions.get_counts. When get_counts returns, format the output to display Contacts count, Visits count, Account Age, Activities summary (total, completed, pending), Phone, Email, and Location Navigate link (using the exact markdown hyperlink values of accountPhone, accountEmail, and locationNavigateLink outputs). Do NOT show a tasks count.
                 |         * Contacts / View Contacts / Contact details -> Call @actions.get_details with recordType = "contacts"
                 |         * Promotions / Audit active promotions / active promotions -> Call @actions.get_details with recordType = "promotions"
                 |         * Eligible Products / products for promotion / products of <number> -> Call @actions.get_products with promotionId resolved from index or name.
@@ -408,6 +402,7 @@ subagent visit_intelligence:
                 | - NEVER generate hyperlinks, markdown links, or clickable URLs in mobile responses. All mobile output must be plain text only.
                 |
                 | --- SHARED FORMATTING (Both Web and Mobile) ---
+                | - Record List Formatting Rule: When formatting lists of records (like Contacts, Visits, Promotions, Tasks, or Inventory) returned by the actions, you MUST print the "label" property of each list item verbatim. Do NOT modify, parse, rewrite, or restructure the label text. Do NOT list or append the other raw parameters (such as name, status, owner, category, lastModified, visitId, accountId) separately or at the bottom of the list entries. Do NOT introduce any newlines inside hyperlinks (e.g. keep markdown link syntax like `[text](url)` strictly on a single line).
                 | - Next Steps Suggestions: After presenting any results, suggest next steps as a numbered list starting at 1 (no bullets). Always prioritize suggesting the "🏢 Account Summary" option as one of the primary next steps.
                 | - Switch: If the user selects, specifies, or inputs a number corresponding to a visit in the visit list to select/switch to it (or when the user says "switch to visit" or selects a visit name/number), transition to clear_context to reset context and load the selected visit.
             else:
@@ -484,7 +479,7 @@ subagent visit_intelligence:
 
 
             go_to_create_visit_mobile: @utils.transition to @subagent.create_visit_mobile
-                description: "Transition to the Create Visit Mobile Agent (conversational) to create, schedule, plan, or add a new Visit. If the user is NOT a CGCloud_User_Profile, ONLY use this action if they explicitly request manual input."
+                description: "Transition to the Create Visit Mobile Agent (conversational) to create, schedule, plan, or add a new Visit."
                 set @variables.visitId = ""
                 set @variables.accountId = ""
                 set @variables.tempAccountId = ""
@@ -554,9 +549,24 @@ subagent visit_intelligence:
                 totalVisits: object
                     complex_data_type_name: "lightning__integerType"
                     description: "Total Visits count."
-                pendingVisitTasks: object
+                totalActivities: object
                     complex_data_type_name: "lightning__integerType"
-                    description: "Pending Visit Tasks count."
+                    description: "Total Activities count."
+                completedActivities: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Completed Activities count."
+                pendingActivities: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Pending Activities count."
+                accountAge: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Account Age in days."
+                accountPhone: string
+                    description: "The Account Phone number formatted as a clickable tel link."
+                accountEmail: string
+                    description: "The Account Email formatted as a clickable mailto link."
+                locationNavigateLink: string
+                    description: "The Location Navigate Maps link formatted as a clickable link."
                 activePromotions: object
                     complex_data_type_name: "lightning__integerType"
                     description: "Active Promotions count."
@@ -921,32 +931,31 @@ subagent update_visit_text:
             Your goal is to update details (status, owner, notes, start time, or end time) of the current Visit (ID: {!@variables.visitId}) conversationally using text inputs.
 
             SECTION 1: DISPATCH UPDATE ACTION
-            - If the user has just transitioned here due to manual input, or if their message does not specify a field to update, first present the fields that can be updated in a numbered list:
-              "Please select a field to update:
-              1. Status (currently: {!@variables.visitStatus})
-              2. Owner (currently: {!@variables.assignedUser})
-              3. Notes
-              4. Start Time (currently: {!@variables.visitDate})
-              5. End Time"
+            - If the user's message does not specify a field to update, first present the fields that can be updated in a numbered list:
+              "I can help you update the visit information. Which field would you like to update? Please select an option:
+              1. **Status**: {!@variables.visitStatus}
+              2. **Reassign Responsible User**: {!@variables.assignedUser}
+              3. **Notes**
+              4. **Start Time**: {!@variables.visitDate} (Format this raw ISO timestamp to a clean, human-readable date, e.g., "YYYY-MM-DD hh:mm AM/PM")
+              5. **End Time**"
             - If the user selects a field or option from the menu, call the corresponding conversational mobile action:
               * "Status" / Option 1 -> Call update_visit_status_mobile with only visitId.
-              * "Owner" / Option 2 -> Call update_visit_owner_mobile with only visitId.
+              * "Reassign Responsible User" / Option 2 -> Call update_visit_owner_mobile with only visitId.
               * "Notes" / Option 3 -> Call update_visit_notes_mobile with only visitId.
               * "Start Time" / Option 4 -> Call update_visit_start_time_mobile with only visitId.
               * "End Time" / Option 5 -> Call update_visit_end_time_mobile with only visitId.
             - If they provide both the field and the value in the same request (e.g., "change status to completed", "assign to Siri FieldRep"), map the field and pass the value directly to the corresponding action (e.g., `status = "completed"` or `ownerName = "Siri FieldRep"`).
 
-            SECTION 2: RETURN ON SUCCESS
+            SECTION 2: RETURN ON SUCCESS AND FAILURE HANDLING
             - If @variables.tempIsSubmitted is True:
               * Run get_visit to load the latest visit details.
-              * Set @variables.tempIsUpdated = True
               * Set @variables.tempIsSubmitted = False
               * Print a success message (e.g., "Perfect! I've updated the visit details conversationally ✅").
               * Print the updated visit details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
                 - Account: {!@variables.accountName} 🏪
-                - Visit Date: {!@variables.visitDate} 📅
+                - Visit Date: {!@variables.visitDate} 📅 (Format this raw ISO timestamp to a clean, human-readable date, e.g., "YYYY-MM-DD hh:mm AM/PM")
                 - Visit Status: {!@variables.visitStatus} 🔖
-                - Assigned User: {!@variables.assignedUser} 👤
+                - Responsible User: {!@variables.assignedUser} 👤
               * Transition back to the main dashboard using go_to_intelligence.
             - If @variables.tempIsSubmitted is False and @variables.tempMessage != "" and @variables.tempMessage is not None:
               * Print the returned message verbatim: "{!@variables.tempMessage}" and capture their subsequent text input.
@@ -959,6 +968,8 @@ subagent update_visit_text:
                 set @variables.visitStatus = @outputs.visitStatus
                 set @variables.visitDate = @outputs.visitDate
                 set @variables.assignedUser = @outputs.assignedUser
+            
+            go_to_intelligence: @utils.transition to @subagent.visit_intelligence
 
             update_visit_status_mobile: @actions.update_visit_status_mobile_action
                 with agentName = "VisitIntelligence"
@@ -1026,7 +1037,7 @@ subagent update_visit_text:
                     description: "True if the update was successful."
                 message: string
                     description: "Result status message."
-                    is_displayable: True
+                    is_displayable: False
 
         update_visit_owner_mobile_action:
             description: "Update the owner of the current Visit conversationally."
@@ -1052,7 +1063,7 @@ subagent update_visit_text:
                     description: "True if the update was successful."
                 message: string
                     description: "Result status message."
-                    is_displayable: True
+                    is_displayable: False
                 suggestions: string
                     description: "Matched IDs if ambiguous."
 
@@ -1076,7 +1087,7 @@ subagent update_visit_text:
                     description: "True if the update was successful."
                 message: string
                     description: "Result status message."
-                    is_displayable: True
+                    is_displayable: False
 
         update_visit_start_time_mobile_action:
             description: "Update the planned start date and time of the current Visit conversationally."
@@ -1098,7 +1109,7 @@ subagent update_visit_text:
                     description: "True if the update was successful."
                 message: string
                     description: "Result status message."
-                    is_displayable: True
+                    is_displayable: False
 
         update_visit_end_time_mobile_action:
             description: "Update the planned end date and time of the current Visit conversationally."
@@ -1120,7 +1131,7 @@ subagent update_visit_text:
                     description: "True if the update was successful."
                 message: string
                     description: "Result status message."
-                    is_displayable: True
+                    is_displayable: False
 
         get_visit_details:
             description: "Retrieve details of the current Visit record and its associated Account."
@@ -1365,7 +1376,7 @@ subagent visit_activities:
 
 subagent create_visit_mobile:
     label: "Create Visit Mobile Agent"
-    description: "Handle the creation of a new Visit record using conversational multi-step flow. If the user is NOT a CGCloud_User_Profile, ONLY use this action if they explicitly request manual input."
+    description: "Handle the creation of a new Visit record using conversational multi-step flow."
     before_reasoning:
         set @variables.activeSubagent = "create_visit_mobile"
 
@@ -1666,5 +1677,240 @@ subagent create_visit_mobile:
                     description: "The Visit Date."
                 assignedUser: string
                     description: "The Assigned User."
+
+subagent record_calculations_insights:
+    label: "Record Calculations & Insights"
+    description: "Perform dynamic SOQL queries to retrieve and calculate record age, durations, aggregations, counts, and comparisons."
+    reasoning:
+        instructions: ->
+            | You are a Salesforce AI assistant that specializes in answering calculation-based, date-based, duration-based, and record-derived questions using only the data available in the Salesforce organization.
+            |
+            | Current Date/Time context:
+            | - Assume the current local date is 7 July 2026. Use this date for all relative age, duration, and relative date arithmetic (e.g., days since a date, days until expiration).
+            |
+            | Execution Guidelines:
+            | 1. Dynamic SOQL Queries: Call {!@actions.execute_soql} with a dynamic SOQL query string to retrieve the necessary fields or aggregates.
+            |    - For standard objects (e.g., Account, Contact, Opportunity, Case, Product2, Asset, Contract, User), query the standard fields (e.g., CreatedDate, ClosedDate, StageName, Amount, Status).
+            |    - For custom objects (e.g., cgcloud__Order__c, cgcloud__Order_Item__c, cgcloud__Route__c, cgcloud__Tour__c), query package fields (e.g., cgcloud__Order_Date__c, cgcloud__Total_Value__c, cgcloud__Phase__c).
+            | 2. Page Context:
+            |    - If currentRecordId (val: {!@variables.currentRecordId}) and currentObjectApiName (val: {!@variables.currentObjectApiName}) are set, you are operating within "this" record's page. Use the currentRecordId as a filter in your SOQL WHERE clause (e.g., WHERE Id = '{!@variables.currentRecordId}' or WHERE cgcloud__Order_Account__c = '{!@variables.currentRecordId}' or WHERE AccountId = '{!@variables.currentRecordId}').
+            | 3. Relationship Traversal:
+            |    - Traverse relationships where needed (e.g., query Account -> Visit using `AccountId = '<Id>'`, or Account -> cgcloud__Order__c using `cgcloud__Order_Account__c = '<Id>'`).
+            | 4. Calculations & JSON Parsing:
+            |    - Parse the dynamic JSON response `recordsJson` from `execute_soql` in your reasoning.
+            |    - Perform date arithmetic, aggregations (average, count, sum, min, max), and comparisons inside your reasoning using those fields.
+            |    - Map aggregate expression fields (e.g., `expr0`, `expr1`, `expr2`) to their true metrics (e.g., Average Order Value, Order Count, Total Spend).
+            |    - Format all metrics, currency amounts (using $, e.g. $82,540 or $771.78), numbers (rounded to 2 decimal places for currencies, e.g. $771.78, and integer for counts), percentages, and dates cleanly.
+            | 5. Output Formatting (CRITICAL RULES):
+            |    - NEVER display raw JSON arrays, JSON objects, maps, lists, or attributes (e.g., any text containing `[{"attributes":` or `[{"Id":` or `[{"expr0":` or database brackets `[{` and `}]`) to the user. Under no circumstances should any raw JSON syntax, curly braces, square brackets, quotes, or JSON field-value maps ever be present in your final response.
+            |    - NEVER print database fields or raw technical formats directly to the user.
+            |    - Always parse the query results and formulate the final response as direct, polished, human-readable markdown text.
+            |    - Present results in a structured format:
+            |      * For Account/Opportunity/Record Age:
+            |        **[Object] Age**
+            |        - Created On: [Formatted Date, e.g. 15 January 2024]
+            |        - Current Date: 7 July 2026
+            |        - Age: **[Count] days**
+            |      * For Last Visit / Last Order:
+            |        **Last [Event]**
+            |        - [Event] Date: [Formatted Date, e.g. 5 November 2021]
+            |        - Days Since [Event]: **[Count] days**
+            |      * For Orders/Aggregations:
+            |        **Order Summary**
+            |        - Average Order Value: $[Amount]
+            |        - Total Orders: [Count]
+            |        - Total Spend: $[Amount]
+            |        - First Order: [Formatted Date]
+            |        - Latest Order: [Formatted Date]
+            | 6. Missing Data:
+            |    - If the required data is unavailable, explain which field or related record is missing and state that the calculation cannot be performed.
+            | 7. Security:
+            |    - Do not make assumptions. Rely only on Salesforce data retrieved.
+            | 8. DO NOT ASK THE USER FOR TECHNICAL DATA: Under no circumstances should you ask the user for Salesforce API names, object names, field names, or database structure queries. If query errors or metadata mismatches occur, explain that the calculation cannot be completed due to missing/inaccessible records or layout restrictions, without requesting technical inputs from the user.
+            | 9. Object & Field Naming Reference:
+            |    - Visits are tracked by the standard "Visit" object.
+            |      * Filter: AccountId maps the visit to the Account (e.g. SELECT PlannedVisitStartTime FROM Visit WHERE AccountId = '<AccountId>').
+            |      * Status Field: Status (e.g. Planned, Completed).
+            |      * Timing Fields: ActualVisitStartTime (actual start), PlannedVisitStartTime (planned start), ActualVisitEndTime (actual end), PlannedVisitEndTime (planned end).
+            |    - Orders are tracked by the custom "cgcloud__Order__c" object.
+            |      * Filter: cgcloud__Order_Account__c maps the order to the Account.
+            |      * Total Value: cgcloud__Total_Value__c.
+            |      * Date: cgcloud__Order_Date__c.
+            |    - Order Items are tracked by the custom "cgcloud__Order_Item__c" object.
+            |      * Filter: cgcloud__Order__c maps the item to the Order.
+            |      * Quantity: cgcloud__Quantity__c.
+            |    - Routes are tracked by the custom "cgcloud__Route__c" object.
+            |    - Tours are tracked by the custom "cgcloud__Tour__c" object.
+        actions:
+            execute_soql: @actions.execute_soql
+                with query = ...
+            go_to_intelligence: @utils.transition to @subagent.visit_intelligence
+    actions:
+        execute_soql:
+            description: "Run dynamic SOQL query against Salesforce database in User Mode. Returns results serialized as a JSON string."
+            target: "apex://ExecuteSOQLQuery"
+            inputs:
+                query: string
+                    description: "The SOQL query to execute."
+                    is_required: True
+            outputs:
+                success: boolean
+                    description: "True if the query completed successfully."
+                recordsJson: string
+                    description: "JSON serialized string of the records returned by the query."
+                    is_displayable: False
+                errorMessage: string
+                    description: "Error message if the query failed."
+                    is_displayable: False
+
+subagent forecasting_insights:
+    label: "Forecasting & Predictive Insights Workspace"
+    description: "Core subagent that handles forecasting requests using Salesforce history."
+    reasoning:
+        instructions: ->
+            | You are inside the Forecasting and Predictive Insights subagent.
+            |
+            | Rules:
+            | 1. Order Forecasting: If asked about "next order", "what is the customer's next expected order", "likely products to order next", "when is the next order expected", or "predicted value of the next order", call {!@actions.get_order_forecast}.
+            | 2. Product Forecasting: If asked about "fast-moving products", "slow-moving products", "products likely to sell", "out of stock risk", "declining demand", "increasing demand", "seasonality", or "seasonal patterns", call {!@actions.get_product_forecast}.
+            | 3. Customer Forecasting: If asked about "churn risk", "customer frequency declining", "buying trends", "high-value status", "follow-up visits", or "customers likely to order", call {!@actions.get_customer_forecast}.
+            | 4. Sales Forecasting: If asked about "expected sales this week/month/quarter", "revenue forecast", "expected revenue by account/route/rep/territory", call {!@actions.get_sales_forecast}.
+            |    - Extract the period ("week", "month", "quarter") and forecastBy ("account", "route", "rep") if mentioned, otherwise leave blank to query default.
+            | 5. Inventory Forecasting: If asked about "stockout risks", "depletion dates", "replenishment recommendations", or "overstocked products", call {!@actions.get_inventory_forecast}.
+            | 6. Visit Forecasting: If asked about "stores to visit next", "overdue visits", "order probability during visit", "expected sales value for next visit", or "accounts to prioritize", call {!@actions.get_visit_forecast}.
+            | 7. Formatting: When presenting any forecast, you MUST print the returned forecastSummary string EXACTLY as returned by the action without changing a single character, space, asterisk, divider, or newline. Do not rewrite, modify, reformat, or strip anything from forecastSummary under any circumstances. Underneath, print a header **Reasoning** and display the reasoning text verbatim.
+            | 8. Insufficient Data: If the action returns success = False, output the forecastSummary directly which explains that a reliable forecast cannot be generated.
+            | 9. Go Back: If the user wants to return or go back to main options, call {!@actions.go_to_intelligence}.
+        actions:
+            get_order_forecast: @actions.get_order_forecast
+                with agentName = "Visit_Intelligence"
+                with actionType = "getOrderForecast"
+                with accountId = @variables.accountId
+                with orderId = @variables.visitId
+            get_product_forecast: @actions.get_product_forecast
+                with agentName = "Visit_Intelligence"
+                with actionType = "getProductForecast"
+                with accountId = @variables.accountId
+            get_customer_forecast: @actions.get_customer_forecast
+                with agentName = "Visit_Intelligence"
+                with actionType = "getCustomerForecast"
+                with accountId = @variables.accountId
+            get_sales_forecast: @actions.get_sales_forecast
+                with agentName = "Visit_Intelligence"
+                with actionType = "getSalesForecast"
+                with accountId = @variables.accountId
+                with period = ...
+                with forecastBy = ...
+            get_inventory_forecast: @actions.get_inventory_forecast
+                with agentName = "Visit_Intelligence"
+                with actionType = "getInventoryForecast"
+                with accountId = @variables.accountId
+            get_visit_forecast: @actions.get_visit_forecast
+                with agentName = "Visit_Intelligence"
+                with actionType = "getVisitForecast"
+                with accountId = @variables.accountId
+            go_to_intelligence: @utils.transition to @subagent.visit_intelligence
+    actions:
+        get_order_forecast:
+            description: "Get order predictions including date, value, likely products, and affinity."
+            target: "apex://Sales_Forecasting_Handler"
+            inputs:
+                agentName: string
+                    is_required: True
+                actionType: string
+                    is_required: True
+                accountId: string
+                orderId: string
+            outputs:
+                success: boolean
+                forecastSummary: string
+                    is_displayable: True
+                confidenceLevel: string
+                reasoning: string
+                    is_displayable: True
+        get_product_forecast:
+            description: "Get product-specific velocity and demand predictions."
+            target: "apex://Sales_Forecasting_Handler"
+            inputs:
+                agentName: string
+                    is_required: True
+                actionType: string
+                    is_required: True
+                accountId: string
+                productId: string
+            outputs:
+                success: boolean
+                forecastSummary: string
+                    is_displayable: True
+                confidenceLevel: string
+                reasoning: string
+                    is_displayable: True
+        get_customer_forecast:
+            description: "Get customer churn risk, frequency trends, and value segmentation."
+            target: "apex://Sales_Forecasting_Handler"
+            inputs:
+                agentName: string
+                    is_required: True
+                actionType: string
+                    is_required: True
+                accountId: string
+            outputs:
+                success: boolean
+                forecastSummary: string
+                    is_displayable: True
+                confidenceLevel: string
+                reasoning: string
+                    is_displayable: True
+        get_sales_forecast:
+            description: "Get sales forecast for period (week, month, quarter) and breakdown."
+            target: "apex://Sales_Forecasting_Handler"
+            inputs:
+                agentName: string
+                    is_required: True
+                actionType: string
+                    is_required: True
+                accountId: string
+                period: string
+                forecastBy: string
+            outputs:
+                success: boolean
+                forecastSummary: string
+                    is_displayable: True
+                confidenceLevel: string
+                reasoning: string
+                    is_displayable: True
+        get_inventory_forecast:
+            description: "Get stock depletion, replenishment, and overstocking predictions."
+            target: "apex://Sales_Forecasting_Handler"
+            inputs:
+                agentName: string
+                    is_required: True
+                actionType: string
+                    is_required: True
+                accountId: string
+                productId: string
+            outputs:
+                success: boolean
+                forecastSummary: string
+                    is_displayable: True
+                confidenceLevel: string
+                reasoning: string
+                    is_displayable: True
+        get_visit_forecast:
+            description: "Get next visit scheduling and expected outcome predictions."
+            target: "apex://Sales_Forecasting_Handler"
+            inputs:
+                agentName: string
+                    is_required: True
+                actionType: string
+                    is_required: True
+                accountId: string
+            outputs:
+                success: boolean
+                forecastSummary: string
+                    is_displayable: True
+                confidenceLevel: string
+                reasoning: string
+                    is_displayable: True
 
 

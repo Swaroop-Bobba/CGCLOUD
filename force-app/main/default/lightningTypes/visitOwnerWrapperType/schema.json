@@ -1,4 +1,4 @@
 {
-  "title": "Visit Owner Wrapper Type",
-  "lightning:type": "@apexClassType/c__VisitOwnerWrapper"
+  "title" : "Visit Owner Wrapper Type",
+  "lightning:type" : "@apexClassType/c__VisitOwnerWrapper"
 }

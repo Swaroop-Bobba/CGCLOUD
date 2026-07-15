@@ -1,0 +1,28 @@
+{
+  "required" : [ "actionType", "searchQuery" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "actionType" : {
+      "title" : "Action Type",
+      "description" : "The type of action to perform: 'search'.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "searchOffset" : {
+      "title" : "Search Offset",
+      "description" : "The query offset for pagination (e.g. '0', '20', '40').",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "searchQuery" : {
+      "title" : "Search Query",
+      "description" : "The search query.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

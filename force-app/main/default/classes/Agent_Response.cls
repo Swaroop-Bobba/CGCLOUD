@@ -1,3 +1,4 @@
+// Updated to refresh local IDE compiler index
 public with sharing class Agent_Response {
     @InvocableVariable(description='True if operation succeeded.')
     public Boolean success;
@@ -43,6 +44,10 @@ public with sharing class Agent_Response {
     public String visitStatus;
     @InvocableVariable(description='The Visit Date.')
     public String visitDate;
+    @InvocableVariable(description='The Visit End Date.')
+    public String visitEndDate;
+    @InvocableVariable(description='The Accountable User.')
+    public String accountableUser;
     @InvocableVariable(description='The Assigned User.')
     public String assignedUser;
     @InvocableVariable(description='The parsed planned start date/time (ISO string).')
@@ -51,6 +56,9 @@ public with sharing class Agent_Response {
     public String suggestions;
     @InvocableVariable(description='True if user input has been submitted.')
     public Boolean isSubmitted;
+
+    @InvocableVariable(description='Visit navigation details.')
+    public VisitNavigationWrapper visitNavigation;
 
     @InvocableVariable(description='The matched Owner/Responsible User ID.')
     public String ownerId;
@@ -87,6 +95,20 @@ public with sharing class Agent_Response {
     public Integer totalVisits;
     @InvocableVariable(description='Pending Visit Tasks count.')
     public Integer pendingVisitTasks;
+    @InvocableVariable(description='Total Activities count.')
+    public Integer totalActivities;
+    @InvocableVariable(description='Completed Activities count.')
+    public Integer completedActivities;
+    @InvocableVariable(description='Pending Activities count.')
+    public Integer pendingActivities;
+    @InvocableVariable(description='The Account Age in days.')
+    public Integer accountAge;
+    @InvocableVariable(description='The Account Phone number.')
+    public String accountPhone;
+    @InvocableVariable(description='The Account Email.')
+    public String accountEmail;
+    @InvocableVariable(description='The Account Location Navigate link.')
+    public String locationNavigateLink;
     @InvocableVariable(description='Active Promotions count.')
     public Integer activePromotions;
     @InvocableVariable(description='Out of Stock count.')

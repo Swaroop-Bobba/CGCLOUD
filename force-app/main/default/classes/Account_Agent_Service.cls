@@ -1,3 +1,4 @@
+// Updated to refresh local IDE compiler index
 /**
  * @description Master Service class to handle Account operations for Agentforce.
  */
@@ -46,6 +47,7 @@ public with sharing class Account_Agent_Service implements IAgentService {
         res.totalContacts = 0; res.totalVisits = 0; res.pendingVisitTasks = 0;
         res.activePromotions = 0; res.outOfStockCount = 0; res.totalRetailStores = 0;
         res.totalAssortments = 0; res.totalStoreProducts = 0; res.totalTactics = 0; res.totalAssortmentProducts = 0;
+        res.totalActivities = 0; res.completedActivities = 0; res.pendingActivities = 0; res.accountAge = 0;
 
         if (String.isBlank(accountId)) {
             return res;
@@ -55,7 +57,57 @@ public with sharing class Account_Agent_Service implements IAgentService {
             String accId = accountId.trim();
             res.totalContacts = [SELECT Count() FROM Contact WHERE AccountId = :accId WITH USER_MODE];
             res.totalVisits = [SELECT Count() FROM Visit WHERE AccountId = :accId WITH USER_MODE];
-            res.pendingVisitTasks = [SELECT Count() FROM Task WHERE AccountId = :accId AND Status != 'Completed' WITH USER_MODE];
+            res.pendingVisitTasks = 0; // Removed tasks count
+
+            // Calculate Account Age, Phone, and Maps Link
+            try {
+                Account acc = [SELECT CreatedDate, Phone, cgcloud__Account_Email__c, BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry 
+                               FROM Account WHERE Id = :accId WITH USER_MODE LIMIT 1];
+                if (acc != null) {
+                    if (acc.CreatedDate != null) {
+                        res.accountAge = acc.CreatedDate.date().daysBetween(System.today());
+                    }
+                    if (acc.Phone != null) {
+                        String cleanPhone = acc.Phone.replaceAll('[^0-9+]', '');
+                        res.accountPhone = '[' + acc.Phone + '](tel:' + cleanPhone + ')';
+                    } else {
+                        res.accountPhone = '[+1 555-0100](tel:+15550100)';
+                    }
+                    if (acc.cgcloud__Account_Email__c != null) {
+                        res.accountEmail = '[' + acc.cgcloud__Account_Email__c + '](mailto:' + acc.cgcloud__Account_Email__c + ')';
+                    } else {
+                        res.accountEmail = '[info@reliance.com](mailto:info@reliance.com)';
+                    }
+                    String address = '';
+                    if (acc.BillingStreet != null) address += acc.BillingStreet + ', ';
+                    if (acc.BillingCity != null) address += acc.BillingCity + ', ';
+                    if (acc.BillingState != null) address += acc.BillingState + ' ';
+                    if (acc.BillingPostalCode != null) address += acc.BillingPostalCode + ', ';
+                    if (acc.BillingCountry != null) address += acc.BillingCountry;
+                    address = address.trim().removeEnd(',');
+                    if (String.isBlank(address)) {
+                        address = '123 Main Street, New York, NY 10001';
+                    }
+                    String mapsLink = 'https://www.google.com/maps/search/?api=1&query=' + EncodingUtil.urlEncode(address, 'UTF-8');
+                    res.locationNavigateLink = '[Location - Navigate]';
+                    res.locationNavigateLink = '[' + 'Location - Navigate](' + mapsLink + ')';
+                }
+            } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+
+            // Calculate Activities Summary
+            try {
+                List<Visit> visitsList = [SELECT Id FROM Visit WHERE AccountId = :accId WITH USER_MODE];
+                Set<Id> visitIds = new Set<Id>();
+                for (Visit v : visitsList) {
+                    visitIds.add(v.Id);
+                }
+                if (!visitIds.isEmpty()) {
+                    res.totalActivities = [SELECT Count() FROM cgcloud__Visit_Job__c WHERE cgcloud__Visit__c IN :visitIds WITH USER_MODE];
+                    res.completedActivities = [SELECT Count() FROM cgcloud__Visit_Job__c WHERE cgcloud__Visit__c IN :visitIds AND (cgcloud__Done__c = true OR cgcloud__Value__c != null) WITH USER_MODE];
+                    res.pendingActivities = res.totalActivities - res.completedActivities;
+                }
+            } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
+
             res.activePromotions = getPromotionCount(accId);
             res.outOfStockCount = getOOSCount(accId);
             res.totalRetailStores = [SELECT Count() FROM RetailStore WHERE AccountId = :accId WITH USER_MODE];
@@ -143,7 +195,13 @@ public with sharing class Account_Agent_Service implements IAgentService {
     private static void setMockCounts(Agent_Response res) {
         res.totalContacts = 2;
         res.totalVisits = 13;
-        res.pendingVisitTasks = 3;
+        res.pendingVisitTasks = 0; // Removed tasks count
+        res.totalActivities = 10;
+        res.completedActivities = 6;
+        res.pendingActivities = 4;
+        res.accountAge = 180;
+        res.accountPhone = '[+1 555-0100](tel:+15550100)';
+        res.locationNavigateLink = '[Location - Navigate](https://www.google.com/maps/search/?api=1&query=123+Main+Street%2C+New+York%2C+NY+10001)';
         res.activePromotions = 1;
         res.outOfStockCount = 1;
         res.totalRetailStores = 2;
@@ -322,23 +380,47 @@ public with sharing class Account_Agent_Service implements IAgentService {
     private static List<Agent_Response.RecordInfo> getContactsRecords(String accId) {
         List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
         List<Contact> contacts = [
-                    SELECT Id, Name, Title, Owner.Name, LastModifiedDate
+                    SELECT Id, Name, Title, Owner.Name, LastModifiedDate, Phone, MobilePhone, Email
                     FROM Contact
                     WHERE AccountId = :accId
                     WITH USER_MODE
                     LIMIT 50
                 ];
                 for (Contact c : contacts) {
+                    String title = c.Title != null ? c.Title : 'Contact';
+                    String phoneVal = c.Phone != null ? c.Phone : '';
+                    String mobileVal = c.MobilePhone != null ? c.MobilePhone : '';
+                    String emailVal = c.Email != null ? c.Email : '';
+                    String statusDetail = 'Title: ' + title;
+                    if (String.isNotBlank(phoneVal)) {
+                        statusDetail += ', Phone: ' + phoneVal;
+                    }
+                    if (String.isNotBlank(mobileVal)) {
+                        statusDetail += ', Mobile: ' + mobileVal;
+                    }
+                    if (String.isNotBlank(emailVal)) {
+                        statusDetail += ', Email: ' + emailVal;
+                    }
                     records.add(new Agent_Response.RecordInfo(
                         c.Name,
-                        c.Title != null ? c.Title : 'Contact',
+                        statusDetail,
                         c.Owner.Name,
                         c.LastModifiedDate
                     ));
                 }
                 if (records.isEmpty()) {
-                    records.add(new Agent_Response.RecordInfo('Sarah Jenkins', 'Primary Contact', 'System Admin', DateTime.now()));
-                    records.add(new Agent_Response.RecordInfo('David Miller', 'Store Manager', 'System Admin', DateTime.now().addDays(-1)));
+                    records.add(new Agent_Response.RecordInfo(
+                        'Sarah Jenkins',
+                        'Title: Primary Contact, Phone: +1 555-0199, Mobile: +1 555-0188, Email: sarah.jenkins@reliance.com',
+                        'System Admin',
+                        DateTime.now()
+                    ));
+                    records.add(new Agent_Response.RecordInfo(
+                        'David Miller',
+                        'Title: Store Manager, Phone: +1 555-0144, Mobile: +1 555-0133, Email: david.miller@reliance.com',
+                        'System Admin',
+                        DateTime.now()
+                    ));
                 }
         return records;
     }

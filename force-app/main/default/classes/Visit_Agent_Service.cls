@@ -27,7 +27,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 res.visits = getOosVisits(req.accountId);
                 res.success = true;
             } else if (action == 'search') {
-                res.visits = searchVisits(req.searchQuery);
+                res.visits = searchVisits(req.searchQuery, req.searchOffset);
                 Integer totalCount = [SELECT Count() FROM Visit];
                 res.totalVisits = totalCount;
                 if (String.isNotBlank(req.searchQuery) && (req.searchQuery.trim().equalsIgnoreCase('all') || req.searchQuery.trim().equalsIgnoreCase('all visits'))) {
@@ -61,6 +61,8 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 res.success = true;
             } else if (action == 'promptvisitmobile' || action == 'prompt_visit_mobile') {
                 promptVisitMobile(req, res);
+            } else if (action == 'select_and_navigate_visit') {
+                res = selectAndNavigateVisit(req);
             } else {
                 res.success = false;
                 res.message = 'Unknown actionType: ' + action;
@@ -110,7 +112,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             if (!isAdmin && hasResponsible) {
                 todayQuery += ' AND cgcloud__Responsible__c = :currentUserId';
             }
-            todayQuery += ' WITH USER_MODE LIMIT 20';
+            todayQuery += ' WITH USER_MODE LIMIT 10';
 
             List<Visit> todayVisits = Database.query(todayQuery);
             for (Visit v : todayVisits) {
@@ -131,7 +133,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             if (!isAdmin && hasResponsible) {
                 upcomingQuery += ' AND cgcloud__Responsible__c = :currentUserId';
             }
-            upcomingQuery += ' WITH USER_MODE LIMIT 20';
+            upcomingQuery += ' WITH USER_MODE LIMIT 10';
 
             List<Visit> upcomingVisits = Database.query(upcomingQuery);
             for (Visit v : upcomingVisits) {
@@ -152,7 +154,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             if (!isAdmin && hasResponsible) {
                 recentQuery += ' WHERE cgcloud__Responsible__c = :currentUserId';
             }
-            recentQuery += ' WITH USER_MODE ORDER BY LastModifiedDate DESC LIMIT 20';
+            recentQuery += ' WITH USER_MODE ORDER BY LastModifiedDate DESC LIMIT 10';
 
             List<Visit> recentVisits = Database.query(recentQuery);
             for (Visit v : recentVisits) {
@@ -175,7 +177,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             } else {
                 ownedQuery += ' WHERE OwnerId = :currentUserId';
             }
-            ownedQuery += ' WITH USER_MODE LIMIT 20';
+            ownedQuery += ' WITH USER_MODE LIMIT 10';
 
             List<Visit> ownedVisits = Database.query(ownedQuery);
             for (Visit v : ownedVisits) {
@@ -192,7 +194,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             }
 
             // 5. Query All Visits in the Org (No date, status, or assignee filters)
-            String allVisitsQuery = selectFields + ' ORDER BY CreatedDate DESC LIMIT 20';
+            String allVisitsQuery = selectFields + ' ORDER BY CreatedDate DESC LIMIT 10';
             List<Visit> allVisits = Database.query(allVisitsQuery);
             for (Visit v : allVisits) {
                 String assignedUser = v.Owner.Name;
@@ -371,7 +373,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
      * @return List<Agent_Response.VisitOption> A list of visit options.
      */
     @SuppressWarnings('PMD.AvoidDebugStatements, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssMethodCount')
-    public static List<Agent_Response.VisitOption> searchVisits(String searchQuery) {
+    public static List<Agent_Response.VisitOption> searchVisits(String searchQuery, String searchOffset) {
         List<Agent_Response.VisitOption> options = new List<Agent_Response.VisitOption>();
         if (String.isBlank(searchQuery)) {
             return options;
@@ -393,7 +395,17 @@ public with sharing class Visit_Agent_Service implements IAgentService {
             Boolean hasResponsible = Schema.sObjectType.Visit.fields.getMap().containsKey('cgcloud__Responsible__c');
             Id currentUserId = UserInfo.getUserId();
 
-            Boolean queryAll = (searchQuery.trim().equalsIgnoreCase('all') || searchQuery.trim().equalsIgnoreCase('all visits'));
+            Integer offsetVal = 0;
+            if (String.isNotBlank(searchOffset)) {
+                try {
+                    offsetVal = Integer.valueOf(searchOffset.trim());
+                } catch (Exception e) {
+                    // Ignored
+                }
+            }
+
+            Boolean queryNext = (searchQuery.trim().equalsIgnoreCase('next') || searchQuery.trim().equalsIgnoreCase('more') || searchQuery.trim().equalsIgnoreCase('next visits') || searchQuery.trim().equalsIgnoreCase('next 20') || searchQuery.trim().equalsIgnoreCase('show next 20') || searchQuery.trim().equalsIgnoreCase('next 20 visits'));
+            Boolean queryAll = (searchQuery.trim().equalsIgnoreCase('all') || searchQuery.trim().equalsIgnoreCase('all visits') || queryNext);
             ParsedQuery parsed = new ParsedQuery();
             if (!queryAll) {
                 parsed = parseSearchQuery(searchQuery);
@@ -478,7 +490,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
 
             String searchQueryStr = selectFields + whereClause + ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC';
             if (queryAll) {
-                searchQueryStr += ' LIMIT 20';
+                searchQueryStr += ' LIMIT 20 OFFSET :offsetVal';
             }
             List<SObject> visits = Database.query(searchQueryStr);
 
@@ -1197,8 +1209,16 @@ public with sharing class Visit_Agent_Service implements IAgentService {
                 }
                 newVisit.cgcloud__IsAllDayEvent__c = req.isAllDayEvent != null ? req.isAllDayEvent : false;
                 
-                newVisit.OwnerId = UserInfo.getUserId();
-                newVisit.cgcloud__Responsible__c = UserInfo.getUserId();
+                Id respId = null;
+                List<User> runningUser = [SELECT Profile.Name FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+                if (!runningUser.isEmpty() && runningUser[0].Profile.Name == 'CGCloud_User_Profile') {
+                    respId = UserInfo.getUserId();
+                } else {
+                    List<User> cgUsers = [SELECT Id FROM User WHERE Profile.Name = 'CGCloud_User_Profile' AND IsActive = true LIMIT 1];
+                    respId = !cgUsers.isEmpty() ? cgUsers[0].Id : UserInfo.getUserId();
+                }
+                newVisit.cgcloud__Responsible__c = respId;
+                newVisit.cgcloud__Accountable__c = respId;
             }
 
             Id recordTypeId = null;
@@ -1624,56 +1644,6 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         res.isSubmitted = false;
         res.suggestions = '';
 
-        if (req.responsibleInput != null && !isPlaceholder(req.responsibleInput)) {
-            try {
-                String cleanName = req.responsibleInput.trim();
-                List<User> users = new List<User>();
-                if ((cleanName.length() == 15 || cleanName.length() == 18) && Pattern.matches('[a-zA-Z0-9]{15,18}', cleanName)) {
-                    users = [SELECT Id, Name FROM User WHERE Id = :cleanName AND IsActive = true WITH USER_MODE LIMIT 1];
-                } else {
-                    users = [SELECT Id, Name FROM User WHERE (Name = :cleanName OR Username = :cleanName) AND IsActive = true WITH USER_MODE LIMIT 1];
-                }
-
-                if (!users.isEmpty()) {
-                    res.success = true;
-                    res.isSubmitted = true;
-                    res.ownerId = users[0].Id;
-                    res.ownerName = users[0].Name;
-                    res.message = 'Matched Owner/User: ' + users[0].Name;
-                } else {
-                    String patternText = '%' + cleanName + '%';
-                    List<User> matches = [SELECT Id, Name FROM User WHERE (Name LIKE :patternText OR Username LIKE :patternText) AND IsActive = true WITH USER_MODE LIMIT 5];
-                    if (!matches.isEmpty()) {
-                        if (matches.size() == 1) {
-                            res.success = true;
-                            res.isSubmitted = true;
-                            res.ownerId = matches[0].Id;
-                            res.ownerName = matches[0].Name;
-                            res.message = 'Matched Owner/User: ' + matches[0].Name;
-                        } else {
-                            res.success = false;
-                            res.isSubmitted = true;
-                            List<String> names = new List<String>();
-                            List<String> ids = new List<String>();
-                            for (User u : matches) {
-                                names.add(u.Name);
-                                ids.add(u.Id);
-                            }
-                            res.message = 'I found multiple matching records. Please reply with the number of your choice:\n\n' + String.join(names, '\n');
-                            res.suggestions = String.join(ids, ',');
-                        }
-                    } else {
-                        res.success = false;
-                        res.isSubmitted = true;
-                        res.message = 'No active user found matching "' + cleanName + '". Please enter a valid User/Owner name.';
-                    }
-                }
-            } catch (Exception e) {
-                res.message = 'Error resolving Responsible User: ' + e.getMessage();
-            }
-            return;
-        }
-
         if (req.plannedStartTimeStr != null && !isPlaceholder(req.plannedStartTimeStr)) {
             try {
                 DateTime parsedDt = MobileAgentUtility.parseDateTime(req.plannedStartTimeStr);
@@ -2056,5 +2026,67 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         return result;
     }
 
-}
+    /**
+     * @description Selects a visit by record ID, registers it in RecentlyViewed, and returns navigation payload.
+     * @param req The agent request.
+     * @return Agent_Response The agent response.
+     */
+    private Agent_Response selectAndNavigateVisit(Agent_Request req) {
+        Agent_Response res = new Agent_Response();
+        try {
+            if (String.isBlank(req.visitId)) {
+                res.success = false;
+                res.message = 'Visit ID (visitId) is required.';
+                return res;
+            }
+            
+            Id visitId = (Id) req.visitId.trim();
+            Boolean hasResponsible = Schema.sObjectType.Visit.fields.getMap().containsKey('cgcloud__Responsible__c');
+            Boolean hasAccountable = Schema.sObjectType.Visit.fields.getMap().containsKey('cgcloud__Accountable__c');
+            
+            String query = 'SELECT Id, Name, Status, PlannedVisitStartTime, PlannedVisitEndTime, AccountId, Account.Name';
+            if (hasResponsible) {
+                query += ', cgcloud__Responsible__c, cgcloud__Responsible__r.Name';
+            }
+            if (hasAccountable) {
+                query += ', cgcloud__Accountable__c, cgcloud__Accountable__r.Name';
+            }
+            query += ' FROM Visit WHERE Id = :visitId LIMIT 1 FOR VIEW';
+            
+            List<Visit> visits = Database.query(query);
+            if (!visits.isEmpty()) {
+                Visit v = visits[0];
+                res.visitId = v.Id;
+                res.accountId = v.AccountId;
+                res.accountName = v.Account != null ? v.Account.Name : '';
+                res.visitStatus = v.Status;
+                res.visitDate = v.PlannedVisitStartTime != null ? v.PlannedVisitStartTime.format('yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'', 'UTC') : '';
+                res.visitEndDate = v.PlannedVisitEndTime != null ? v.PlannedVisitEndTime.format('yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'', 'UTC') : '';
+                
+                if (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) {
+                    res.assignedUser = (String)v.getSObject('cgcloud__Responsible__r').get('Name');
+                } else {
+                    res.assignedUser = '';
+                }
+                
+                if (hasAccountable && v.getSObject('cgcloud__Accountable__r') != null) {
+                    res.accountableUser = (String)v.getSObject('cgcloud__Accountable__r').get('Name');
+                } else {
+                    res.accountableUser = '';
+                }
+                
+                res.visitNavigation = new VisitNavigationWrapper(v.Id);
+                res.success = true;
+                res.message = 'Visit selected successfully. Navigating you to the Visit record page...';
+            } else {
+                res.success = false;
+                res.message = 'Visit record not found for ID: ' + req.visitId;
+            }
+        } catch (Exception e) {
+            res.success = false;
+            res.message = 'Error selecting and navigating visit: ' + e.getMessage();
+        }
+        return res;
+    }
 
+}

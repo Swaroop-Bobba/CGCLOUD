@@ -1,8 +1,8 @@
 {
-  "editor": {
-    "componentOverrides": {
-      "$": {
-        "definition": "c/createVisitEditor"
+  "editor" : {
+    "componentOverrides" : {
+      "$" : {
+        "definition" : "c/createVisitEditor"
       }
     }
   }

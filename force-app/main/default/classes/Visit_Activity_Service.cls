@@ -7,6 +7,24 @@ public with sharing class Visit_Activity_Service  implements IAgentService {
         Agent_Response res = new Agent_Response();
         String action = req.actionType != null ? req.actionType.toLowerCase().trim() : '';
 
+        try {
+            if (action == 'getactivities') {
+                res.activities = getVisitActivities(req.visitId, req.questionOrSurveyFilter);
+                res.success = true;
+            } else if (action == 'getjobsstatus') {
+                res.jobs = getVisitJobsStatus(req.visitId, req.statusFilter, req.questionOrSurveyFilter);
+                res.success = true;
+            } else if (action == 'getnextsteps') {
+                res.itemDetails = getNextStepsOptions(req.excludeOption);
+                res.success = true;
+            } else {
+                res.success = false;
+                res.message = 'Unknown actionType: ' + req.actionType;
+            }
+        } catch(Exception e) {
+            res.success = false;
+            res.message = e.getMessage();
+        }
         return res;
     }
 

@@ -1,0 +1,4 @@
+{
+  "title" : "Visit Update Payload Type",
+  "lightning:type" : "@apexClassType/c__VisitUpdatePayload"
+}
