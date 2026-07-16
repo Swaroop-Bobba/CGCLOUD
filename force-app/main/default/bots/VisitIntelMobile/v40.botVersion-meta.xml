@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>v40</fullName>
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Hi! I am the CGC Visit Intelligence Agent. I can help you summarize and detail related records for the current Visit and its Account. How can I assist you today?</message>
+                <messageIdentifier>5a906eb4-01e7-44cf-8407-3612ea43edf3</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>a6159f0d-d0e8-434c-8954-8053241c9a4e</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>c61180e9-8ba5-45e7-af3d-8ec1d3a2bea3</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Welcome</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Welcome</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>An error occurred. Please try again.</message>
+                <messageIdentifier>d60ea6e4-6560-4b3e-9d33-290ec50e077b</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>cfa04794-f94b-4363-aea6-ad44ee1b4911</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>0203a1ca-268b-4a8b-8d6e-82877780f09f</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Rich_Content_Error_Handling</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Error Handler</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <developerName>Transfer_To_Agent</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Transfer To Agent</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <citationsEnabled>false</citationsEnabled>
+    <conversationDefinitionPlanners>
+        <genAiPlannerName>VisitIntelMobile_v40</genAiPlannerName>
+    </conversationDefinitionPlanners>
+    <conversationSystemDialogs>
+        <dialog>Rich_Content_Error_Handling</dialog>
+        <type>ErrorHandling</type>
+    </conversationSystemDialogs>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The ID of the Account associated with the current Visit.</description>
+        <developerName>accountId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Account Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The Name of the Account associated with the current Visit.</description>
+        <developerName>accountName</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Account Name</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The active subagent name: &apos;visit_intelligence&apos;, &apos;visit_activities&apos;, or &apos;create_visit_mobile&apos;.</description>
+        <developerName>activeSubagent</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Active Subagent</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The agent instructions</description>
+        <developerName>AgentScriptInternal_agent_instructions</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Agent Instructions</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Boolean</dataType>
+        <description>Runtime condition evaluation for if statements</description>
+        <developerName>AgentScriptInternal_condition_1</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Runtime Condition 1</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The next topic to be visited</description>
+        <developerName>AgentScriptInternal_next_topic</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Next Topic</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The assigned user name for the current Visit.</description>
+        <developerName>assignedUser</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Assigned User</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The channel type: &apos;web&apos; or &apos;mobile&apos;. Set externally by the deployment configuration.</description>
+        <developerName>channelType</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Channel Type</label>
+        <visibility>External</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The API name of the current object.</description>
+        <developerName>currentObjectApiName</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Current Object Api Name</label>
+        <visibility>External</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The ID of the current record.</description>
+        <developerName>currentRecordId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Current Record Id</label>
+        <visibility>External</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Boolean</dataType>
+        <description>True if planned start time has been explicitly submitted.</description>
+        <developerName>isDateTimeSelected</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Is Date Time Selected</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The ID of the last seen record page to detect page navigation.</description>
+        <developerName>lastRecordId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Last Record Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The verified Account ID for visit planning.</description>
+        <developerName>tempAccountId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Account Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The verified Account name for visit planning.</description>
+        <developerName>tempAccountName</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Account Name</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The suggestions for Account matching.</description>
+        <developerName>tempAccountSuggestions</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Account Suggestions</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Object</dataType>
+        <description>Temporary storage for visit details loaded for full-form updates.</description>
+        <developerName>tempCreateVisitWrapper</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Create Visit Wrapper</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Boolean</dataType>
+        <description>True if user input has been submitted.</description>
+        <developerName>tempIsSubmitted</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Is Submitted</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Boolean</dataType>
+        <description>True if a visit was recently updated, to prevent routing loops.</description>
+        <developerName>tempIsUpdated</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Is Updated</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The temporary message from validation actions.</description>
+        <developerName>tempMessage</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Message</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The suggestions for Owner matching.</description>
+        <developerName>tempOwnerSuggestions</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Owner Suggestions</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The verified Retail Store or Location ID for visit planning.</description>
+        <developerName>tempPlaceId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Place Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The verified Retail Store or Location name for visit planning.</description>
+        <developerName>tempPlaceName</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Place Name</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The suggestions for Place matching.</description>
+        <developerName>tempPlaceSuggestions</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Place Suggestions</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The planned start date/time of the new visit.</description>
+        <developerName>tempPlannedStartTime</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Planned Start Time</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Object</dataType>
+        <description>The planned start date/time wrapper object.</description>
+        <developerName>tempPlannedStartTimeWrapper</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Planned Start Time Wrapper</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The verified Responsible User ID for visit planning.</description>
+        <developerName>tempResponsibleUserId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Responsible User Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The verified Responsible User name for visit planning.</description>
+        <developerName>tempResponsibleUserName</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Responsible User Name</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The subject of the new visit.</description>
+        <developerName>tempSubject</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Subject</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The verified Visit Template ID for visit planning.</description>
+        <developerName>tempTemplateId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Template Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The verified Visit Template name for visit planning.</description>
+        <developerName>tempTemplateName</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Template Name</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The suggestions for Template matching.</description>
+        <developerName>tempTemplateSuggestions</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Template Suggestions</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Tracks the active field being conversationally updated on mobile.</description>
+        <developerName>tempUpdateField</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Update Field</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The profile name of the current user.</description>
+        <developerName>userProfileName</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>User Profile Name</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The Date of the current Visit.</description>
+        <developerName>visitDate</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit Date</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The ID of the current Visit.</description>
+        <developerName>visitId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The Name of the current Visit (e.g. V-00000370).</description>
+        <developerName>visitName</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit Name</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The Status of the current Visit.</description>
+        <developerName>visitStatus</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit Status</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The automatically pre-loaded visit summary text for the current Visit.</description>
+        <developerName>visitSummaryText</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit Summary Text</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <copilotPrimaryLanguage>en_US</copilotPrimaryLanguage>
+    <defaultStdObjForContactIdFltrEnabled>false</defaultStdObjForContactIdFltrEnabled>
+    <entryDialog>Welcome</entryDialog>
+    <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
+    <intentV3Enabled>false</intentV3Enabled>
+    <isScriptCompatibleAgent>true</isScriptCompatibleAgent>
+    <knowledgeActionEnabled>false</knowledgeActionEnabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <staticPromptsEnabled>false</staticPromptsEnabled>
+    <stopRecPrompts>false</stopRecPrompts>
+    <stopWelcomePrompts>false</stopWelcomePrompts>
+    <surfacesEnabled>false</surfacesEnabled>
+    <toneType>Casual</toneType>
+</BotVersion>

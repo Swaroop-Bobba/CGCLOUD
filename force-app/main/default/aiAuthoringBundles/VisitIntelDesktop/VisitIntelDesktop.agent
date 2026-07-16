@@ -247,8 +247,6 @@ start_agent agent_router:
                     description: "The Planned End Date/Time of the Visit."
                 accountableUser: string
                     description: "The Accountable User."
-                visitName: string
-                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
         get_available_visits:
             description: "Retrieve user's recently viewed, owned, and scheduled visits."
@@ -945,8 +943,6 @@ subagent clear_context:
                     description: "The Planned End Date/Time of the Visit."
                 accountableUser: string
                     description: "The Accountable User."
-                visitName: string
-                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
 
 

@@ -245,8 +245,6 @@ start_agent agent_router:
                     description: "The Visit Date."
                 assignedUser: string
                     description: "The Assigned User."
-                visitName: string
-                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
         get_available_visits:
             description: "Retrieve user's recently viewed, owned, and scheduled visits."
@@ -1176,8 +1174,6 @@ subagent update_visit_text:
                     description: "The Visit Date."
                 assignedUser: string
                     description: "The Assigned User."
-                visitName: string
-                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
 
 subagent visit_activities:
