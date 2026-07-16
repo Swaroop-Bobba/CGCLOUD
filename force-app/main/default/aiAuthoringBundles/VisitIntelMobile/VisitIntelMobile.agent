@@ -88,7 +88,8 @@ variables:
         description: "Temporary storage for visit details loaded for full-form updates."
     tempIsUpdated: mutable boolean = False
         description: "True if a visit was recently updated, to prevent routing loops."
-
+    tempUpdateField: mutable string = ""
+        description: "Tracks the active field being conversationally updated on mobile."
 
 language:
     default_locale: "en_US"
@@ -214,6 +215,7 @@ start_agent agent_router:
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
                 description: "Return to the main Visit Intelligence subagent dashboard."
 
+
     actions:
         get_current_user_profile:
             description: "Retrieve the current user's profile name."
@@ -245,6 +247,8 @@ start_agent agent_router:
                     description: "The Visit Date."
                 assignedUser: string
                     description: "The Assigned User."
+                visitName: string
+                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
         get_available_visits:
             description: "Retrieve user's recently viewed, owned, and scheduled visits."
@@ -548,8 +552,8 @@ subagent visit_intelligence:
                 with actionType = "search"
                 with searchQuery = ...
 
-    actions:
 
+    actions:
         get_related_counts:
             description: "Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account."
             target: "apex://Agent_Global_Handler"
@@ -951,23 +955,39 @@ subagent update_visit_text:
             You are now in the Update Visit Text subagent.
             Your goal is to update details (status, owner, notes, start time, or end time) of the current Visit (ID: {!@variables.visitId}) conversationally using text inputs.
 
-            SECTION 1: DISPATCH UPDATE ACTION
-            - If the user's message does not specify a field to update, first present the fields that can be updated in a numbered list:
-              "I can help you update the visit information. Which field would you like to update? Please select an option:
-              1. **Status**: {!@variables.visitStatus}
-              2. **Reassign Responsible User**: {!@variables.assignedUser}
-              3. **Notes**
-              4. **Start Time**: {!@variables.visitDate} (Format this raw ISO timestamp to a clean, human-readable date, e.g., "YYYY-MM-DD hh:mm AM/PM")
-              5. **End Time**"
-            - If the user selects a field or option from the menu, call the corresponding conversational mobile action:
-              * "Status" / Option 1 -> Call update_visit_status_mobile with only visitId.
-              * "Reassign Responsible User" / Option 2 -> Call update_visit_owner_mobile with only visitId.
-              * "Notes" / Option 3 -> Call update_visit_notes_mobile with only visitId.
-              * "Start Time" / Option 4 -> Call update_visit_start_time_mobile with only visitId.
-              * "End Time" / Option 5 -> Call update_visit_end_time_mobile with only visitId.
-            - If they provide both the field and the value in the same request (e.g., "change status to completed", "assign to Siri FieldRep"), map the field and pass the value directly to the corresponding action (e.g., `status = "completed"` or `ownerName = "Siri FieldRep"`).
+            CRITICAL RULE (DIRECT EXECUTION): You MUST execute the update action immediately as soon as you have the value from the user. Do NOT ask the user for confirmation, verification, or permission before running the action. Execute the action directly and let the action handle the result.
 
-            SECTION 2: RETURN ON SUCCESS AND FAILURE HANDLING
+            SECTION 1: STATE MACHINE FOR MULTI-TURN UPDATES (IF STATE IS SET)
+            - If @variables.tempUpdateField is set and not empty, process the user's message as the value for that field:
+              * If @variables.tempUpdateField == "status": Call update_visit_status_mobile with status set to the user's message, and set @variables.tempUpdateField = "".
+              * If @variables.tempUpdateField == "owner": Call update_visit_owner_mobile with ownerName set to the user's message, and set @variables.tempUpdateField = "".
+              * If @variables.tempUpdateField == "notes": Call update_visit_notes_mobile with notes set to the user's message, and set @variables.tempUpdateField = "".
+              * If @variables.tempUpdateField == "start": Call update_visit_start_time_mobile with plannedStartTimeStr set to the user's message, and set @variables.tempUpdateField = "".
+              * If @variables.tempUpdateField == "end": Call update_visit_end_time_mobile with plannedEndTimeStr set to the user's message, and set @variables.tempUpdateField = "".
+
+            SECTION 2: DISPATCH UPDATE ACTION OR SET STATE (IF NO STATE IS SET)
+            - If @variables.tempUpdateField is empty, check the user's input:
+              * If they provide both the field and value in the same request (e.g. "update notes as heyy", "change status to Completed", "reassign to Siri FieldRep"):
+                - Notes: Call update_visit_notes_mobile with notes set to the extracted value.
+                - Status: Call update_visit_status_mobile with status set to the extracted value.
+                - Owner/Reassign: Call update_visit_owner_mobile with ownerName set to the extracted value.
+                - Start Time: Call update_visit_start_time_mobile with plannedStartTimeStr set to the extracted value.
+                - End Time: Call update_visit_end_time_mobile with plannedEndTimeStr set to the extracted value.
+              * If they select a field/option from the menu without providing a value, set the state and prompt:
+                - "Status" / Option 1 -> Set @variables.tempUpdateField = "status", and prompt: "Please enter the new status for this visit."
+                - "Reassign Responsible User" / Option 2 -> Set @variables.tempUpdateField = "owner", and prompt: "Please enter the name of the user you want to reassign this visit to."
+                - "Notes" / Option 3 -> Set @variables.tempUpdateField = "notes", and prompt: "Please enter the notes you want to add to this visit."
+                - "Start Time" / Option 4 -> Set @variables.tempUpdateField = "start", and prompt: "Please enter the new planned start time for this visit."
+                - "End Time" / Option 5 -> Set @variables.tempUpdateField = "end", and prompt: "Please enter the new planned end time for this visit."
+              * If the user's message does not specify a field, first present the fields that can be updated in a numbered list:
+                "I can help you update the visit information. Which field would you like to update? Please select an option:
+                1. **Status**: {!@variables.visitStatus}
+                2. **Reassign Responsible User**: {!@variables.assignedUser}
+                3. **Notes**
+                4. **Start Time**: {!@variables.visitDate} (Format this raw ISO timestamp to a clean, human-readable date, e.g., "YYYY-MM-DD hh:mm AM/PM")
+                5. **End Time**"
+
+            SECTION 3: RETURN ON SUCCESS AND FAILURE HANDLING
             - If @variables.tempIsSubmitted is True:
               * Run get_visit to load the latest visit details.
               * Set @variables.tempIsSubmitted = False
@@ -1036,8 +1056,8 @@ subagent update_visit_text:
 
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
 
-    actions:
 
+    actions:
         update_visit_status_mobile_action:
             description: "Update the status of the current Visit conversationally."
             target: "apex://Agent_Global_Handler"
@@ -1174,7 +1194,8 @@ subagent update_visit_text:
                     description: "The Visit Date."
                 assignedUser: string
                     description: "The Assigned User."
-
+                visitName: string
+                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
 subagent visit_activities:
     label: "Visit Activities"
@@ -1333,6 +1354,7 @@ subagent visit_activities:
 
             back_to_intelligence: @utils.transition to @subagent.visit_intelligence
                 description: "Return to the main options selection."
+
 
     actions:
         get_visit_activities:
@@ -1575,6 +1597,7 @@ subagent create_visit_mobile:
                 set @variables.tempMessage = @outputs.message
                 set @variables.tempIsSubmitted = @outputs.success
 
+
     actions:
         create_visit_record_mobile:
             description: "Validate fields and create a new Visit record using standard inputs."
@@ -1769,6 +1792,7 @@ subagent record_calculations_insights:
             execute_soql: @actions.execute_soql
                 with query = ...
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
+
     actions:
         execute_soql:
             description: "Run dynamic SOQL query against Salesforce database in User Mode. Returns results serialized as a JSON string."
@@ -1835,6 +1859,7 @@ subagent forecasting_insights:
                 with actionType = "getVisitForecast"
                 with accountId = @variables.accountId
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
+
     actions:
         get_order_forecast:
             description: "Get order predictions including date, value, likely products, and affinity."
@@ -1853,6 +1878,7 @@ subagent forecasting_insights:
                 confidenceLevel: string
                 reasoning: string
                     is_displayable: True
+
         get_product_forecast:
             description: "Get product-specific velocity and demand predictions."
             target: "apex://Sales_Forecasting_Handler"
@@ -1870,6 +1896,7 @@ subagent forecasting_insights:
                 confidenceLevel: string
                 reasoning: string
                     is_displayable: True
+
         get_customer_forecast:
             description: "Get customer churn risk, frequency trends, and value segmentation."
             target: "apex://Sales_Forecasting_Handler"
@@ -1886,6 +1913,7 @@ subagent forecasting_insights:
                 confidenceLevel: string
                 reasoning: string
                     is_displayable: True
+
         get_sales_forecast:
             description: "Get sales forecast for period (week, month, quarter) and breakdown."
             target: "apex://Sales_Forecasting_Handler"
@@ -1904,6 +1932,7 @@ subagent forecasting_insights:
                 confidenceLevel: string
                 reasoning: string
                     is_displayable: True
+
         get_inventory_forecast:
             description: "Get stock depletion, replenishment, and overstocking predictions."
             target: "apex://Sales_Forecasting_Handler"
@@ -1921,6 +1950,7 @@ subagent forecasting_insights:
                 confidenceLevel: string
                 reasoning: string
                     is_displayable: True
+
         get_visit_forecast:
             description: "Get next visit scheduling and expected outcome predictions."
             target: "apex://Sales_Forecasting_Handler"
@@ -1937,5 +1967,3 @@ subagent forecasting_insights:
                 confidenceLevel: string
                 reasoning: string
                     is_displayable: True
-
-
