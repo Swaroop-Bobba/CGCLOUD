@@ -1616,13 +1616,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         } else {
           res.success = true;
           List<Visit> freshVisits = [
-            SELECT
-              Status,
-              PlannedVisitStartTime,
-              PlannedVisitEndTime,
-              cgcloud__Note__c,
-              Owner.Name,
-              cgcloud__Responsible__r.Name
+            SELECT Status, PlannedVisitStartTime, PlannedVisitEndTime, cgcloud__Note__c, Owner.Name, cgcloud__Responsible__r.Name
             FROM Visit
             WHERE Id = :v.Id
             WITH USER_MODE
@@ -1631,53 +1625,24 @@ public with sharing class Visit_Agent_Service implements IAgentService {
           if (!freshVisits.isEmpty()) {
             Visit freshV = freshVisits[0];
             String detailMsg = 'Visit updated successfully.\n\n';
-            if (
-              action == 'update_visit_status' ||
-              action == 'update_visit_status_mobile_action'
-            ) {
+            if (action == 'update_visit_status' || action == 'update_visit_status_mobile_action') {
               detailMsg += 'New Status: ' + freshV.Status;
-            } else if (
-              action == 'update_visit_notes_mobile_action' ||
-              action == 'update_visit_notes'
-            ) {
+            } else if (action == 'update_visit_notes_mobile_action' || action == 'update_visit_notes') {
               detailMsg += 'Updated Notes: "' + freshV.cgcloud__Note__c + '"';
-            } else if (
-              action == 'update_visit_owner' ||
-              action == 'update_visit_owner_mobile_action'
-            ) {
+            } else if (action == 'update_visit_owner' || action == 'update_visit_owner_mobile_action') {
               detailMsg += 'New Assigned User: ' + freshV.Owner.Name;
-            } else if (
-              action == 'update_visit_start_time' ||
-              action == 'update_visit_start_time_mobile_action'
-            ) {
-              detailMsg +=
-                'New Planned Start Time: ' +
-                (freshV.PlannedVisitStartTime != null
-                  ? freshV.PlannedVisitStartTime.format('yyyy-MM-dd hh:mm a')
-                  : 'N/A');
-            } else if (
-              action == 'update_visit_end_time' ||
-              action == 'update_visit_end_time_mobile_action'
-            ) {
-              detailMsg +=
-                'New Planned End Time: ' +
-                (freshV.PlannedVisitEndTime != null
-                  ? freshV.PlannedVisitEndTime.format('yyyy-MM-dd hh:mm a')
-                  : 'N/A');
+            } else if (action == 'update_visit_start_time' || action == 'update_visit_start_time_mobile_action') {
+              detailMsg += 'New Planned Start Time: ' + (freshV.PlannedVisitStartTime != null ? freshV.PlannedVisitStartTime.format('yyyy-MM-dd hh:mm a') : 'N/A');
+            } else if (action == 'update_visit_end_time' || action == 'update_visit_end_time_mobile_action') {
+              detailMsg += 'New Planned End Time: ' + (freshV.PlannedVisitEndTime != null ? freshV.PlannedVisitEndTime.format('yyyy-MM-dd hh:mm a') : 'N/A');
             } else {
               detailMsg += 'Status: ' + freshV.Status + '\n';
               detailMsg += 'Assigned User: ' + freshV.Owner.Name + '\n';
               if (freshV.PlannedVisitStartTime != null) {
-                detailMsg +=
-                  'Start Time: ' +
-                  freshV.PlannedVisitStartTime.format('yyyy-MM-dd hh:mm a') +
-                  '\n';
+                detailMsg += 'Start Time: ' + freshV.PlannedVisitStartTime.format('yyyy-MM-dd hh:mm a') + '\n';
               }
               if (freshV.PlannedVisitEndTime != null) {
-                detailMsg +=
-                  'End Time: ' +
-                  freshV.PlannedVisitEndTime.format('yyyy-MM-dd hh:mm a') +
-                  '\n';
+                detailMsg += 'End Time: ' + freshV.PlannedVisitEndTime.format('yyyy-MM-dd hh:mm a') + '\n';
               }
               if (String.isNotBlank(freshV.cgcloud__Note__c)) {
                 detailMsg += 'Notes: ' + freshV.cgcloud__Note__c + '\n';
