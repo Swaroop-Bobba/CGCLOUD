@@ -170,7 +170,6 @@
         <dataType>Date</dataType>
         <expression>DATE(2099, 12, 31)</expression>
     </formulas>
-    <isAdditionalPermissionRequiredToRun>false</isAdditionalPermissionRequiredToRun>
     <label>Assign Account Manager Onboarding</label>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>

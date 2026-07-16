@@ -110,4 +110,7 @@ public with sharing class Agent_Request {
     // Promotion specifics
     @InvocableVariable(description='The Promotion ID or Name.')
     public String promotionId;
+
+    @InvocableVariable(description='The query offset for pagination.')
+    public String searchOffset;
 }

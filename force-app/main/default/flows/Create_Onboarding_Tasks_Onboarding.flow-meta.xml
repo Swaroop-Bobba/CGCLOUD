@@ -289,7 +289,7 @@
             <assignToReference>tasksCreated</assignToReference>
             <operator>Assign</operator>
             <value>
-                <numberValue>0</numberValue>
+                <numberValue>0.0</numberValue>
             </value>
         </assignmentItems>
     </assignments>
@@ -316,12 +316,11 @@
             <assignToReference>tasksCreated</assignToReference>
             <operator>Assign</operator>
             <value>
-                <numberValue>6</numberValue>
+                <numberValue>6.0</numberValue>
             </value>
         </assignmentItems>
     </assignments>
     <description>Creates 6 onboarding tasks (Sales, Finance, Distribution) for a new Account using a collection. Replaces CreateOnboardingTasksAction Apex class.</description>
-    <isAdditionalPermissionRequiredToRun>false</isAdditionalPermissionRequiredToRun>
     <label>Create Onboarding Tasks Onboarding</label>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>66.0</apiVersion>
     <actionCalls>
         <name>Get_Visits_From_Apex</name>
         <label>Get Visits From Apex</label>
@@ -33,8 +32,9 @@
             <name>visits</name>
         </outputParameters>
     </actionCalls>
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>Retrieve standard Visit SObject records for Agentforce UI rendering.</description>
-    <isAdditionalPermissionRequiredToRun>false</isAdditionalPermissionRequiredToRun>
     <label>Get Visit SObjects</label>
     <processType>AutoLaunchedFlow</processType>
     <start>

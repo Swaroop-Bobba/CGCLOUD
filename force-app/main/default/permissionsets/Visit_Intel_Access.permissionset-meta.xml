@@ -127,4 +127,20 @@
         <apexClass>PromptVisitMobileAction</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>VisitNavigationWrapper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitUpdaterAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitUpdatePayload</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitUpdaterController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 </PermissionSet>

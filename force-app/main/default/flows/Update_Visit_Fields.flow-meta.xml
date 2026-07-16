@@ -3,27 +3,11 @@
     <apiVersion>61.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <choices>
-        <name>Planned_Choice</name>
-        <choiceText>Planned</choiceText>
+        <name>Abandoned_Choice</name>
+        <choiceText>Abandoned</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Planned</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>InProgress_Choice</name>
-        <choiceText>In Progress</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>InProgress</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Completed_Choice</name>
-        <choiceText>Completed</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Completed</stringValue>
+            <stringValue>Abandoned</stringValue>
         </value>
     </choices>
     <choices>
@@ -35,11 +19,27 @@
         </value>
     </choices>
     <choices>
-        <name>Abandoned_Choice</name>
-        <choiceText>Abandoned</choiceText>
+        <name>Completed_Choice</name>
+        <choiceText>Completed</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Abandoned</stringValue>
+            <stringValue>Completed</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>InProgress_Choice</name>
+        <choiceText>In Progress</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>InProgress</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Planned_Choice</name>
+        <choiceText>Planned</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Planned</stringValue>
         </value>
     </choices>
     <description>Natively update a Visit record status, owner, dates, and notes via screen fields inside the agent panel.</description>
@@ -80,12 +80,6 @@
             </value>
         </filters>
         <inputAssignments>
-            <field>cgcloud__Note__c</field>
-            <value>
-                <elementReference>Visit_Notes</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>OwnerId</field>
             <value>
                 <elementReference>Owner_Lookup.recordId</elementReference>
@@ -107,6 +101,12 @@
             <field>Status</field>
             <value>
                 <elementReference>Visit_Status</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>cgcloud__Note__c</field>
+            <value>
+                <elementReference>Visit_Notes</elementReference>
             </value>
         </inputAssignments>
         <object>Visit</object>
@@ -136,6 +136,14 @@
             <fieldText>Status</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>Owner_Lookup</name>
@@ -167,6 +175,14 @@
             </inputParameters>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>Planned_Start_Time</name>
@@ -177,6 +193,14 @@
             <fieldText>Planned Start Time</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>Planned_End_Time</name>
@@ -187,6 +211,14 @@
             <fieldText>Planned End Time</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>Visit_Notes</name>
@@ -196,13 +228,18 @@
             <fieldText>Notes</fieldText>
             <fieldType>LargeTextArea</fieldType>
             <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
-
-
-    
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
