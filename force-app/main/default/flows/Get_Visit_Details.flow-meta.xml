@@ -199,6 +199,10 @@
             <field>AccountId</field>
         </outputAssignments>
         <outputAssignments>
+            <assignToReference>visitName</assignToReference>
+            <field>Name</field>
+        </outputAssignments>
+        <outputAssignments>
             <assignToReference>ownerId</assignToReference>
             <field>OwnerId</field>
         </outputAssignments>
@@ -321,6 +325,13 @@
     </variables>
     <variables>
         <name>visitStatus</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>visitName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

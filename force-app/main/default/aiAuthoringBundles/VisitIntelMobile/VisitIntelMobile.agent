@@ -32,6 +32,8 @@ variables:
         description: "The ID of the last seen record page to detect page navigation."
     visitId: mutable string = ""
         description: "The ID of the current Visit."
+    visitName: mutable string = ""
+        description: "The Name of the current Visit (e.g. V-00000370)."
     accountId: mutable string = ""
         description: "The ID of the Account associated with the current Visit."
     accountName: mutable string = ""
@@ -119,6 +121,12 @@ start_agent agent_router:
             if @variables.accountId != "" and @variables.activeSubagent == "update_visit_text":
                 transition to @subagent.update_visit_text
 
+            if @variables.accountId != "" and @variables.activeSubagent == "forecasting_insights":
+                transition to @subagent.forecasting_insights
+
+            if @variables.accountId != "" and @variables.activeSubagent == "record_calculations_insights":
+                transition to @subagent.record_calculations_insights
+
             if @variables.activeSubagent == "create_visit_mobile":
                 transition to @subagent.create_visit_mobile
 
@@ -159,6 +167,7 @@ start_agent agent_router:
                 set @variables.visitStatus = @outputs.visitStatus
                 set @variables.visitDate = @outputs.visitDate
                 set @variables.assignedUser = @outputs.assignedUser
+                set @variables.visitName = @outputs.visitName
                 set @variables.visitSummaryText = ""
                 set @variables.activeSubagent = "visit_intelligence"
                 transition to @subagent.visit_intelligence
@@ -236,6 +245,8 @@ start_agent agent_router:
                     description: "The Visit Date."
                 assignedUser: string
                     description: "The Assigned User."
+                visitName: string
+                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
         get_available_visits:
             description: "Retrieve user's recently viewed, owned, and scheduled visits."
@@ -317,6 +328,7 @@ subagent visit_intelligence:
                 |   1. Set @variables.tempIsUpdated = False.
                 |   2. Greet: "I have successfully updated the visit details. Here is the latest information:"
                 |   3. Display the Visit Details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
+                |      * Visit: {!@variables.visitName} 🆔
                 |      * Account: {!@variables.accountName} 🏪
                 |      * Visit Date: {!@variables.visitDate} 📅
                 |      * Visit Status: {!@variables.visitStatus} 🔖
@@ -331,7 +343,7 @@ subagent visit_intelligence:
                 |   * "Contacts" / "show contacts" / "get contact details" -> Call @actions.get_details with recordType = "contacts"
                 |   * "Promotions" / "active promotions" -> Call @actions.get_details with recordType = "promotions"
                 |   * "Eligible Products" / "eligible products of <index>" / "eligible products for <promotionName>" -> Call @actions.get_products with promotionId mapped to the selected promotion's ID or name.
-                |   * "Pre-Visit Brief" / "store brief" / "store overview" / "pre-visit briefing" -> Call @actions.store_brief
+                |   * "Pre-Visit Brief" / "store brief" / "store overview" / "pre-visit briefing" / "pre visit breif" -> Call @actions.store_brief
                 |   * "Inventory" / "out-of-stock" / "oos" -> Call @actions.get_details with recordType = "inventory"
                 |   * "Order History" / "orders" -> Call @actions.order_summary
                 |   * "Visit Report" / "generate reports" / "summarize visit" -> Call @actions.generate_visit_summary
@@ -340,10 +352,13 @@ subagent visit_intelligence:
                 |   * "Switch" / "reset context" / "change visit" -> Call @actions.switch_visit
                 |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products
                 |   * "Create Visit" / "New Visit" / "Schedule Visit" / "Plan a Visit" / "Add Visit" / "Create Customer Visit" / "Visit Creation" -> Transition immediately to the Create Visit Agent (LWC) using go_to_create_visit_mobile
+                |   * "predictive insights" / "forecast" / "order forecast" / "sales forecast" / "buying trends" / "churn risk" -> Transition to @subagent.forecasting_insights using go_to_forecasting
+                |   * "calculate" / "how many days since" / "average order value" / "total spend calculation" -> Transition to @subagent.record_calculations_insights using go_to_calculations
                 |
                 | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
                 | - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action:
                 |   1. Display the Visit Details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
+                |      * Visit: {!@variables.visitName} 🆔
                 |      * Account: {!@variables.accountName} 🏪
                 |      * Visit Date: {!@variables.visitDate} 📅 (Format this raw ISO timestamp to a clean, human-readable date, e.g., "YYYY-MM-DD hh:mm AM/PM")
                 |      * Visit Status: {!@variables.visitStatus} 🔖
@@ -380,6 +395,8 @@ subagent visit_intelligence:
                 |         * Switch / Reset Context / Switch to a different visit -> Call @actions.switch_visit
                 |         * Product Recommendations / suggestions -> Call @actions.suggest_products
                 |         * Visit Activities / planned activities / surveys / checklists / questions -> Transition to @subagent.visit_activities
+                |         * Forecasting / predictive insights / sales forecast / predictive -> Transition to @subagent.forecasting_insights using go_to_forecasting
+                |         * Record Calculations / calculations / dynamic calculations -> Transition to @subagent.record_calculations_insights using go_to_calculations
                 |
                 |   B. FALLBACK MAPPING:
                 |      * If no previous list can be identified or input is ambiguous, map the numbers 1 to 10 directly to these default greeting options: 1=Account Summary, 2=Contacts, 3=Promotions, 4=Pre-Visit Brief, 5=Inventory, 6=Order History, 7=Update Visit, 8=Sellable Products, 9=Visit Activities, 10=Switch/Reset Context.
@@ -520,6 +537,12 @@ subagent visit_intelligence:
 
 
             go_to_update_visit_text: @utils.transition to @subagent.update_visit_text
+
+            go_to_forecasting: @utils.transition to @subagent.forecasting_insights
+                description: "Transition to the Forecasting & Predictive Insights Workspace subagent to handle predictions, forecasts, and trends analysis."
+
+            go_to_calculations: @utils.transition to @subagent.record_calculations_insights
+                description: "Transition to the Record Calculations & Insights subagent to run dynamic calculations, record ages, averages, and duration queries."
 
             search_users: @actions.search_users
                 description: "Search for a user by name to get their details before assigning a visit."
@@ -1153,6 +1176,8 @@ subagent update_visit_text:
                     description: "The Visit Date."
                 assignedUser: string
                     description: "The Assigned User."
+                visitName: string
+                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
 
 subagent visit_activities:
@@ -1677,6 +1702,8 @@ subagent create_visit_mobile:
                     description: "The Visit Date."
                 assignedUser: string
                     description: "The Assigned User."
+                visitName: string
+                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
 subagent record_calculations_insights:
     label: "Record Calculations & Insights"
@@ -1689,6 +1716,7 @@ subagent record_calculations_insights:
             | - Assume the current local date is 7 July 2026. Use this date for all relative age, duration, and relative date arithmetic (e.g., days since a date, days until expiration).
             |
             | Execution Guidelines:
+            | 0. Greeting: If the user just transitioned here or has no active query, greet with: "Hi! I am the Record Calculations & Insights Agent. I can help you perform calculations, date arithmetic, aggregations, and comparisons across any Salesforce object. How can I assist you today?"
             | 1. Dynamic SOQL Queries: Call {!@actions.execute_soql} with a dynamic SOQL query string to retrieve the necessary fields or aggregates.
             |    - For standard objects (e.g., Account, Contact, Opportunity, Case, Product2, Asset, Contract, User), query the standard fields (e.g., CreatedDate, ClosedDate, StageName, Amount, Status).
             |    - For custom objects (e.g., cgcloud__Order__c, cgcloud__Order_Item__c, cgcloud__Route__c, cgcloud__Tour__c), query package fields (e.g., cgcloud__Order_Date__c, cgcloud__Total_Value__c, cgcloud__Phase__c).
@@ -1771,6 +1799,7 @@ subagent forecasting_insights:
             | You are inside the Forecasting and Predictive Insights subagent.
             |
             | Rules:
+            | 0. Greeting: If the user just transitioned here or has no active query, greet with: "Hi! I am the Sales Forecasting & Predictive Insights Agent. I can analyze historical sales, orders, visits, and inventory records to predict future trends, expected orders, stockout risks, and customer churn. How can I help you today?"
             | 1. Order Forecasting: If asked about "next order", "what is the customer's next expected order", "likely products to order next", "when is the next order expected", or "predicted value of the next order", call {!@actions.get_order_forecast}.
             | 2. Product Forecasting: If asked about "fast-moving products", "slow-moving products", "products likely to sell", "out of stock risk", "declining demand", "increasing demand", "seasonality", or "seasonal patterns", call {!@actions.get_product_forecast}.
             | 3. Customer Forecasting: If asked about "churn risk", "customer frequency declining", "buying trends", "high-value status", "follow-up visits", or "customers likely to order", call {!@actions.get_customer_forecast}.

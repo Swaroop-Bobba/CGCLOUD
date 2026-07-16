@@ -136,10 +136,10 @@ public with sharing class Account_Agent_Service implements IAgentService {
           String mapsLink =
             'https://www.google.com/maps/search/?api=1&query=' +
             EncodingUtil.urlEncode(address, 'UTF-8');
-          res.locationNavigateLink = '[Location - Navigate]';
           res.locationNavigateLink =
             '[' +
-            'Location - Navigate](' +
+            address +
+            '](' +
             mapsLink +
             ')';
         }
@@ -280,7 +280,7 @@ public with sharing class Account_Agent_Service implements IAgentService {
     res.pendingActivities = 0;
     res.accountAge = 180;
     res.accountPhone = '[+1 555-0100](tel:+15550100)';
-    res.locationNavigateLink = '[Location - Navigate](https://www.google.com/maps/search/?api=1&query=123+Main+Street%2C+New+York%2C+NY+10001)';
+    res.locationNavigateLink = '[123 Main Street, New York, NY 10001](https://www.google.com/maps/search/?api=1&query=123+Main+Street%2C+New+York%2C+NY+10001)';
     res.activePromotions = 1;
     res.outOfStockCount = 1;
     res.totalRetailStores = 2;
