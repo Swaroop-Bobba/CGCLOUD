@@ -359,7 +359,8 @@ subagent visit_intelligence:
                 |   * "Inventory" / "out-of-stock" / "oos" -> Call @actions.get_details with recordType = "inventory"
                 |   * "Order History" / "orders" -> Call @actions.order_summary
                 |   * "Visit Report" / "generate reports" / "summarize visit" -> Call @actions.generate_visit_summary
-                |   * "Update" / "change visit" / "assign visit" / "update status" / "reassign visit" / "change owner" / "add notes" / "update start time" / "update end time" -> Transition immediately to the @subagent.update_visit_text subagent (using go_to_update_visit_text).
+                |   * "Update" / "update visit" / "edit visit" / "modify visit" / "update visit details" / "change visit" / "assign visit" / "update status" / "reassign visit" / "change owner" / "add notes" / "update start time" / "update end time" / "update subject" / "update responsible user" / "update accountable user" or choosing the "Update Visit Information" option (option 7) -> Transition immediately to the @subagent.update_visit_text subagent (using go_to_update_visit_text).
+                |   * Unsupported Field Update Request (e.g., requesting to update Account, Store, Location, Address, ID, or Created Date) -> Do NOT transition. Respond verbatim: "Field '[Field Name]' cannot be updated through the Visit Update Wizard. Supported editable fields are: Subject, Status, Start Date/Time, End Date/Time, Responsible User, Accountable User, and Notes."
                 |   * "Sellable Products" / "products in assortment" -> Call @actions.get_details with recordType = "assortmentproducts"
                 |   * "Switch" / "reset context" / "change visit" -> Call @actions.switch_visit
                 |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products

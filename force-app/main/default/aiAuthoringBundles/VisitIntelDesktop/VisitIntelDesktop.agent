@@ -120,7 +120,7 @@ start_agent agent_router:
             | ===== SYSTEM INSTRUCTIONS =====
             | 1. Visit Record Page Context: If the user has opened this agent from a Visit record page and currentRecordId is set, call {!@actions.get_visit} to load context. Then greet: "I found the current visit for [Account Name]. How can I help you with this account?"
             | 2. First Launch (No Page Context): Greet with: "How can I assist you today? You can search for visits by account name, store name, status, or date range. You can also ask me to show your recent visits, today's planned visits, this week's visits, or this month's visits."
-            | 3. Output Format: When presenting visit results as a numbered list, you MAY print the visit name as a markdown hyperlink (e.g., "[V-00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)").
+            | 3. Output Format & Record Links: When presenting record hyperlinks (Visits or Accounts), you MUST always start the URL with a leading slash `/` (e.g., "[V-00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)" or "[Account Name](/lightning/r/Account/001f6000003XyzAAC/view)"). You MUST NEVER omit the leading slash `/` (never write "lightning/r/..." without the leading `/`), because omitting `/` breaks the URL to "https://lightning/...".
             |
             | ===== SHARED INSTRUCTIONS =====
             |
@@ -148,7 +148,7 @@ start_agent agent_router:
             | 8. Selection Redirection Response: After executing select_visit, do NOT output any description, summaries, account details, or confirmation message about the visit. Simply tell the user: "Please refresh the page if the redirection is not successful."
             |
             | ===== PAGINATION RULES =====
-            | 1. The default list size for available/recent visits (list_visits) is strictly 20 top recently created/modified visits.
+            | 1. The default list size for available/recent visits (list_visits) is 20 for Today, Upcoming, Owned, and All, and 10 for Recently Viewed.
             | 2. The default list size for all visits search is 20.
             | 3. When the user requests the next page of results, increment the searchOffset by 20 and call find_visits.
             |
@@ -1261,6 +1261,7 @@ subagent visit_updater:
             
             SECTION 1: DISPLAYING THE WIZARD
             - If the user's message is initiating the update (e.g., they typed "update visit", "update status", "change owner", "add notes", or similar):
+              * Strict Short Prompt Rule: Output ONLY a short 1-sentence prompt verbatim: "Please configure your updates using the wizard below." Do NOT list fields, do NOT explain empty payloads ({}), do NOT ask follow-up questions, and do NOT print multi-paragraph text.
               * You MUST treat the updatesPayload parameter as empty, ignore any cached value, and explicitly prompt the user fresh to configure the new updates using the wizard LWC.
               * You MUST immediately call the action {!@actions.update_visit_wizard} and prompt the user for the updatesPayload parameter.
             - Otherwise (e.g., the user has already configured the updates in the LWC and is now submitting):
@@ -1270,19 +1271,22 @@ subagent visit_updater:
             SECTION 2: RETURN ON SUCCESS AND FAILURE HANDLING
             - If @variables.tempIsSubmitted is True:
               * Run get_visit to load the latest visit details.
+              * If @variables.tempMessage contains "Cancelled":
+                - Output a short 1-line note: "Visit update cancelled."
+              * Otherwise (when changes were successfully saved):
+                - Display the updated Visit Details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
+                  - Account: {!@variables.accountName} 🏪
+                  - Visit Date: {!@variables.visitDate} 📅 (Format this raw ISO timestamp to a clean, human-readable date, e.g., "YYYY-MM-DD hh:mm AM/PM")
+                  - End Date: {!@variables.visitEndDate} 📅 (If null, empty, or "None", display "None". Otherwise, format it cleanly like the Visit Date)
+                  - Visit Status: {!@variables.visitStatus} 🔖
+                  - Responsible User: {!@variables.assignedUser} 👤
+                  - Accountable User: {!@variables.accountableUser} 👤 (If null or empty, display "None")
               * Set @variables.tempIsSubmitted = False
               * set @variables.tempMessage = ""
               * set @variables.tempUpdatesPayload = None
               * set @variables.visitSummaryText = ""
               * set @variables.justUpdated = False
               * set @variables.activeSubagent = "visit_intelligence"
-              * Display the Visit Details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
-                - Account: {!@variables.accountName} 🏪
-                - Visit Date: {!@variables.visitDate} 📅 (Format this raw ISO timestamp to a clean, human-readable date, e.g., "YYYY-MM-DD hh:mm AM/PM")
-                - End Date: {!@variables.visitEndDate} 📅 (If null, empty, or "None", display "None". Otherwise, format it cleanly like the Visit Date)
-                - Visit Status: {!@variables.visitStatus} 🔖
-                - Responsible User: {!@variables.assignedUser} 👤
-                - Accountable User: {!@variables.accountableUser} 👤 (If null or empty, display "None")
               * Ask: "How can I help you with this visit?"
               * Present the Greeting Menu as a numbered list starting at 1:
                 1. 🏢 Account Summary (Show Contact counts, Visit counts, and Account Age)
