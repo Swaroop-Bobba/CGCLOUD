@@ -104,6 +104,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Account_Agent_Service</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Agent_Global_Handler</apexClass>
         <enabled>true</enabled>
     </classAccesses>

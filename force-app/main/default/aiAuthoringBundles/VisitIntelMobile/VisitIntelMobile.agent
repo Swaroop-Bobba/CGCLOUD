@@ -133,7 +133,7 @@ start_agent agent_router:
 
             | ===== SYSTEM INSTRUCTIONS =====
             | 1. First Launch Greeting: Greet with: "How can I assist you today? You can search for visits by account name, store name, status, or date range. You can also ask me to show your recent visits, today's planned visits, this week's visits, or this month's visits."
-            | 2. Output Format (STRICT): NEVER generate hyperlinks, markdown links, or clickable URLs. All visit names must be plain text only (e.g., "V-00000370").
+            | 2. Output Format (STRICT): All visit names must be plain text only (e.g., "V-00000370").
             |
             | ===== SHARED INSTRUCTIONS =====
             |
@@ -368,7 +368,7 @@ subagent visit_intelligence:
                 |   2. If {!@variables.visitSummaryText} is not empty, null, or "None", immediately follow with the Visit Summary text: {!@variables.visitSummaryText}. Otherwise, do NOT print any Visit Summary text or header.
                 |   3. Ask: "How can I help you with this visit?"
                 |   4. Present the Greeting Menu as a numbered list starting at 1:
-                |      1. 🏢 Account Summary (Show Contact counts, Activities summary, and Account Age)
+                |      1. 🏢 Account Summary (Show Contact counts, Visit counts, and Account Age)
                 |      2. 👥 Contacts (Retrieve contact details)
                 |      3. 📣 Promotions (Retrieve active promotions)
                 |      4. 💡 Pre-Visit Brief (Summarize the current visit details)
@@ -385,7 +385,7 @@ subagent visit_intelligence:
                 |   A. IF THE GREETING MENU OR DYNAMIC NEXT STEPS MENU WAS PRESENTED:
                 |      1. Extract the text label of the numbered option corresponding to the user's input from the last message.
                 |      2. Execute the action for that option text:
-                |         * Account Summary / Account Details -> Call @actions.get_counts. When get_counts returns, format the output to display Contacts count, Visits count, Account Age, Activities summary (total, completed, pending), Phone, Email, and Location Navigate link (using the exact markdown hyperlink values of accountPhone, accountEmail, and locationNavigateLink outputs). Do NOT show a tasks count.
+                |         * Account Summary / Account Details -> Call @actions.get_counts. When get_counts returns, format the output to display Contacts count, Visits count, Account Age, Phone, Email, and Location Navigate link (using the exact HTML link values of accountPhone, accountEmail, and locationNavigateLink outputs). You MUST output the locationNavigateLink value verbatim on a single line without any newlines, spaces, wrapping, or extra markdown syntax inside the link. Do NOT show activities or tasks counts.
                 |         * Contacts / View Contacts / Contact details -> Call @actions.get_details with recordType = "contacts"
                 |         * Promotions / Audit active promotions / active promotions -> Call @actions.get_details with recordType = "promotions"
                 |         * Eligible Products / products for promotion / products of <number> -> Call @actions.get_products with promotionId resolved from index or name.
@@ -418,10 +418,18 @@ subagent visit_intelligence:
                 | - Order History & Order Details: Summarize order history (spend, counts, recent orders) strictly in a sequentially numbered list starting at 1. For each order, display details like Order Number, Date, Status, and Total Value (using the rupee symbol ₹) as numbered sub-items.
                 | - Contacts, Tasks, Promotions, and Inventory: Always display these retrieved records as a sequentially numbered list starting at 1, showing details inside numbered sub-items.
                 | - Pre-Visit Store Brief & Recommendations: Format store briefs and product suggestions using clear headers, sections, emojis, and bold key metrics organized as sequentially numbered lists.
-                | - NEVER generate hyperlinks, markdown links, or clickable URLs in mobile responses. All mobile output must be plain text only.
                 |
                 | --- SHARED FORMATTING (Both Web and Mobile) ---
-                | - Record List Formatting Rule: When formatting lists of records (like Contacts, Visits, Promotions, Tasks, or Inventory) returned by the actions, you MUST print the "label" property of each list item verbatim. Do NOT modify, parse, rewrite, or restructure the label text. Do NOT list or append the other raw parameters (such as name, status, owner, category, lastModified, visitId, accountId) separately or at the bottom of the list entries. Do NOT introduce any newlines inside hyperlinks (e.g. keep markdown link syntax like `[text](url)` strictly on a single line).
+                | - Activity Summary Rule: You MUST ensure the Activity Summary is printed exactly as returned by the action, showing the count of Total Questions, Answered, and Pending questions consistently in both the Pre-Visit Store Brief and the Visit Summary report.
+                | - Record List Formatting Rule: When formatting lists of records returned by the actions:
+                |   1. For Contacts: Do NOT print the label verbatim. Instead, parse and construct the contact output using the record's properties (name, status, owner):
+                |      * <Name>
+                |      * Title: <Title parsed from status>
+                |      * Mobile: <Mobile number (formatted as HTML link `<a href="tel:Number">Number</a>` on both web and mobile)>
+                |      * Email: <Email address (formatted as HTML link `<a href="mailto:Email">Email</a>` on both web and mobile)>
+                |      * Owner: <Owner Name>
+                |      Ensure each detail (Title, Mobile, Email, Owner) is listed on a separate line as a bullet point or nested numbered detail under the contact's name.
+                |   2. For other record types (Visits, Promotions, Tasks, or Inventory), you MUST print the "label" property of each list item verbatim. Do NOT modify, parse, rewrite, or restructure the label text. Do NOT introduce any newlines inside hyperlinks. (e.g. keep markdown link syntax like `[text](url)` strictly on a single line).
                 | - Next Steps Suggestions: After presenting any results, suggest next steps as a numbered list starting at 1 (no bullets). Always prioritize suggesting the "🏢 Account Summary" option as one of the primary next steps.
                 | - Switch: If the user selects, specifies, or inputs a number corresponding to a visit in the visit list to select/switch to it (or when the user says "switch to visit" or selects a visit name/number), transition to clear_context to reset context and load the selected visit.
             else:

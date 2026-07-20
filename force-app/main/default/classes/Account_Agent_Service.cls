@@ -88,11 +88,11 @@ public with sharing class Account_Agent_Service implements IAgentService {
             CreatedDate,
             Phone,
             cgcloud__Account_Email__c,
-            BillingStreet,
-            BillingCity,
-            BillingState,
-            BillingPostalCode,
-            BillingCountry
+            ShippingStreet,
+            ShippingCity,
+            ShippingState,
+            ShippingPostalCode,
+            ShippingCountry
           FROM Account
           WHERE Id = :accId
           WITH USER_MODE
@@ -104,44 +104,43 @@ public with sharing class Account_Agent_Service implements IAgentService {
           }
           if (acc.Phone != null) {
             String cleanPhone = acc.Phone.replaceAll('[^0-9+]', '');
-            res.accountPhone = '[' + acc.Phone + '](tel:' + cleanPhone + ')';
+            res.accountPhone = '<a href="tel:' + cleanPhone + '">' + acc.Phone + '</a>';
           } else {
-            res.accountPhone = '[+1 555-0100](tel:+15550100)';
+            res.accountPhone = '<a href="tel:+15550100">+1 555-0100</a>';
           }
           if (acc.cgcloud__Account_Email__c != null) {
             res.accountEmail =
-              '[' +
+              '<a href="mailto:' +
               acc.cgcloud__Account_Email__c +
-              '](mailto:' +
+              '">' +
               acc.cgcloud__Account_Email__c +
-              ')';
+              '</a>';
           } else {
-            res.accountEmail = '[info@reliance.com](mailto:info@reliance.com)';
+            res.accountEmail = '<a href="mailto:info@reliance.com">info@reliance.com</a>';
           }
           String address = '';
-          if (acc.BillingStreet != null)
-            address += acc.BillingStreet + ', ';
-          if (acc.BillingCity != null)
-            address += acc.BillingCity + ', ';
-          if (acc.BillingState != null)
-            address += acc.BillingState + ' ';
-          if (acc.BillingPostalCode != null)
-            address += acc.BillingPostalCode + ', ';
-          if (acc.BillingCountry != null)
-            address += acc.BillingCountry;
-          address = address.trim().removeEnd(',');
+          if (acc.ShippingStreet != null)
+            address += acc.ShippingStreet + ', ';
+          if (acc.ShippingCity != null)
+            address += acc.ShippingCity + ', ';
+          if (acc.ShippingState != null)
+            address += acc.ShippingState + ' ';
+          if (acc.ShippingPostalCode != null)
+            address += acc.ShippingPostalCode + ', ';
+          if (acc.ShippingCountry != null)
+            address += acc.ShippingCountry;
+          address = address.replaceAll('[\\r\\n]+', ' ').trim().removeEnd(',');
           if (String.isBlank(address)) {
-            address = '123 Main Street, New York, NY 10001';
+            res.locationNavigateLink = 'No address found';
+          } else {
+            String mapsLink = '/apex/GoogleMapRedirect?q=' + EncodingUtil.urlEncode(address, 'UTF-8');
+            res.locationNavigateLink =
+              '<a href="' +
+              mapsLink +
+              '" target="_blank">' +
+              address +
+              '</a>';
           }
-          String mapsLink =
-            'https://www.google.com/maps/search/?api=1&query=' +
-            EncodingUtil.urlEncode(address, 'UTF-8');
-          res.locationNavigateLink =
-            '[' +
-            address +
-            '](' +
-            mapsLink +
-            ')';
         }
       } catch (Exception e) {
         System.debug(LoggingLevel.ERROR, e.getMessage());
@@ -280,7 +279,7 @@ public with sharing class Account_Agent_Service implements IAgentService {
     res.pendingActivities = 0;
     res.accountAge = 180;
     res.accountPhone = '[+1 555-0100](tel:+15550100)';
-    res.locationNavigateLink = '[123 Main Street, New York, NY 10001](https://www.google.com/maps/search/?api=1&query=123+Main+Street%2C+New+York%2C+NY+10001)';
+    res.locationNavigateLink = '<a href="/apex/GoogleMapRedirect?q=123+Main+Street%2C+New+York%2C+NY+10001" target="_blank">123 Main Street, New York, NY 10001</a>';
     res.activePromotions = 1;
     res.outOfStockCount = 1;
     res.totalRetailStores = 2;
