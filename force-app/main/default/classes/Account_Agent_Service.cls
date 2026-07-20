@@ -133,7 +133,7 @@ public with sharing class Account_Agent_Service implements IAgentService {
           if (String.isBlank(address)) {
             res.locationNavigateLink = 'No address found';
           } else {
-            String mapsLink = '/apex/GoogleMapRedirect?q=' + EncodingUtil.urlEncode(address, 'UTF-8');
+            String mapsLink = 'https://www.google.com/maps?q=' + EncodingUtil.urlEncode(address, 'UTF-8');
             res.locationNavigateLink =
               '<a href="' +
               mapsLink +
@@ -279,7 +279,7 @@ public with sharing class Account_Agent_Service implements IAgentService {
     res.pendingActivities = 0;
     res.accountAge = 180;
     res.accountPhone = '[+1 555-0100](tel:+15550100)';
-    res.locationNavigateLink = '<a href="/apex/GoogleMapRedirect?q=123+Main+Street%2C+New+York%2C+NY+10001" target="_blank">123 Main Street, New York, NY 10001</a>';
+    res.locationNavigateLink = '<a href="https://www.google.com/maps?q=123+Main+Street%2C+New+York%2C+NY+10001" target="_blank">123 Main Street, New York, NY 10001</a>';
     res.activePromotions = 1;
     res.outOfStockCount = 1;
     res.totalRetailStores = 2;

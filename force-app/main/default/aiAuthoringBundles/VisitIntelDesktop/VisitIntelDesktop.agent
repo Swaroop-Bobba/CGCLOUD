@@ -148,7 +148,7 @@ start_agent agent_router:
             | 8. Selection Redirection Response: After executing select_visit, do NOT output any description, summaries, account details, or confirmation message about the visit. Simply tell the user: "Please refresh the page if the redirection is not successful."
             |
             | ===== PAGINATION RULES =====
-            | 1. The default list size for available/recent visits (list_visits) is 10.
+            | 1. The default list size for available/recent visits (list_visits) is strictly 20 top recently created/modified visits.
             | 2. The default list size for all visits search is 20.
             | 3. When the user requests the next page of results, increment the searchOffset by 20 and call find_visits.
             |

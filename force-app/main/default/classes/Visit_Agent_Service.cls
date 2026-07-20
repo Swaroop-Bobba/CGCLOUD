@@ -108,10 +108,10 @@ public with sharing class Visit_Agent_Service implements IAgentService {
   @SuppressWarnings(
     'PMD.AvoidDebugStatements, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssMethodCount'
   )
+  @AuraEnabled
   public static List<Agent_Response.VisitOption> getAvailableVisits() {
     List<Agent_Response.VisitOption> options = new List<Agent_Response.VisitOption>();
     try {
-      Map<String, Agent_Response.VisitOption> visitMap = new Map<String, Agent_Response.VisitOption>();
       Id currentUserId = UserInfo.getUserId();
       String orgUrl = URL.getOrgDomainUrl().toExternalForm();
 
@@ -140,100 +140,11 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       }
       selectFields += ' FROM Visit';
 
-      // 1. Query Scheduled for Today
-      String todayQuery = selectFields + ' WHERE PlannedVisitStartTime = TODAY';
-      if (!isAdmin && hasResponsible) {
-        todayQuery += ' AND cgcloud__Responsible__c = :currentUserId';
-      }
-      todayQuery += ' WITH USER_MODE LIMIT 20';
-
-      List<Visit> todayVisits = Database.query(todayQuery);
-      for (Visit v : todayVisits) {
-        String assignedUser = v.Owner.Name;
-        if (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) {
-          assignedUser = (String) v.getSObject('cgcloud__Responsible__r')
-            .get('Name');
-        }
-        String timeStr = v.PlannedVisitStartTime != null
-          ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a')
-          : 'Today';
-        String label =
-          '[Visit - ' +
-          v.Account.Name +
-          '](' +
-          orgUrl +
-          '/lightning/r/Visit/' +
-          v.Id +
-          '/view)' +
-          '\n   - \uD83D\uDCC5 Date: ' +
-          timeStr +
-          '\n   - \uD83D\uDCCB Status: ' +
-          v.Status +
-          '\n   - \uD83D\uDC64 Assigned: ' +
-          assignedUser;
-        visitMap.put(
-          v.Id + '_Today',
-          new Agent_Response.VisitOption(
-            v.Id,
-            null,
-            v.Account.Name,
-            label,
-            'Today'
-          )
-        );
-      }
-
-      // 2. Query Scheduled in Next 7 Days (Upcoming)
-      String upcomingQuery =
-        selectFields +
-        ' WHERE PlannedVisitStartTime >= TODAY AND PlannedVisitStartTime <= NEXT_N_DAYS:7';
-      if (!isAdmin && hasResponsible) {
-        upcomingQuery += ' AND cgcloud__Responsible__c = :currentUserId';
-      }
-      upcomingQuery += ' WITH USER_MODE LIMIT 20';
-
-      List<Visit> upcomingVisits = Database.query(upcomingQuery);
-      for (Visit v : upcomingVisits) {
-        String assignedUser = v.Owner.Name;
-        if (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) {
-          assignedUser = (String) v.getSObject('cgcloud__Responsible__r')
-            .get('Name');
-        }
-        String dateStr = v.PlannedVisitStartTime != null
-          ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a')
-          : 'Upcoming';
-        String label =
-          '[Visit - ' +
-          v.Account.Name +
-          '](' +
-          orgUrl +
-          '/lightning/r/Visit/' +
-          v.Id +
-          '/view)' +
-          '\n   - \uD83D\uDCC5 Date: ' +
-          dateStr +
-          '\n   - \uD83D\uDCCB Status: ' +
-          v.Status +
-          '\n   - \uD83D\uDC64 Assigned: ' +
-          assignedUser;
-        visitMap.put(
-          v.Id + '_Upcoming',
-          new Agent_Response.VisitOption(
-            v.Id,
-            null,
-            v.Account.Name,
-            label,
-            'Upcoming'
-          )
-        );
-      }
-
-      // 3. Query Recently Viewed / Modified
       String recentQuery = selectFields;
       if (!isAdmin && hasResponsible) {
         recentQuery += ' WHERE cgcloud__Responsible__c = :currentUserId';
       }
-      recentQuery += ' WITH USER_MODE ORDER BY LastModifiedDate DESC LIMIT 10';
+      recentQuery += ' WITH USER_MODE ORDER BY CreatedDate DESC LIMIT 20';
 
       List<Visit> recentVisits = Database.query(recentQuery);
       for (Visit v : recentVisits) {
@@ -242,52 +153,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
           assignedUser = (String) v.getSObject('cgcloud__Responsible__r')
             .get('Name');
         }
-        String dateStr = v.PlannedVisitStartTime != null
-          ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a')
-          : 'Recently Viewed';
-        String label =
-          '[Visit - ' +
-          v.Account.Name +
-          '](' +
-          orgUrl +
-          '/lightning/r/Visit/' +
-          v.Id +
-          '/view)' +
-          '\n   - \uD83D\uDCC5 Date: ' +
-          dateStr +
-          '\n   - \uD83D\uDCCB Status: ' +
-          v.Status +
-          '\n   - \uD83D\uDC64 Assigned: ' +
-          assignedUser;
-        visitMap.put(
-          v.Id + '_RecentlyViewed',
-          new Agent_Response.VisitOption(
-            v.Id,
-            null,
-            v.Account.Name,
-            label,
-            'Recently Viewed'
-          )
-        );
-      }
-
-      // 4. Query Owned / Responsible by Current User
-      String ownedQuery = selectFields;
-      if (!isAdmin && hasResponsible) {
-        ownedQuery += ' WHERE cgcloud__Responsible__c = :currentUserId';
-      } else {
-        ownedQuery += ' WHERE OwnerId = :currentUserId';
-      }
-      ownedQuery += ' WITH USER_MODE LIMIT 20';
-
-      List<Visit> ownedVisits = Database.query(ownedQuery);
-      for (Visit v : ownedVisits) {
-        String assignedUser = v.Owner.Name;
-        if (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) {
-          assignedUser = (String) v.getSObject('cgcloud__Responsible__r')
-            .get('Name');
-        }
-        String dateStr = v.PlannedVisitStartTime != null
+        String timeStr = v.PlannedVisitStartTime != null
           ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a')
           : 'N/A';
         String label =
@@ -298,70 +164,21 @@ public with sharing class Visit_Agent_Service implements IAgentService {
           '/lightning/r/Visit/' +
           v.Id +
           '/view)' +
-          '\n   - \uD83D\uDCC5 Date: ' +
-          dateStr +
-          '\n   - \uD83D\uDCCB Status: ' +
+          '\n   - 📅 Date: ' +
+          timeStr +
+          '\n   - 📋 Status: ' +
           v.Status +
-          '\n   - \uD83D\uDC64 Assigned: ' +
+          '\n   - 👤 Assigned: ' +
           assignedUser;
-        visitMap.put(
-          v.Id + '_Owned',
+        options.add(
           new Agent_Response.VisitOption(
             v.Id,
             null,
             v.Account.Name,
             label,
-            'Owned'
+            'Recent Visits'
           )
         );
-      }
-
-      // 5. Query All Visits in the Org (No date, status, or assignee filters)
-      String allVisitsQuery =
-        selectFields + ' ORDER BY CreatedDate DESC LIMIT 20';
-      List<Visit> allVisits = Database.query(allVisitsQuery);
-      for (Visit v : allVisits) {
-        String assignedUser = v.Owner.Name;
-        if (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) {
-          assignedUser = (String) v.getSObject('cgcloud__Responsible__r')
-            .get('Name');
-        }
-        String dateStr = v.PlannedVisitStartTime != null
-          ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a')
-          : 'N/A';
-        String label =
-          '[Visit - ' +
-          v.Account.Name +
-          '](' +
-          orgUrl +
-          '/lightning/r/Visit/' +
-          v.Id +
-          '/view)' +
-          '\n   - \uD83D\uDCC5 Date: ' +
-          dateStr +
-          '\n   - \uD83D\uDCCB Status: ' +
-          v.Status +
-          '\n   - \uD83D\uDC64 Assigned: ' +
-          assignedUser;
-        visitMap.put(
-          v.Id + '_AllVisits',
-          new Agent_Response.VisitOption(
-            v.Id,
-            null,
-            v.Account.Name,
-            label,
-            'All Visits'
-          )
-        );
-      }
-
-      options.addAll(visitMap.values());
-      if (options.size() > 100) {
-        List<Agent_Response.VisitOption> trimmed = new List<Agent_Response.VisitOption>();
-        for (Integer i = 0; i < 100; i++) {
-          trimmed.add(options[i]);
-        }
-        options = trimmed;
       }
 
       if (options.isEmpty()) {

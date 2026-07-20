@@ -149,6 +149,7 @@ start_agent agent_router:
             |    i. Status-based: "planned visits", "completed visits", "in progress visits" → call {!@actions.find_visits} with searchQuery = "<status>"
             |    j. Combined: "today's planned visits", "this week's completed visits" → call {!@actions.find_visits} with searchQuery = "today planned" / "this week completed"
             |    k. By account/store name: call {!@actions.find_visits} with searchQuery = "<account or store name>"
+            |    l. "next", "next 20", "more visits", "show more" → call {!@actions.find_visits} with searchQuery = "next" and searchOffset = the next incremented offset (e.g. "20" if the previous list showed 20, "40" if it showed 40, etc.). Keep track of the offset count in the conversation context.
             | 2. User-Specified Limits: If the user asks "show me 5 visits" or "last 10 visits", retrieve all matching results first, then present ONLY the requested number. Do NOT hardcode any limit — show ALL results unless the user specifies a limit.
             | 3. Output Format (STRICT NUMBERED LIST): Whenever you execute get_available_visits (list_visits) or search_visits (find_visits), you MUST present ALL visit results as a single sequentially numbered list starting at 1 (do NOT restart numbering for categories like Today, Upcoming, etc.). For each visit in the visits list, print its number followed by its pre-formatted label property verbatim on a new line, but remove any markdown links or URLs to keep it as plain text (e.g., convert "[00001328](url)" to "00001328"). Do NOT print the label as raw JSON.
             | 4. Selection: When the user selects, specifies, or inputs a number corresponding to a visit from the most recent numbered list (e.g. they type "1" or select the first option), map it to that visit, extract its ID (recordId), and call {!@actions.select_visit} with that visit's recordId to load the visit context. If they enter the visit name/number directly (e.g. "00000370"), extract the recordId of that visit from the printed list and call {!@actions.select_visit}. Do NOT ask the user for an ID — extract it from the user's selection or number input.
@@ -157,6 +158,12 @@ start_agent agent_router:
             | 7. Create/Plan/Schedule/Add Visit: If the user explicitly requests to create, schedule, plan, or add a new visit (utilizing expressions such as "Create Visit", "New Visit", "Schedule Visit", "Plan a Visit", "Create a Store Visit", "Add Visit", "Create Customer Visit", or "Visit Creation"):
             |    - Transition immediately to the Create Visit Mobile Agent using {!@actions.go_to_create_visit_mobile}.
             |    Do NOT load existing visit details, select a visit, or run get_visit_details.
+            |
+            | ===== PAGINATION RULES =====
+            | 1. The default list size for available/recent visits (list_visits) is strictly 20 top recently created/modified visits.
+            | 2. The default list size for all visits search is 20.
+            | 3. When the user requests the next page of results, increment the searchOffset by 20 and call find_visits.
+            |
 
         actions:
             select_visit: @actions.get_visit_details
@@ -179,9 +186,10 @@ start_agent agent_router:
                 with searchQuery = ""
 
             find_visits: @actions.search_visits
-                description: "Search for Visit records by account name, store name, visit name, status, date range (today, this week, this month, tomorrow, last week, next week, last month, next month), or combined status+date as custom VisitInfo objects."
+                description: "Search for Visit records by account name, store name, visit name, status, date range (today, this week, this month, tomorrow, last week, next week, last month, next month), or combined status+date as custom VisitInfo objects. For pagination, pass the searchOffset value."
                 with actionType = "search"
                 with searchQuery = ...
+                with searchOffset = ...
 
             go_to_off_topic: @utils.transition to @subagent.off_topic
                 description: "Route off-topic queries."
@@ -272,7 +280,7 @@ start_agent agent_router:
                     is_displayable: False
 
         search_visits:
-            description: "Search for Visit records by account name, store name, visit name, status, date range, or combined filters."
+            description: "Search for Visit records by account name, store name, visit name, status, date range, or combined filters. For pagination, pass the searchOffset value."
             target: "apex://Agent_Global_Handler"
             inputs:
                 actionType: string
@@ -281,6 +289,8 @@ start_agent agent_router:
                 searchQuery: string
                     description: "The search query."
                     is_required: True
+                searchOffset: string
+                    description: "The search offset."
             outputs:
                 visits: list[object]
                     complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
