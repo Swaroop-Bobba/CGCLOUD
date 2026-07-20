@@ -27,10 +27,10 @@ public with sharing class Visit_Agent_Service implements IAgentService {
           '. Showing the top 20 matches. Please let me know if you would like to apply filters like account, status, or date range to narrow down the results.';
         res.success = true;
       } else if (action == 'getaccountvisits') {
-        res.visits = getAccountVisits(req.accountId);
+        res.visits = getAccountVisits(req.accountId, req.searchOffset);
         res.success = true;
       } else if (action == 'getoosvisits') {
-        res.visits = getOosVisits(req.accountId);
+        res.visits = getOosVisits(req.accountId, req.searchOffset);
         res.success = true;
       } else if (action == 'search') {
         res.visits = searchVisits(req.searchQuery, req.searchOffset);
@@ -145,7 +145,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       if (!isAdmin && hasResponsible) {
         todayQuery += ' AND cgcloud__Responsible__c = :currentUserId';
       }
-      todayQuery += ' WITH USER_MODE LIMIT 10';
+      todayQuery += ' WITH USER_MODE LIMIT 20';
 
       List<Visit> todayVisits = Database.query(todayQuery);
       for (Visit v : todayVisits) {
@@ -190,7 +190,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       if (!isAdmin && hasResponsible) {
         upcomingQuery += ' AND cgcloud__Responsible__c = :currentUserId';
       }
-      upcomingQuery += ' WITH USER_MODE LIMIT 10';
+      upcomingQuery += ' WITH USER_MODE LIMIT 20';
 
       List<Visit> upcomingVisits = Database.query(upcomingQuery);
       for (Visit v : upcomingVisits) {
@@ -278,7 +278,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       } else {
         ownedQuery += ' WHERE OwnerId = :currentUserId';
       }
-      ownedQuery += ' WITH USER_MODE LIMIT 10';
+      ownedQuery += ' WITH USER_MODE LIMIT 20';
 
       List<Visit> ownedVisits = Database.query(ownedQuery);
       for (Visit v : ownedVisits) {
@@ -318,7 +318,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
 
       // 5. Query All Visits in the Org (No date, status, or assignee filters)
       String allVisitsQuery =
-        selectFields + ' ORDER BY CreatedDate DESC LIMIT 10';
+        selectFields + ' ORDER BY CreatedDate DESC LIMIT 20';
       List<Visit> allVisits = Database.query(allVisitsQuery);
       for (Visit v : allVisits) {
         String assignedUser = v.Owner.Name;
@@ -385,7 +385,8 @@ public with sharing class Visit_Agent_Service implements IAgentService {
     'PMD.AvoidDebugStatements, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssMethodCount'
   )
   public static List<Agent_Response.VisitOption> getAccountVisits(
-    String accountId
+    String accountId,
+    String searchOffset
   ) {
     List<Agent_Response.VisitOption> options = new List<Agent_Response.VisitOption>();
     if (String.isBlank(accountId)) {
@@ -415,6 +416,15 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         .containsKey('cgcloud__Responsible__c');
       Id currentUserId = UserInfo.getUserId();
 
+      Integer offsetVal = 0;
+      if (String.isNotBlank(searchOffset)) {
+        try {
+          offsetVal = Integer.valueOf(searchOffset.trim());
+        } catch (Exception e) {
+          // Ignored
+        }
+      }
+
       String queryStr = 'SELECT Id, Name, Status, PlannedVisitStartTime, Account.Name, Owner.Name';
       if (hasResponsible) {
         queryStr += ', cgcloud__Responsible__c, cgcloud__Responsible__r.Name';
@@ -424,7 +434,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       if (!isAdmin && hasResponsible) {
         queryStr += ' AND cgcloud__Responsible__c = :currentUserId';
       }
-      queryStr += ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC';
+      queryStr += ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC LIMIT 20 OFFSET :offsetVal';
 
       List<Visit> visitsList = Database.query(queryStr);
       for (Visit v : visitsList) {
@@ -490,7 +500,8 @@ public with sharing class Visit_Agent_Service implements IAgentService {
     'PMD.AvoidDebugStatements, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssMethodCount'
   )
   public static List<Agent_Response.VisitOption> getOosVisits(
-    String accountId
+    String accountId,
+    String searchOffset
   ) {
     List<Agent_Response.VisitOption> options = new List<Agent_Response.VisitOption>();
     if (String.isBlank(accountId)) {
@@ -520,6 +531,15 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         .containsKey('cgcloud__Responsible__c');
       Id currentUserId = UserInfo.getUserId();
 
+      Integer offsetVal = 0;
+      if (String.isNotBlank(searchOffset)) {
+        try {
+          offsetVal = Integer.valueOf(searchOffset.trim());
+        } catch (Exception e) {
+          // Ignored
+        }
+      }
+
       String queryStr = 'SELECT Id, Name, Status, PlannedVisitStartTime, Account.Name, Owner.Name';
       if (hasResponsible) {
         queryStr += ', cgcloud__Responsible__c, cgcloud__Responsible__r.Name';
@@ -529,7 +549,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       if (!isAdmin && hasResponsible) {
         queryStr += ' AND cgcloud__Responsible__c = :currentUserId';
       }
-      queryStr += ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC';
+      queryStr += ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC LIMIT 20 OFFSET :offsetVal';
 
       List<Visit> visitsList = Database.query(queryStr);
       for (Visit v : visitsList) {
@@ -811,10 +831,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       String searchQueryStr =
         selectFields +
         whereClause +
-        ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC';
-      if (queryAll) {
-        searchQueryStr += ' LIMIT 20 OFFSET :offsetVal';
-      }
+        ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC LIMIT 20 OFFSET :offsetVal';
       List<SObject> visits = Database.query(searchQueryStr);
 
       Set<Id> placeIdsToQuery = new Set<Id>();

@@ -405,7 +405,7 @@ subagent visit_intelligence:
                 |   A. IF THE GREETING MENU OR DYNAMIC NEXT STEPS MENU WAS PRESENTED:
                 |      1. Extract the text label of the numbered option corresponding to the user's input from the last message.
                 |      2. Execute the action for that option text:
-                |         * Account Summary / Account Details -> Call @actions.get_counts. When get_counts returns, format the output to display Contacts count, Visits count, Account Age, Phone, Email, and Location Navigate link (using the exact HTML link values of accountPhone, accountEmail, and locationNavigateLink outputs). You MUST output the locationNavigateLink value verbatim on a single line without any newlines, spaces, wrapping, or extra markdown syntax inside the link. Do NOT show activities or tasks counts.
+                |         * Account Summary / Account Details -> Call @actions.get_counts. When get_counts returns, format the output to display Contacts count, Visits count, Account Age, Phone, Email, and Location Navigate link (using the exact markdown hyperlink values of accountPhone, accountEmail, and locationNavigateLink outputs). You MUST output the locationNavigateLink value verbatim on a single line without any newlines, spaces, wrapping, or extra markdown syntax inside the link. Do NOT show activities or tasks counts.
                 |         * Contacts / View Contacts / Contact details -> Call @actions.get_details with recordType = "contacts"
                 |         * Promotions / Audit active promotions / active promotions -> Call @actions.get_details with recordType = "promotions"
                 |         * Eligible Products / products for promotion / products of <number> -> Call @actions.get_products with promotionId resolved from index or name.
@@ -446,8 +446,8 @@ subagent visit_intelligence:
                 |   1. For Contacts: Do NOT print the label verbatim. Instead, parse and construct the contact output using the record's properties (name, status, owner):
                 |      * <Name>
                 |      * Title: <Title parsed from status>
-                |      * Mobile: <Mobile number (formatted as HTML link `<a href="tel:Number">Number</a>` on both web and mobile)>
-                |      * Email: <Email address (formatted as HTML link `<a href="mailto:Email">Email</a>` on both web and mobile)>
+                |      * Mobile: <Mobile number (formatted as markdown link `[Number](tel:Number)` on web; raw number on mobile)>
+                |      * Email: <Email address (formatted as markdown link `[Email](mailto:Email)` on web; raw email on mobile)>
                 |      * Owner: <Owner Name>
                 |      Ensure each detail (Title, Mobile, Email, Owner) is listed on a separate line as a bullet point under the contact's name.
                 |   2. For other record types (Visits, Promotions, Tasks, or Inventory), you MUST print the "label" property of each list item verbatim. Do NOT modify, parse, rewrite, or restructure the label text. Do NOT introduce any newlines inside hyperlinks. (e.g. keep markdown link syntax like `[text](url)` strictly on a single line).
