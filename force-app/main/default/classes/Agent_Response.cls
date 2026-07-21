@@ -57,9 +57,6 @@ public with sharing class Agent_Response {
     @InvocableVariable(description='True if user input has been submitted.')
     public Boolean isSubmitted;
 
-    @InvocableVariable(description='Visit navigation details.')
-    public VisitNavigationWrapper visitNavigation;
-
     @InvocableVariable(description='The matched Owner/Responsible User ID.')
     public String ownerId;
 

@@ -1132,12 +1132,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         action == 'update_visit_status_mobile_action'
       ) {
         if (
-          (req.statusWrapper != null &&
-          req.statusWrapper.statusValue == 'manual input') ||
-          (action == 'update_visit_status_mobile_action' &&
-          (String.isBlank(req.status) ||
+          String.isBlank(req.status) ||
           req.status.trim() == '' ||
-          req.status.trim() == '__user_input__'))
+          req.status.trim() == '__user_input__'
         ) {
           res.success = false;
           res.message = 'Please select the new status for the visit:\n1. InProgress\n2. Completed\n3. Canceled\n4. Abandoned';
@@ -1149,12 +1146,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         action == 'update_visit_owner_mobile_action'
       ) {
         if (
-          (req.ownerWrapper != null &&
-          req.ownerWrapper.ownerName == 'manual input') ||
-          (action == 'update_visit_owner_mobile_action' &&
-          (String.isBlank(req.ownerName) ||
+          String.isBlank(req.ownerName) ||
           req.ownerName.trim() == '' ||
-          req.ownerName.trim() == '__user_input__'))
+          req.ownerName.trim() == '__user_input__'
         ) {
           res.success = false;
           res.message = 'Please provide the name of the user you want to reassign this visit to.';
@@ -1177,14 +1171,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         action == 'update_visit_start_time_mobile_action'
       ) {
         if (
-          (req.plannedStartTimeWrapper != null &&
-          req.plannedStartTimeWrapper.dateTimeValue != null &&
-          req.plannedStartTimeWrapper.dateTimeValue.format('yyyy-MM-dd') ==
-          '1900-01-01') ||
-          (action == 'update_visit_start_time_mobile_action' &&
-          (String.isBlank(req.plannedStartTimeStr) ||
+          String.isBlank(req.plannedStartTimeStr) ||
           req.plannedStartTimeStr.trim() == '' ||
-          req.plannedStartTimeStr.trim() == '__user_input__'))
+          req.plannedStartTimeStr.trim() == '__user_input__'
         ) {
           res.success = false;
           res.message = 'Please provide the new planned start date and time for the visit (e.g. "Tomorrow at 2 PM", "July 16, 2026 at 10:00 AM").';
@@ -1196,14 +1185,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         action == 'update_visit_end_time_mobile_action'
       ) {
         if (
-          (req.plannedEndTimeWrapper != null &&
-          req.plannedEndTimeWrapper.dateTimeValue != null &&
-          req.plannedEndTimeWrapper.dateTimeValue.format('yyyy-MM-dd') ==
-          '1900-01-01') ||
-          (action == 'update_visit_end_time_mobile_action' &&
-          (String.isBlank(req.plannedEndTimeStr) ||
+          String.isBlank(req.plannedEndTimeStr) ||
           req.plannedEndTimeStr.trim() == '' ||
-          req.plannedEndTimeStr.trim() == '__user_input__'))
+          req.plannedEndTimeStr.trim() == '__user_input__'
         ) {
           res.success = false;
           res.message = 'Please provide the new planned end date and time for the visit (e.g. "Tomorrow at 3 PM", "July 16, 2026 at 11:00 AM").';
@@ -1230,34 +1214,12 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         }
       }
 
-      if (
-        req.statusWrapper != null &&
-        String.isNotBlank(req.statusWrapper.statusValue)
-      ) {
-        req.status = req.statusWrapper.statusValue;
-      }
-      if (
-        req.ownerWrapper != null &&
-        String.isNotBlank(req.ownerWrapper.ownerName)
-      ) {
-        req.ownerName = req.ownerWrapper.ownerName;
-      }
-      if (
-        req.plannedStartTimeWrapper != null &&
-        req.plannedStartTimeWrapper.dateTimeValue != null
-      ) {
-        req.plannedStartTime = req.plannedStartTimeWrapper.dateTimeValue;
-      } else if (String.isNotBlank(req.plannedStartTimeStr)) {
+      if (String.isNotBlank(req.plannedStartTimeStr)) {
         req.plannedStartTime = MobileAgentUtility.parseDateTime(
           req.plannedStartTimeStr
         );
       }
-      if (
-        req.plannedEndTimeWrapper != null &&
-        req.plannedEndTimeWrapper.dateTimeValue != null
-      ) {
-        req.plannedEndTime = req.plannedEndTimeWrapper.dateTimeValue;
-      } else if (String.isNotBlank(req.plannedEndTimeStr)) {
+      if (String.isNotBlank(req.plannedEndTimeStr)) {
         req.plannedEndTime = MobileAgentUtility.parseDateTime(
           req.plannedEndTimeStr
         );
@@ -3441,7 +3403,6 @@ public with sharing class Visit_Agent_Service implements IAgentService {
           res.accountableUser = '';
         }
 
-        res.visitNavigation = new VisitNavigationWrapper(v.Id);
         res.success = true;
         res.message = 'Visit selected successfully. Navigating you to the Visit record page...';
       } else {

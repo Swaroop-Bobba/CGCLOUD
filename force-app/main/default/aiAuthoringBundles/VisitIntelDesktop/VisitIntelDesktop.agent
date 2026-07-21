@@ -321,9 +321,6 @@ start_agent agent_router:
                     description: "The Planned End Date/Time of the Visit."
                 accountableUser: string
                     description: "The Accountable User."
-                visitNavigation: object
-                    complex_data_type_name: "c__visitNavigationType"
-                    description: "Wrapper containing visitId to navigate to via Agentforce custom renderer."
 
 subagent visit_intelligence:
     label: "Visit Intelligence"
