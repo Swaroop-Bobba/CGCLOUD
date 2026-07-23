@@ -1,0 +1,21 @@
+{
+  "required" : [ "updatesPayload" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "updatesPayload" : {
+      "title" : "Updates Payload",
+      "description" : "The updates payload containing visit ID and JSON of field updates.",
+      "lightning:type" : "c__visitUpdatePayloadType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "visitId" : {
+      "title" : "Visit Id",
+      "description" : "The current Visit ID context.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

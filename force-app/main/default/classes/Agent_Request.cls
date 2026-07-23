@@ -25,6 +25,9 @@ public with sharing class Agent_Request {
     @InvocableVariable(description='The Visit ID.')
     public String visitId;
 
+    @InvocableVariable(description='List of Visit record IDs to send notifications for.')
+    public List<String> visitIds;
+
     @InvocableVariable(description='The Order ID.')
     public String orderId;
 

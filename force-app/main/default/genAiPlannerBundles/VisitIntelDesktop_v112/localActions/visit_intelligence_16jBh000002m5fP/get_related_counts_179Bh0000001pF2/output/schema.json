@@ -1,0 +1,134 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "accountAge" : {
+      "title" : "Account Age",
+      "description" : "Account Age in days.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "accountEmail" : {
+      "title" : "Account Email",
+      "description" : "The Account Email formatted as a clickable mailto link.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "accountPhone" : {
+      "title" : "Account Phone",
+      "description" : "The Account Phone number formatted as a clickable tel link.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "activePromotions" : {
+      "title" : "Active Promotions",
+      "description" : "Active Promotions count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "completedActivities" : {
+      "title" : "Completed Activities",
+      "description" : "Completed Activities count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "locationNavigateLink" : {
+      "title" : "Location Navigate Link",
+      "description" : "The Location Navigate Maps link formatted as a clickable link.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "outOfStockCount" : {
+      "title" : "Out Of Stock Count",
+      "description" : "Out of Stock count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "pendingActivities" : {
+      "title" : "Pending Activities",
+      "description" : "Pending Activities count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalActivities" : {
+      "title" : "Total Activities",
+      "description" : "Total Activities count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalAssortmentProducts" : {
+      "title" : "Total Assortment Products",
+      "description" : "Total Assortment Products count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalAssortments" : {
+      "title" : "Total Assortments",
+      "description" : "Total Store Assortments count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalContacts" : {
+      "title" : "Total Contacts",
+      "description" : "Total Contacts count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalRetailStores" : {
+      "title" : "Total Retail Stores",
+      "description" : "Total Retail Stores count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalStoreProducts" : {
+      "title" : "Total Store Products",
+      "description" : "Total Store Products count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalTactics" : {
+      "title" : "Total Tactics",
+      "description" : "Total Tactics count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalVisits" : {
+      "title" : "Total Visits",
+      "description" : "Total Visits count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

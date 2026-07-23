@@ -1,0 +1,28 @@
+{
+  "required" : [ "domain", "actionType", "promotionId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "actionType" : {
+      "title" : "Action Type",
+      "description" : "Set to 'getProducts'.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "domain" : {
+      "title" : "Domain",
+      "description" : "The domain 'Account'.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "promotionId" : {
+      "title" : "Promotion Id",
+      "description" : "The ID or name of the promotion (e.g. P-00000950) to fetch products for.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

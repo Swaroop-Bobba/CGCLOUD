@@ -90,6 +90,11 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         promptVisitMobile(req, res);
       } else if (action == 'select_and_navigate_visit') {
         res = selectAndNavigateVisit(req);
+      } else if (action == 'getstalevisits' || action == 'get_stale_visits') {
+        res.staleVisits = getStaleVisits(req.accountId, req.searchOffset);
+        res.success = true;
+      } else if (action == 'sendvisitalerts' || action == 'send_visit_alerts') {
+        res = sendVisitAlerts(req.visitIds);
       } else {
         res.success = false;
         res.message = 'Unknown actionType: ' + action;
@@ -3413,6 +3418,193 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       res.success = false;
       res.message = 'Error selecting and navigating visit: ' + e.getMessage();
     }
+    return res;
+  }
+
+  /**
+   * @description Retrieves overdue (Planned > 1 day) and stale (InProgress > 1 day) visits with pagination support.
+   * @param accountId Optional account ID filter.
+   * @param searchOffset Query offset for pagination.
+   * @return List<Agent_Response.StaleVisitInfo> List of stale visits.
+   */
+  public static List<Agent_Response.StaleVisitInfo> getStaleVisits(String accountId, String searchOffset) {
+    List<Agent_Response.StaleVisitInfo> results = new List<Agent_Response.StaleVisitInfo>();
+    DateTime yesterday = System.now().addDays(-1);
+
+    String query = 'SELECT Id, Name, Status, CreatedDate, ActualVisitStartTime, PlannedVisitStartTime, ' +
+                   'AccountId, Account.Name, cgcloud__Responsible__c, cgcloud__Responsible__r.Name, ' +
+                   'OwnerId, Owner.Name ' +
+                   'FROM Visit ' +
+                   'WHERE ((Status = \'Planned\' AND CreatedDate < :yesterday) ' +
+                   'OR (Status = \'InProgress\' AND (ActualVisitStartTime < :yesterday OR (ActualVisitStartTime = null AND LastModifiedDate < :yesterday))))';
+
+    if (String.isNotBlank(accountId)) {
+      query += ' AND AccountId = \'' + String.escapeSingleQuotes(accountId) + '\'';
+    }
+
+    query += ' WITH USER_MODE ORDER BY CreatedDate DESC LIMIT 20';
+
+    if (String.isNotBlank(searchOffset)) {
+      try {
+        Integer offsetVal = Integer.valueOf(searchOffset.trim());
+        if (offsetVal > 0) {
+          query += ' OFFSET ' + offsetVal;
+        }
+      } catch (Exception e) {
+        System.debug(LoggingLevel.WARN, 'Invalid searchOffset passed to getStaleVisits: ' + searchOffset);
+      }
+    }
+
+    List<Visit> visits = Database.query(query);
+
+    for (Visit v : visits) {
+      Agent_Response.StaleVisitInfo res = new Agent_Response.StaleVisitInfo();
+      res.visitId = v.Id;
+      res.visitName = v.Name;
+      res.accountName = v.Account != null ? v.Account.Name : '';
+      res.status = v.Status;
+      res.responsibleRepId = v.cgcloud__Responsible__c != null ? v.cgcloud__Responsible__c : v.OwnerId;
+      res.responsibleRepName = v.cgcloud__Responsible__c != null && v.getSObject('cgcloud__Responsible__r') != null ? (String) v.getSObject('cgcloud__Responsible__r').get('Name') : v.Owner.Name;
+      res.plannedStartTime = v.PlannedVisitStartTime;
+      res.createdDate = v.CreatedDate;
+      results.add(res);
+    }
+
+    return results;
+  }
+
+  /**
+   * @description Sends custom notifications and creates offline tasks for specified visits.
+   * @param visitIds List of Visit IDs.
+   * @return Agent_Response Result of sending alerts.
+   */
+  public static Agent_Response sendVisitAlerts(List<String> visitIds) {
+    Agent_Response res = new Agent_Response();
+    res.success = false;
+
+    if (visitIds == null || visitIds.isEmpty()) {
+      res.message = 'No Visit IDs provided.';
+      return res;
+    }
+
+    // 1. Query Custom Notification Type ID
+    Id notificationTypeId;
+    try {
+      CustomNotificationType notificationType = [
+        SELECT Id 
+        FROM CustomNotificationType 
+        WHERE DeveloperName = 'User_Notifications'
+        WITH USER_MODE
+        LIMIT 1
+      ];
+      notificationTypeId = notificationType.Id;
+    } catch (Exception e) {
+      System.debug(LoggingLevel.WARN, 'Custom Notification Type "Visit Alerts" not found: ' + e.getMessage());
+    }
+
+    // 2. Query Task Record Type ID for 'User_Notification'
+    Id taskRecordTypeId;
+    try {
+      RecordType rt = [
+        SELECT Id 
+        FROM RecordType 
+        WHERE SObjectType = 'Task' AND (DeveloperName = 'User_Notification' OR DeveloperName = 'cgcloud__User_Notification')
+        WITH USER_MODE
+        LIMIT 1
+      ];
+      taskRecordTypeId = rt.Id;
+    } catch (Exception e) {
+      System.debug(LoggingLevel.WARN, 'Task Record Type "User_Notification" not found: ' + e.getMessage());
+    }
+
+    List<Visit> visits = [
+      SELECT Id, Name, Status, cgcloud__Responsible__c, OwnerId, Account.Name
+      FROM Visit
+      WHERE Id IN :visitIds
+      WITH USER_MODE
+    ];
+
+    if (visits.isEmpty()) {
+      res.message = 'No matching Visit records found.';
+      return res;
+    }
+
+    Set<Id> visitsWithNotifications = new Set<Id>();
+    if (taskRecordTypeId != null) {
+      List<Task> existingTasks = [
+        SELECT WhatId 
+        FROM Task 
+        WHERE WhatId IN :visitIds 
+          AND RecordTypeId = :taskRecordTypeId 
+          AND Status != 'Completed'
+        WITH USER_MODE
+      ];
+      for (Task t : existingTasks) {
+        visitsWithNotifications.add(t.WhatId);
+      }
+    }
+
+    List<Task> tasksToInsert = new List<Task>();
+    Integer sentCount = 0;
+
+    for (Visit v : visits) {
+      if (visitsWithNotifications.contains(v.Id)) {
+        continue;
+      }
+
+      Id recipientId = v.cgcloud__Responsible__c != null ? v.cgcloud__Responsible__c : v.OwnerId;
+      if (recipientId == null) {
+        continue;
+      }
+
+      String storeName = v.Account != null ? v.Account.Name : 'Store';
+      String alertMessage = '';
+      if (v.Status == 'Planned') {
+        alertMessage = 'Visit ' + v.Name + ' for store ' + storeName + ' has been in Planned state for more than one day from its creation date.';
+      } else if (v.Status == 'InProgress') {
+        alertMessage = 'Visit ' + v.Name + ' for store ' + storeName + ' has been in In Progress state for more than one day.';
+      } else {
+        alertMessage = 'Visit ' + v.Name + ' for store ' + storeName + ' requires your attention.';
+      }
+
+      if (taskRecordTypeId != null) {
+        Task t = new Task();
+        t.RecordTypeId = taskRecordTypeId;
+        t.OwnerId = recipientId;
+        t.Subject = 'Visit Alerts';
+        t.Description = alertMessage;
+        t.ActivityDate = Date.today();
+        t.Status = 'Open';
+        t.WhatId = v.Id;
+        tasksToInsert.add(t);
+      }
+
+      if (notificationTypeId != null) {
+        try {
+          Messaging.CustomNotification notification = new Messaging.CustomNotification();
+          notification.setNotificationTypeId(notificationTypeId);
+          notification.setTargetId(v.Id);
+          notification.setTitle('Visit Alert');
+          notification.setBody(alertMessage);
+          notification.send(new Set<String>{ recipientId });
+          sentCount++;
+        } catch (Exception e) {
+          System.debug(LoggingLevel.ERROR, 'Error sending custom notification for Visit ' + v.Id + ': ' + e.getMessage());
+        }
+      }
+    }
+
+    try {
+      if (!tasksToInsert.isEmpty()) {
+        insert as user tasksToInsert;
+      }
+      res.success = true;
+      res.message = 'Successfully sent ' + sentCount + ' notifications and created offline tasks.';
+    } catch (Exception e) {
+      res.success = false;
+      res.message = 'Failed to create offline tasks: ' + e.getMessage();
+    }
+
     return res;
   }
 }

@@ -212,7 +212,59 @@ start_agent agent_router:
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
                 description: "Return to the main Visit Intelligence subagent dashboard."
 
+            get_stale_visits: @actions.get_stale_visits
+                description: "Retrieves visits that are in Planned status for more than a day, or in InProgress status for more than a day. Supports pagination with searchOffset."
+                with agentName = "Visit_Intelligence"
+                with actionType = "get_stale_visits"
+                with accountId = ...
+                with searchOffset = ...
+
+            send_visit_alerts: @actions.send_visit_alerts
+                description: "Sends custom alerts and creates offline task notifications for specified visits."
+                with agentName = "Visit_Intelligence"
+                with actionType = "send_visit_alerts"
+                with visitIds = ...
+
     actions:
+        get_stale_visits:
+            description: "Retrieves all visits that have been Planned for more than one day since creation, or InProgress for more than one day, optionally filtered by Account. Supports pagination with searchOffset."
+            target: "apex://Agent_Global_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "Optional Account ID to filter by."
+                searchOffset: string
+                    description: "Query offset for pagination (e.g. '0', '20', '40'). Optional."
+            outputs:
+                staleVisits: list[object]
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$StaleVisitInfo"
+                    description: "List of overdue and stale visits."
+                    is_displayable: True
+
+        send_visit_alerts:
+            description: "Sends custom notifications and creates offline task notifications for the responsible reps of the specified visits."
+            target: "apex://Agent_Global_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                visitIds: list[string]
+                    description: "List of Visit IDs to send notifications for."
+                    is_required: True
+            outputs:
+                success: boolean
+                    description: "True if notifications were successfully sent."
+                message: string
+                    description: "Status outcome message."
+                    is_displayable: True
         get_current_user_profile:
             description: "Retrieve the current user's profile name."
             target: "apex://Agent_Global_Handler"
@@ -370,6 +422,8 @@ subagent visit_intelligence:
                 |   * "Create Visit" / "New Visit" / "Schedule Visit" / "Plan a Visit" / "Add Visit" / "Create Customer Visit" / "Visit Creation" -> Transition immediately to the Create Visit Agent (LWC) using go_to_create_visit
                 |   * "predictive insights" / "forecast" / "order forecast" / "sales forecast" / "buying trends" / "churn risk" -> Transition to @subagent.forecasting_insights using go_to_forecasting
                 |   * "calculate" / "how many days since" / "average order value" / "total spend calculation" -> Transition to @subagent.record_calculations_insights using go_to_calculations
+                |   * "Overdue Visits" / "stale visits" / "get overdue visits" / "show visits planned for more than a day" -> Call @actions.get_stale_visits
+                |   * "Send Alerts" / "send notifications" / "notify reps" -> Call @actions.send_visit_alerts
                 |
                 | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
                 | - If the user's message is a generic greeting (e.g. "hi", "hello"), or asks for "visit details" or "details" or "details of the visit", or if {!@variables.justUpdated} is True, or does not request a specific action:
@@ -561,6 +615,19 @@ subagent visit_intelligence:
                 with agentName = "Visit_Intelligence"
                 with actionType = "search"
                 with searchQuery = ...
+
+            get_stale_visits: @actions.get_stale_visits
+                description: "Retrieves visits that are in Planned status for more than a day, or in InProgress status for more than a day. Supports pagination with searchOffset."
+                with agentName = "Visit_Intelligence"
+                with actionType = "get_stale_visits"
+                with accountId = @variables.accountId
+                with searchOffset = ...
+
+            send_visit_alerts: @actions.send_visit_alerts
+                description: "Sends custom alerts and creates offline task notifications for specified visits."
+                with agentName = "Visit_Intelligence"
+                with actionType = "send_visit_alerts"
+                with visitIds = ...
 
     actions:
 
@@ -846,6 +913,46 @@ subagent visit_intelligence:
                 users: list[object]
                     complex_data_type_name: "@apexClassType/c__Agent_Response$UserOption"
                     description: "List of matching users containing name, userId, alias, and profileName."
+                    is_displayable: True
+
+        get_stale_visits:
+            description: "Retrieves all visits that have been Planned for more than one day since creation, or InProgress for more than one day, optionally filtered by Account. Supports pagination with searchOffset."
+            target: "apex://Agent_Global_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "Optional Account ID to filter by."
+                searchOffset: string
+                    description: "Query offset for pagination (e.g. '0', '20', '40'). Optional."
+            outputs:
+                staleVisits: list[object]
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$StaleVisitInfo"
+                    description: "List of overdue and stale visits."
+                    is_displayable: True
+
+        send_visit_alerts:
+            description: "Sends custom notifications and creates offline task notifications for the responsible reps of the specified visits."
+            target: "apex://Agent_Global_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                visitIds: list[string]
+                    description: "List of Visit IDs to send notifications for."
+                    is_required: True
+            outputs:
+                success: boolean
+                    description: "True if notifications were successfully sent."
+                message: string
+                    description: "Status outcome message."
                     is_displayable: True
 
         get_account_visits:
