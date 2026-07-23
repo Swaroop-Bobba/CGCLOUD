@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Standalone agent that provides Account Summary details based on the current Visit context.</description>
+    <localTopicLinks>
+        <genAiPluginName>account_summary_16jBh000002lntn</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>agent_router_16jBh000002lntn</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>ambiguous_question_16jBh000002lntn</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>off_topic_16jBh000002lntn</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>agent_router_16jBh000002lntn</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Welcome the user and check context or route to the appropriate subagent based on user input.</description>
+        <developerName>agent_router_16jBh000002lntn</developerName>
+        <genAiPluginInstructions>
+            <description>You are a Salesforce Account Summary Agent operating within the current Salesforce org.
+Your primary objective is to assist internal users with checking Account Summary details for a given Visit record context.
+Always maintain a professional, helpful, and concise tone.</description>
+            <developerName>instruction0_179Bh0000001oag</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179Bh0000001oag</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>agent_router</localDeveloperName>
+        <masterLabel>Agent Router</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>ambiguous_question_16jBh000002lntn</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Redirect conversation to relevant topics when user request is too ambiguous.</description>
+        <developerName>ambiguous_question_16jBh000002lntn</developerName>
+        <genAiPluginInstructions>
+            <description>You are a Salesforce Account Summary Agent operating within the current Salesforce org.
+Your primary objective is to assist internal users with checking Account Summary details for a given Visit record context.
+Always maintain a professional, helpful, and concise tone.</description>
+            <developerName>instruction0_179Bh0000001oaf</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179Bh0000001oaf</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>ambiguous_question</localDeveloperName>
+        <masterLabel>Ambiguous Question</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>off_topic_16jBh000002lntn</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Redirect conversation to relevant topics when user request goes off-topic.</description>
+        <developerName>off_topic_16jBh000002lntn</developerName>
+        <genAiPluginInstructions>
+            <description>You are a Salesforce Account Summary Agent operating within the current Salesforce org.
+Your primary objective is to assist internal users with checking Account Summary details for a given Visit record context.
+Always maintain a professional, helpful, and concise tone.</description>
+            <developerName>instruction0_179Bh0000001oai</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179Bh0000001oai</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>off_topic</localDeveloperName>
+        <masterLabel>Off Topic</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>account_summary_16jBh000002lntn</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Handles retrieving and presenting the Account Summary and related metrics.</description>
+        <developerName>account_summary_16jBh000002lntn</developerName>
+        <genAiPluginInstructions>
+            <description>You are a Salesforce Account Summary Agent operating within the current Salesforce org.
+Your primary objective is to assist internal users with checking Account Summary details for a given Visit record context.
+Always maintain a professional, helpful, and concise tone.</description>
+            <developerName>instruction0_179Bh0000001oah</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179Bh0000001oah</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>get_account_summary_179Bh0000001oah</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>get_account_summary_179Bh0000001oah</fullName>
+            <description>Retrieves Account details, contact details, and related counts based on a Visit record context.</description>
+            <developerName>get_account_summary_179Bh0000001oah</developerName>
+            <invocationTarget>Account_Summary_Action</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>get_account_summary</localDeveloperName>
+            <masterLabel>Get Account Summary</masterLabel>
+        </localActions>
+        <localDeveloperName>account_summary</localDeveloperName>
+        <masterLabel>Account Summary</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <masterLabel>Account Summary Agent</masterLabel>
+    <plannerType>Atlas__ConcurrentMultiAgentOrchestration</plannerType>
+</GenAiPlannerBundle>

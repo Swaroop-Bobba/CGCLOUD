@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>v9</fullName>
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Hi</message>
+                <messageIdentifier>fe0c120c-9b40-4dbf-ae12-c9aab4474cff</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>b991e269-ccb8-442b-a869-30c2412ede6a</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>e720f4e8-c3f4-46c2-97db-1d27415488b2</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Welcome</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Welcome</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Error</message>
+                <messageIdentifier>39c5ccd1-ff4b-4171-901f-0627bb2c247c</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>49ee0aea-e5c5-4adf-9d96-facfda963f60</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>31ac2875-f918-4035-9124-0860a04179e9</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Rich_Content_Error_Handling</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Error Handler</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <developerName>Transfer_To_Agent</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Transfer To Agent</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <citationsEnabled>false</citationsEnabled>
+    <conversationDefinitionPlanners>
+        <genAiPlannerName>Account_Summary_Agent_v9</genAiPlannerName>
+    </conversationDefinitionPlanners>
+    <conversationSystemDialogs>
+        <dialog>Rich_Content_Error_Handling</dialog>
+        <type>ErrorHandling</type>
+    </conversationSystemDialogs>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The agent instructions</description>
+        <developerName>AgentScriptInternal_agent_instructions</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Agent Instructions</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The next topic to be visited</description>
+        <developerName>AgentScriptInternal_next_topic</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Next Topic</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Current Record Id</description>
+        <developerName>currentRecordId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Current Record Id</label>
+        <visibility>External</visibility>
+    </conversationVariables>
+    <copilotPrimaryLanguage>en_US</copilotPrimaryLanguage>
+    <defaultStdObjForContactIdFltrEnabled>false</defaultStdObjForContactIdFltrEnabled>
+    <entryDialog>Welcome</entryDialog>
+    <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
+    <intentV3Enabled>false</intentV3Enabled>
+    <isScriptCompatibleAgent>true</isScriptCompatibleAgent>
+    <knowledgeActionEnabled>false</knowledgeActionEnabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <staticPromptsEnabled>false</staticPromptsEnabled>
+    <stopRecPrompts>false</stopRecPrompts>
+    <stopWelcomePrompts>false</stopWelcomePrompts>
+    <surfacesEnabled>false</surfacesEnabled>
+    <toneType>Casual</toneType>
+</BotVersion>

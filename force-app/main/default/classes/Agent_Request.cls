@@ -25,6 +25,9 @@ public with sharing class Agent_Request {
     @InvocableVariable(description='The Visit ID.')
     public String visitId;
 
+    @InvocableVariable(description='List of Visit record IDs to send notifications for.')
+    public List<String> visitIds;
+
     @InvocableVariable(description='The Order ID.')
     public String orderId;
 
@@ -32,14 +35,6 @@ public with sharing class Agent_Request {
     public String placeId;
 
     // Visit Wrappers
-    @InvocableVariable(description='New status value (wrapper).')
-    public VisitStatusWrapper statusWrapper;
-    @InvocableVariable(description='New owner details (wrapper).')
-    public VisitOwnerWrapper ownerWrapper;
-    @InvocableVariable(description='New planned start date/time (wrapper).')
-    public VisitDateTimeWrapper plannedStartTimeWrapper;
-    @InvocableVariable(description='New planned end date/time (wrapper).')
-    public VisitDateTimeWrapper plannedEndTimeWrapper;
     @InvocableVariable(description='Visit Creation details (wrapper).')
     public CreateVisitWrapper createVisitWrapper;
 

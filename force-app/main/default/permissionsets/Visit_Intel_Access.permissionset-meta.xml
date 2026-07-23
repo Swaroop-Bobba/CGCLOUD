@@ -64,18 +64,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>VisitDateTimeWrapper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>VisitOwnerWrapper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>VisitStatusWrapper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>VisitSummaryWrapper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -104,6 +92,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Account_Agent_Service</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Agent_Global_Handler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -125,10 +117,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PromptVisitMobileAction</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>VisitNavigationWrapper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

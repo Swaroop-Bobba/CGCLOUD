@@ -31,14 +31,20 @@ global class VisitUpdaterAction {
                 String visitId = req.updatesPayload.visitId;
                 String updatesJson = req.updatesPayload.updatesJson;
                 
-                if (String.isBlank(updatesJson)) {
+                if (String.isBlank(updatesJson) || updatesJson.trim() == '{}') {
                     resp.success = true;
-                    resp.message = 'Successfully updated visit record.';
+                    resp.message = 'Cancelled';
                     responses.add(resp);
                     continue;
                 }
                 
                 Map<String, Object> updates = (Map<String, Object>)JSON.deserializeUntyped(updatesJson);
+                if (updates.isEmpty()) {
+                    resp.success = true;
+                    resp.message = 'Cancelled';
+                    responses.add(resp);
+                    continue;
+                }
                 Visit v = new Visit(Id = visitId);
                 
                 Boolean hasResponsible = Schema.sObjectType.Visit.fields.getMap().containsKey('cgcloud__Responsible__c');

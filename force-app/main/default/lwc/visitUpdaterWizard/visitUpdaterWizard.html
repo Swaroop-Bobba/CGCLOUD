@@ -26,10 +26,29 @@
 
             <!-- Main Wizard Steps (Only shown if Visit ID is present) -->
             <template if:true={selectedVisitId}>
+                <!-- Top Header Bar with Cancel Option -->
+                <div class="slds-grid slds-grid_align-spread slds-m-bottom_small slds-grid_vertical-align-center">
+                    <div>
+                        <template if:true={isStep1}><h2 class="slds-text-heading_small">Select Fields to Update</h2></template>
+                        <template if:true={isStep2}><h2 class="slds-text-heading_small">Enter New Values</h2></template>
+                        <template if:true={isStep3}><h2 class="slds-text-heading_small">Preview Changes</h2></template>
+                        <template if:true={isStep4}><h2 class="slds-text-heading_small">Wizard Completed</h2></template>
+                    </div>
+                    <template if:true={showCancelButton}>
+                        <lightning-button label="Cancel" variant="destructive-text" onclick={handleCancelWizard} title="Cancel update and exit wizard"></lightning-button>
+                    </template>
+                </div>
+
                 <!-- Step 1: Select Fields -->
                 <template if:true={isStep1}>
-                    <h2 class="slds-text-heading_small slds-m-bottom_small">Select Fields to Update</h2>
+                    <div class="slds-m-bottom_small slds-p-around_x-small slds-box slds-theme_warning" style="font-size: 0.8125rem; border-left: 4px solid #dd7a01; background-color: #fef8f0; color: #814400;">
+                        💡 <strong>Note:</strong> If the field you wish to update is not listed below, please click <strong>Cancel</strong> at top right to exit.
+                    </div>
                     <div class="slds-box slds-theme_shade">
+                        <!-- Select All Checkbox -->
+                        <div class="slds-form-element slds-p-around_x-small slds-m-bottom_x-small slds-box slds-theme_default" style="border-left: 4px solid #0176d3; font-weight: bold;">
+                            <lightning-input type="checkbox" label="Select All Fields" checked={selectAllChecked} name="selectAll" onchange={handleSelectAllChange}></lightning-input>
+                        </div>
                         <div class="slds-form-element slds-p-around_x-small">
                             <lightning-input type="checkbox" label="Subject" checked={selectedFields.cgcloud__Subject__c} name="cgcloud__Subject__c" onchange={handleFieldCheckboxChange}></lightning-input>
                         </div>
@@ -168,14 +187,20 @@
 
                 <!-- Step 4: Confirmation Page -->
                 <template if:true={isStep4}>
-                    <h2 class="slds-text-heading_small slds-m-bottom_small">Visit Updated</h2>
-                    <div class="slds-m-bottom_medium slds-p-around_small slds-box slds-theme_success" style="font-weight: bold; border-left: 4px solid #2e7d32; background-color: #e8f5e9; color: #2e7d32;">
-                        ✔️ Visit updates are prepared and ready!
-                    </div>
+                    <template if:true={isCancelled}>
+                        <div class="slds-m-bottom_medium slds-p-around_small slds-box slds-theme_warning" style="font-weight: bold; border-left: 4px solid #dd7a01; background-color: #fef8f0; color: #814400;">
+                            ⚠️ Update Cancelled: No changes were made to the visit record.
+                        </div>
+                    </template>
+                    <template if:false={isCancelled}>
+                        <div class="slds-m-bottom_medium slds-p-around_small slds-box slds-theme_success" style="font-weight: bold; border-left: 4px solid #2e7d32; background-color: #e8f5e9; color: #2e7d32;">
+                            ✔️ Visit updates are prepared and ready!
+                        </div>
+                    </template>
 
                     <!-- Submit Instruction Note -->
                     <div class="slds-m-vertical_medium slds-text-color_error slds-text-align_center">
-                        <strong>⚠️ IMPORTANT:</strong> Click the standard <strong>"Submit"</strong> button at the bottom of the chat panel to finalize your update.
+                        <strong>⚠️ IMPORTANT:</strong> Click the standard <strong>"Submit"</strong> button at the bottom of the chat panel to finalize.
                     </div>
                 </template>
 

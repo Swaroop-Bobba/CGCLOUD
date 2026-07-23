@@ -57,9 +57,6 @@ public with sharing class Agent_Response {
     @InvocableVariable(description='True if user input has been submitted.')
     public Boolean isSubmitted;
 
-    @InvocableVariable(description='Visit navigation details.')
-    public VisitNavigationWrapper visitNavigation;
-
     @InvocableVariable(description='The matched Owner/Responsible User ID.')
     public String ownerId;
 
@@ -127,6 +124,8 @@ public with sharing class Agent_Response {
     // List structures
     @InvocableVariable(description='List of available/matching visits.')
     public List<VisitOption> visits;
+    @InvocableVariable(description='List of overdue and stale visits.')
+    public List<StaleVisitInfo> staleVisits;
     @InvocableVariable(description='List of matching orders.')
     public List<OrderOption> orders;
     @InvocableVariable(description='List of matching accounts.')
@@ -355,5 +354,27 @@ public with sharing class Agent_Response {
             this.itemImageUrl = null;
             this.itemMimeType = null;
         }
+    }
+
+    /**
+     * @description Data structure representing a stale or overdue visit.
+     */
+    public class StaleVisitInfo {
+        @InvocableVariable(description='The Visit Record ID.')
+        public String visitId;
+        @InvocableVariable(description='The Visit Name.')
+        public String visitName;
+        @InvocableVariable(description='The Account Name.')
+        public String accountName;
+        @InvocableVariable(description='The Current Status of the Visit.')
+        public String status;
+        @InvocableVariable(description='The Name of the Responsible Rep.')
+        public String responsibleRepName;
+        @InvocableVariable(description='The ID of the Responsible Rep.')
+        public String responsibleRepId;
+        @InvocableVariable(description='The Planned Start Time.')
+        public DateTime plannedStartTime;
+        @InvocableVariable(description='The Created Date of the Visit.')
+        public DateTime createdDate;
     }
 }

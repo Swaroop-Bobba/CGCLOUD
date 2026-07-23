@@ -1,0 +1,94 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "accountAge" : {
+      "title" : "Account Age",
+      "description" : "Account Age in days.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "accountEmail" : {
+      "title" : "Account Email",
+      "description" : "Account Email link.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "accountName" : {
+      "title" : "Account Name",
+      "description" : "Account Name.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "accountPhone" : {
+      "title" : "Account Phone",
+      "description" : "Account Phone link.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "activePromotions" : {
+      "title" : "Active Promotions",
+      "description" : "Active Promotions count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "mapsNavigateLink" : {
+      "title" : "Maps Navigate Link",
+      "description" : "Direct Google Maps navigate link.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "message" : {
+      "title" : "Message",
+      "description" : "Status message.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "outOfStockCount" : {
+      "title" : "Out Of Stock Count",
+      "description" : "Out of stock visits count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "success" : {
+      "title" : "Success",
+      "description" : "Success indicator.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalContacts" : {
+      "title" : "Total Contacts",
+      "description" : "Total Contacts count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "totalVisits" : {
+      "title" : "Total Visits",
+      "description" : "Total Visits count.",
+      "lightning:type" : "lightning__integerType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

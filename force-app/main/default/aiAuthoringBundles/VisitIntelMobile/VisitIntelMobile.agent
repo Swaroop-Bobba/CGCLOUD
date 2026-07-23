@@ -133,7 +133,7 @@ start_agent agent_router:
 
             | ===== SYSTEM INSTRUCTIONS =====
             | 1. First Launch Greeting: Greet with: "How can I assist you today? You can search for visits by account name, store name, status, or date range. You can also ask me to show your recent visits, today's planned visits, this week's visits, or this month's visits."
-            | 2. Output Format (STRICT): NEVER generate hyperlinks, markdown links, or clickable URLs. All visit names must be plain text only (e.g., "V-00000370").
+            | 2. Output Format (STRICT): All visit names must be plain text only (e.g., "V-00000370").
             |
             | ===== SHARED INSTRUCTIONS =====
             |
@@ -149,6 +149,7 @@ start_agent agent_router:
             |    i. Status-based: "planned visits", "completed visits", "in progress visits" → call {!@actions.find_visits} with searchQuery = "<status>"
             |    j. Combined: "today's planned visits", "this week's completed visits" → call {!@actions.find_visits} with searchQuery = "today planned" / "this week completed"
             |    k. By account/store name: call {!@actions.find_visits} with searchQuery = "<account or store name>"
+            |    l. "next", "next 20", "more visits", "show more" → call {!@actions.find_visits} with searchQuery = "next" and searchOffset = the next incremented offset (e.g. "20" if the previous list showed 20, "40" if it showed 40, etc.). Keep track of the offset count in the conversation context.
             | 2. User-Specified Limits: If the user asks "show me 5 visits" or "last 10 visits", retrieve all matching results first, then present ONLY the requested number. Do NOT hardcode any limit — show ALL results unless the user specifies a limit.
             | 3. Output Format (STRICT NUMBERED LIST): Whenever you execute get_available_visits (list_visits) or search_visits (find_visits), you MUST present ALL visit results as a single sequentially numbered list starting at 1 (do NOT restart numbering for categories like Today, Upcoming, etc.). For each visit in the visits list, print its number followed by its pre-formatted label property verbatim on a new line, but remove any markdown links or URLs to keep it as plain text (e.g., convert "[00001328](url)" to "00001328"). Do NOT print the label as raw JSON.
             | 4. Selection: When the user selects, specifies, or inputs a number corresponding to a visit from the most recent numbered list (e.g. they type "1" or select the first option), map it to that visit, extract its ID (recordId), and call {!@actions.select_visit} with that visit's recordId to load the visit context. If they enter the visit name/number directly (e.g. "00000370"), extract the recordId of that visit from the printed list and call {!@actions.select_visit}. Do NOT ask the user for an ID — extract it from the user's selection or number input.
@@ -157,6 +158,12 @@ start_agent agent_router:
             | 7. Create/Plan/Schedule/Add Visit: If the user explicitly requests to create, schedule, plan, or add a new visit (utilizing expressions such as "Create Visit", "New Visit", "Schedule Visit", "Plan a Visit", "Create a Store Visit", "Add Visit", "Create Customer Visit", or "Visit Creation"):
             |    - Transition immediately to the Create Visit Mobile Agent using {!@actions.go_to_create_visit_mobile}.
             |    Do NOT load existing visit details, select a visit, or run get_visit_details.
+            |
+            | ===== PAGINATION RULES =====
+            | 1. The default list size for available/recent visits (list_visits) is strictly 20 top recently created/modified visits.
+            | 2. The default list size for all visits search is 20.
+            | 3. When the user requests the next page of results, increment the searchOffset by 20 and call find_visits.
+            |
 
         actions:
             select_visit: @actions.get_visit_details
@@ -179,9 +186,10 @@ start_agent agent_router:
                 with searchQuery = ""
 
             find_visits: @actions.search_visits
-                description: "Search for Visit records by account name, store name, visit name, status, date range (today, this week, this month, tomorrow, last week, next week, last month, next month), or combined status+date as custom VisitInfo objects."
+                description: "Search for Visit records by account name, store name, visit name, status, date range (today, this week, this month, tomorrow, last week, next week, last month, next month), or combined status+date as custom VisitInfo objects. For pagination, pass the searchOffset value."
                 with actionType = "search"
                 with searchQuery = ...
+                with searchOffset = ...
 
             go_to_off_topic: @utils.transition to @subagent.off_topic
                 description: "Route off-topic queries."
@@ -215,8 +223,59 @@ start_agent agent_router:
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
                 description: "Return to the main Visit Intelligence subagent dashboard."
 
+            get_stale_visits: @actions.get_stale_visits
+                description: "Retrieves visits that are in Planned status for more than a day, or in InProgress status for more than a day. Supports pagination with searchOffset."
+                with agentName = "Visit_Intelligence"
+                with actionType = "get_stale_visits"
+                with accountId = ...
+                with searchOffset = ...
+
+            send_visit_alerts: @actions.send_visit_alerts
+                description: "Sends custom alerts and creates offline task notifications for specified visits."
+                with agentName = "Visit_Intelligence"
+                with actionType = "send_visit_alerts"
+                with visitIds = ...
 
     actions:
+        get_stale_visits:
+            description: "Retrieves all visits that have been Planned for more than one day since creation, or InProgress for more than one day, optionally filtered by Account. Supports pagination with searchOffset."
+            target: "apex://Agent_Global_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "Optional Account ID to filter by."
+                searchOffset: string
+                    description: "Query offset for pagination (e.g. '0', '20', '40'). Optional."
+            outputs:
+                staleVisits: list[object]
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$StaleVisitInfo"
+                    description: "List of overdue and stale visits."
+                    is_displayable: True
+
+        send_visit_alerts:
+            description: "Sends custom notifications and creates offline task notifications for the responsible reps of the specified visits."
+            target: "apex://Agent_Global_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                visitIds: list[string]
+                    description: "List of Visit IDs to send notifications for."
+                    is_required: True
+            outputs:
+                success: boolean
+                    description: "True if notifications were successfully sent."
+                message: string
+                    description: "Status outcome message."
+                    is_displayable: True
         get_current_user_profile:
             description: "Retrieve the current user's profile name."
             target: "apex://Agent_Global_Handler"
@@ -272,7 +331,7 @@ start_agent agent_router:
                     is_displayable: False
 
         search_visits:
-            description: "Search for Visit records by account name, store name, visit name, status, date range, or combined filters."
+            description: "Search for Visit records by account name, store name, visit name, status, date range, or combined filters. For pagination, pass the searchOffset value."
             target: "apex://Agent_Global_Handler"
             inputs:
                 actionType: string
@@ -281,6 +340,8 @@ start_agent agent_router:
                 searchQuery: string
                     description: "The search query."
                     is_required: True
+                searchOffset: string
+                    description: "The search offset."
             outputs:
                 visits: list[object]
                     complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
@@ -349,13 +410,16 @@ subagent visit_intelligence:
                 |   * "Inventory" / "out-of-stock" / "oos" -> Call @actions.get_details with recordType = "inventory"
                 |   * "Order History" / "orders" -> Call @actions.order_summary
                 |   * "Visit Report" / "generate reports" / "summarize visit" -> Call @actions.generate_visit_summary
-                |   * "Update" / "change visit" / "assign visit" / "update status" / "reassign visit" / "change owner" / "add notes" / "update start time" / "update end time" -> Transition immediately to the @subagent.update_visit_text subagent (using go_to_update_visit_text).
+                |   * "Update" / "update visit" / "edit visit" / "modify visit" / "update visit details" / "change visit" / "assign visit" / "update status" / "reassign visit" / "change owner" / "add notes" / "update start time" / "update end time" / "update subject" / "update responsible user" / "update accountable user" or choosing the "Update Visit Information" option (option 7) -> Transition immediately to the @subagent.update_visit_text subagent (using go_to_update_visit_text).
+                |   * Unsupported Field Update Request (e.g., requesting to update Account, Store, Location, Address, ID, or Created Date) -> Do NOT transition. Respond verbatim: "Field '[Field Name]' cannot be updated through the Visit Update Wizard. Supported editable fields are: Subject, Status, Start Date/Time, End Date/Time, Responsible User, Accountable User, and Notes."
                 |   * "Sellable Products" / "products in assortment" -> Call @actions.get_details with recordType = "assortmentproducts"
                 |   * "Switch" / "reset context" / "change visit" -> Call @actions.switch_visit
                 |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products
                 |   * "Create Visit" / "New Visit" / "Schedule Visit" / "Plan a Visit" / "Add Visit" / "Create Customer Visit" / "Visit Creation" -> Transition immediately to the Create Visit Agent (LWC) using go_to_create_visit_mobile
                 |   * "predictive insights" / "forecast" / "order forecast" / "sales forecast" / "buying trends" / "churn risk" -> Transition to @subagent.forecasting_insights using go_to_forecasting
                 |   * "calculate" / "how many days since" / "average order value" / "total spend calculation" -> Transition to @subagent.record_calculations_insights using go_to_calculations
+                |   * "Overdue Visits" / "stale visits" / "get overdue visits" / "show visits planned for more than a day" -> Call @actions.get_stale_visits
+                |   * "Send Alerts" / "send notifications" / "notify reps" -> Call @actions.send_visit_alerts
                 |
                 | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
                 | - If the user's message is a generic greeting (e.g. "hi", "hello") or does not request a specific action:
@@ -368,7 +432,7 @@ subagent visit_intelligence:
                 |   2. If {!@variables.visitSummaryText} is not empty, null, or "None", immediately follow with the Visit Summary text: {!@variables.visitSummaryText}. Otherwise, do NOT print any Visit Summary text or header.
                 |   3. Ask: "How can I help you with this visit?"
                 |   4. Present the Greeting Menu as a numbered list starting at 1:
-                |      1. 🏢 Account Summary (Show Contact counts, Activities summary, and Account Age)
+                |      1. 🏢 Account Summary (Show Contact counts, Visit counts, and Account Age)
                 |      2. 👥 Contacts (Retrieve contact details)
                 |      3. 📣 Promotions (Retrieve active promotions)
                 |      4. 💡 Pre-Visit Brief (Summarize the current visit details)
@@ -385,7 +449,7 @@ subagent visit_intelligence:
                 |   A. IF THE GREETING MENU OR DYNAMIC NEXT STEPS MENU WAS PRESENTED:
                 |      1. Extract the text label of the numbered option corresponding to the user's input from the last message.
                 |      2. Execute the action for that option text:
-                |         * Account Summary / Account Details -> Call @actions.get_counts. When get_counts returns, format the output to display Contacts count, Visits count, Account Age, Activities summary (total, completed, pending), Phone, Email, and Location Navigate link (using the exact markdown hyperlink values of accountPhone, accountEmail, and locationNavigateLink outputs). Do NOT show a tasks count.
+                |         * Account Summary / Account Details -> Call @actions.get_counts. When get_counts returns, format the output to display Contacts count, Visits count, Account Age, Phone, Email, and Location Navigate link (using the exact markdown hyperlink values of accountPhone, accountEmail, and locationNavigateLink outputs). You MUST output the locationNavigateLink value verbatim on a single line without any newlines, spaces, wrapping, or extra markdown syntax inside the link. Do NOT show activities or tasks counts.
                 |         * Contacts / View Contacts / Contact details -> Call @actions.get_details with recordType = "contacts"
                 |         * Promotions / Audit active promotions / active promotions -> Call @actions.get_details with recordType = "promotions"
                 |         * Eligible Products / products for promotion / products of <number> -> Call @actions.get_products with promotionId resolved from index or name.
@@ -418,10 +482,18 @@ subagent visit_intelligence:
                 | - Order History & Order Details: Summarize order history (spend, counts, recent orders) strictly in a sequentially numbered list starting at 1. For each order, display details like Order Number, Date, Status, and Total Value (using the rupee symbol ₹) as numbered sub-items.
                 | - Contacts, Tasks, Promotions, and Inventory: Always display these retrieved records as a sequentially numbered list starting at 1, showing details inside numbered sub-items.
                 | - Pre-Visit Store Brief & Recommendations: Format store briefs and product suggestions using clear headers, sections, emojis, and bold key metrics organized as sequentially numbered lists.
-                | - NEVER generate hyperlinks, markdown links, or clickable URLs in mobile responses. All mobile output must be plain text only.
                 |
                 | --- SHARED FORMATTING (Both Web and Mobile) ---
-                | - Record List Formatting Rule: When formatting lists of records (like Contacts, Visits, Promotions, Tasks, or Inventory) returned by the actions, you MUST print the "label" property of each list item verbatim. Do NOT modify, parse, rewrite, or restructure the label text. Do NOT list or append the other raw parameters (such as name, status, owner, category, lastModified, visitId, accountId) separately or at the bottom of the list entries. Do NOT introduce any newlines inside hyperlinks (e.g. keep markdown link syntax like `[text](url)` strictly on a single line).
+                | - Activity Summary Rule: You MUST ensure the Activity Summary is printed exactly as returned by the action, showing the count of Total Questions, Answered, and Pending questions consistently in both the Pre-Visit Store Brief and the Visit Summary report.
+                | - Record List Formatting Rule: When formatting lists of records returned by the actions:
+                |   1. For Contacts: Do NOT print the label verbatim. Instead, parse and construct the contact output using the record's properties (name, status, owner):
+                |      * <Name>
+                |      * Title: <Title parsed from status>
+                |      * Mobile: <Mobile number (formatted as markdown link `[Number](tel:Number)` on both web and mobile)>
+                |      * Email: <Email address (formatted as markdown link `[Email](mailto:Email)` on both web and mobile)>
+                |      * Owner: <Owner Name>
+                |      Ensure each detail (Title, Mobile, Email, Owner) is listed on a separate line as a bullet point or nested numbered detail under the contact's name.
+                |   2. For other record types (Visits, Promotions, Tasks, or Inventory), you MUST print the "label" property of each list item verbatim. Do NOT modify, parse, rewrite, or restructure the label text. Do NOT introduce any newlines inside hyperlinks. (e.g. keep markdown link syntax like `[text](url)` strictly on a single line).
                 | - Next Steps Suggestions: After presenting any results, suggest next steps as a numbered list starting at 1 (no bullets). Always prioritize suggesting the "🏢 Account Summary" option as one of the primary next steps.
                 | - Switch: If the user selects, specifies, or inputs a number corresponding to a visit in the visit list to select/switch to it (or when the user says "switch to visit" or selects a visit name/number), transition to clear_context to reset context and load the selected visit.
             else:
@@ -552,6 +624,18 @@ subagent visit_intelligence:
                 with actionType = "search"
                 with searchQuery = ...
 
+            get_stale_visits: @actions.get_stale_visits
+                description: "Retrieves visits that are in Planned status for more than a day, or in InProgress status for more than a day. Supports pagination with searchOffset."
+                with agentName = "Visit_Intelligence"
+                with actionType = "get_stale_visits"
+                with accountId = @variables.accountId
+                with searchOffset = ...
+
+            send_visit_alerts: @actions.send_visit_alerts
+                description: "Sends custom alerts and creates offline task notifications for specified visits."
+                with agentName = "Visit_Intelligence"
+                with actionType = "send_visit_alerts"
+                with visitIds = ...
 
     actions:
         get_related_counts:
@@ -873,6 +957,46 @@ subagent visit_intelligence:
                 users: list[object]
                     complex_data_type_name: "@apexClassType/c__Agent_Response$UserOption"
                     description: "List of matching users containing name, userId, alias, and profileName."
+                    is_displayable: True
+
+        get_stale_visits:
+            description: "Retrieves all visits that have been Planned for more than one day since creation, or InProgress for more than one day, optionally filtered by Account. Supports pagination with searchOffset."
+            target: "apex://Agent_Global_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "Optional Account ID to filter by."
+                searchOffset: string
+                    description: "Query offset for pagination (e.g. '0', '20', '40'). Optional."
+            outputs:
+                staleVisits: list[object]
+                    complex_data_type_name: "@apexClassType/c__Agent_Response$StaleVisitInfo"
+                    description: "List of overdue and stale visits."
+                    is_displayable: True
+
+        send_visit_alerts:
+            description: "Sends custom notifications and creates offline task notifications for the responsible reps of the specified visits."
+            target: "apex://Agent_Global_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                visitIds: list[string]
+                    description: "List of Visit IDs to send notifications for."
+                    is_required: True
+            outputs:
+                success: boolean
+                    description: "True if notifications were successfully sent."
+                message: string
+                    description: "Status outcome message."
                     is_displayable: True
 
         get_account_visits:

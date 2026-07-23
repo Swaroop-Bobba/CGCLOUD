@@ -1,0 +1,28 @@
+{
+  "required" : [ "agentName", "actionType", "visitId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "actionType" : {
+      "title" : "Action Type",
+      "description" : "The type of action to perform.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "agentName" : {
+      "title" : "Agent Name",
+      "description" : "The name of the agent executing the request.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "visitId" : {
+      "title" : "Visit Id",
+      "description" : "The current Visit ID.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

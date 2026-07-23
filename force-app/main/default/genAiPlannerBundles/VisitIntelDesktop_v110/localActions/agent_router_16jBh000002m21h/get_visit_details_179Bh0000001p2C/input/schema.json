@@ -1,0 +1,14 @@
+{
+  "required" : [ "recordId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "recordId" : {
+      "title" : "Record Id",
+      "description" : "The ID of the Visit record.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

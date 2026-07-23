@@ -1,0 +1,32 @@
+{
+  "required" : [ "agentName", "actionType", "visitIds" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "actionType" : {
+      "title" : "Action Type",
+      "description" : "The type of action to perform.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "agentName" : {
+      "title" : "Agent Name",
+      "description" : "The name of the agent executing the request.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "visitIds" : {
+      "title" : "Visit Ids",
+      "description" : "List of Visit IDs to send notifications for.",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "lightning__textType"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

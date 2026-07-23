@@ -27,10 +27,10 @@ public with sharing class Visit_Agent_Service implements IAgentService {
           '. Showing the top 20 matches. Please let me know if you would like to apply filters like account, status, or date range to narrow down the results.';
         res.success = true;
       } else if (action == 'getaccountvisits') {
-        res.visits = getAccountVisits(req.accountId);
+        res.visits = getAccountVisits(req.accountId, req.searchOffset);
         res.success = true;
       } else if (action == 'getoosvisits') {
-        res.visits = getOosVisits(req.accountId);
+        res.visits = getOosVisits(req.accountId, req.searchOffset);
         res.success = true;
       } else if (action == 'search') {
         res.visits = searchVisits(req.searchQuery, req.searchOffset);
@@ -90,6 +90,11 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         promptVisitMobile(req, res);
       } else if (action == 'select_and_navigate_visit') {
         res = selectAndNavigateVisit(req);
+      } else if (action == 'getstalevisits' || action == 'get_stale_visits') {
+        res.staleVisits = getStaleVisits(req.accountId, req.searchOffset);
+        res.success = true;
+      } else if (action == 'sendvisitalerts' || action == 'send_visit_alerts') {
+        res = sendVisitAlerts(req.visitIds);
       } else {
         res.success = false;
         res.message = 'Unknown actionType: ' + action;
@@ -108,10 +113,10 @@ public with sharing class Visit_Agent_Service implements IAgentService {
   @SuppressWarnings(
     'PMD.AvoidDebugStatements, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssMethodCount'
   )
+  @AuraEnabled
   public static List<Agent_Response.VisitOption> getAvailableVisits() {
     List<Agent_Response.VisitOption> options = new List<Agent_Response.VisitOption>();
     try {
-      Map<String, Agent_Response.VisitOption> visitMap = new Map<String, Agent_Response.VisitOption>();
       Id currentUserId = UserInfo.getUserId();
       String orgUrl = URL.getOrgDomainUrl().toExternalForm();
 
@@ -140,100 +145,11 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       }
       selectFields += ' FROM Visit';
 
-      // 1. Query Scheduled for Today
-      String todayQuery = selectFields + ' WHERE PlannedVisitStartTime = TODAY';
-      if (!isAdmin && hasResponsible) {
-        todayQuery += ' AND cgcloud__Responsible__c = :currentUserId';
-      }
-      todayQuery += ' WITH USER_MODE LIMIT 10';
-
-      List<Visit> todayVisits = Database.query(todayQuery);
-      for (Visit v : todayVisits) {
-        String assignedUser = v.Owner.Name;
-        if (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) {
-          assignedUser = (String) v.getSObject('cgcloud__Responsible__r')
-            .get('Name');
-        }
-        String timeStr = v.PlannedVisitStartTime != null
-          ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a')
-          : 'Today';
-        String label =
-          '[Visit - ' +
-          v.Account.Name +
-          '](' +
-          orgUrl +
-          '/lightning/r/Visit/' +
-          v.Id +
-          '/view)' +
-          '\n   - \uD83D\uDCC5 Date: ' +
-          timeStr +
-          '\n   - \uD83D\uDCCB Status: ' +
-          v.Status +
-          '\n   - \uD83D\uDC64 Assigned: ' +
-          assignedUser;
-        visitMap.put(
-          v.Id + '_Today',
-          new Agent_Response.VisitOption(
-            v.Id,
-            null,
-            v.Account.Name,
-            label,
-            'Today'
-          )
-        );
-      }
-
-      // 2. Query Scheduled in Next 7 Days (Upcoming)
-      String upcomingQuery =
-        selectFields +
-        ' WHERE PlannedVisitStartTime >= TODAY AND PlannedVisitStartTime <= NEXT_N_DAYS:7';
-      if (!isAdmin && hasResponsible) {
-        upcomingQuery += ' AND cgcloud__Responsible__c = :currentUserId';
-      }
-      upcomingQuery += ' WITH USER_MODE LIMIT 10';
-
-      List<Visit> upcomingVisits = Database.query(upcomingQuery);
-      for (Visit v : upcomingVisits) {
-        String assignedUser = v.Owner.Name;
-        if (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) {
-          assignedUser = (String) v.getSObject('cgcloud__Responsible__r')
-            .get('Name');
-        }
-        String dateStr = v.PlannedVisitStartTime != null
-          ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a')
-          : 'Upcoming';
-        String label =
-          '[Visit - ' +
-          v.Account.Name +
-          '](' +
-          orgUrl +
-          '/lightning/r/Visit/' +
-          v.Id +
-          '/view)' +
-          '\n   - \uD83D\uDCC5 Date: ' +
-          dateStr +
-          '\n   - \uD83D\uDCCB Status: ' +
-          v.Status +
-          '\n   - \uD83D\uDC64 Assigned: ' +
-          assignedUser;
-        visitMap.put(
-          v.Id + '_Upcoming',
-          new Agent_Response.VisitOption(
-            v.Id,
-            null,
-            v.Account.Name,
-            label,
-            'Upcoming'
-          )
-        );
-      }
-
-      // 3. Query Recently Viewed / Modified
       String recentQuery = selectFields;
       if (!isAdmin && hasResponsible) {
         recentQuery += ' WHERE cgcloud__Responsible__c = :currentUserId';
       }
-      recentQuery += ' WITH USER_MODE ORDER BY LastModifiedDate DESC LIMIT 10';
+      recentQuery += ' WITH USER_MODE ORDER BY CreatedDate DESC LIMIT 20';
 
       List<Visit> recentVisits = Database.query(recentQuery);
       for (Visit v : recentVisits) {
@@ -242,52 +158,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
           assignedUser = (String) v.getSObject('cgcloud__Responsible__r')
             .get('Name');
         }
-        String dateStr = v.PlannedVisitStartTime != null
-          ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a')
-          : 'Recently Viewed';
-        String label =
-          '[Visit - ' +
-          v.Account.Name +
-          '](' +
-          orgUrl +
-          '/lightning/r/Visit/' +
-          v.Id +
-          '/view)' +
-          '\n   - \uD83D\uDCC5 Date: ' +
-          dateStr +
-          '\n   - \uD83D\uDCCB Status: ' +
-          v.Status +
-          '\n   - \uD83D\uDC64 Assigned: ' +
-          assignedUser;
-        visitMap.put(
-          v.Id + '_RecentlyViewed',
-          new Agent_Response.VisitOption(
-            v.Id,
-            null,
-            v.Account.Name,
-            label,
-            'Recently Viewed'
-          )
-        );
-      }
-
-      // 4. Query Owned / Responsible by Current User
-      String ownedQuery = selectFields;
-      if (!isAdmin && hasResponsible) {
-        ownedQuery += ' WHERE cgcloud__Responsible__c = :currentUserId';
-      } else {
-        ownedQuery += ' WHERE OwnerId = :currentUserId';
-      }
-      ownedQuery += ' WITH USER_MODE LIMIT 10';
-
-      List<Visit> ownedVisits = Database.query(ownedQuery);
-      for (Visit v : ownedVisits) {
-        String assignedUser = v.Owner.Name;
-        if (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) {
-          assignedUser = (String) v.getSObject('cgcloud__Responsible__r')
-            .get('Name');
-        }
-        String dateStr = v.PlannedVisitStartTime != null
+        String timeStr = v.PlannedVisitStartTime != null
           ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a')
           : 'N/A';
         String label =
@@ -298,70 +169,21 @@ public with sharing class Visit_Agent_Service implements IAgentService {
           '/lightning/r/Visit/' +
           v.Id +
           '/view)' +
-          '\n   - \uD83D\uDCC5 Date: ' +
-          dateStr +
-          '\n   - \uD83D\uDCCB Status: ' +
+          '\n   - 📅 Date: ' +
+          timeStr +
+          '\n   - 📋 Status: ' +
           v.Status +
-          '\n   - \uD83D\uDC64 Assigned: ' +
+          '\n   - 👤 Assigned: ' +
           assignedUser;
-        visitMap.put(
-          v.Id + '_Owned',
+        options.add(
           new Agent_Response.VisitOption(
             v.Id,
             null,
             v.Account.Name,
             label,
-            'Owned'
+            'Recent Visits'
           )
         );
-      }
-
-      // 5. Query All Visits in the Org (No date, status, or assignee filters)
-      String allVisitsQuery =
-        selectFields + ' ORDER BY CreatedDate DESC LIMIT 10';
-      List<Visit> allVisits = Database.query(allVisitsQuery);
-      for (Visit v : allVisits) {
-        String assignedUser = v.Owner.Name;
-        if (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) {
-          assignedUser = (String) v.getSObject('cgcloud__Responsible__r')
-            .get('Name');
-        }
-        String dateStr = v.PlannedVisitStartTime != null
-          ? v.PlannedVisitStartTime.format('M/d/yyyy h:mm a')
-          : 'N/A';
-        String label =
-          '[Visit - ' +
-          v.Account.Name +
-          '](' +
-          orgUrl +
-          '/lightning/r/Visit/' +
-          v.Id +
-          '/view)' +
-          '\n   - \uD83D\uDCC5 Date: ' +
-          dateStr +
-          '\n   - \uD83D\uDCCB Status: ' +
-          v.Status +
-          '\n   - \uD83D\uDC64 Assigned: ' +
-          assignedUser;
-        visitMap.put(
-          v.Id + '_AllVisits',
-          new Agent_Response.VisitOption(
-            v.Id,
-            null,
-            v.Account.Name,
-            label,
-            'All Visits'
-          )
-        );
-      }
-
-      options.addAll(visitMap.values());
-      if (options.size() > 100) {
-        List<Agent_Response.VisitOption> trimmed = new List<Agent_Response.VisitOption>();
-        for (Integer i = 0; i < 100; i++) {
-          trimmed.add(options[i]);
-        }
-        options = trimmed;
       }
 
       if (options.isEmpty()) {
@@ -385,7 +207,8 @@ public with sharing class Visit_Agent_Service implements IAgentService {
     'PMD.AvoidDebugStatements, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssMethodCount'
   )
   public static List<Agent_Response.VisitOption> getAccountVisits(
-    String accountId
+    String accountId,
+    String searchOffset
   ) {
     List<Agent_Response.VisitOption> options = new List<Agent_Response.VisitOption>();
     if (String.isBlank(accountId)) {
@@ -415,6 +238,15 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         .containsKey('cgcloud__Responsible__c');
       Id currentUserId = UserInfo.getUserId();
 
+      Integer offsetVal = 0;
+      if (String.isNotBlank(searchOffset)) {
+        try {
+          offsetVal = Integer.valueOf(searchOffset.trim());
+        } catch (Exception e) {
+          // Ignored
+        }
+      }
+
       String queryStr = 'SELECT Id, Name, Status, PlannedVisitStartTime, Account.Name, Owner.Name';
       if (hasResponsible) {
         queryStr += ', cgcloud__Responsible__c, cgcloud__Responsible__r.Name';
@@ -424,7 +256,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       if (!isAdmin && hasResponsible) {
         queryStr += ' AND cgcloud__Responsible__c = :currentUserId';
       }
-      queryStr += ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC';
+      queryStr += ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC LIMIT 20 OFFSET :offsetVal';
 
       List<Visit> visitsList = Database.query(queryStr);
       for (Visit v : visitsList) {
@@ -490,7 +322,8 @@ public with sharing class Visit_Agent_Service implements IAgentService {
     'PMD.AvoidDebugStatements, PMD.CognitiveComplexity, PMD.CyclomaticComplexity, PMD.NcssMethodCount'
   )
   public static List<Agent_Response.VisitOption> getOosVisits(
-    String accountId
+    String accountId,
+    String searchOffset
   ) {
     List<Agent_Response.VisitOption> options = new List<Agent_Response.VisitOption>();
     if (String.isBlank(accountId)) {
@@ -520,6 +353,15 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         .containsKey('cgcloud__Responsible__c');
       Id currentUserId = UserInfo.getUserId();
 
+      Integer offsetVal = 0;
+      if (String.isNotBlank(searchOffset)) {
+        try {
+          offsetVal = Integer.valueOf(searchOffset.trim());
+        } catch (Exception e) {
+          // Ignored
+        }
+      }
+
       String queryStr = 'SELECT Id, Name, Status, PlannedVisitStartTime, Account.Name, Owner.Name';
       if (hasResponsible) {
         queryStr += ', cgcloud__Responsible__c, cgcloud__Responsible__r.Name';
@@ -529,7 +371,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       if (!isAdmin && hasResponsible) {
         queryStr += ' AND cgcloud__Responsible__c = :currentUserId';
       }
-      queryStr += ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC';
+      queryStr += ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC LIMIT 20 OFFSET :offsetVal';
 
       List<Visit> visitsList = Database.query(queryStr);
       for (Visit v : visitsList) {
@@ -811,10 +653,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       String searchQueryStr =
         selectFields +
         whereClause +
-        ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC';
-      if (queryAll) {
-        searchQueryStr += ' LIMIT 20 OFFSET :offsetVal';
-      }
+        ' WITH USER_MODE ORDER BY PlannedVisitStartTime DESC LIMIT 20 OFFSET :offsetVal';
       List<SObject> visits = Database.query(searchQueryStr);
 
       Set<Id> placeIdsToQuery = new Set<Id>();
@@ -1298,12 +1137,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         action == 'update_visit_status_mobile_action'
       ) {
         if (
-          (req.statusWrapper != null &&
-          req.statusWrapper.statusValue == 'manual input') ||
-          (action == 'update_visit_status_mobile_action' &&
-          (String.isBlank(req.status) ||
+          String.isBlank(req.status) ||
           req.status.trim() == '' ||
-          req.status.trim() == '__user_input__'))
+          req.status.trim() == '__user_input__'
         ) {
           res.success = false;
           res.message = 'Please select the new status for the visit:\n1. InProgress\n2. Completed\n3. Canceled\n4. Abandoned';
@@ -1315,12 +1151,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         action == 'update_visit_owner_mobile_action'
       ) {
         if (
-          (req.ownerWrapper != null &&
-          req.ownerWrapper.ownerName == 'manual input') ||
-          (action == 'update_visit_owner_mobile_action' &&
-          (String.isBlank(req.ownerName) ||
+          String.isBlank(req.ownerName) ||
           req.ownerName.trim() == '' ||
-          req.ownerName.trim() == '__user_input__'))
+          req.ownerName.trim() == '__user_input__'
         ) {
           res.success = false;
           res.message = 'Please provide the name of the user you want to reassign this visit to.';
@@ -1343,14 +1176,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         action == 'update_visit_start_time_mobile_action'
       ) {
         if (
-          (req.plannedStartTimeWrapper != null &&
-          req.plannedStartTimeWrapper.dateTimeValue != null &&
-          req.plannedStartTimeWrapper.dateTimeValue.format('yyyy-MM-dd') ==
-          '1900-01-01') ||
-          (action == 'update_visit_start_time_mobile_action' &&
-          (String.isBlank(req.plannedStartTimeStr) ||
+          String.isBlank(req.plannedStartTimeStr) ||
           req.plannedStartTimeStr.trim() == '' ||
-          req.plannedStartTimeStr.trim() == '__user_input__'))
+          req.plannedStartTimeStr.trim() == '__user_input__'
         ) {
           res.success = false;
           res.message = 'Please provide the new planned start date and time for the visit (e.g. "Tomorrow at 2 PM", "July 16, 2026 at 10:00 AM").';
@@ -1362,14 +1190,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         action == 'update_visit_end_time_mobile_action'
       ) {
         if (
-          (req.plannedEndTimeWrapper != null &&
-          req.plannedEndTimeWrapper.dateTimeValue != null &&
-          req.plannedEndTimeWrapper.dateTimeValue.format('yyyy-MM-dd') ==
-          '1900-01-01') ||
-          (action == 'update_visit_end_time_mobile_action' &&
-          (String.isBlank(req.plannedEndTimeStr) ||
+          String.isBlank(req.plannedEndTimeStr) ||
           req.plannedEndTimeStr.trim() == '' ||
-          req.plannedEndTimeStr.trim() == '__user_input__'))
+          req.plannedEndTimeStr.trim() == '__user_input__'
         ) {
           res.success = false;
           res.message = 'Please provide the new planned end date and time for the visit (e.g. "Tomorrow at 3 PM", "July 16, 2026 at 11:00 AM").';
@@ -1396,34 +1219,12 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         }
       }
 
-      if (
-        req.statusWrapper != null &&
-        String.isNotBlank(req.statusWrapper.statusValue)
-      ) {
-        req.status = req.statusWrapper.statusValue;
-      }
-      if (
-        req.ownerWrapper != null &&
-        String.isNotBlank(req.ownerWrapper.ownerName)
-      ) {
-        req.ownerName = req.ownerWrapper.ownerName;
-      }
-      if (
-        req.plannedStartTimeWrapper != null &&
-        req.plannedStartTimeWrapper.dateTimeValue != null
-      ) {
-        req.plannedStartTime = req.plannedStartTimeWrapper.dateTimeValue;
-      } else if (String.isNotBlank(req.plannedStartTimeStr)) {
+      if (String.isNotBlank(req.plannedStartTimeStr)) {
         req.plannedStartTime = MobileAgentUtility.parseDateTime(
           req.plannedStartTimeStr
         );
       }
-      if (
-        req.plannedEndTimeWrapper != null &&
-        req.plannedEndTimeWrapper.dateTimeValue != null
-      ) {
-        req.plannedEndTime = req.plannedEndTimeWrapper.dateTimeValue;
-      } else if (String.isNotBlank(req.plannedEndTimeStr)) {
+      if (String.isNotBlank(req.plannedEndTimeStr)) {
         req.plannedEndTime = MobileAgentUtility.parseDateTime(
           req.plannedEndTimeStr
         );
@@ -1899,6 +1700,179 @@ public with sharing class Visit_Agent_Service implements IAgentService {
   }
 
   /**
+   * @description Calculates question summary counts (total, completed, pending) matching Visit Activity Agent logic.
+   */
+  public static Map<String, Integer> getQuestionsSummaryCounts(String visitId) {
+    Map<String, Integer> result = new Map<String, Integer>{
+      'total' => 0,
+      'completed' => 0,
+      'pending' => 0
+    };
+    if (String.isBlank(visitId)) {
+      return result;
+    }
+
+    try {
+      List<Visit> visits = [
+        SELECT Id, cgcloud__Visit_Template__c, AccountId
+        FROM Visit
+        WHERE Id = :visitId
+        WITH USER_MODE
+        LIMIT 1
+      ];
+      if (visits.isEmpty()) {
+        return result;
+      }
+
+      Visit v = visits[0];
+      Id visitTemplateId = v.cgcloud__Visit_Template__c;
+      Id visitAccountId = v.AccountId;
+
+      Set<Id> activeJdlIds = new Set<Id>();
+      if (visitTemplateId != null) {
+        // Customer targeting
+        Set<Id> includedDirectJdlIds = new Set<Id>();
+        Set<Id> excludedDirectJdlIds = new Set<Id>();
+        Set<Id> includedSetJdlIds = new Set<Id>();
+
+        if (visitAccountId != null) {
+          List<cgcloud__Job_Definition_List_Account__c> jdlAccounts = [
+            SELECT cgcloud__Job_Definition_List__c, cgcloud__Excluded__c
+            FROM cgcloud__Job_Definition_List_Account__c
+            WHERE cgcloud__Account__c = :visitAccountId
+          ];
+          for (cgcloud__Job_Definition_List_Account__c jda : jdlAccounts) {
+            if (jda.cgcloud__Excluded__c == true) {
+              excludedDirectJdlIds.add(jda.cgcloud__Job_Definition_List__c);
+            } else {
+              includedDirectJdlIds.add(jda.cgcloud__Job_Definition_List__c);
+            }
+          }
+
+          List<cgcloud__Account_Set_Account__c> customerSets = [
+            SELECT cgcloud__Account_Set__c
+            FROM cgcloud__Account_Set_Account__c
+            WHERE cgcloud__Account_Set_Account__c = :visitAccountId
+          ];
+          Set<Id> accountSetIds = new Set<Id>();
+          for (cgcloud__Account_Set_Account__c csa : customerSets) {
+            if (csa.cgcloud__Account_Set__c != null) {
+              accountSetIds.add(csa.cgcloud__Account_Set__c);
+            }
+          }
+
+          if (!accountSetIds.isEmpty()) {
+            List<cgcloud__Job_Definition_List_Account_Set__c> jdlSets = [
+              SELECT cgcloud__Job_Definition_List__c
+              FROM cgcloud__Job_Definition_List_Account_Set__c
+              WHERE cgcloud__Account_Set__c IN :accountSetIds
+            ];
+            for (cgcloud__Job_Definition_List_Account_Set__c jds : jdlSets) {
+              if (jds.cgcloud__Job_Definition_List__c != null) {
+                includedSetJdlIds.add(jds.cgcloud__Job_Definition_List__c);
+              }
+            }
+          }
+        }
+
+        // Query unique links for the visit template
+        List<cgcloud__Job_DL_Job_Definition_Template__c> links = [
+          SELECT cgcloud__Job_Definition_List__c
+          FROM cgcloud__Job_DL_Job_Definition_Template__c
+          WHERE cgcloud__Job_Definition_List__r.cgcloud__Visit_Template__c = :visitTemplateId
+          AND cgcloud__Job_Definition_List__r.cgcloud__Active__c = true
+        ];
+        Set<Id> candidateJdlIds = new Set<Id>();
+        for (cgcloud__Job_DL_Job_Definition_Template__c link : links) {
+          if (link.cgcloud__Job_Definition_List__c != null) {
+            candidateJdlIds.add(link.cgcloud__Job_Definition_List__c);
+          }
+        }
+
+        if (!candidateJdlIds.isEmpty()) {
+          List<cgcloud__Job_Definition_List__c> filteredJdls = [
+            SELECT Id, cgcloud__Consider_Account__c
+            FROM cgcloud__Job_Definition_List__c
+            WHERE Id IN :candidateJdlIds
+          ];
+          for (cgcloud__Job_Definition_List__c jdl : filteredJdls) {
+            if (jdl.cgcloud__Consider_Account__c == false) {
+              activeJdlIds.add(jdl.Id);
+            } else {
+              if (excludedDirectJdlIds.contains(jdl.Id)) {
+                continue;
+              }
+              if (
+                includedDirectJdlIds.contains(jdl.Id) ||
+                includedSetJdlIds.contains(jdl.Id)
+              ) {
+                activeJdlIds.add(jdl.Id);
+              }
+            }
+          }
+        }
+      }
+
+      // Get all unique template question IDs planned for the active JDLs
+      Set<Id> plannedTemplateIds = new Set<Id>();
+      if (!activeJdlIds.isEmpty()) {
+        List<cgcloud__Job_DL_Job_Definition_Template__c> plannedList = [
+          SELECT cgcloud__Job_Definition_Template__c
+          FROM cgcloud__Job_DL_Job_Definition_Template__c
+          WHERE cgcloud__Job_Definition_List__c IN :activeJdlIds
+          AND cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name = 'Question'
+        ];
+        for (cgcloud__Job_DL_Job_Definition_Template__c planned : plannedList) {
+          if (planned.cgcloud__Job_Definition_Template__c != null) {
+            plannedTemplateIds.add(planned.cgcloud__Job_Definition_Template__c);
+          }
+        }
+      }
+
+      // Query actual jobs of type 'Question'
+      List<cgcloud__Visit_Job__c> actualJobs = [
+        SELECT
+          cgcloud__Job_Definition_Template__c,
+          cgcloud__Done__c,
+          cgcloud__Value__c
+        FROM cgcloud__Visit_Job__c
+        WHERE cgcloud__Visit__c = :visitId
+        AND cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name = 'Question'
+        WITH USER_MODE
+      ];
+
+      Integer completed = 0;
+      for (cgcloud__Visit_Job__c job : actualJobs) {
+        if (
+          job.cgcloud__Done__c == true ||
+          String.isNotBlank(job.cgcloud__Value__c)
+        ) {
+          completed++;
+        }
+      }
+
+      // Total is planned templates + actual jobs that don't match planned templates
+      Integer total = plannedTemplateIds.size();
+      for (cgcloud__Visit_Job__c job : actualJobs) {
+        if (
+          job.cgcloud__Job_Definition_Template__c == null ||
+          !plannedTemplateIds.contains(job.cgcloud__Job_Definition_Template__c)
+        ) {
+          total++;
+        }
+      }
+
+      result.put('total', total);
+      result.put('completed', completed);
+      result.put('pending', Math.max(0, total - completed));
+    } catch (Exception e) {
+      System.debug(LoggingLevel.ERROR, e.getMessage());
+    }
+
+    return result;
+  }
+
+  /**
    * @description Formats the planned activities with their child question/survey counts.
    */
   public static String getPlannedActivitiesDetails(String visitId) {
@@ -1967,20 +1941,17 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         }
       }
 
-      // Query unique links for the visit template - dynamic SOQL for namespace relationship
-      List<SObject> links = Database.query(
-        'SELECT cgcloud__Job_Definition_List__c ' +
-          'FROM cgcloud__Job_DL_Job_Definition_Template__c ' +
-          'WHERE cgcloud__Job_Definition_List__r.cgcloud__Visit_Template__c = \'' +
-          String.escapeSingleQuotes(visitTemplateId) +
-          '\' ' +
-          'AND cgcloud__Job_Definition_List__r.cgcloud__Active__c = true'
-      );
+      // Query unique links for the visit template - strongly typed relationship
+      List<cgcloud__Job_DL_Job_Definition_Template__c> links = [
+        SELECT cgcloud__Job_Definition_List__c
+        FROM cgcloud__Job_DL_Job_Definition_Template__c
+        WHERE cgcloud__Job_Definition_List__r.cgcloud__Visit_Template__c = :visitTemplateId
+        AND cgcloud__Job_Definition_List__r.cgcloud__Active__c = true
+      ];
       Set<Id> candidateJdlIds = new Set<Id>();
-      for (SObject link : links) {
-        Id jdlId = (Id) link.get('cgcloud__Job_Definition_List__c');
-        if (jdlId != null) {
-          candidateJdlIds.add(jdlId);
+      for (cgcloud__Job_DL_Job_Definition_Template__c link : links) {
+        if (link.cgcloud__Job_Definition_List__c != null) {
+          candidateJdlIds.add(link.cgcloud__Job_Definition_List__c);
         }
       }
 
@@ -2019,59 +1990,49 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         return '- Planned Activities: None\n';
       }
 
-      // Query links with their JDT job templates to count questions and surveys under each active JDL
-      List<SObject> linkTemplates = Database.query(
-        'SELECT cgcloud__Job_Definition_List__c, ' +
-          'cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name ' +
-          'FROM cgcloud__Job_DL_Job_Definition_Template__c ' +
-          'WHERE cgcloud__Job_Definition_List__c IN :activeJdlIds'
-      );
-
-      Map<Id, Integer> jdlQuestionCounts = new Map<Id, Integer>();
-      Map<Id, Integer> jdlSurveyCounts = new Map<Id, Integer>();
-      for (Id jId : activeJdlIds) {
-        jdlQuestionCounts.put(jId, 0);
-        jdlSurveyCounts.put(jId, 0);
-      }
-
-      for (SObject lt : linkTemplates) {
-        Id jdlId = (Id) lt.get('cgcloud__Job_Definition_List__c');
-        String typeName = '';
-        try {
-          typeName = (String) lt.getSObject(
-              'cgcloud__Job_Definition_Template__r'
-            )
-            .getSObject('cgcloud__Job_Template__r')
-            .get('Name');
-        } catch (Exception e) {
-        }
-
-        if (jdlId != null) {
-          if (typeName == 'Question') {
-            jdlQuestionCounts.put(jdlId, jdlQuestionCounts.get(jdlId) + 1);
-          } else if (typeName == 'Survey') {
-            jdlSurveyCounts.put(jdlId, jdlSurveyCounts.get(jdlId) + 1);
-          }
-        }
-      }
+      // Query JDLs with their child links subquery to retrieve mapped templates and count questions/surveys
+      List<cgcloud__Job_Definition_List__c> activeJdlsWithLinks = [
+        SELECT Id, Name, cgcloud__Description__c,
+          cgcloud__Field_Sales_Activity__r.Name,
+          cgcloud__Field_Sales_Activity__r.cgcloud__Description__c,
+          (
+            SELECT Id, cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name
+            FROM cgcloud__Job_Definition_Links__r
+          )
+        FROM cgcloud__Job_Definition_List__c
+        WHERE Id IN :activeJdlIds
+      ];
 
       String actString = '- Planned Activities:\n';
-      for (cgcloud__Job_Definition_List__c jdl : filteredJdls) {
-        if (activeJdlIds.contains(jdl.Id)) {
-          String name = jdl.cgcloud__Field_Sales_Activity__r.Name != null
-            ? jdl.cgcloud__Field_Sales_Activity__r.Name
-            : jdl.Name;
-          Integer qCount = jdlQuestionCounts.get(jdl.Id);
-          Integer sCount = jdlSurveyCounts.get(jdl.Id);
-          actString +=
-            '  * ' +
-            name +
-            ' (Questions: ' +
-            qCount +
-            ', Surveys: ' +
-            sCount +
-            ')\n';
+      for (cgcloud__Job_Definition_List__c jdl : activeJdlsWithLinks) {
+        String name = jdl.cgcloud__Field_Sales_Activity__r.Name != null
+          ? jdl.cgcloud__Field_Sales_Activity__r.Name
+          : jdl.Name;
+        Integer qCount = 0;
+        Integer sCount = 0;
+
+        if (jdl.cgcloud__Job_Definition_Links__r != null) {
+          for (cgcloud__Job_DL_Job_Definition_Template__c linkItem : jdl.cgcloud__Job_Definition_Links__r) {
+            String typeName = '';
+            try {
+              typeName = linkItem.cgcloud__Job_Definition_Template__r.cgcloud__Job_Template__r.Name;
+            } catch (Exception e) {}
+            if (typeName == 'Question') {
+              qCount++;
+            } else if (typeName == 'Survey') {
+              sCount++;
+            }
+          }
         }
+
+        actString +=
+          '  * ' +
+          name +
+          ' (Questions: ' +
+          qCount +
+          ', Surveys: ' +
+          sCount +
+          ')\n';
       }
       return actString;
     } catch (Exception e) {
@@ -2384,16 +2345,24 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         }
       }
 
-      String activitiesDetails = getPlannedActivitiesDetails(visitId);
+      Map<String, Integer> qCounts = getQuestionsSummaryCounts(visitId);
+      String activitySummaryStr = '- Activity Summary:\n' +
+        '  - Total Questions: ' + qCounts.get('total') + '\n' +
+        '  - \u2705 Answered: ' + qCounts.get('completed') + '\n' +
+        '  - \u23F3 Pending: ' + qCounts.get('pending') + '\n';
 
       if (
         orderCount == 0 &&
         activePromotions == 0 &&
-        activitiesDetails.contains('None')
+        qCounts.get('total') == 0
       ) {
         orderCount = 3;
         totalSpent = 72000;
         activePromotions = 4;
+        activitySummaryStr = '- Activity Summary:\n' +
+          '  - Total Questions: 12\n' +
+          '  - \u2705 Answered: 6\n' +
+          '  - \u23F3 Pending: 6\n';
       }
 
       return 'Store Brief for ' +
@@ -2423,7 +2392,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         '- Active Promotions: ' +
         activePromotions +
         '\n' +
-        activitiesDetails +
+        activitySummaryStr +
         '- Potential Opportunities: Product XYZ not ordered in 45 days\n' +
         '- Suggested Next Action: Capture replenishment order';
     } catch (Exception e) {
@@ -2436,9 +2405,10 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         '  2. Sprite 1L\n' +
         '  3. Fanta 500ml\n' +
         '- Active Promotions: 4\n' +
-        '- Planned Activities:\n' +
-        '  * Store Audit (Questions: 12, Surveys: 0)\n' +
-        '  * Inventory Check (Questions: 0, Surveys: 6)\n' +
+        '- Activity Summary:\n' +
+        '  - Total Questions: 12\n' +
+        '  - \u2705 Answered: 6\n' +
+        '  - \u23F3 Pending: 6\n' +
         '- Potential Opportunities: Product XYZ not ordered in 45 days\n' +
         '- Suggested Next Action: Capture replenishment order';
     }
@@ -2482,10 +2452,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         ? v.PlannedVisitStartTime.format('dd-MMM-yyyy')
         : 'N/A';
 
-      Map<String, Integer> actCounts = getActivityCounts(visitId);
-      Integer totalActivities = actCounts.get('total');
-      Integer completedActivities = actCounts.get('completed');
-      Integer pendingActivities = actCounts.get('pending');
+      Map<String, Integer> qCounts = getQuestionsSummaryCounts(visitId);
 
       Integer promotionsChecked = 0;
       Integer compliantPromos = 0;
@@ -2545,15 +2512,10 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         '* **Visit Date**: ' +
         visitDateStr +
         '\n' +
-        '* **Total Activities**: ' +
-        totalActivities +
-        '\n' +
-        '* **Completed Activities**: ' +
-        completedActivities +
-        '\n' +
-        '* **Pending Activities**: ' +
-        pendingActivities +
-        '\n' +
+        '* **Activity Summary**:\n' +
+        '  * Total Questions: ' + qCounts.get('total') + '\n' +
+        '  * \u2705 Answered: ' + qCounts.get('completed') + '\n' +
+        '  * \u23F3 Pending: ' + qCounts.get('pending') + '\n' +
         '* **Promotions Checked**: ' +
         promotionsChecked +
         ' (Compliant: ' +
@@ -2574,7 +2536,7 @@ public with sharing class Visit_Agent_Service implements IAgentService {
         notesStr +
         '\n' +
         '* **Overall Outcome**: ' +
-        (pendingActivities == 0
+        (qCounts.get('pending') == 0
           ? 'Successful visit.'
           : 'Visit partially completed.');
 
@@ -2583,9 +2545,10 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       return '### Visit Summary\n\n' +
         '* **Store**: Reliance Store\n' +
         '* **Visit Date**: 20-Jun-2026\n' +
-        '* **Total Activities**: 10\n' +
-        '* **Completed Activities**: 6\n' +
-        '* **Pending Activities**: 4\n' +
+        '* **Activity Summary**:\n' +
+        '  * Total Questions: 12\n' +
+        '  * \u2705 Answered: 6\n' +
+        '  * \u23F3 Pending: 6\n' +
         '* **Promotions Checked**: 4 (Compliant: 3, Issues: 1)\n' +
         '* **Issues Found**: 1 Out of Stock\n' +
         '* **Orders Created**: 2\n' +
@@ -2638,24 +2601,9 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       wrapper.visitStatus = v.Status;
       wrapper.assignedUser = v.Owner != null ? v.Owner.Name : 'N/A';
 
-      List<Task> tasks = [
-        SELECT Id, Status
-        FROM Task
-        WHERE
-          WhatId = :visitId
-          OR (AccountId = :v.AccountId
-          AND ActivityDate = TODAY)
-        WITH USER_MODE
-      ];
-      wrapper.completedTasks = 0;
-      wrapper.pendingTasks = 0;
-      for (Task t : tasks) {
-        if (t.Status == 'Completed') {
-          wrapper.completedTasks++;
-        } else {
-          wrapper.pendingTasks++;
-        }
-      }
+      Map<String, Integer> qCounts = getQuestionsSummaryCounts(visitId);
+      wrapper.completedTasks = qCounts.get('completed');
+      wrapper.pendingTasks = qCounts.get('pending');
 
       wrapper.promotionsChecked = 0;
       try {
@@ -3460,7 +3408,6 @@ public with sharing class Visit_Agent_Service implements IAgentService {
           res.accountableUser = '';
         }
 
-        res.visitNavigation = new VisitNavigationWrapper(v.Id);
         res.success = true;
         res.message = 'Visit selected successfully. Navigating you to the Visit record page...';
       } else {
@@ -3471,6 +3418,193 @@ public with sharing class Visit_Agent_Service implements IAgentService {
       res.success = false;
       res.message = 'Error selecting and navigating visit: ' + e.getMessage();
     }
+    return res;
+  }
+
+  /**
+   * @description Retrieves overdue (Planned > 1 day) and stale (InProgress > 1 day) visits with pagination support.
+   * @param accountId Optional account ID filter.
+   * @param searchOffset Query offset for pagination.
+   * @return List<Agent_Response.StaleVisitInfo> List of stale visits.
+   */
+  public static List<Agent_Response.StaleVisitInfo> getStaleVisits(String accountId, String searchOffset) {
+    List<Agent_Response.StaleVisitInfo> results = new List<Agent_Response.StaleVisitInfo>();
+    DateTime yesterday = System.now().addDays(-1);
+
+    String query = 'SELECT Id, Name, Status, CreatedDate, ActualVisitStartTime, PlannedVisitStartTime, ' +
+                   'AccountId, Account.Name, cgcloud__Responsible__c, cgcloud__Responsible__r.Name, ' +
+                   'OwnerId, Owner.Name ' +
+                   'FROM Visit ' +
+                   'WHERE ((Status = \'Planned\' AND CreatedDate < :yesterday) ' +
+                   'OR (Status = \'InProgress\' AND (ActualVisitStartTime < :yesterday OR (ActualVisitStartTime = null AND LastModifiedDate < :yesterday))))';
+
+    if (String.isNotBlank(accountId)) {
+      query += ' AND AccountId = \'' + String.escapeSingleQuotes(accountId) + '\'';
+    }
+
+    query += ' WITH USER_MODE ORDER BY CreatedDate DESC LIMIT 20';
+
+    if (String.isNotBlank(searchOffset)) {
+      try {
+        Integer offsetVal = Integer.valueOf(searchOffset.trim());
+        if (offsetVal > 0) {
+          query += ' OFFSET ' + offsetVal;
+        }
+      } catch (Exception e) {
+        System.debug(LoggingLevel.WARN, 'Invalid searchOffset passed to getStaleVisits: ' + searchOffset);
+      }
+    }
+
+    List<Visit> visits = Database.query(query);
+
+    for (Visit v : visits) {
+      Agent_Response.StaleVisitInfo res = new Agent_Response.StaleVisitInfo();
+      res.visitId = v.Id;
+      res.visitName = v.Name;
+      res.accountName = v.Account != null ? v.Account.Name : '';
+      res.status = v.Status;
+      res.responsibleRepId = v.cgcloud__Responsible__c != null ? v.cgcloud__Responsible__c : v.OwnerId;
+      res.responsibleRepName = v.cgcloud__Responsible__c != null && v.getSObject('cgcloud__Responsible__r') != null ? (String) v.getSObject('cgcloud__Responsible__r').get('Name') : v.Owner.Name;
+      res.plannedStartTime = v.PlannedVisitStartTime;
+      res.createdDate = v.CreatedDate;
+      results.add(res);
+    }
+
+    return results;
+  }
+
+  /**
+   * @description Sends custom notifications and creates offline tasks for specified visits.
+   * @param visitIds List of Visit IDs.
+   * @return Agent_Response Result of sending alerts.
+   */
+  public static Agent_Response sendVisitAlerts(List<String> visitIds) {
+    Agent_Response res = new Agent_Response();
+    res.success = false;
+
+    if (visitIds == null || visitIds.isEmpty()) {
+      res.message = 'No Visit IDs provided.';
+      return res;
+    }
+
+    // 1. Query Custom Notification Type ID
+    Id notificationTypeId;
+    try {
+      CustomNotificationType notificationType = [
+        SELECT Id 
+        FROM CustomNotificationType 
+        WHERE DeveloperName = 'User_Notifications'
+        WITH USER_MODE
+        LIMIT 1
+      ];
+      notificationTypeId = notificationType.Id;
+    } catch (Exception e) {
+      System.debug(LoggingLevel.WARN, 'Custom Notification Type "Visit Alerts" not found: ' + e.getMessage());
+    }
+
+    // 2. Query Task Record Type ID for 'User_Notification'
+    Id taskRecordTypeId;
+    try {
+      RecordType rt = [
+        SELECT Id 
+        FROM RecordType 
+        WHERE SObjectType = 'Task' AND (DeveloperName = 'User_Notification' OR DeveloperName = 'cgcloud__User_Notification')
+        WITH USER_MODE
+        LIMIT 1
+      ];
+      taskRecordTypeId = rt.Id;
+    } catch (Exception e) {
+      System.debug(LoggingLevel.WARN, 'Task Record Type "User_Notification" not found: ' + e.getMessage());
+    }
+
+    List<Visit> visits = [
+      SELECT Id, Name, Status, cgcloud__Responsible__c, OwnerId, Account.Name
+      FROM Visit
+      WHERE Id IN :visitIds
+      WITH USER_MODE
+    ];
+
+    if (visits.isEmpty()) {
+      res.message = 'No matching Visit records found.';
+      return res;
+    }
+
+    Set<Id> visitsWithNotifications = new Set<Id>();
+    if (taskRecordTypeId != null) {
+      List<Task> existingTasks = [
+        SELECT WhatId 
+        FROM Task 
+        WHERE WhatId IN :visitIds 
+          AND RecordTypeId = :taskRecordTypeId 
+          AND Status != 'Completed'
+        WITH USER_MODE
+      ];
+      for (Task t : existingTasks) {
+        visitsWithNotifications.add(t.WhatId);
+      }
+    }
+
+    List<Task> tasksToInsert = new List<Task>();
+    Integer sentCount = 0;
+
+    for (Visit v : visits) {
+      if (visitsWithNotifications.contains(v.Id)) {
+        continue;
+      }
+
+      Id recipientId = v.cgcloud__Responsible__c != null ? v.cgcloud__Responsible__c : v.OwnerId;
+      if (recipientId == null) {
+        continue;
+      }
+
+      String storeName = v.Account != null ? v.Account.Name : 'Store';
+      String alertMessage = '';
+      if (v.Status == 'Planned') {
+        alertMessage = 'Visit ' + v.Name + ' for store ' + storeName + ' has been in Planned state for more than one day from its creation date.';
+      } else if (v.Status == 'InProgress') {
+        alertMessage = 'Visit ' + v.Name + ' for store ' + storeName + ' has been in In Progress state for more than one day.';
+      } else {
+        alertMessage = 'Visit ' + v.Name + ' for store ' + storeName + ' requires your attention.';
+      }
+
+      if (taskRecordTypeId != null) {
+        Task t = new Task();
+        t.RecordTypeId = taskRecordTypeId;
+        t.OwnerId = recipientId;
+        t.Subject = 'Visit Alerts';
+        t.Description = alertMessage;
+        t.ActivityDate = Date.today();
+        t.Status = 'Open';
+        t.WhatId = v.Id;
+        tasksToInsert.add(t);
+      }
+
+      if (notificationTypeId != null) {
+        try {
+          Messaging.CustomNotification notification = new Messaging.CustomNotification();
+          notification.setNotificationTypeId(notificationTypeId);
+          notification.setTargetId(v.Id);
+          notification.setTitle('Visit Alert');
+          notification.setBody(alertMessage);
+          notification.send(new Set<String>{ recipientId });
+          sentCount++;
+        } catch (Exception e) {
+          System.debug(LoggingLevel.ERROR, 'Error sending custom notification for Visit ' + v.Id + ': ' + e.getMessage());
+        }
+      }
+    }
+
+    try {
+      if (!tasksToInsert.isEmpty()) {
+        insert as user tasksToInsert;
+      }
+      res.success = true;
+      res.message = 'Successfully sent ' + sentCount + ' notifications and created offline tasks.';
+    } catch (Exception e) {
+      res.success = false;
+      res.message = 'Failed to create offline tasks: ' + e.getMessage();
+    }
+
     return res;
   }
 }

@@ -1,0 +1,56 @@
+{
+  "required" : [ ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "accountInput" : {
+      "title" : "Account Input",
+      "description" : "Account name or ID",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "actionType" : {
+      "title" : "Action Type",
+      "description" : "The action to perform.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "agentName" : {
+      "title" : "Agent Name",
+      "description" : "The name of the agent.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "placeInput" : {
+      "title" : "Place Input",
+      "description" : "Place/Store/Location name or ID",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "plannedStartTimeStr" : {
+      "title" : "Planned Start Time Str",
+      "description" : "Planned start time of the visit",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "subject" : {
+      "title" : "Subject",
+      "description" : "Subject of the visit",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "templateInput" : {
+      "title" : "Template Input",
+      "description" : "Visit Template name or ID",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

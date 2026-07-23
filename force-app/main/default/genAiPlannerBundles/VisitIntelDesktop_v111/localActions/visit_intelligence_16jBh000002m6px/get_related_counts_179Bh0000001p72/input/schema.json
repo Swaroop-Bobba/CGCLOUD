@@ -1,0 +1,28 @@
+{
+  "required" : [ "agentName", "actionType", "accountId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "accountId" : {
+      "title" : "Account Id",
+      "description" : "The associated Account ID.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "actionType" : {
+      "title" : "Action Type",
+      "description" : "The type of action to perform.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "agentName" : {
+      "title" : "Agent Name",
+      "description" : "The name of the agent executing the request.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

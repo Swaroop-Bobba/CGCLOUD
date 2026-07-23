@@ -1,0 +1,779 @@
+system:
+    instructions: |
+        You are a Salesforce Visit Execution Advisor Agent operating within the current Salesforce org.
+        Your primary objective is to assist sales supervisors and field representatives in executing and advising on Store Visits, Retail Stores, Tasks, Surveys, Orders, Promotions, Inventory, Navigation, and Sync/Exceptions.
+        You must only answer questions from the Salesforce CG Cloud objects and context. Do not provide any answers or information outside this Salesforce org objects (such as general knowledge, external web search data, mathematical formulas, or general programming advice). If asked about anything outside these Salesforce objects, politely decline to answer.
+        Always maintain a professional, helpful, and concise tone.
+    messages:
+        welcome: "Hi! I am the Visit Execution Advisor Agent. I can help you with store visits, retail stores, tasks, surveys, orders, promotions, inventory, and sync/exception troubleshooting. How can I assist you today?"
+        error: "An error occurred. Please try again."
+
+config:
+    developer_name: "Visit_Execution_Advisor"
+    agent_label: "Visit Execution Advisor"
+    description: "CG Cloud Visit Execution Advisor Agent that answers store visit and execution questions using Salesforce org objects."
+    agent_type: "AgentforceEmployeeAgent"
+
+model_config:
+    model: "model://sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet"
+
+variables:
+    currentRecordId: mutable string = ""
+        description: "The ID of the current record."
+        visibility: "External"
+    currentObjectApiName: mutable string = ""
+        description: "The API name of the current object."
+        visibility: "External"
+    lastRecordId: mutable string = ""
+        description: "The ID of the last seen record page to detect page navigation."
+    visitId: mutable string = ""
+        description: "The ID of the current Visit."
+    accountId: mutable string = ""
+        description: "The ID of the Account associated with the current Visit."
+    accountName: mutable string = ""
+        description: "The Name of the Account associated with the current Visit."
+    visitStatus: mutable string = ""
+        description: "The Status of the current Visit."
+    visitDate: mutable string = ""
+        description: "The Date of the current Visit."
+    assignedUser: mutable string = ""
+        description: "The assigned user name for the current Visit."
+    visitSummaryText: mutable string = ""
+        description: "The automatically pre-loaded visit summary text for the current Visit."
+    syncFailureAnalysis: mutable string = ""
+        description: "Result of sync failure diagnosis."
+    activeSubagent: mutable string = "visit_intelligence"
+        description: "The active subagent name: 'visit_intelligence', 'visit_activities', or 'sync_and_exceptions'."
+
+language:
+    default_locale: "en_US"
+    additional_locales: ""
+    all_additional_locales: False
+
+start_agent agent_router:
+    description: "Route employees to the right subagent and initialize visit context."
+    before_reasoning:
+        if @variables.currentObjectApiName == "Visit" and @variables.currentRecordId != "" and @variables.currentRecordId != @variables.lastRecordId:
+            set @variables.visitId = @variables.currentRecordId
+            set @variables.lastRecordId = @variables.currentRecordId
+            set @variables.accountId = ""
+            set @variables.accountName = ""
+            set @variables.visitStatus = ""
+            set @variables.visitDate = ""
+            set @variables.assignedUser = ""
+            set @variables.visitSummaryText = ""
+            set @variables.activeSubagent = "visit_intelligence"
+
+    reasoning:
+        instructions: ->
+            if @variables.visitId != "" and @variables.accountId == "":
+                run @actions.get_visit_details
+                    with recordId = @variables.visitId
+                    set @variables.accountId = @outputs.accountId
+                    set @variables.accountName = @outputs.accountName
+                    set @variables.visitStatus = @outputs.visitStatus
+                    set @variables.visitDate = @outputs.visitDate
+                    set @variables.assignedUser = @outputs.assignedUser
+
+            if @variables.accountId != "" and @variables.activeSubagent == "visit_activities":
+                transition to @subagent.visit_activities
+            
+            if @variables.accountId != "" and @variables.activeSubagent == "visit_intelligence":
+                transition to @subagent.visit_intelligence
+
+            if @variables.accountId != "" and @variables.activeSubagent == "sync_and_exceptions":
+                transition to @subagent.sync_and_exceptions
+
+            | Instructions:
+            | 1. Record Page Context: If the user has opened this agent from a Visit record page and currentRecordId is set, call {!@actions.get_visit} to load context.
+            | 2. First Launch (No Page Context): Greet with: "How can I assist you today? You can search for a visit by account name, store name, or date, or I can show your recent/scheduled visits."
+            | 3. List Visits: Call {!@actions.list_visits} ONLY when the user explicitly asks for "recent visits", "my visits", "scheduled visits", or similar general visit listings. Present the results to the user as a formal numbered list starting at 1. For each visit, print the visit name as a markdown hyperlink (e.g., "[00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)") and show key details (Account Name, Status, Date/Time, and Owner Name) in a bulleted sub-list.
+            | 4. Today's Visits: If the user explicitly asks for "today's visits", "visits for today", or similar, do NOT call list_visits. Instead, call {!@actions.find_visits} with searchQuery = "today". Present the results to the user as a formal numbered list starting at 1. For each visit, print the visit name as a markdown hyperlink (e.g., "[00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)") and show key details (Account Name, Status, Date/Time, and Owner Name) in a bulleted sub-list.
+            | 5. Search Visits: Call {!@actions.find_visits} when the user provides a search term (account name, store name, or date other than today). Present the results to the user as a formal numbered list starting at 1. For each visit, print the visit name as a markdown hyperlink (e.g., "[00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)") and show key details (Account Name, Status, Date/Time, and Owner Name) in a bulleted sub-list.
+            | 6. Selection: When the user selects, specifies, or inputs a number corresponding to a visit from the most recent numbered list (e.g. they type "1" or select the first option), map it to that visit, extract its ID (recordId), and call {!@actions.select_visit} with that visit's recordId to load the visit context.
+            | 7. Do NOT call {!@actions.select_visit} without a valid Visit record ID from search or list results.
+            | 8. Do NOT use show_command. Always compose your response as direct text.
+            | 9. If the user asks about synchronization issues, failed check-ins, or check-in locks before context is loaded, transition to @subagent.sync_and_exceptions using {!@actions.go_to_sync}.
+
+        actions:
+            get_visit: @actions.get_visit_details
+                description: "Retrieve details of the current Visit record and its associated Account from page context."
+                with recordId = @variables.currentRecordId
+                set @variables.visitId = @outputs.recordId
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.visitStatus = @outputs.visitStatus
+                set @variables.visitDate = @outputs.visitDate
+                set @variables.assignedUser = @outputs.assignedUser
+                set @variables.visitSummaryText = ""
+                set @variables.activeSubagent = "visit_intelligence"
+                transition to @subagent.visit_intelligence
+ 
+            select_visit: @actions.get_visit_details
+                description: "Select a Visit by its record ID to load account context. The recordId MUST be a valid Visit ID (Id) obtained from the selected Visit record."
+                with recordId = ...
+                set @variables.visitId = @outputs.recordId
+                set @variables.accountId = @outputs.accountId
+                set @variables.accountName = @outputs.accountName
+                set @variables.visitStatus = @outputs.visitStatus
+                set @variables.visitDate = @outputs.visitDate
+                set @variables.assignedUser = @outputs.assignedUser
+                set @variables.visitSummaryText = ""
+                set @variables.activeSubagent = "visit_intelligence"
+                transition to @subagent.visit_intelligence
+
+            list_visits: @actions.get_available_visits
+                description: "Retrieve user's recently viewed, owned, and scheduled visits as custom VisitInfo objects."
+                with actionType = "getAvailable"
+                with searchQuery = ""
+
+            find_visits: @actions.search_visits
+                description: "Search for Visit records by account name, store name, visit name, or date as custom VisitInfo objects."
+                with actionType = "search"
+                with searchQuery = ...
+
+            go_to_sync: @utils.transition to @subagent.sync_and_exceptions
+                description: "Transition to sync and exceptions subagent to manage check-in locks, sync failures, or synchronization questions."
+
+            go_to_off_topic: @utils.transition to @subagent.off_topic
+                description: "Route off-topic queries."
+
+            go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
+                description: "Route ambiguous queries."
+
+    actions:
+        get_visit_details:
+            description: "Retrieve details of the current Visit record and its associated Account."
+            target: "flow://Get_Visit_Details"
+            inputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                    is_required: True
+            outputs:
+                recordId: string
+                    description: "The ID of the Visit record."
+                accountId: string
+                    description: "The associated Account ID."
+                accountName: string
+                    description: "The associated Account Name."
+                visitStatus: string
+                    description: "The Visit Status."
+                visitDate: string
+                    description: "The Visit Date."
+                assignedUser: string
+                    description: "The Assigned User."
+
+        get_available_visits:
+            description: "Retrieve user's recently viewed, owned, and scheduled visits."
+            target: "apex://Visit_Agent_SObject_Service"
+            inputs:
+                actionType: string
+                    description: "The type of action to perform: 'getAvailable'."
+                    is_required: True
+                searchQuery: string
+                    description: "The search query (should be empty for available visits)."
+            outputs:
+                visitsList: list[object]
+                    complex_data_type_name: "@apexClassType/c__Visit_Agent_SObject_Service$VisitInfo"
+                    description: "List of available visits."
+                    is_displayable: True
+
+        search_visits:
+            description: "Search for Visit records by account name, store name, visit name, or date."
+            target: "apex://Visit_Agent_SObject_Service"
+            inputs:
+                actionType: string
+                    description: "The type of action to perform: 'search'."
+                    is_required: True
+                searchQuery: string
+                    description: "The search query."
+                    is_required: True
+            outputs:
+                visitsList: list[object]
+                    complex_data_type_name: "@apexClassType/c__Visit_Agent_SObject_Service$VisitInfo"
+                    description: "List of matching visits."
+                    is_displayable: True
+
+subagent visit_intelligence:
+    label: "Visit Intelligence"
+    description: "Analyze the current Visit record and retrieve/summarize related Account context including Contacts, Tasks, Promotions, and Out-of-Stock records."
+    before_reasoning:
+        set @variables.activeSubagent = "visit_intelligence"
+        if @variables.currentObjectApiName == "Visit" and @variables.currentRecordId != "" and @variables.currentRecordId != @variables.lastRecordId:
+            set @variables.visitId = ""
+            set @variables.lastRecordId = @variables.currentRecordId
+            set @variables.accountId = ""
+            set @variables.accountName = ""
+            set @variables.visitStatus = ""
+            set @variables.visitDate = ""
+            set @variables.assignedUser = ""
+            set @variables.visitSummaryText = ""
+            transition to @subagent.agent_router
+
+    reasoning:
+        instructions: ->
+            if @variables.accountId != "" and @variables.visitSummaryText == "":
+                run @actions.generate_visit_summary
+                    with agentName = "Visit_Execution_Advisor"
+                    with actionType = "generateSummary"
+                    with visitId = @variables.visitId
+                    set @variables.visitSummaryText = @outputs.visitSummary
+
+            if @variables.accountId != "":
+                | Context loaded for Account: "{!@variables.accountName}" (Visit ID: {!@variables.visitId}).
+                | Status: {!@variables.visitStatus}, Date: {!@variables.visitDate}, User: {!@variables.assignedUser}.
+                |
+                | You must process the user's message using the following guidelines:
+                |
+                | SECTION 1: ACTION AND QUESTION HANDLING
+                | - PRIORITY: If the user's message directly requests account information, account details, or account contact info (e.g. "get account information", "account information", "account details", "show account info", "account summary"), call @actions.get_account_info IMMEDIATELY. Do NOT call @actions.get_counts for these requests.
+                | - Otherwise, check if the user's message corresponds to one of the 13 core categories of questions:
+                |   * Category 1: Today's Visit Questions (e.g. what are my visits, pending, overdue, or planned visits, tomorrow's visits)
+                |     - Check visits list details using {!@actions.get_details} with recordType = "visits".
+                |   * Category 2: Visit Details (e.g. objective, scheduled time, duration, status, creation user, manager)
+                |     - Details are in {!@variables.visitSummaryText} or you can call {!@actions.store_brief}.
+                |   * Category 3: Store Information (e.g. format, priority, location, owner, contact details, key account, products assigned)
+                |     - Call {!@actions.store_brief} or {!@actions.get_details} with recordType = "retailstores", "storeproducts", or "assortmentproducts".
+                |   * Category 4: Visit History (e.g. previous five visits, activities completed, notes, comparison, visit count)
+                |     - Call {!@actions.get_details} with recordType = "visits".
+                |   * Category 5 & 6: Visit Tasks & Survey Questions (e.g. pending/completed tasks, survey questions, mandatory tasks, survey score)
+                |     - Transition immediately to the Activities subagent using {!@actions.go_to_activities}.
+                |   * Category 7: Orders (e.g. create order, previous orders, last order value, products ordered last time, suggested order)
+                |     - Call {!@actions.order_summary} or {!@actions.get_details} with recordType = "outofstock".
+                |   * Category 8: Promotions (e.g. active promotions, promotions expiring, products on promotion, discounts)
+                |     - Call {!@actions.get_details} with recordType = "promotions" or "tactics".
+                |   * Category 9: Inventory (e.g. levels, out of stock, low stock, replenishment needs)
+                |     - Call {!@actions.get_details} with recordType = "inventory" or "outofstock".
+                |   * Category 10: Performance (e.g. visits completed today, completion percentage, weekly performance, productive visits)
+                |     - Call {!@actions.get_details} with recordType = "visits".
+                |   * Category 11: Navigation & Travel (e.g. navigate to next store, nearby store, travel time, route optimization)
+                |     - Call {!@actions.store_brief}.
+                |   * Category 12: Visit Exceptions (e.g. check-in issues, visit locked, missing visits, synchronization pending, failed sync logs)
+                |     - Transition immediately to the Sync and Exceptions subagent using {!@actions.go_to_sync}.
+                |   * Category 13: AI Recommendations (e.g. focus, recommendations, compliance issues, shelves, sales actions)
+                |     - Call {!@actions.suggest_products} or {!@actions.store_brief}.
+                |
+                | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
+                | - If the user's message is a generic greeting or does not request a specific action:
+                |   1. Display the Visit Details in a clean markdown table (Columns: "Detail" and "Value") with emojis:
+                |      * Account: {!@variables.accountName} 🏪
+                |      * Visit Date: {!@variables.visitDate} 📅
+                |      * Visit Status: {!@variables.visitStatus} 🔖
+                |      * Assigned User: {!@variables.assignedUser} 👤
+                |   2. Immediately follow with the Visit Summary text:
+                |      {!@variables.visitSummaryText}
+                |   3. Ask: "How can I help you with this visit?"
+                |   4. Present a numbered menu starting at 1:
+                |      1. 🏢 Account Summary (Retrieve Account details)
+                |      2. 👥 Contacts (Retrieve contact details)
+                |      3. 📣 Promotions (Retrieve active promotions)
+                |      4. 💡 Pre-Visit Brief (Summarize the current visit details)
+                |      5. 🚫 Inventory (Check inventory and out-of-stock records)
+                |      6. 📦 Order History (Show order history summary)
+                |      7. 🏷️ Sellable Products (Check products in assortment)
+                |      8. 📝 Visit Activities (Fetch planned surveys, checklists, or check completed/pending questions)
+                |      9. 🔄 Switch/Reset Context (Change visit or reset store context)
+                |
+                | SECTION 3: MENU SELECTION & DYNAMIC OPTION MAPPING
+                | - Map the numbered selections from the menu to action calls:
+                |   - Option 1 (Account Summary / Account Information) -> Call @actions.get_account_info. IMPORTANT: Do NOT call @actions.get_counts for this option.
+                |   - Option 2 (Contacts) -> Call @actions.get_details with recordType = "contacts"
+                |   - Option 3 (Promotions) -> Call @actions.get_details with recordType = "promotions"
+                |   - Option 4 (Pre-Visit Brief) -> Call @actions.store_brief
+                |   - Option 5 (Inventory) -> Call @actions.get_details with recordType = "inventory"
+                |   - Option 6 (Order History) -> Call @actions.order_summary
+                |   - Option 7 (Sellable Products) -> Call @actions.get_details with recordType = "assortmentproducts"
+                |   - Option 8 (Visit Activities) -> Transition to @subagent.visit_activities
+                |   - Option 9 (Switch/Reset Context) -> Call @actions.switch_visit
+                |
+                | SECTION 4: FORMATTING & GROUNDING RULES
+                | - Account Information: When get_account_info is called, print the exact value of formattedAccountInfo verbatim. Do NOT modify the spacing, newlines, or content of the returned string.
+                | - Contacts: When displaying contacts, print the list of matching contacts using the formatting returned in the label field of each record verbatim. Do NOT modify the fields, values, or HTML tags (like <a href="tel:...">) of the returned contact labels.
+                | - Global Style: Give all responses character by using clear emojis, bold headings, and organized bullet points or markdown tables.
+                | - Do NOT use the show_command tool. Always compose your response as direct text.
+                | - Ensure the response is strictly grounded in the action data. Do not generate fake values or external knowledge.
+            else:
+                | Visit details not loaded.
+
+        actions:
+            get_account_info: @actions.get_account_details
+                description: "Get the active Account's contact and location details: Name, Phone, Email, Shipping Address, Google Maps hyperlink, Operating Hours, and Time Zone. Use ONLY when the user asks for account information, account details, or account summary. Do NOT use this for activity counts."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "getDetails"
+                with accountId = @variables.accountId
+
+            get_counts: @actions.get_related_counts
+                description: "Get activity counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock) for the current Account. Do NOT use this when the user asks for account information, account details, phone, email, address, or operating hours."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "getCounts"
+                with accountId = @variables.accountId
+
+            get_details: @actions.get_related_records
+                description: "Get a detailed list of related records for a specific category: 'contacts', 'promotions', 'inventory', 'retailstores', 'assortments', 'storeproducts', 'tactics', 'assortmentproducts'."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "getRecords"
+                with accountId = @variables.accountId
+                with recordType = ...
+
+            order_summary: @actions.get_order_summary
+                description: "Get order history summary, buying insights, phase breakdown, and recent orders for the current Account."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "getAccountSummary"
+                with accountId = @variables.accountId
+
+            get_visit_orders: @actions.get_visit_orders
+                description: "Get order history summary, buying insights, phase breakdown, and recent orders specifically associated with the current Visit ID."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "getVisitSummary"
+                with visitId = @variables.visitId
+
+            get_order_items: @actions.get_order_items
+                description: "Get product line items (product name, quantity, UOM) for a specific CG Cloud Order."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "getLineItems"
+                with orderId = ...
+
+            switch_visit: @utils.transition to @subagent.clear_context
+                description: "Change, switch, or select another Visit or work on a different store."
+
+            back_to_router: @utils.transition to @subagent.clear_context
+                description: "Return to the main agent router if the user wants to clear context or switch context."
+
+            go_to_activities: @utils.transition to @subagent.visit_activities
+                description: "Transition to the Visit Activities subagent to check planned activities, surveys, checklists, or completed/pending questions."
+
+            go_to_sync: @utils.transition to @subagent.sync_and_exceptions
+                description: "Transition to sync and exceptions subagent to troubleshoot check-in problems, locked visits, sync delays, or sync logs."
+
+            store_brief: @actions.get_store_brief
+                description: "Retrieve a consolidated store brief and audit summary for the current visit and account context."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "getStoreBrief"
+                with visitId = @variables.visitId
+                with accountId = @variables.accountId
+
+            suggest_products: @actions.suggest_products
+                description: "Analyze the store's product catalogs and recent order history to generate a prioritized list of suggested or recommended products."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "suggestProducts"
+                with accountId = @variables.accountId
+
+            generate_visit_summary: @actions.generate_visit_summary
+                description: "Generate a structured visit report summarizing completed/pending tasks, promotions audited, and orders created."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "generateSummary"
+                with visitId = @variables.visitId
+
+    actions:
+        get_account_details:
+            description: "Retrieve contact and location details of the active Account: Name, Phone, Email, Shipping Address, Google Maps link, Operating Hours, and Time Zone."
+            target: "apex://Account_Agent_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The associated Account ID."
+                    is_required: True
+            outputs:
+                formattedAccountInfo: string
+                    description: "Pre-formatted account details block with Name, Phone, Email, Shipping Address, Google Maps, Operating Hours, and Time Zone."
+
+        get_related_counts:
+            description: "Get activity counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account. Do NOT use this when the user asks for account information, account details, phone, email, address, or operating hours."
+            target: "apex://Account_Agent_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The associated Account ID."
+                    is_required: True
+            outputs:
+                totalContacts: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total Contacts count."
+                totalVisits: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total Visits count."
+                pendingVisitTasks: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Pending Visit Tasks count."
+                activePromotions: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Active Promotions count."
+                outOfStockCount: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Out of Stock count."
+                totalRetailStores: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total Retail Stores count."
+                totalAssortments: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total Store Assortments count."
+                totalStoreProducts: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total Store Products count."
+                totalTactics: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total Tactics count."
+                totalAssortmentProducts: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total Assortment Products count."
+
+        get_related_records:
+            description: "Retrieve list of detailed records of a specific type (contacts, visits, promotions, inventory, outOfStock, retailstores, assortments, storeproducts, tactics, assortmentproducts) for the current Account."
+            target: "apex://Account_Agent_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The associated Account ID."
+                    is_required: True
+                recordType: string
+                    description: "Type of records to retrieve: 'contacts', 'visits', 'promotions', 'inventory', 'outOfStock', 'retailstores', 'assortments', 'storeproducts', 'tactics', 'assortmentproducts'."
+                    is_required: True
+            outputs:
+                records: list[object]
+                    complex_data_type_name: "@apexClassType/c__Account_Agent_Handler$RecordInfo"
+                    description: "List of related records with custom-formatted label blocks."
+                    is_displayable: True
+
+        get_order_summary:
+            description: "Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Account."
+            target: "apex://Order_Agent_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The associated Account ID."
+                    is_required: True
+            outputs:
+                totalOrders: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total number of historical orders."
+                totalSpend: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total historical spend across all orders."
+                buyingInsight: string
+                    description: "AI-generated buying insight summary: top products by frequency, most saleable product."
+                    is_displayable: True
+                phaseBreakdown: string
+                    description: "Order value breakdown by phase."
+                    is_displayable: True
+                recentOrders: string
+                    description: "Formatted list of recent orders with details."
+                    is_displayable: True
+
+        get_visit_orders:
+            description: "Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Visit ID."
+            target: "apex://Order_Agent_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                visitId: string
+                    description: "The associated Visit ID."
+                    is_required: True
+            outputs:
+                totalOrders: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total number of orders associated with the visit."
+                totalSpend: object
+                    complex_data_type_name: "lightning__numberType"
+                    description: "Total spend across those orders."
+                buyingInsight: string
+                    description: "AI-generated buying insight summary: top products by frequency, most saleable product."
+                    is_displayable: True
+                phaseBreakdown: string
+                    description: "Order value breakdown by phase."
+                    is_displayable: True
+                recentOrders: string
+                    description: "Formatted list of recent orders with details."
+                    is_displayable: True
+
+        get_order_items:
+            description: "Retrieve product line items for a specific CG Cloud Order."
+            target: "apex://Order_Agent_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                orderId: string
+                    description: "The CG Cloud Order ID."
+                    is_required: True
+            outputs:
+                itemCount: object
+                    complex_data_type_name: "lightning__integerType"
+                    description: "Total number of line items."
+                itemsSummary: string
+                    description: "Formatted text summary of all line items."
+                    is_displayable: True
+
+        get_store_brief:
+            description: "Get store brief data including order totals, top products, active promotions, and open tasks."
+            target: "apex://Visit_Agent_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                visitId: string
+                    description: "The current Visit ID."
+                    is_required: True
+                accountId: string
+                    description: "High level account contextual ID."
+                    is_required: True
+            outputs:
+                summary: string
+                    description: "Formatted markdown store brief."
+                    is_displayable: True
+
+        suggest_products:
+            description: "Get product recommendations for the active store based on catalog gaps and order history."
+            target: "apex://Account_Agent_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                accountId: string
+                    description: "The associated Account ID."
+                    is_required: True
+            outputs:
+                recommendations: string
+                    description: "Formatted list of recommended products."
+                    is_displayable: True
+
+        generate_visit_summary:
+            description: "Collect visit execution metrics and return a formatted visit report."
+            target: "apex://Visit_Agent_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent executing the request."
+                    is_required: True
+                actionType: string
+                    description: "The type of action to perform."
+                    is_required: True
+                visitId: string
+                    description: "The current Visit ID."
+                    is_required: True
+            outputs:
+                visitSummary: string
+                    description: "Generated visit summary text."
+                    is_displayable: True
+
+subagent visit_activities:
+    label: "Visit Activities"
+    description: "Manage and retrieve planned activities, questions, and surveys for the selected visit, and check answered or pending questions."
+    before_reasoning:
+        set @variables.activeSubagent = "visit_activities"
+
+    reasoning:
+        instructions: ->
+            if @variables.accountId != "":
+                | Context loaded for Account: "{!@variables.accountName}" (Visit ID: {!@variables.visitId}).
+                | Status: {!@variables.visitStatus}, Date: {!@variables.visitDate}, User: {!@variables.assignedUser}.
+                |
+                | You must handle Category 5 (Visit Tasks) and Category 6 (Survey Questions):
+                | - Check if the user's message directly requests:
+                |   * "View today's activities or surveys" / "show activities" / "visit activities" -> Call @actions.get_visit_activities with questionOrSurveyFilter = "all"
+                |   * "View today's questions" / "activity questions" / "show questions" -> Call @actions.get_visit_activities with questionOrSurveyFilter = "question"
+                |   * "View today's surveys" / "activity surveys" / "show surveys" -> Call @actions.get_visit_activities with questionOrSurveyFilter = "survey"
+                |   * "See answered or pending questions" / "completed questions" / "unanswered questions" -> Call @actions.get_visit_jobs_status with statusFilter mapped accordingly ("answered", "pending", "all") and questionOrSurveyFilter = "all"
+                |   * "See answered or pending surveys" / "completed surveys" / "unanswered surveys" -> Call @actions.get_visit_jobs_status with statusFilter mapped accordingly ("answered", "pending", "all") and questionOrSurveyFilter = "survey"
+                |   * "Go back" / "exit activities" / "Return to options" -> Transition to @subagent.visit_intelligence
+                |   * "Switch to another visit" / "change visit" / "reset context" -> Call @actions.switch_visit
+                |
+                | SECTION 2: DEFAULT DISPLAY
+                | - If first entering this subagent or on general greetings:
+                |   1. Display the Visit Details table.
+                |   2. Call @actions.get_visit_activities with questionOrSurveyFilter = "all" and present the results.
+                |
+                | SECTION 3: FORMATTING & NEXT STEPS
+                | - Separately group and display "Questions" and "Surveys".
+                | - Render the next steps menu at the bottom of the response:
+                |   1. **See answered or pending questions**
+                |   2. **Check all questions and survey statuses**
+                |   3. **Switch to another visit**
+                |   4. **Go back**
+                | - Do NOT use show_command. Always compose response as direct text.
+            else:
+                | Visit details not loaded. Please select a visit first.
+
+        actions:
+            get_visit_activities: @actions.get_visit_activities
+                description: "Retrieves planned activities, questions, and surveys associated with a visit based on its visit template."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "getActivities"
+                with visitId = @variables.visitId
+                with questionOrSurveyFilter = ...
+
+            get_visit_jobs_status: @actions.get_visit_jobs_status
+                description: "Retrieves completed (answered) or pending (unanswered) questions/surveys for the current visit."
+                with agentName = "Visit_Execution_Advisor"
+                with actionType = "getJobsStatus"
+                with visitId = @variables.visitId
+                with statusFilter = ...
+                with questionOrSurveyFilter = ...
+
+            switch_visit: @utils.transition to @subagent.clear_context
+                description: "Change, switch, or select another Visit or work on a different store."
+
+            back_to_intelligence: @utils.transition to @subagent.visit_intelligence
+                description: "Return to the main options selection."
+
+    actions:
+        get_visit_activities:
+            description: "Retrieves activities, questions, and surveys associated with a visit based on its visit template."
+            target: "apex://Visit_Activity_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent."
+                    is_required: True
+                actionType: string
+                    description: "The action to perform."
+                    is_required: True
+                visitId: string
+                    description: "The ID of the Visit record."
+                    is_required: True
+                questionOrSurveyFilter: string
+                    description: "Filter by type: all, question, survey."
+            outputs:
+                activities: list[object]
+                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$ActivityInfo"
+                    description: "List of activities and questions/surveys associated with the visit template."
+
+        get_visit_jobs_status:
+            description: "Retrieves answered or pending visit jobs (questions/surveys) for a specific visit."
+            target: "apex://Visit_Activity_Handler"
+            inputs:
+                agentName: string
+                    description: "The name of the agent."
+                    is_required: True
+                actionType: string
+                    description: "The action to perform."
+                    is_required: True
+                visitId: string
+                    description: "The ID of the Visit record."
+                    is_required: True
+                statusFilter: string
+                    description: "Filter by: all, answered, pending."
+                questionOrSurveyFilter: string
+                    description: "Filter by type: all, question, survey."
+            outputs:
+                jobs: list[object]
+                    complex_data_type_name: "@apexClassType/c__Visit_Activity_Handler$JobStatusInfo"
+                    description: "List of matching visit jobs (questions/surveys) with answer status."
+
+subagent sync_and_exceptions:
+    label: "Sync and Exceptions"
+    description: "Diagnose and resolve visit exceptions, check-in locks, and mobile app sync failures."
+    before_reasoning:
+        set @variables.activeSubagent = "sync_and_exceptions"
+
+    reasoning:
+        instructions: ->
+            | You are inside the Sync and Exceptions subagent.
+            | You handle Category 12:
+            | - Why can't I check in?
+            | - Why is this visit locked?
+            | - Why can't I complete this visit?
+            | - Why is my visit missing?
+            | - Why is synchronization pending?
+            | - Show failed sync records.
+            |
+            | To diagnose any of these issues, run {!@actions.get_sync_failure_root_cause} with a descriptive sync type (e.g. "Product Sync", "Visit Sync", or "Check-In Sync").
+            | Provide the user with the detailed Failure Reason, Event Code, and specific step-by-step Fix returned by the action.
+            |
+            | Presentation Rules:
+            | - Format the diagnosis cleanly with headings and bullet points.
+            | - Do NOT use show_command. Always compose your response as direct text.
+            | - Suggest these next steps:
+            |   1. **Go back** - Return to the main Visit Intelligence hub.
+            |   2. **Switch to another visit** - Select a different visit record.
+
+        actions:
+            get_sync_failure_root_cause: @actions.get_sync_failure_root_cause
+                description: "Run sync failure diagnostics to identify failure reasons and recommended fixes."
+                with syncType = ...
+                set @variables.syncFailureAnalysis = @outputs.fullAnalysis
+
+            switch_visit: @utils.transition to @subagent.clear_context
+                description: "Change, switch, or select another Visit or work on a different store."
+
+            back_to_intelligence: @utils.transition to @subagent.visit_intelligence
+                description: "Return to the main options selection."
+
+    actions:
+        get_sync_failure_root_cause:
+            description: "Analyzes mobile application sync logs to identify root cause and recommended fixes for a given sync type."
+            target: "apex://GetSyncFailureRootCause"
+            inputs:
+                syncType: string
+                    description: "The type of sync execution that failed (e.g. Product Sync)."
+                    is_required: True
+            outputs:
+                fullAnalysis: string
+                    description: "The structured root cause analysis and fix."
+                    is_displayable: True
+
+subagent off_topic:
+    label: "Off Topic"
+    description: "Redirect conversation to relevant topics when user request goes off-topic."
+
+    reasoning:
+        instructions: ->
+            | You should explain that you are specialized in Salesforce Visit Execution and CG Cloud intelligence.
+            | You handle store visits, retail stores, tasks, surveys, orders, promotions, inventory, and sync/exception troubleshooting.
+            | Do not answer general knowledge questions. Redirect the conversation back to your core capabilities.
+
+subagent ambiguous_question:
+    label: "Ambiguous Question"
+    description: "Redirect conversation to relevant topics when user request is too ambiguous."
+
+    reasoning:
+        instructions: ->
+            | Ask the user if they would like to see a summary of the current store visit, check details of specific activities, or troubleshoot sync issues.
+
+subagent clear_context:
+    description: "Utility subagent to clear the active Visit and Account context variables before selecting another visit."
+    before_reasoning:
+        set @variables.visitId = ""
+        set @variables.accountId = ""
+        set @variables.accountName = ""
+        set @variables.visitStatus = ""
+        set @variables.visitDate = ""
+        set @variables.assignedUser = ""
+        set @variables.visitSummaryText = ""
+        set @variables.lastRecordId = ""
+        set @variables.syncFailureAnalysis = ""
+        set @variables.activeSubagent = "visit_intelligence"
+        transition to @subagent.agent_router
+    reasoning:
+        instructions: |
+            Clearing context and returning to router.

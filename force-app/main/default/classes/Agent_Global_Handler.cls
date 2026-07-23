@@ -22,7 +22,8 @@ public with sharing class Agent_Global_Handler {
                             act == 'updatevisit' || act.startsWith('update_visit') || act == 'generate_visit_summary' ||
                             act == 'promptvisitmobile' || act == 'prompt_visit_mobile' || act == 'createvisit' || act == 'create_visit_record' || 
                             act == 'create_visit_record_mobile' || act == 'generatesummary' || act == 'get_visit_for_update' ||
-                            act == 'getstorebrief' || act == 'select_and_navigate_visit') {
+                            act == 'getstorebrief' || act == 'select_and_navigate_visit' || act == 'getstalevisits' ||
+                            act == 'get_stale_visits' || act == 'sendvisitalerts' || act == 'send_visit_alerts') {
                             req.domain = 'Visit';
                         } else if (act == 'getactivities' || act == 'getjobsstatus' || act == 'getnextsteps') {
                             req.domain = 'VisitActivity';

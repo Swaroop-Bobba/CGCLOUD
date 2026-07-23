@@ -194,11 +194,17 @@ export default class VisitUpdaterWizard extends LightningElement {
             });
     }
 
-    // Step verification getters
+    @track selectAllChecked = false;
+    @track isCancelled = false;
+
     get isStep1() { return this.currentStep === '1'; }
     get isStep2() { return this.currentStep === '2'; }
     get isStep3() { return this.currentStep === '3'; }
     get isStep4() { return this.currentStep === '4'; }
+
+    get showCancelButton() {
+        return (this.currentStep === '1' || this.currentStep === '2' || this.currentStep === '3') && !this.isConfirming;
+    }
 
     get showBackButton() {
         return this.currentStep === '2' || this.currentStep === '3';
@@ -220,9 +226,37 @@ export default class VisitUpdaterWizard extends LightningElement {
         return false;
     }
 
+    handleSelectAllChange(event) {
+        const isChecked = event.target.checked;
+        this.selectAllChecked = isChecked;
+        for (const key of Object.keys(this.selectedFields)) {
+            this.selectedFields[key] = isChecked;
+        }
+        if (isChecked) {
+            // Automatically proceed to step 2 when Select All is checked
+            this.currentStep = '2';
+        }
+    }
+
     handleFieldCheckboxChange(event) {
         const fieldName = event.target.name;
         this.selectedFields[fieldName] = event.target.checked;
+        this.selectAllChecked = Object.values(this.selectedFields).every(val => val === true);
+    }
+
+    handleCancelWizard() {
+        console.log('visitUpdaterWizard: Cancel clicked. Transitioning to Step 4 with empty updates.');
+        this.isCancelled = true;
+        this.isConfirming = true;
+        this.currentStep = '4';
+        this.dispatchEvent(new CustomEvent('valuechange', {
+            detail: {
+                value: {
+                    visitId: this.selectedVisitId,
+                    updatesJson: "{}"
+                }
+            }
+        }));
     }
 
     handleValueChange(event) {
@@ -305,7 +339,7 @@ export default class VisitUpdaterWizard extends LightningElement {
         try {
             const date = new Date(dateStr);
             return date.toLocaleString();
-        } catch (e) {
+        } catch {
             return dateStr;
         }
     }
