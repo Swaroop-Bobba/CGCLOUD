@@ -1,41 +1,46 @@
 /**
  * @description Wrapper class containing all data required to create a new Visit.
  */
-public class CreateVisitWrapper {
+global class CreateVisitWrapper {
     @AuraEnabled
     @InvocableVariable(description='The Subject of the visit')
-    public String subject;
+    global String subject;
 
     @AuraEnabled
     @InvocableVariable(description='The Account ID associated with the visit')
-    public String accountId;
+    global String accountId;
 
     @AuraEnabled
     @InvocableVariable(description='The Planned Visit Start Time')
-    public DateTime plannedStartTime;
+    global DateTime plannedStartTime;
 
     @AuraEnabled
     @InvocableVariable(description='The Place ID associated with the visit')
-    public String placeId;
+    global String placeId;
 
     @AuraEnabled
     @InvocableVariable(description='The Visit Template ID')
-    public String visitTemplateId;
+    global String visitTemplateId;
 
     @AuraEnabled
     @InvocableVariable(description='The Planned End Time')
-    public DateTime plannedEndTime;
+    global DateTime plannedEndTime;
 
     @AuraEnabled
     @InvocableVariable(description='Is this an all day event?')
-    public Boolean isAllDayEvent;
+    global Boolean isAllDayEvent;
 
     @AuraEnabled
     @InvocableVariable(description='The Accountable User ID')
-    public String accountableId;
+    global String accountableId;
 
     @AuraEnabled
     @InvocableVariable(description='The Responsible User ID')
-    public String responsibleId;
+    global String responsibleId;
 
+    /**
+     * @description Default empty constructor required for serialization.
+     */
+    @SuppressWarnings('PMD.EmptyStatementBlock')
+    global CreateVisitWrapper() { /* empty block */ }
 }
