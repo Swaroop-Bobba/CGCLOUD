@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Mobility_Entity__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Textual specification of the mobility data source that is used for data determination.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Allowed combination with Object: Customer =&gt; Customer; Product =&gt; Product; Order =&gt; Order OR Order Item; Auxiliary =&gt; Main OR Item</inlineHelpText>
+    <label>Source Object</label>
+    <length>30</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

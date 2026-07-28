@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Template_changes_are_not_allowed</fullName>
+    <active>true</active>
+    <description>The Condition Template can&apos;t be edited after Product Condition creation.</description>
+    <errorConditionFormula>NOT( ISBLANK( cgcloud__Condition_Template__c ))&amp;&amp; ISCHANGED(cgcloud__Condition_Template__c)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Condition_Template__c</errorDisplayField>
+    <errorMessage>The Condition Template can&apos;t be edited after Product Condition creation.</errorMessage>
+</ValidationRule>

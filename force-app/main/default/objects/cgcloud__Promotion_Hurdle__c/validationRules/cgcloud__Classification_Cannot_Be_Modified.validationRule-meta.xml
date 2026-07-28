@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Classification_Cannot_Be_Modified</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(AND(cgcloud__Promotion_Hurdle_Expression__r.cgcloud__Allows_Classification__c = false,NOT(ISBLANK(cgcloud__Classification__c))),true,false)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Classification__c</errorDisplayField>
+    <errorMessage>Classification can only be defined only if Hurdle Expression allows classification.</errorMessage>
+</ValidationRule>

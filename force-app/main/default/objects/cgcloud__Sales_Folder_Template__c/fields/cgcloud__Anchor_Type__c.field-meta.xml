@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Anchor_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Type of object the Sales Folder is assigned to.</description>
+    <label>Anchor Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BusinessPartner</fullName>
+                <default>true</default>
+                <label>BusinessPartner</label>
+            </value>
+            <value>
+                <fullName>OrgUnit</fullName>
+                <default>false</default>
+                <label>OrgUnit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

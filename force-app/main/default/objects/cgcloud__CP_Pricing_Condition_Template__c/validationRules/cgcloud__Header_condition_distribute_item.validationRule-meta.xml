@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Header_condition_distribute_item</fullName>
+    <active>true</active>
+    <errorConditionFormula>(cgcloud__Distribute_To_Item__c == true) &amp;&amp; (TEXT(cgcloud__Condition_Level__c) != &apos;OrderHeader&apos; ||  (TEXT(cgcloud__Meta_Type__c) != &apos;Percentage&apos; &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;FlatRate&apos;))</errorConditionFormula>
+    <errorMessage>Conditional Level must be &apos;Order Header&apos; and Meta Type must be &apos;Percentage&apos; or &apos;Flat Rate&apos; if the Distribute to Item is checked.</errorMessage>
+</ValidationRule>

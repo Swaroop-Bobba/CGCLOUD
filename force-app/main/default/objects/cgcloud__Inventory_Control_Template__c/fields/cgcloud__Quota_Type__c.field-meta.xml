@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Quota_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Quota Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Transfer Quota</fullName>
+                <default>true</default>
+                <label>Transfer Quota</label>
+            </value>
+            <value>
+                <fullName>Reception Quota</fullName>
+                <default>false</default>
+                <label>Reception Quota</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

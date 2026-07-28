@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Aggregation_Rule</fullName>
+    <active>true</active>
+    <description>Aggregation Rule must be &apos;Sum&apos; if the Consider Sub Accounts is checked.</description>
+    <errorConditionFormula>AND(
+NOT(ISPICKVAL(cgcloud__Aggregation_Rule__c , &quot;SUM&quot;)),
+cgcloud__Data_Source_Load_For_Sub_Accounts__c = TRUE
+)</errorConditionFormula>
+    <errorMessage>Aggregation Rule must be &apos;Sum&apos; if the Consider Sub Accounts is checked.</errorMessage>
+</ValidationRule>

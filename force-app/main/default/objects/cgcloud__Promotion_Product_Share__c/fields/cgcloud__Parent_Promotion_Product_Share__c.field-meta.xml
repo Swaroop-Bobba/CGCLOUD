@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Parent_Promotion_Product_Share__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Link to the parent promotion link for this record</description>
+    <label>Parent Promotion Product Share</label>
+    <referenceTo>cgcloud__Promotion_Product_Share__c</referenceTo>
+    <relationshipLabel>Child Promotion Product Shares</relationshipLabel>
+    <relationshipName>ChildPromotionProductShares</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

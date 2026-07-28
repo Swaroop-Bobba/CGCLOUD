@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Aggregation_Levels_Validation</fullName>
+    <active>false</active>
+    <description>The User can select up to 4 aggregation levels only.</description>
+    <errorConditionFormula>IF(INCLUDES(cgcloud__Available_Product_Level__c, &apos;Category&apos;), 1, 0) + IF(INCLUDES(cgcloud__Available_Product_Level__c, &apos;SubCategory&apos;), 1, 0) + IF(INCLUDES(cgcloud__Available_Product_Level__c, &apos;Brand&apos;), 1, 0) + IF(INCLUDES(cgcloud__Available_Product_Level__c, &apos;Flavor&apos;), 1, 0) + IF(INCLUDES(cgcloud__Available_Product_Level__c, &apos;Package&apos;), 1, 0) &gt; 4</errorConditionFormula>
+    <errorDisplayField>cgcloud__Available_Product_Level__c</errorDisplayField>
+    <errorMessage>Up to only four available product aggregation levels can be selected.</errorMessage>
+</ValidationRule>

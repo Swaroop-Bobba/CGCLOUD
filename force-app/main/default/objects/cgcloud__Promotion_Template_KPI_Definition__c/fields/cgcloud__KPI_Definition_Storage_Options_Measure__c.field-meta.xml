@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__KPI_Definition_Storage_Options_Measure__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>cgcloud__KPI_Definition__r.cgcloud__Storage_Options_Measure_Code__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>KPI Definition Writeback Code</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

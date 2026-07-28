@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Name_Is_Valid_Pattern</fullName>
+    <active>true</active>
+    <description>KPI Definition Name should not contain special characters.</description>
+    <errorConditionFormula>NOT(REGEX(Name, &quot;^\\w+$&quot;))</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>KPI Definition Name should not contain special characters.</errorMessage>
+</ValidationRule>

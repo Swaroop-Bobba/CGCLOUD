@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Name_Is_Unique</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+      UPPER(Name) = UPPER(VLOOKUP
+      ($ObjectType.cgcloud__KPI_Definition__c.Fields.Name , $ObjectType.cgcloud__KPI_Definition__c.Fields.Name, Name )),
+
+      not(
+      Id=VLOOKUP
+      ($ObjectType.cgcloud__KPI_Definition__c.Fields.Id , $ObjectType.cgcloud__KPI_Definition__c.Fields.Name, Name )))</errorConditionFormula>
+    <errorMessage>KPI Definition Name already exists, please enter different Name.</errorMessage>
+</ValidationRule>

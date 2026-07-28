@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payments_Approved__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Claims (Approved)</label>
+    <summarizedField>cgcloud__Payment_Tactic_Fund__c.cgcloud__Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>cgcloud__Payment_Tactic_Fund__c.cgcloud__Payment_Status__c</field>
+        <operation>equals</operation>
+        <value>Closed</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>cgcloud__Payment_Tactic_Fund__c.cgcloud__Adjustment_Type__c</field>
+        <operation>notEqual</operation>
+        <value>Payment Reversal</value>
+    </summaryFilterItems>
+    <summaryForeignKey>cgcloud__Payment_Tactic_Fund__c.cgcloud__Fund__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

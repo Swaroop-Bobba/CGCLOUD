@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__User_Roles__c</fullName>
+    <deprecated>false</deprecated>
+    <description>User roles required for the user when creating calls based on this template.</description>
+    <label>User Roles</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CGCloud_Master_Data_Admin</fullName>
+                <default>false</default>
+                <label>CGCloud_Master_Data_Admin</label>
+            </value>
+            <value>
+                <fullName>CGCloud_KAM</fullName>
+                <default>false</default>
+                <label>CGCloud_KAM</label>
+            </value>
+            <value>
+                <fullName>CGCloud_Sales_User</fullName>
+                <default>false</default>
+                <label>CGCloud_Sales_User</label>
+            </value>
+            <value>
+                <fullName>CGCloud_Supervisor</fullName>
+                <default>false</default>
+                <label>CGCloud_Supervisor</label>
+            </value>
+            <value>
+                <fullName>CGCloud_FA</fullName>
+                <default>false</default>
+                <label>CGCloud_FA</label>
+            </value>
+            <value>
+                <fullName>CGCloud_FM</fullName>
+                <default>false</default>
+                <label>CGCloud_FM</label>
+            </value>
+            <value>
+                <fullName>CGCloud_Inventory_Manager</fullName>
+                <default>false</default>
+                <label>CGCloud_Inventory_Manager</label>
+            </value>
+            <value>
+                <fullName>CGCloud_HQ_Sales_Manager</fullName>
+                <default>false</default>
+                <label>CGCloud_HQ_Sales_Manager</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

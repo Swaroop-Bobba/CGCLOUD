@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Hierarchy_Node__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the field used to display account lookup to be able to select the hierarchy node to apply filter on customer hierarchy.</description>
+    <label>Account Hierarchy Node</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>The Segmentation Rule and the Account Hierarchy Node must have the same Sales Org.</errorMessage>
+        <filterItems>
+            <field>$Source.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>Account.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Segmentation Rules</relationshipLabel>
+    <relationshipName>Customer_Segementations</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

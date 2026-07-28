@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Avoid_Template_Modification</fullName>
+    <active>true</active>
+    <description>The Contract Tactic Template can&apos;t be edited after Contract Tactic creation.</description>
+    <errorConditionFormula>ISCHANGED(cgcloud__Contract_Tactic_Template__c)</errorConditionFormula>
+    <errorMessage>The Contract Tactic Template can&apos;t be edited after Contract Tactic creation.</errorMessage>
+</ValidationRule>

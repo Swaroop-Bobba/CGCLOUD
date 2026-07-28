@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Error_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Shows the error type/phase when an error occurred</description>
+    <label>Error Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ValidationError</fullName>
+                <default>false</default>
+                <label>ValidationError</label>
+            </value>
+            <value>
+                <fullName>TransformationError</fullName>
+                <default>false</default>
+                <label>TransformationError</label>
+            </value>
+            <value>
+                <fullName>WriteError</fullName>
+                <default>false</default>
+                <label>WriteError</label>
+            </value>
+            <value>
+                <fullName>EnqueueCalculationError</fullName>
+                <default>false</default>
+                <label>EnqueueCalculationError</label>
+            </value>
+            <value>
+                <fullName>CalculationError</fullName>
+                <default>false</default>
+                <label>CalculationError</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

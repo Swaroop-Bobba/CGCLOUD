@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Pricing_Condition_Template_mandatory</fullName>
+    <active>true</active>
+    <description>At least one of the followings fields must be defined: &apos;Pricing Condition Template&apos;, &apos;Free Item&apos; or &apos;User Exit&apos;.</description>
+    <errorConditionFormula>AND(
+cgcloud__Free_Item__c = false,
+NOT(ISCHANGED(cgcloud__Free_Item__c)), 
+ISBLANK( cgcloud__Pricing_Condition_Template__c ),
+LEN(cgcloud__User_Exit__c) = 0,
+NOT(ISPICKVAL(cgcloud__Reward_Type__c, &apos;Special&apos;)))</errorConditionFormula>
+    <errorMessage>At least one of the followings fields must be defined: &apos;Pricing Condition Template&apos;, &apos;Free Item&apos; or &apos;User Exit&apos;.</errorMessage>
+</ValidationRule>

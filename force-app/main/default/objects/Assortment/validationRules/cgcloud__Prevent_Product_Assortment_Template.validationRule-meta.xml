@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Prevent_Product_Assortment_Template</fullName>
+    <active>true</active>
+    <description>The Product Assorment Template can&apos;t be edited after Product Assortment creation.</description>
+    <errorConditionFormula>!ISBLANK(PRIORVALUE(cgcloud__Product_Assortment_Template__c)) &amp;&amp; ISCHANGED(cgcloud__Product_Assortment_Template__c)</errorConditionFormula>
+    <errorMessage>The Product Assorment Template can&apos;t be edited after Product Assortment creation.</errorMessage>
+</ValidationRule>

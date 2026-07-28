@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Condition_Target_KPI__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Condition Target KPI (Lookup to KPI Definition)</description>
+    <inlineHelpText>Defines the measure code which will be used to create the conditions.</inlineHelpText>
+    <label>Condition Target KPI</label>
+    <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
+    <relationshipLabel>RBF Templates (Condition Target KPI)</relationshipLabel>
+    <relationshipName>Condition_Target_KPI</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

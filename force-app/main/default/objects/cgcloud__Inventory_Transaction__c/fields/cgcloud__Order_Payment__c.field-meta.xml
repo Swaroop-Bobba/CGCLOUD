@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Order_Payment__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to an order payment in case of a cash transaction.</description>
+    <label>Order Payment</label>
+    <referenceTo>cgcloud__Order_Payment__c</referenceTo>
+    <relationshipLabel>Inventory Transactions</relationshipLabel>
+    <relationshipName>Inventory_Transactions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

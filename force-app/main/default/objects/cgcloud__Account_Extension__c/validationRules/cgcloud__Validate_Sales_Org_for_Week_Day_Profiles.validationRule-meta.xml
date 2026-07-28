@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Sales_Org_for_Week_Day_Profiles</fullName>
+    <active>true</active>
+    <description>Validate Sales Org for Week Day Share Profiles on Customer Extension</description>
+    <errorConditionFormula>AND(
+      NOT(ISBLANK( cgcloud__Week_Day_Share_Profile__c )
+      ),
+      (
+      cgcloud__Sales_Org__c &lt;&gt; TEXT(cgcloud__Week_Day_Share_Profile__r.cgcloud__Sales_Org__c)
+      )
+      )</errorConditionFormula>
+    <errorMessage>The Customer Extension and the selected Week Day Share Profile must have the same Sales Org.</errorMessage>
+</ValidationRule>

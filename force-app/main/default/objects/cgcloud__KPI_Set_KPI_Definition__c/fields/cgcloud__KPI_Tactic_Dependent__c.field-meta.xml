@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__KPI_Tactic_Dependent__c</fullName>
+    <deprecated>false</deprecated>
+    <formula>OR(ISPICKVAL(cgcloud__KPI_Definition__r.cgcloud__Scope__c , &quot;promotiontactic&quot;),ISPICKVAL(cgcloud__KPI_Definition__r.cgcloud__Scope__c , &quot;paymenttactic&quot;))</formula>
+    <label>KPI Tactic Dependent</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

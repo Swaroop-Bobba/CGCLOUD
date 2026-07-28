@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__PaymentTacticView</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>cgcloud__Payment_Tactic_View_Compact_Layout</compactLayoutAssignment>
+    <description>The Sales Org of the Payment is Payment Overwrite enabled and Payment Adjustment Type is payment reversal or Payment Status is set to either closed or to be closed or cancelled or adjusted.</description>
+    <label>PaymentTacticView</label>
+    <picklistValues>
+        <picklist>cgcloud__Fund_Distribution_Metric__c</picklist>
+        <values>
+            <fullName>LE_Revenue%5F%5Fc</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LE_Volume%5F%5Fc</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

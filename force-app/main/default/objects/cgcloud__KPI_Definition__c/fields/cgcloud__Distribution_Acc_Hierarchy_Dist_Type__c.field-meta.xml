@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Distribution_Acc_Hierarchy_Dist_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Distribution mechanism used to distribute values along the account hierarchy</description>
+    <label>Distribution Type (Customer Hierarchy)</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>metric</fullName>
+                <default>false</default>
+                <label>metric</label>
+            </value>
+            <value>
+                <fullName>equal</fullName>
+                <default>false</default>
+                <label>equal</label>
+            </value>
+            <value>
+                <fullName>copy</fullName>
+                <default>false</default>
+                <label>copy</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

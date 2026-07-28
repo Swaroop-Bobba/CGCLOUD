@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__RewardGroupSpecific</fullName>
+    <active>true</active>
+    <label>Reward Group-Specific</label>
+    <picklistValues>
+        <picklist>cgcloud__Boolean_Value__c</picklist>
+        <values>
+            <fullName>false</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>true</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>cgcloud__Classification__c</picklist>
+        <values>
+            <fullName>Cherry Products</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cola Products</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dash %26 Flash</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lemon Products</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>XL Products</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>cgcloud__Operation__c</picklist>
+        <values>
+            <fullName>AND</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>OR</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>cgcloud__Operator__c</picklist>
+        <values>
+            <fullName>eq</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ge</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>gt</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>le</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>lt</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ne</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

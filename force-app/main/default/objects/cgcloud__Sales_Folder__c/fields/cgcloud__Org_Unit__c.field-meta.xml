@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Org_Unit__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the org unit.</description>
+    <label>Org Unit</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>$Source.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>cgcloud__Org_Unit__c.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__Org_Unit__c</referenceTo>
+    <relationshipLabel>Sales Folders</relationshipLabel>
+    <relationshipName>Sales_Folders</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

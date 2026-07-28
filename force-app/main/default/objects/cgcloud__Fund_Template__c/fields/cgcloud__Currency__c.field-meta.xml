@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Currency__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Currency of the sales organization linked to this Fund Template.</description>
+    <label>Currency</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>cgcloud__Currency</valueSetName>
+    </valueSet>
+</CustomField>

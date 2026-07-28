@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Initial_Value__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Initial Value</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Initial Value</inlineHelpText>
+    <label>Initial Value</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Assortment_Product_Compact_Layout</fullName>
+    <fields>ProductId</fields>
+    <fields>cgcloud__Valid_From__c</fields>
+    <fields>cgcloud__Valid_Thru__c</fields>
+    <fields>cgcloud__Active__c</fields>
+    <fields>cgcloud__Price_Survey__c</fields>
+    <fields>cgcloud__Facings__c</fields>
+    <label>Product Assortment Product Compact Layout</label>
+</CompactLayout>

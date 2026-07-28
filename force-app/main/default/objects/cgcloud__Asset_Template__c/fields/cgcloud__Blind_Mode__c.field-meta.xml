@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Blind_Mode__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Defines if the customer’s assets are initially displayed or not.
+
+This setting is applicable for mobility devices.</description>
+    <inlineHelpText>Defines if the customer’s assets are initially displayed or not.
+
+This setting is applicable for mobility devices.</inlineHelpText>
+    <label>Blind Mode</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

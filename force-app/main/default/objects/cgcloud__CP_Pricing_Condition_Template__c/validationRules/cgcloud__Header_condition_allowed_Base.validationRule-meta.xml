@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Header_condition_allowed_Base</fullName>
+    <active>true</active>
+    <errorConditionFormula>(ISPICKVAL(cgcloud__Condition_Level__c, &apos;OrderHeader&apos;)) &amp;&amp;  TEXT(cgcloud__Base__c ) == &apos;Quantity&apos;</errorConditionFormula>
+    <errorMessage>Base can&apos;t be &apos;Quantity&apos; if the Condition Level is &apos;Order Header&apos;.</errorMessage>
+</ValidationRule>

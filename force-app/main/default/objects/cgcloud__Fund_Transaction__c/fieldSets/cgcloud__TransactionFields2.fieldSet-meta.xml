@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__TransactionFields2</fullName>
+    <description>CreateTransaction page</description>
+    <displayedFields>
+        <field>cgcloud__Source_Fund__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <label>TransactionFields2</label>
+</FieldSet>

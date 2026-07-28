@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__KPI_Subset__c</fullName>
+    <deprecated>false</deprecated>
+    <description>This subset will allow for filtering KPI Definitions in the GridHierarchyView component. If you do not choose one, no subset filter will be applied.</description>
+    <inlineHelpText>Defines the subset of KPIs that are displayed in the Fund grid.</inlineHelpText>
+    <label>KPI Subset</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>cgcloud__KPI_Subsets</valueSetName>
+    </valueSet>
+</CustomField>

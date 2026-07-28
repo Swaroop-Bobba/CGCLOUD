@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__ProdLevel_And_BoMsCope_Component</fullName>
+    <active>true</active>
+    <description>BoM Scope of the Source KPI must contain &apos;Component&apos; if the product level is &apos;Component&apos;,</description>
+    <errorConditionFormula>AND(
+ISPICKVAL(cgcloud__Product_Level__c, &apos;Component&apos;),
+NOT(INCLUDES(cgcloud__Source_KPI_Definition__r.cgcloud__BoM_Scope__c, &apos;Component&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Product_Level__c</errorDisplayField>
+    <errorMessage>BoM Scope of the Source KPI must contain &apos;Component&apos; if the product level is &apos;Component&apos;,</errorMessage>
+</ValidationRule>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Prevent_Is_Transferred_Change</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(ISCHANGED(cgcloud__Is_Transferred__c) , PRIORVALUE(cgcloud__Is_Transferred__c)==True)</errorConditionFormula>
+    <errorMessage>You can’t deselect Is Transferred because this tactic product was created as a result of a promotion transfer.</errorMessage>
+</ValidationRule>

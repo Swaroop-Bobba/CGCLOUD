@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_For_Date_Value</fullName>
+    <active>true</active>
+    <description>Date Value can only be provided if the Result Type of the Promotion Expression on Promotion Hurdle is &apos;Date&apos;.</description>
+    <errorConditionFormula>AND(
+NOT(ISBLANK(cgcloud__Date_Value__c)),
+NOT(ISBLANK(TEXT(cgcloud__Hurdle__r.cgcloud__Promotion_Hurdle_Expression__r.cgcloud__Expression_Result_Type__c))),
+NOT(ISPICKVAL(cgcloud__Hurdle__r.cgcloud__Promotion_Hurdle_Expression__r.cgcloud__Expression_Result_Type__c, &apos;Date&apos;)))</errorConditionFormula>
+    <errorMessage>Date Value can only be provided if the Result Type of the Promotion Expression on Promotion Hurdle is &apos;Date&apos;.</errorMessage>
+</ValidationRule>

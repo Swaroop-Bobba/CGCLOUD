@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__AdditionalKPIs_CompatibleToProductLevel</fullName>
+    <active>true</active>
+    <description>The BOM Scope of Additional KPI Definition must contain ‘Component’ if Product Level is ‘Component’.</description>
+    <errorConditionFormula>AND(
+    ISPICKVAL(cgcloud__Product_Level__c, &apos;Component&apos;),
+    OR(
+        AND(
+            NOT(INCLUDES(cgcloud__Additional_KPI_Definition_1__r.cgcloud__BoM_Scope__c, &apos;Component&apos;)),
+            NOT(ISBLANK(cgcloud__Additional_KPI_Definition_1__c))
+        ),
+        AND(
+            NOT(INCLUDES(cgcloud__Additional_KPI_Definition_2__r.cgcloud__BoM_Scope__c, &apos;Component&apos;)),
+            NOT(ISBLANK(cgcloud__Additional_KPI_Definition_2__c))
+        ),
+        AND(
+            NOT(INCLUDES(cgcloud__Additional_KPI_Definition_3__r.cgcloud__BoM_Scope__c, &apos;Component&apos;)),
+            NOT(ISBLANK(cgcloud__Additional_KPI_Definition_3__c))
+        )
+    )
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Product_Level__c</errorDisplayField>
+    <errorMessage>The BOM Scope of Additional KPI Definitions must contain ‘Component’ if Product Level is ‘Component’.</errorMessage>
+</ValidationRule>

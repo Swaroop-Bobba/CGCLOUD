@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Min_Date_Policy__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Controls validation of date fields when answering questions or surveys on CGCloud OnPremise mobile devices</description>
+    <label>Min Date Policy</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>MinDate</fullName>
+                <default>false</default>
+                <label>MinDate</label>
+            </value>
+            <value>
+                <fullName>MaxDate</fullName>
+                <default>false</default>
+                <label>MaxDate</label>
+            </value>
+            <value>
+                <fullName>Today</fullName>
+                <default>false</default>
+                <label>Today</label>
+            </value>
+            <value>
+                <fullName>NextYear</fullName>
+                <default>false</default>
+                <label>NextYear</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

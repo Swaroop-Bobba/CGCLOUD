@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Base__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines the item or product attribute that will be used as base for several pricing functionality like scale determination or condition value distribution to items.</description>
+    <label>Base</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Volume</fullName>
+                <default>false</default>
+                <label>Volume</label>
+            </value>
+            <value>
+                <fullName>Weight</fullName>
+                <default>false</default>
+                <label>Weight</label>
+            </value>
+            <value>
+                <fullName>Value</fullName>
+                <default>false</default>
+                <label>Value</label>
+            </value>
+            <value>
+                <fullName>Quantity</fullName>
+                <default>false</default>
+                <label>Quantity</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

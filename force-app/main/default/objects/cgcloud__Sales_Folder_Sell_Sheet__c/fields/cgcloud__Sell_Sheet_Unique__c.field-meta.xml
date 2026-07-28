@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sell_Sheet_Unique__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <deprecated>false</deprecated>
+    <description>This field will be used to ensure one sell sheet is attached only once to a sales folder. This will be a concatenation of Sales Folder Id and Sell Sheet Id. This will be updated by a Workflow.</description>
+    <externalId>false</externalId>
+    <label>Sell Sheet</label>
+    <length>80</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

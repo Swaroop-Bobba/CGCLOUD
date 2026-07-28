@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_should_be_same_as_tour</fullName>
+    <active>true</active>
+    <description>The Customer and the Tour must have the same Sales Org.</description>
+    <errorConditionFormula>AND(Account.cgcloud__Account_Template__c  &lt;&gt; null, cgcloud__Tour__r.Id &lt;&gt; null,(TEXT( Account.cgcloud__Account_Template__r.cgcloud__Sales_Org__c ) &lt;&gt; TEXT( cgcloud__Tour__r.cgcloud__Tour_Template__r.cgcloud__Sales_Org__c )))</errorConditionFormula>
+    <errorMessage>The Customer and the Tour must have the same Sales Org.</errorMessage>
+</ValidationRule>

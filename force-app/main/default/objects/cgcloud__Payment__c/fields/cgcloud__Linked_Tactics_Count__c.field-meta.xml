@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Linked_Tactics_Count__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Linked Tactics Count</label>
+    <summaryForeignKey>cgcloud__Payment_Tactic__c.cgcloud__Payment__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

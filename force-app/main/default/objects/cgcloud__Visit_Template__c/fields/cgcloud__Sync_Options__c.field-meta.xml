@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sync_Options__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Sync Options</description>
+    <label>Sync Options</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No</fullName>
+                <default>true</default>
+                <label>No</label>
+            </value>
+            <value>
+                <fullName>CompleteCall</fullName>
+                <default>false</default>
+                <label>CompleteCall</label>
+            </value>
+            <value>
+                <fullName>CancelCall</fullName>
+                <default>false</default>
+                <label>CancelCall</label>
+            </value>
+            <value>
+                <fullName>CompleteCancelCall</fullName>
+                <default>false</default>
+                <label>CompleteCancelCall</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

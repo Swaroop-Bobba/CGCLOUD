@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Hierarchy_Search__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies if and how the product hierarchy has to be considered for condition finding.</description>
+    <label>Product Hierarchy Search</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ProdLevel1</fullName>
+                <default>false</default>
+                <label>ProdLevel1</label>
+            </value>
+            <value>
+                <fullName>ProdLevel2</fullName>
+                <default>false</default>
+                <label>ProdLevel2</label>
+            </value>
+            <value>
+                <fullName>ProdLevel3</fullName>
+                <default>false</default>
+                <label>ProdLevel3</label>
+            </value>
+            <value>
+                <fullName>ProdLevel4</fullName>
+                <default>false</default>
+                <label>ProdLevel4</label>
+            </value>
+            <value>
+                <fullName>ProdLevel5</fullName>
+                <default>false</default>
+                <label>ProdLevel5</label>
+            </value>
+            <value>
+                <fullName>No</fullName>
+                <default>false</default>
+                <label>No</label>
+            </value>
+            <value>
+                <fullName>Complete</fullName>
+                <default>false</default>
+                <label>Complete</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

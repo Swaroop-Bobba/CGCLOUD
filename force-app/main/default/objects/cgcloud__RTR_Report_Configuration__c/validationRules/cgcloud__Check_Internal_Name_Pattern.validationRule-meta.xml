@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Internal_Name_Pattern</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(REGEX(cgcloud__Internal_Name__c,&quot;^[A-Za-z 0-9]+$&quot;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Internal_Name__c</errorDisplayField>
+    <errorMessage>Internal Name should not contain special characters.</errorMessage>
+</ValidationRule>

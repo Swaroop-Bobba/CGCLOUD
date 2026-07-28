@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Sync_History__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to related Sync History</description>
+    <label>Sync History</label>
+    <referenceTo>cgc_sync__Sync_History__c</referenceTo>
+    <relationshipLabel>Sync History Detail</relationshipLabel>
+    <relationshipName>Sync_History_Detail</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

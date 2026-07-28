@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Deployment_Package_Standard</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>cgc_sync__Deployment_Package_Compact_Layout</compactLayoutAssignment>
+    <description>Standard record type for Deployment Package</description>
+    <label>Deployment Package Standard</label>
+    <picklistValues>
+        <picklist>cgc_sync__Deployment_Type__c</picklist>
+        <values>
+            <fullName>Complete RTA</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Delta RTA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Full</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pictures</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

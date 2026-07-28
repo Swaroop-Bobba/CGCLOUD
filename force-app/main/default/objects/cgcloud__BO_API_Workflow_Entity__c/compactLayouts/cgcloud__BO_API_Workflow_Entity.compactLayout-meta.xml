@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__BO_API_Workflow_Entity</fullName>
+    <fields>cgcloud__BO_API_Workflow__c</fields>
+    <fields>cgcloud__BO_API_Entity__c</fields>
+    <fields>cgcloud__Output_Entity__c</fields>
+    <label>Business Object API Workflow Entity</label>
+</CompactLayout>

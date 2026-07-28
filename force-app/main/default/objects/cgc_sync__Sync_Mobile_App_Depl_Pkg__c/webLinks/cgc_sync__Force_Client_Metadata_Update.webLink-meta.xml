@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Force_Client_Metadata_Update</fullName>
+    <availability>online</availability>
+    <description>Force Client Metadata Update</description>
+    <displayType>massActionButton</displayType>
+    <linkType>page</linkType>
+    <masterLabel>Force Client Metadata Update</masterLabel>
+    <openType>replace</openType>
+    <page>cgc_sync__DeploymentMobilityPackage_ForceMetadata</page>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+</WebLink>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Allowed_Product_Levels__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines the eligible product levels when determining automatically the product levels on condition generation.</description>
+    <inlineHelpText>Defines the eligible product levels when determining automatically the product levels on condition generation.</inlineHelpText>
+    <label>Allowed Product Levels</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Category</fullName>
+                <default>false</default>
+                <label>Category</label>
+            </value>
+            <value>
+                <fullName>SubCategory</fullName>
+                <default>false</default>
+                <label>Sub Category</label>
+            </value>
+            <value>
+                <fullName>Brand</fullName>
+                <default>false</default>
+                <label>Brand</label>
+            </value>
+            <value>
+                <fullName>Flavor</fullName>
+                <default>false</default>
+                <label>Sub Brand</label>
+            </value>
+            <value>
+                <fullName>Package</fullName>
+                <default>false</default>
+                <label>Product Price Group</label>
+            </value>
+            <value>
+                <fullName>Product</fullName>
+                <default>false</default>
+                <label>Product</label>
+            </value>
+            <value>
+                <fullName>Component</fullName>
+                <default>false</default>
+                <label>Component</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Search_Type_NotEmpty</fullName>
+    <active>true</active>
+    <description>Search Type can&apos;t be empty.</description>
+    <errorConditionFormula>ISPICKVAL(cgcloud__Search_Type__c, &apos;&apos;)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Search_Type__c</errorDisplayField>
+    <errorMessage>Search Type can&apos;t be empty.</errorMessage>
+</ValidationRule>

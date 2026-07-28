@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Only_Sellable_Promotions_Allowed</fullName>
+    <active>true</active>
+    <description>Only sellable promotions can be assigned to activity.</description>
+    <errorConditionFormula>AND(cgcloud__Promotion__r.Id != NULL, cgcloud__Promotion__r.RecordType.DeveloperName != &apos;SellablePromotion&apos;)</errorConditionFormula>
+    <errorMessage>Only promotions with &apos;Sellable&apos; Promotion Template can be selected.</errorMessage>
+</ValidationRule>

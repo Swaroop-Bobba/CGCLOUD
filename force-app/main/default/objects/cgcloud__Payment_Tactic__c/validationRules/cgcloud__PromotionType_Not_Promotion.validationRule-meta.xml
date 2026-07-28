@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__PromotionType_Not_Promotion</fullName>
+    <active>true</active>
+    <errorConditionFormula>cgcloud__Tactic__r.cgcloud__Promotion__r.RecordType.Name  &lt;&gt; &apos;Promotion&apos;</errorConditionFormula>
+    <errorMessage>Tactics from sellable promotions can’t be linked to claims.</errorMessage>
+</ValidationRule>

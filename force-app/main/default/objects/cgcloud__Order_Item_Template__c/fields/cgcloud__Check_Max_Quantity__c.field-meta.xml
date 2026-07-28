@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Max_Quantity__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Is used to prevent large quantities by mistake.
+
+Options:
+
+- Yes: The system has to validate the max quantity when saving the sales document.
+
+- Warning: The system only shows a warning that the max quantity threshold is violated. Nevertheless, the sales document item is saved.
+
+- No: The system doesn&apos;t check the max quantity.</description>
+    <label>Check Max Quantity</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>0</fullName>
+                <default>true</default>
+                <label>0</label>
+            </value>
+            <value>
+                <fullName>1</fullName>
+                <default>false</default>
+                <label>1</label>
+            </value>
+            <value>
+                <fullName>2</fullName>
+                <default>false</default>
+                <label>2</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

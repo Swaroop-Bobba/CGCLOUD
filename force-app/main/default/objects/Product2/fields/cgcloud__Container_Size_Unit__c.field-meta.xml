@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Container_Size_Unit__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Describes the unit of Container Size.</description>
+    <label>Container Size Unit</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>oz</fullName>
+                <default>false</default>
+                <label>oz</label>
+            </value>
+            <value>
+                <fullName>l</fullName>
+                <default>false</default>
+                <label>l</label>
+            </value>
+            <value>
+                <fullName>ml</fullName>
+                <default>false</default>
+                <label>ml</label>
+            </value>
+            <value>
+                <fullName>gal</fullName>
+                <default>false</default>
+                <label>gal</label>
+            </value>
+            <value>
+                <fullName>m³</fullName>
+                <default>false</default>
+                <label>m³</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

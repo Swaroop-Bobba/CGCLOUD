@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Paid_Amount__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Holds the final paid requested amount.</description>
+    <label>Paid</label>
+    <summarizedField>cgcloud__Contract_Payment_Tactic__c.cgcloud__Actual_Costs__c</summarizedField>
+    <summaryFilterItems>
+        <field>cgcloud__Contract_Payment_Tactic__c.cgcloud__Status__c</field>
+        <operation>equals</operation>
+        <value>Approved</value>
+    </summaryFilterItems>
+    <summaryForeignKey>cgcloud__Contract_Payment_Tactic__c.cgcloud__Contract_Payment__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

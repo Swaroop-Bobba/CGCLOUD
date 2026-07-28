@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_BOMScope_Component_DSLevel_Empty</fullName>
+    <active>true</active>
+    <description>The BOM Component Source Level must not be &apos;None&apos; if BOM Scope contains &apos;Component&apos;</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName  = &apos;read&apos;,INCLUDES(cgcloud__BoM_Scope__c, &quot;Component&quot;),ISBLANK(TEXT(cgcloud__Data_Source_BoM_Component_Source_Level__c)))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Data_Source_BoM_Component_Source_Level__c</errorDisplayField>
+    <errorMessage>The BOM Component Source Level must not be &apos;None&apos; if BOM Scope contains &apos;Component&apos;.</errorMessage>
+</ValidationRule>

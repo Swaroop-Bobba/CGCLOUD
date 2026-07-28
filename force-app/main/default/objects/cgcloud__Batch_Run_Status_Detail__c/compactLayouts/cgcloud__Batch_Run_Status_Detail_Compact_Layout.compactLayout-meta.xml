@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Batch_Run_Status_Detail_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>cgcloud__Detail_Type__c</fields>
+    <fields>cgcloud__Entry_Date__c</fields>
+    <label>Batch Run Status Detail Compact Layout</label>
+</CompactLayout>

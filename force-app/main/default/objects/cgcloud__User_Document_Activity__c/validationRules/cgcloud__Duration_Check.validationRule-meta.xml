@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Duration_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(cgcloud__Duration__c &lt; 0, cgcloud__Duration__c &gt; 1440)</errorConditionFormula>
+    <errorMessage>The Duration Value must be a number between 0 and 1440.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_BlankSpaces_Within_Name</fullName>
+    <active>true</active>
+    <description>KPI Definition Name must be without spaces.</description>
+    <errorConditionFormula>AND(
+      NOT(ISBLANK(Name)), CONTAINS(Name, &quot; &quot;))</errorConditionFormula>
+    <errorMessage>KPI Definition Name must be without spaces.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Prevent_Changing_of_Standard_Jobs</fullName>
+    <active>true</active>
+    <errorConditionFormula>!ISNEW() &amp;&amp; ISCHANGED(cgcloud__Standard_Jobs__c)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Standard_Jobs__c</errorDisplayField>
+    <errorMessage>The Standard Jobs can&apos;t be edited after Activity Template creation.</errorMessage>
+</ValidationRule>

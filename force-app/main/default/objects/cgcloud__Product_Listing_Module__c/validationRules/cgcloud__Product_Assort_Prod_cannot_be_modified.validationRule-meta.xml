@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Assort_Prod_cannot_be_modified</fullName>
+    <active>true</active>
+    <description>The Product Assortment Product can&apos;t be edited after Product Listing Module creation.</description>
+    <errorConditionFormula>AND(NOT(ISNEW()), ISCHANGED(cgcloud__Product_Assortment_Product__c))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Product_Assortment_Product__c</errorDisplayField>
+    <errorMessage>The Product Assortment Product can&apos;t be edited after Product Listing Module creation.</errorMessage>
+</ValidationRule>

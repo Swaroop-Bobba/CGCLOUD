@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sell_Sheet__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to the Sell Sheet.</description>
+    <label>Sell Sheet</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>cgcloud__Sell_Sheet__c.cgcloud__Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>$Source.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>cgcloud__Sell_Sheet__c.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__Sell_Sheet__c</referenceTo>
+    <relationshipLabel>Sales Folder Sell Sheets</relationshipLabel>
+    <relationshipName>Sales_Folder_Sell_Sheets</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

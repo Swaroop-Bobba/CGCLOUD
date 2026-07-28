@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__ChecksBomComponentKPIDefinition</fullName>
+    <active>true</active>
+    <description>The KPI definition related to the BOM component is required when the KPI type is BOM component aggregation.</description>
+    <errorConditionFormula>AND(
+        RecordType.DeveloperName = &apos;bom_component_aggregation&apos;,
+        ISBLANK(cgcloud__BOM_Component_KPI_Definition__c)
+    )</errorConditionFormula>
+    <errorMessage>Enter the related BOM component KPI definition.</errorMessage>
+</ValidationRule>

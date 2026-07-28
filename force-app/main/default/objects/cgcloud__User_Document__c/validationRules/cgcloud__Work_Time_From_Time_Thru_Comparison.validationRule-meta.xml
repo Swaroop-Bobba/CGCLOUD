@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Work_Time_From_Time_Thru_Comparison</fullName>
+    <active>true</active>
+    <description>Work Time From can&apos;t be later than Work Time Thru.</description>
+    <errorConditionFormula>(VALUE(LEFT(cgcloud__Work_Time_From__c, 2)) * 60 + VALUE(RIGHT(cgcloud__Work_Time_From__c, 2))) &gt; (VALUE(LEFT(cgcloud__Work_Time_Thru__c, 2)) * 60 + VALUE(RIGHT(cgcloud__Work_Time_Thru__c, 2)))</errorConditionFormula>
+    <errorMessage>Work Time From can&apos;t be later than Work Time Thru.</errorMessage>
+</ValidationRule>

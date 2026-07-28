@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Key_3__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Specifies the mapping of key 3 with an attribute of an object.</description>
+    <label>Key 3</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>The Key 3 and the Key Type must have the same Sales Org.</errorMessage>
+        <filterItems>
+            <field>cgcloud__CP_Key_Attribute__c.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__CP_Key_Attribute__c</referenceTo>
+    <relationshipLabel>Key Types (Key 3)</relationshipLabel>
+    <relationshipName>Key_Types2</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

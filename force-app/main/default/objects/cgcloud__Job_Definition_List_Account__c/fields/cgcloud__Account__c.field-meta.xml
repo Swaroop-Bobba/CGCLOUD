@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Customer</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>$Source.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>Account.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Activity Customers</relationshipLabel>
+    <relationshipName>Job_Definition_List_Accounts</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

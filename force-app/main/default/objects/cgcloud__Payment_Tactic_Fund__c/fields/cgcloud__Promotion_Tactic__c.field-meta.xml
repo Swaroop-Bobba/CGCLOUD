@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Promotion_Tactic__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to the Promotion Tactic to which the Payment Tactic is associated with.</description>
+    <externalId>false</externalId>
+    <formula>cgcloud__Payment_Tactic__r.cgcloud__Promotion_Tactic__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Promotion - Tactic</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

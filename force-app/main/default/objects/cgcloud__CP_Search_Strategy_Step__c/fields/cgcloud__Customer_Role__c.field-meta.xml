@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Customer_Role__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies the role of the customer relevant for condition finding.</description>
+    <inlineHelpText>For Delivery Recipient, Payer or Bill To, the conditions will be found only if they are distributed based on the used distribution rule for the pricing conditions.</inlineHelpText>
+    <label>Customer Role</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Orderer</fullName>
+                <default>false</default>
+                <label>Orderer</label>
+            </value>
+            <value>
+                <fullName>DeliveryRecipient</fullName>
+                <default>false</default>
+                <label>DeliveryRecipient</label>
+            </value>
+            <value>
+                <fullName>Payer</fullName>
+                <default>false</default>
+                <label>Payer</label>
+            </value>
+            <value>
+                <fullName>BillTo</fullName>
+                <default>false</default>
+                <label>BillTo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

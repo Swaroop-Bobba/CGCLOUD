@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Possible_Lift_Types__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Possible Lift Types</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>cgcloud__Tactic_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Percentage</fullName>
+                <default>true</default>
+                <label>Percentage</label>
+            </value>
+            <value>
+                <fullName>Percentage/Absolute</fullName>
+                <default>false</default>
+                <label>Percentage/Absolute</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Display</controllingFieldValue>
+            <controllingFieldValue>PriceReduction</controllingFieldValue>
+            <valueName>Percentage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DisplayPerAbs</controllingFieldValue>
+            <controllingFieldValue>PriceReductionPerAbs</controllingFieldValue>
+            <valueName>Percentage/Absolute</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

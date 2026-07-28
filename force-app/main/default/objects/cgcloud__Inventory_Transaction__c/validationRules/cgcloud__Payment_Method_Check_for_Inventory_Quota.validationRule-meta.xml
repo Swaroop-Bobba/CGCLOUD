@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payment_Method_Check_for_Inventory_Quota</fullName>
+    <active>true</active>
+    <description>Payment Method must be empty if the Inventory is &apos;Inventory&apos; or &apos;Quota&apos;.</description>
+    <errorConditionFormula>AND
+        (
+        (cgcloud__Inventory__r.RecordType.DeveloperName = &apos;Inventory&apos; || cgcloud__Inventory__r.RecordType.DeveloperName = &apos;Quota&apos;),NOT(cgcloud__Allow_Manual_Creation__c),
+        NOT(ISPICKVAL(cgcloud__Payment_Method__c, &apos;&apos;))
+        )</errorConditionFormula>
+    <errorMessage>Payment Method must be empty if the Inventory is &apos;Inventory&apos; or &apos;Quota&apos;.</errorMessage>
+</ValidationRule>

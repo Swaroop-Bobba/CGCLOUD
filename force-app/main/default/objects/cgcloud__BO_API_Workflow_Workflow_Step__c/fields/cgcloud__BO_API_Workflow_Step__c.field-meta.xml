@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__BO_API_Workflow_Step__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to the business object API workflow step.</description>
+    <label>Business Object API Workflow Step</label>
+    <referenceTo>cgcloud__BO_API_Workflow_Step__c</referenceTo>
+    <relationshipLabel>Workflow Steps</relationshipLabel>
+    <relationshipName>BO_API_WF_Workflow_Steps</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Delivery_Terms__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Terms of delivery.</description>
+    <label>Delivery Terms</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ExWarehouse</fullName>
+                <default>false</default>
+                <label>ExWarehouse</label>
+            </value>
+            <value>
+                <fullName>FreeOnBoard</fullName>
+                <default>false</default>
+                <label>FreeOnBoard</label>
+            </value>
+            <value>
+                <fullName>FreeOfCharge</fullName>
+                <default>false</default>
+                <label>FreeOfCharge</label>
+            </value>
+            <value>
+                <fullName>ScaleOfCharge</fullName>
+                <default>false</default>
+                <label>ScaleOfCharge</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

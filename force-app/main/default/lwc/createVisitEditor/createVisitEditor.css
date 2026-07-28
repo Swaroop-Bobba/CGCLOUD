@@ -1,0 +1,59 @@
+.create-visit-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #dddbda;
+    overflow: visible;
+}
+
+.form-title-simple {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0176d3;
+    margin: 0;
+    text-align: left;
+}
+
+.form-body {
+    padding: 20px;
+    position: relative;
+}
+
+.lookup-container {
+    position: relative;
+}
+
+.lookup-relative-container {
+    position: relative !important;
+}
+
+.custom-lookup-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 180px;
+    overflow-y: auto;
+    background: #ffffff;
+    border: 1px solid #dddbda;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+}
+
+.custom-lookup-dropdown ul {
+    padding: 4px 0;
+    margin: 0;
+    list-style: none;
+}
+
+.custom-lookup-dropdown li {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    text-align: left;
+}
+
+.custom-lookup-dropdown li:hover {
+    background-color: #f3f3f3;
+}

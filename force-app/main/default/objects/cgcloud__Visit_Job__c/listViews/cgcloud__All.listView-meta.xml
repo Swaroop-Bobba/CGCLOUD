@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__All</fullName>
+    <columns>NAME</columns>
+    <columns>cgcloud__Visit__c</columns>
+    <columns>cgcloud__Value__c</columns>
+    <columns>cgcloud__Last_Value__c</columns>
+    <columns>cgcloud__Display_Value__c</columns>
+    <columns>cgcloud__Done__c</columns>
+    <columns>cgcloud__Job_Definition_Template_Description__c</columns>
+    <columns>cgcloud__Product__c</columns>
+    <columns>cgcloud__Job_Definition_Template__c</columns>
+    <columns>cgcloud__Data_Type_Option__c</columns>
+    <columns>cgcloud__Target_Value__c</columns>
+    <columns>cgcloud__Visit_Date__c</columns>
+    <columns>cgcloud__Manually__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

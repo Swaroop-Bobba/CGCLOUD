@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account_Level_09__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the Account level hierarchy.</description>
+    <label>Account Level 09</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Flatten Account Hierarchies (Account Level 09)</relationshipLabel>
+    <relationshipName>Flatten_Account_Hierarchies9</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

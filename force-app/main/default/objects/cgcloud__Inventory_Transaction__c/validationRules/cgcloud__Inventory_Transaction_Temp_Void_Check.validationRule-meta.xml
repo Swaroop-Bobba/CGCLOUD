@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Inventory_Transaction_Temp_Void_Check</fullName>
+    <active>true</active>
+    <description>Inventory Transaction Template can&apos;t be &apos;Void&apos; Trasaction Type if the Inventory is &apos;Cash Float&apos;.</description>
+    <errorConditionFormula>IF(NOT(cgcloud__Allow_Manual_Creation__c) &amp;&amp; cgcloud__Inventory__r.RecordType.DeveloperName = &apos;Cash_Float&apos; &amp;&amp; TEXT(cgcloud__Inventory_Transaction_Template__r.cgcloud__Transaction_Type__c) == &apos;Void&apos;, True, False)</errorConditionFormula>
+    <errorMessage>Inventory Transaction Template can&apos;t be &apos;Void&apos; Trasaction Type if the Inventory is &apos;Cash Float&apos;.</errorMessage>
+</ValidationRule>

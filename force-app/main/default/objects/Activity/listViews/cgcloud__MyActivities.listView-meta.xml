@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__MyActivities</fullName>
+    <columns>TASK.RECORDTYPE</columns>
+    <columns>TASK.SUBJECT</columns>
+    <columns>CREATEDBY_USER.ALIAS</columns>
+    <columns>CORE.USERS.FULL_NAME</columns>
+    <columns>TASK.PRIORITY</columns>
+    <columns>TASK.DUE_DATE</columns>
+    <columns>TASK.TYPE</columns>
+    <columns>TASK.STATUS</columns>
+    <filterScope>Mine</filterScope>
+    <label>My Activities</label>
+    <language>en_US</language>
+</ListView>

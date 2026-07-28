@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__classification_is_not_allowed</fullName>
+    <active>true</active>
+    <description>Checks if a Classification can be defined for the current Reward (either Free Item has to  be checked or Reward Type has to be &apos;Special&apos;).</description>
+    <errorConditionFormula>AND(NOT(ISPICKVAL(cgcloud__Classification__c, &quot;&quot;)),cgcloud__Free_Item__c = false, AND(NOT(ISPICKVAL(cgcloud__Reward_Type__c, &quot;Special&quot;)), cgcloud__User_Exit__c = &quot;&quot;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Classification__c</errorDisplayField>
+    <errorMessage>Classification can&apos;t be defined if the Free Item is not checked or the User Exit is not defined.</errorMessage>
+</ValidationRule>

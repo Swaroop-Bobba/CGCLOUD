@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Asset_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Asset Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>dashboard</fullName>
+                <default>false</default>
+                <label>dashboard</label>
+            </value>
+            <value>
+                <fullName>lens</fullName>
+                <default>false</default>
+                <label>lens</label>
+            </value>
+            <value>
+                <fullName>application</fullName>
+                <default>false</default>
+                <label>application</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

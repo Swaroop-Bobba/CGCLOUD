@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Maps_To__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Used for the mapValues rule. Defines the field on the output where the value will be mapped. A list of fields can be specified separating them with commas. The token &quot;&lt;&lt;NS&gt;&gt;&quot; can be used to replace it with the required namespace.</description>
+    <inlineHelpText>Defines the field on the output where the value will be mapped. A list of fields can be specified separating them with commas.</inlineHelpText>
+    <label>Maps To</label>
+    <length>1000</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

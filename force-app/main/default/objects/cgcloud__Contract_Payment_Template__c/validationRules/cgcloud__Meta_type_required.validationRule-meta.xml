@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Meta_type_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISPICKVAL( cgcloud__Meta_Type__c , &apos;&apos;)</errorConditionFormula>
+    <errorMessage>The Meta Type can&apos;t be empty.</errorMessage>
+</ValidationRule>

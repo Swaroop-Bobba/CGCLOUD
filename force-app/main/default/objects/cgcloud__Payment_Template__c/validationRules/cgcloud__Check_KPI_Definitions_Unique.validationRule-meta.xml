@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_KPI_Definitions_Unique</fullName>
+    <active>true</active>
+    <description>KPI Definition already exists, please select different KPIs.</description>
+    <errorConditionFormula>(
+      (!ISBLANK(cgcloud__Tactic_Payout_KPI_Definition__c) &amp;&amp; !ISBLANK(cgcloud__Additional_PTP_Kpi_Definition_1__c)) &amp;&amp; (cgcloud__Tactic_Payout_KPI_Definition__c == cgcloud__Additional_PTP_Kpi_Definition_1__c)
+      ) ||
+      (
+      (!ISBLANK(cgcloud__Tactic_Payout_KPI_Definition__c) &amp;&amp; !ISBLANK(cgcloud__Additional_PTP_Kpi_Definition_2__c)) &amp;&amp; (cgcloud__Tactic_Payout_KPI_Definition__c == cgcloud__Additional_PTP_Kpi_Definition_2__c)
+      ) ||
+      (
+      (!ISBLANK(cgcloud__Tactic_Payout_KPI_Definition__c) &amp;&amp; !ISBLANK(cgcloud__Additional_PTP_Kpi_Definition_3__c)) &amp;&amp; (cgcloud__Tactic_Payout_KPI_Definition__c == cgcloud__Additional_PTP_Kpi_Definition_3__c)
+      ) ||
+      (
+      (!ISBLANK(cgcloud__Additional_PTP_Kpi_Definition_1__c) &amp;&amp; !ISBLANK(cgcloud__Additional_PTP_Kpi_Definition_2__c)) &amp;&amp; (cgcloud__Additional_PTP_Kpi_Definition_1__c == cgcloud__Additional_PTP_Kpi_Definition_2__c)
+      ) ||
+      (
+      (!ISBLANK(cgcloud__Additional_PTP_Kpi_Definition_1__c) &amp;&amp; !ISBLANK(cgcloud__Additional_PTP_Kpi_Definition_3__c)) &amp;&amp; (cgcloud__Additional_PTP_Kpi_Definition_1__c == cgcloud__Additional_PTP_Kpi_Definition_3__c)
+      ) ||
+      (
+      (!ISBLANK(cgcloud__Additional_PTP_Kpi_Definition_2__c) &amp;&amp; !ISBLANK(cgcloud__Additional_PTP_Kpi_Definition_3__c)) &amp;&amp; (cgcloud__Additional_PTP_Kpi_Definition_2__c == cgcloud__Additional_PTP_Kpi_Definition_3__c)
+      )</errorConditionFormula>
+    <errorMessage>KPI Definition already exists, please select different KPIs.</errorMessage>
+</ValidationRule>

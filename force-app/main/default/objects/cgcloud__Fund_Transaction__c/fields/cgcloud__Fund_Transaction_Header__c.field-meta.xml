@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Fund_Transaction_Header__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Lookup to Fund Transaction Header which dictates behavior of Fund transaction rows to be created</description>
+    <label>Multi-Fund Transaction</label>
+    <referenceTo>cgcloud__Fund_Transaction_Header__c</referenceTo>
+    <relationshipLabel>Funds</relationshipLabel>
+    <relationshipName>Fund_Transactions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

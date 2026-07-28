@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Job_Definition_List_Template__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <label>Activity Template</label>
+    <referenceTo>cgcloud__Job_Definition_List_Template__c</referenceTo>
+    <relationshipLabel>Activities</relationshipLabel>
+    <relationshipName>Job_Definition_Lists</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sort_must_be_greater_than_0</fullName>
+    <active>true</active>
+    <description>The Sort must be a number greater than 0.</description>
+    <errorConditionFormula>cgcloud__Sort__c &lt;= 0</errorConditionFormula>
+    <errorMessage>The Sort must be a number greater than 0.</errorMessage>
+</ValidationRule>

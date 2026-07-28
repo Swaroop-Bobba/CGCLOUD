@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__PreventEditingRevoked</fullName>
+    <active>true</active>
+    <description>Assignments for revoked packages must not be edited</description>
+    <errorConditionFormula>Not ISNEW() &amp;&amp; 
+cgc_sync__Sync_Mobile_App_Depl_Pkg__r.cgc_sync__Revoked__c 
+&amp;&amp; (ISCHANGED(cgc_sync__User__c) || 
+				ISCHANGED(cgc_sync__Publishing_Date__c) || 
+				ISCHANGED(cgc_sync__Installation_Deadline__c))</errorConditionFormula>
+    <errorMessage>Edit denied.
+Deployment Mobility Package is revoked.
+Assignment is no longer editable.</errorMessage>
+</ValidationRule>

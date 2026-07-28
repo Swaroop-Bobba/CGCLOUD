@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_should_be_same_for_all_lookups</fullName>
+    <active>true</active>
+    <description>The Activity Job Definition Template, Activity, Job Definition Template and POS Template must have the same Sales Org.</description>
+    <errorConditionFormula>OR(
+    TEXT(cgcloud__Job_Definition_Template__r.cgcloud__Sales_Org__c) &lt;&gt; TEXT(cgcloud__Sales_Org__c),
+    TEXT(cgcloud__Job_Definition_List__r.cgcloud__Sales_Org__c) &lt;&gt; TEXT(cgcloud__Sales_Org__c),
+    AND(
+        NOT(ISBLANK(cgcloud__POS_Template__c)),
+        TEXT(cgcloud__POS_Template__r.cgcloud__Sales_Org__c) &lt;&gt; TEXT(cgcloud__Sales_Org__c)
+    )
+)</errorConditionFormula>
+    <errorMessage>The Activity Job Definition Template, Activity, Job Definition Template and POS Template must have the same Sales Org.</errorMessage>
+</ValidationRule>

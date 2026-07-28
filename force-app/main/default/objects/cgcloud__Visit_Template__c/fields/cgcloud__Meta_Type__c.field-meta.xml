@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Meta_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Meta Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Call</fullName>
+                <default>true</default>
+                <label>Visit</label>
+            </value>
+            <value>
+                <fullName>DeliveryVisit</fullName>
+                <default>false</default>
+                <label>Delivery Visit</label>
+            </value>
+            <value>
+                <fullName>VanSales</fullName>
+                <default>false</default>
+                <label>Van Sales</label>
+            </value>
+            <value>
+                <fullName>Merchandising</fullName>
+                <default>false</default>
+                <label>Merchandising</label>
+            </value>
+            <value>
+                <fullName>Service</fullName>
+                <default>false</default>
+                <label>Service</label>
+            </value>
+            <value>
+                <fullName>Phone</fullName>
+                <default>false</default>
+                <label>Phone</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

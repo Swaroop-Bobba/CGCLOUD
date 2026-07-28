@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Condition_Search_Rule_Compact_Layout</fullName>
+    <fields>cgcloud__Description__c</fields>
+    <fields>Name</fields>
+    <fields>cgcloud__Condition_Anchor__c</fields>
+    <fields>cgcloud__Search_Type__c</fields>
+    <label>Condition Search Rule Compact Layout</label>
+</CompactLayout>

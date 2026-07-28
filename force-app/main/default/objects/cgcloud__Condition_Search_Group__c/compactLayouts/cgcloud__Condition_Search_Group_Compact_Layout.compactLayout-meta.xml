@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Condition_Search_Group_Compact_Layout</fullName>
+    <fields>cgcloud__Description__c</fields>
+    <fields>Name</fields>
+    <fields>cgcloud__Group_Code__c</fields>
+    <fields>cgcloud__Aggregation_Rule__c</fields>
+    <label>Condition Search Group Compact Layout</label>
+</CompactLayout>

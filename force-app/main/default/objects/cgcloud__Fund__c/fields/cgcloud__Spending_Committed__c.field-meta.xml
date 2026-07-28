@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Spending_Committed__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Sum of Tactic_Fund.LE_Spend__c of records whose Phase equals Committed minus the sum of Payment_Tactic_Funds.Payment_Status__c of records whose Payments_Status__c equals Closed.</description>
+    <externalId>false</externalId>
+    <formula>cgcloud__LE_Spend_Approved__c - cgcloud__Payouts_Approved__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Spending (Committed)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

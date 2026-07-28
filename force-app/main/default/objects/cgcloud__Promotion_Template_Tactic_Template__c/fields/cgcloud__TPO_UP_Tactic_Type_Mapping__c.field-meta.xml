@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__TPO_UP_Tactic_Type_Mapping__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies which Tactic Slot the related Tactic Type will use on Prediction API calls.</description>
+    <inlineHelpText>Specifies which Tactic Slot the related Tactic Type will use on Prediction API calls.</inlineHelpText>
+    <label>TPO UP Tactic Type Mapping</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Tactic1</fullName>
+                <default>true</default>
+                <label>Tactic1</label>
+            </value>
+            <value>
+                <fullName>Tactic2</fullName>
+                <default>false</default>
+                <label>Tactic2</label>
+            </value>
+            <value>
+                <fullName>Tactic3</fullName>
+                <default>false</default>
+                <label>Tactic3</label>
+            </value>
+            <value>
+                <fullName>Tactic4</fullName>
+                <default>false</default>
+                <label>Tactic4</label>
+            </value>
+            <value>
+                <fullName>Tactic5</fullName>
+                <default>false</default>
+                <label>Tactic5</label>
+            </value>
+            <value>
+                <fullName>Tactic6</fullName>
+                <default>false</default>
+                <label>Tactic6</label>
+            </value>
+            <value>
+                <fullName>Tactic7</fullName>
+                <default>false</default>
+                <label>Tactic7</label>
+            </value>
+            <value>
+                <fullName>Tactic8</fullName>
+                <default>false</default>
+                <label>Tactic8</label>
+            </value>
+            <value>
+                <fullName>Tactic9</fullName>
+                <default>false</default>
+                <label>Tactic9</label>
+            </value>
+            <value>
+                <fullName>Tactic10</fullName>
+                <default>false</default>
+                <label>Tactic10</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

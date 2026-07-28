@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Consider_Multiple_Warehouses_true_should</fullName>
+    <active>true</active>
+    <description>If ConsiderMultiple warehouses was false, the start ware house should be same as the end  ware house</description>
+    <errorConditionFormula>AND(
+
+cgcloud__Route_Template__r.cgcloud__Tour_Template__r.cgcloud__Consider_Multiple_Warehouses__c = FALSE,
+    cgcloud__Start_Warehouse__c  &lt;&gt; cgcloud__End_Warehouse__c 
+)</errorConditionFormula>
+    <errorMessage>The selected template doesn’t support multiple warehouses. Select the same warehouse for Start Warehouse and End Warehouse.</errorMessage>
+</ValidationRule>

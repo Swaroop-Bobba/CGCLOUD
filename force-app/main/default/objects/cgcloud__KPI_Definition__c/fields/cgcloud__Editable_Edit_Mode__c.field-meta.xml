@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Editable_Edit_Mode__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Edit Mode</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>none</fullName>
+                <default>false</default>
+                <label>none</label>
+            </value>
+            <value>
+                <fullName>week</fullName>
+                <default>true</default>
+                <label>week</label>
+            </value>
+            <value>
+                <fullName>total</fullName>
+                <default>false</default>
+                <label>total</label>
+            </value>
+            <value>
+                <fullName>all</fullName>
+                <default>false</default>
+                <label>all</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

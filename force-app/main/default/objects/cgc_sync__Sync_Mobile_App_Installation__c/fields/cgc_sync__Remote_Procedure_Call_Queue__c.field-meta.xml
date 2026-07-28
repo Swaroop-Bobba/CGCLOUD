@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Remote_Procedure_Call_Queue__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Holds a list of command instances (in order of insertion) as a semicolon separated string. The client reads this list to determine what remote procedures were called by the back-end.</description>
+    <inlineHelpText>The client reads this list to determine what remote procedures were called by the back-end.</inlineHelpText>
+    <label>RPC Queue</label>
+    <length>131072</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

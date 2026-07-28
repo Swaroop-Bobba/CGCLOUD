@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Match_Code__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Matchcode of the business partner. Usually a concatenation of several encoded account attributes, e.g. Name + State + City -&gt; KROGER.GA.ATL.</description>
+    <label>Match Code</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

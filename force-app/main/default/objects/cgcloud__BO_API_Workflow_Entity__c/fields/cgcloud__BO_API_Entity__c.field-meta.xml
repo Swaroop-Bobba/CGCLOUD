@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__BO_API_Entity__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to the business object API entity.</description>
+    <label>Business Object API Entity</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Business Object API Entity must be &quot;Input&quot; Location</errorMessage>
+        <filterItems>
+            <field>cgcloud__BO_API_Entity__c.cgcloud__Location__c</field>
+            <operation>equals</operation>
+            <value>Input</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__BO_API_Entity__c</referenceTo>
+    <relationshipLabel>Workflow Entities (Input)</relationshipLabel>
+    <relationshipName>BO_API_Workflow_Input_Entities</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

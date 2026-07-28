@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Assignment_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Information to whom the Deployment Mobility Package is assigned to (e.g. All, User)</description>
+    <label>Assignment Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>cgc_sync__Deployment_Package_Assignment</valueSetName>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Child_Account__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to the business partner the relation is going to.</description>
+    <label>Child Customer</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Customer Trade Org Hierarchies</relationshipLabel>
+    <relationshipName>Account_Trade_Org_Child</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

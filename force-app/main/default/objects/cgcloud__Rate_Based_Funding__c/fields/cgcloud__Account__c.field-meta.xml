@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <label>Customer</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Account.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>$User.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Rate-based Fundings (Customer)</relationshipLabel>
+    <relationshipName>Rate_based_Fundings1</relationshipName>
+    <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

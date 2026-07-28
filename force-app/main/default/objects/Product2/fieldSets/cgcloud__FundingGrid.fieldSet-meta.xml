@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__FundingGrid</fullName>
+    <availableFields>
+        <field>cgcloud__Consumer_Goods_Product_Code__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </availableFields>
+    <availableFields>
+        <field>cgcloud__Pack_Size__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </availableFields>
+    <description>These non-KPI fields are used in the FundingGrid Lightning Component to render additional fields of information associated with product rows.</description>
+    <displayedFields>
+        <field>cgcloud__Product_Level__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <label>FundingGrid</label>
+</FieldSet>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__UI_Contract__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Contract associated with a template</description>
+    <label>UI Contract</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>cgcloud__UI_Contract__c.cgcloud__Usage__c</field>
+            <operation>equals</operation>
+            <value>Tactic</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__UI_Contract__c</referenceTo>
+    <relationshipLabel>Tactic Templates</relationshipLabel>
+    <relationshipName>Tactic_Templates</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

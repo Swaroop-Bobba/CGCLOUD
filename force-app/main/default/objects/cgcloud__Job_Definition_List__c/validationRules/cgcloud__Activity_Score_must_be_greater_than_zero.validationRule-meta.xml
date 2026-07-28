@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Activity_Score_must_be_greater_than_zero</fullName>
+    <active>true</active>
+    <description>If Consider Score is yes then Activity Score must be greater than zero.</description>
+    <errorConditionFormula>AND(ISPICKVAL(cgcloud__Consider_Score__c, &quot;Yes&quot;) ,   OR(cgcloud__Activity_Score__c &lt;= 0, ISBLANK(cgcloud__Activity_Score__c)))</errorConditionFormula>
+    <errorMessage>Activity Score must be greater than zero for a score relevant Activity.</errorMessage>
+</ValidationRule>

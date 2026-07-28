@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Target_Fund__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Source Fund to be selected for transactions based on Template Transaction Type</description>
+    <label>Target Fund</label>
+    <lookupFilter>
+        <active>false</active>
+        <filterItems>
+            <field>cgcloud__Fund__c.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>$User.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__Fund__c</referenceTo>
+    <relationshipLabel>Target Fund Transaction Headers</relationshipLabel>
+    <relationshipName>Target_FT_Headers</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

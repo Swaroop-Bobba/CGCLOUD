@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Same_Templates_If_Usage_Copy</fullName>
+    <active>true</active>
+    <description>Child Template must be same as the Parent Template for the Usage as Copy</description>
+    <errorConditionFormula>AND( 
+		ISPICKVAL(cgcloud__Usage__c, &quot;Copy&quot;),
+		cgcloud__Child_Promotion_Template__c &lt;&gt; cgcloud__Parent_Promotion_Template__c )</errorConditionFormula>
+    <errorMessage>Child Template must be same as the Parent Template for Usage as Copy.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tactic__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Tactic</label>
+    <referenceTo>cgcloud__Tactic__c</referenceTo>
+    <relationshipLabel>Tactic Products</relationshipLabel>
+    <relationshipName>Tactic_Products</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>true</writeRequiresMasterRead>
+</CustomField>

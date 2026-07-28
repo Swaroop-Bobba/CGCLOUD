@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Default_Truck_Vehicle_Type_Validation</fullName>
+    <active>true</active>
+    <description>Only vehicles with &apos;Truck Fast&apos; or &apos;Truck Slow&apos; Vehicle Type can be selected in Default Truck.</description>
+    <errorConditionFormula>AND(
+      NOT(ISBLANK(cgcloud__Default_Truck__c )),
+      NOT(
+      ISPICKVAL(cgcloud__Default_Truck__r.cgcloud__Vehicle_Type__c , &apos;TruckSlow&apos;)) ,
+      NOT(
+      ISPICKVAL(cgcloud__Default_Truck__r.cgcloud__Vehicle_Type__c , &apos;TruckFast&apos;))
+      )</errorConditionFormula>
+    <errorMessage>Only vehicles with &apos;Truck Fast&apos; or &apos;Truck Slow&apos; Vehicle Type can be selected in Default Truck.</errorMessage>
+</ValidationRule>

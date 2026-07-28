@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Brand__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to Brand of the child product.</description>
+    <externalId>false</externalId>
+    <formula>cgcloud__Child_Product__r.cgcloud__Criterion_3_Product__r.Name</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Brand</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Anchor_Product_Validation</fullName>
+    <active>true</active>
+    <description>validation to check anchor product is not empty while creating a new fund</description>
+    <errorConditionFormula>AND(
+ISPICKVAL(cgcloud__Fund_Template__r.cgcloud__Anchor_Type__c ,&apos;Customer Product&apos;),
+ISBLANK(cgcloud__Anchor_Product__c)
+)</errorConditionFormula>
+    <errorMessage>Anchor Product should not be empty for the selected Fund Template.</errorMessage>
+</ValidationRule>

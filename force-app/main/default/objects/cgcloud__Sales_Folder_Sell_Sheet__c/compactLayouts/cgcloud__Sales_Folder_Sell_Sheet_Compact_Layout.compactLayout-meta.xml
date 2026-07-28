@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Folder_Sell_Sheet_Compact_Layout</fullName>
+    <fields>cgcloud__Sales_Folder__c</fields>
+    <fields>cgcloud__Sell_Sheet__c</fields>
+    <fields>cgcloud__Sort__c</fields>
+    <fields>cgcloud__Sales_Org__c</fields>
+    <label>Sales Folder Sell Sheet Compact Layout</label>
+</CompactLayout>

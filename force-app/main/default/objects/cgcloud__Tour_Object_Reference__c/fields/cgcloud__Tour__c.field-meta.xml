@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tour__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Tour</label>
+    <referenceTo>cgcloud__Tour__c</referenceTo>
+    <relationshipLabel>Tour Object References</relationshipLabel>
+    <relationshipName>Tour_Object_References</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

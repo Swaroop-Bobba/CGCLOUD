@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Source_Target_Fund_Validation</fullName>
+    <active>true</active>
+    <description>A fund cannot be a source and a target for all transaction types.</description>
+    <errorConditionFormula>AND( NOT($Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c),
+ cgcloud__Source_Fund__c  =  cgcloud__Target_Fund__c  )</errorConditionFormula>
+    <errorMessage>A fund cannot be a source and a target for all transaction types.</errorMessage>
+</ValidationRule>

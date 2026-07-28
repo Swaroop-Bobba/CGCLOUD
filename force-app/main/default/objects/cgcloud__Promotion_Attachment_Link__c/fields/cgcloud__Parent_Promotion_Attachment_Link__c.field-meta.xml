@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Parent_Promotion_Attachment_Link__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Id of the Parent Promotion Attachment Link record</description>
+    <label>Parent Promotion Attachment Link</label>
+    <referenceTo>cgcloud__Promotion_Attachment_Link__c</referenceTo>
+    <relationshipLabel>Child Promotion Attachment Links</relationshipLabel>
+    <relationshipName>ChildPromotionAttachmentLinks</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

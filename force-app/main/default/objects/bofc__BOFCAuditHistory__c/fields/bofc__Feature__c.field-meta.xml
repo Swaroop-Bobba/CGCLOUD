@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>bofc__Feature__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Feature</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Clone_Object</fullName>
+                <default>false</default>
+                <label>Clone Object</label>
+            </value>
+            <value>
+                <fullName>Clone Fields</fullName>
+                <default>false</default>
+                <label>Clone Fields</label>
+            </value>
+            <value>
+                <fullName>Clone Report</fullName>
+                <default>false</default>
+                <label>Clone Report</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Inventory_Transaction_Initial_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(NOT(cgcloud__Allow_Manual_Creation__c) &amp;&amp;  cgcloud__Inventory_Transaction_Template__r.cgcloud__Initial__c, True, False)</errorConditionFormula>
+    <errorMessage>Only inventory transaction templates with the Initial checked can be selected.</errorMessage>
+</ValidationRule>

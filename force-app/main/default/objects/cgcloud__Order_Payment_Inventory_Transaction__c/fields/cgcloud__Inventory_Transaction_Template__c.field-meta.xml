@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Inventory_Transaction_Template__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to inventory transaction template.</description>
+    <label>Inventory Transaction Template</label>
+    <referenceTo>cgcloud__Inventory_Transaction_Template__c</referenceTo>
+    <relationshipLabel>Order Payment Inventory Transactions</relationshipLabel>
+    <relationshipName>Order_Payment_Inventory_Transactions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

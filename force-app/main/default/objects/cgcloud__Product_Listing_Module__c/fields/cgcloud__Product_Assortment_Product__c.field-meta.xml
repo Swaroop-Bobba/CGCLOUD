@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Assortment_Product__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to product assortment product.</description>
+    <label>Product Assortment Product</label>
+    <referenceTo>AssortmentProduct</referenceTo>
+    <relationshipLabel>Product Listing Modules</relationshipLabel>
+    <relationshipName>Product_Listing_Modules</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

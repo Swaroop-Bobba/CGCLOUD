@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Condition_Change_Rule__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Determines the rule to handle past conditions.</description>
+    <inlineHelpText>Defines the rule to handle past conditions.</inlineHelpText>
+    <label>Condition Change Rule</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>update</fullName>
+                <default>false</default>
+                <label>update</label>
+            </value>
+            <value>
+                <fullName>finish</fullName>
+                <default>false</default>
+                <label>finish</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

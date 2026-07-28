@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Last_Connection_At__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Last connection when any an Upload or a Download has been attempted, that is, independent from success.</description>
+    <label>Last Connection</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

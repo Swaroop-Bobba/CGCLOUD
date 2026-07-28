@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__New_Funds_Must_Have_Status_of_Initial</fullName>
+    <active>true</active>
+    <description>All Funds, when created, must start off with a Fund Status of Initial.</description>
+    <errorConditionFormula>AND(
+  $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+  ISNEW(),
+  NOT(ISPICKVAL( cgcloud__Status__c, &apos;Initial&apos;))
+)</errorConditionFormula>
+    <errorMessage>New Funds must start off with a Status of Initial.</errorMessage>
+</ValidationRule>

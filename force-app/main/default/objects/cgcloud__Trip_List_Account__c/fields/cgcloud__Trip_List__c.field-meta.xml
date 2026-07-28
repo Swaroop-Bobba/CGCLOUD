@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Trip_List__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to trip list</description>
+    <label>Trip List</label>
+    <referenceTo>cgcloud__Trip_List__c</referenceTo>
+    <relationshipLabel>Trip List Customers</relationshipLabel>
+    <relationshipName>Trip_List_Accounts</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

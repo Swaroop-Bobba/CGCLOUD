@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__End_Warehouse_Changed</fullName>
+    <active>true</active>
+    <errorConditionFormula>cgcloud__Tour_Template__r.cgcloud__Consider_Multiple_Warehouses__c == false &amp;&amp; !ISBLANK(cgcloud__End_Warehouse__c) &amp;&amp; !ISBLANK(cgcloud__Start_Warehouse__c) &amp;&amp; cgcloud__End_Warehouse__c !=  cgcloud__Start_Warehouse__c</errorConditionFormula>
+    <errorMessage>Select the same warehouse for Start Warehouse and End Warehouse.</errorMessage>
+</ValidationRule>

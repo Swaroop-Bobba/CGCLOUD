@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Calculation_Date_Thru__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines the end of the calculation time range for payment tactic</description>
+    <formula>IF(ISBLANK(cgcloud__Custom_Calculation_Date_Thru__c),
+cgcloud__Tactic__r.cgcloud__Date_Thru__c,cgcloud__Custom_Calculation_Date_Thru__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Calculation Date Thru</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

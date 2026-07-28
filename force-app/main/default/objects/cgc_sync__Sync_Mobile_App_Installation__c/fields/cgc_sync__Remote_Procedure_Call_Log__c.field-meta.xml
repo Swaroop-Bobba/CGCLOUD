@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Remote_Procedure_Call_Log__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Stores a list of command instances that were executed by the client (the client updates this field after successfully processing a command).</description>
+    <inlineHelpText>Stores the list of command instances that were executed by the client already.</inlineHelpText>
+    <label>RPC Log</label>
+    <length>131072</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

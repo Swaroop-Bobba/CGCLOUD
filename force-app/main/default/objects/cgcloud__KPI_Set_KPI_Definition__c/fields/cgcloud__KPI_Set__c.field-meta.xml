@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__KPI_Set__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Parent object (Calculation Configuration)</description>
+    <label>KPI Set</label>
+    <referenceTo>cgcloud__KPI_Set__c</referenceTo>
+    <relationshipLabel>KPI Set KPI Definitions</relationshipLabel>
+    <relationshipName>KPI_Set_KPI_Definitions</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

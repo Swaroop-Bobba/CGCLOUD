@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__ShortCode_Alphanumeric</fullName>
+    <active>true</active>
+    <description>Short Code values must be alphanumeric</description>
+    <errorConditionFormula>AND(
+  $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+  NOT(
+  REGEX( cgcloud__Short_Code__c , &quot;^[a-zA-Z0-9_]*$&quot;)
+  )
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Short_Code__c</errorDisplayField>
+    <errorMessage>Short Code can only contain letters and numbers.</errorMessage>
+</ValidationRule>

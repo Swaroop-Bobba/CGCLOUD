@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tactic_Template__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Link to the Tactic Template</description>
+    <label>Tactic Template</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>cgcloud__Tactic_Template__c.cgcloud__Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__Tactic_Template__c</referenceTo>
+    <relationshipLabel>Promotion Templates</relationshipLabel>
+    <relationshipName>Promotion_Template_Tactic_Templates</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

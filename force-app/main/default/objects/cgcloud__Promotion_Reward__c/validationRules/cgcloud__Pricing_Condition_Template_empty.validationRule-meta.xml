@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Pricing_Condition_Template_empty</fullName>
+    <active>true</active>
+    <description>Only one of the followings fields must be defined: &apos;Pricing Condition Template&apos;, &apos;Free Item&apos; or &apos;User Exit&apos;.</description>
+    <errorConditionFormula>( IF(cgcloud__Free_Item__c = false,0,1) + 
+  IF(ISBLANK(cgcloud__Pricing_Condition_Template__c ),0,1) + 
+  IF(LEN(cgcloud__User_Exit__c) = 0,0,1)
+) &gt; 1</errorConditionFormula>
+    <errorMessage>Only one of the followings fields must be defined: &apos;Pricing Condition Template&apos;, &apos;Free Item&apos; or &apos;User Exit&apos;.</errorMessage>
+</ValidationRule>

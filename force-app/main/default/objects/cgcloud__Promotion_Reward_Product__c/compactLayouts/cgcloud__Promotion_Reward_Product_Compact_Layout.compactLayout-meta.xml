@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Promotion_Reward_Product_Compact_Layout</fullName>
+    <fields>cgcloud__Product__c</fields>
+    <fields>cgcloud__Default_Value__c</fields>
+    <fields>cgcloud__Max_Value__c</fields>
+    <fields>cgcloud__Logistic_Unit__c</fields>
+    <fields>cgcloud__Included__c</fields>
+    <label>Promotion Reward Product Compact Layout</label>
+</CompactLayout>

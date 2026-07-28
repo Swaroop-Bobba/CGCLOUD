@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Logistic_Category__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Controls which logistical unit types can be chosen for item of this template.</description>
+    <label>Logistic Category</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>All</fullName>
+                <default>false</default>
+                <label>All</label>
+            </value>
+            <value>
+                <fullName>Order</fullName>
+                <default>false</default>
+                <label>Order</label>
+            </value>
+            <value>
+                <fullName>Stocktaking</fullName>
+                <default>false</default>
+                <label>Stocktaking</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

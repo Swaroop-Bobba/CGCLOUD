@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Restrict_Tour_Edit_Post_Completion</fullName>
+    <active>false</active>
+    <description>Restricts editing of tour after tour completion</description>
+    <errorConditionFormula>AND
+(
+	NOT( ISNEW()),
+    ISPICKVAL(PRIORVALUE(cgcloud__Status__c), &quot;Completed&quot;)
+)</errorConditionFormula>
+    <errorMessage>You can&apos;t edit a completed tour.</errorMessage>
+</ValidationRule>

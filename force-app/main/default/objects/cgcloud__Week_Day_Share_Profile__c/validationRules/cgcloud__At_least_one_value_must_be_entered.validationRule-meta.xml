@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__At_least_one_value_must_be_entered</fullName>
+    <active>true</active>
+    <errorConditionFormula>cgcloud__Total__c = 0</errorConditionFormula>
+    <errorMessage>At least one Week Day value must be greater than zero.</errorMessage>
+</ValidationRule>

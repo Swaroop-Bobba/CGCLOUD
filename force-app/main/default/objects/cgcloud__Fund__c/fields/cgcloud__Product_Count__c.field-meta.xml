@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Count__c</fullName>
+    <deprecated>false</deprecated>
+    <description>usage in validation rule for 1 or more products in related list when locking the fund</description>
+    <label>Product Count</label>
+    <summaryForeignKey>cgcloud__Fund_Product__c.cgcloud__Fund__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

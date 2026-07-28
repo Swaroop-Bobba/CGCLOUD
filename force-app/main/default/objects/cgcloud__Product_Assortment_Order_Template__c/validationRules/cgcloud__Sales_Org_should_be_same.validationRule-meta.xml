@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_should_be_same</fullName>
+    <active>true</active>
+    <description>Order Template can&apos;t be assigned to Customer Selling Assortment or Authorization List.</description>
+    <errorConditionFormula>TEXT(cgcloud__Order_Template__r.cgcloud__Sales_Org__c)&lt;&gt; cgcloud__Product_Assortment__r.cgcloud__Sales_Org__c</errorConditionFormula>
+    <errorMessage>The Order Template and the Product Assortment must have the same Sales Org.</errorMessage>
+</ValidationRule>

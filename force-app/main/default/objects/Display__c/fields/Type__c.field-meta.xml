@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <description>Type of display.</description>
+    <label>Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Dump Bin</fullName>
+                <default>false</default>
+                <label>Dump Bin</label>
+            </value>
+            <value>
+                <fullName>Freestanding</fullName>
+                <default>false</default>
+                <label>Freestanding</label>
+            </value>
+            <value>
+                <fullName>Glorifier</fullName>
+                <default>false</default>
+                <label>Glorifier</label>
+            </value>
+            <value>
+                <fullName>Isle</fullName>
+                <default>false</default>
+                <label>Isle</label>
+            </value>
+            <value>
+                <fullName>Shelf</fullName>
+                <default>false</default>
+                <label>Shelf</label>
+            </value>
+            <value>
+                <fullName>Table</fullName>
+                <default>false</default>
+                <label>Table</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

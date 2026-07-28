@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account_Plan_Type_Timeframe</fullName>
+    <active>true</active>
+    <description>Customer must have the Promotion Role assigned (Promotion Valid From and Promotion Valid Thru) if the Account Plan Type is &apos;Plan&apos;.</description>
+    <errorConditionFormula>AND(ISPICKVAL(cgcloud__Account_Plan_Type__c , &apos;Plan&apos;),
+      OR(
+      ISBLANK(cgcloud__Promotion_Valid_From__c),
+      ISBLANK(cgcloud__Promotion_Valid_Thru__c)))</errorConditionFormula>
+    <errorMessage>Customer must have the Promotion Role assigned (Promotion Valid From and Promotion Valid Thru) if the Account Plan Type is &apos;Plan&apos;.</errorMessage>
+</ValidationRule>

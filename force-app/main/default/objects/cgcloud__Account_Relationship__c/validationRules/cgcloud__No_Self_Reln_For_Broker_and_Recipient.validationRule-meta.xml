@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__No_Self_Reln_For_Broker_and_Recipient</fullName>
+    <active>true</active>
+    <description>The Customer and the Related customer can&apos;t be the same.</description>
+    <errorConditionFormula>(ISPICKVAL(cgcloud__Relationship_Type__c ,&apos;Wholesaler&apos;)  || ISPICKVAL(cgcloud__Relationship_Type__c ,&apos;DeliveryRecipient&apos;))  &amp;&amp;  cgcloud__Account__c =  cgcloud__Related_Account__c</errorConditionFormula>
+    <errorMessage>The Customer and the Related customer can&apos;t be the same.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__CP_Labels_Enabled_When_CP_MQ_Enabled</fullName>
+    <active>true</active>
+    <description>Custom Period Labels must be enabled when Custom Periods for Month and Quarter is
+        enabled</description>
+    <errorConditionFormula>AND(!cgcloud__Enable_Custom_Period_Labels__c,
+        ISPICKVAL(cgcloud__Additional_Custom_Period_Level__c,&apos;Enabled&apos;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Enable_Custom_Period_Labels__c</errorDisplayField>
+    <errorMessage>Enable this feature because the Custom Periods for Months and Quarters feature is
+        enabled</errorMessage>
+</ValidationRule>

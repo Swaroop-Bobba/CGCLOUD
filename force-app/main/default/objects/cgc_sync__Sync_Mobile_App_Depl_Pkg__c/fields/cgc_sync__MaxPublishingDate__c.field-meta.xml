@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__MaxPublishingDate__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Date and time by when this package must be published.</description>
+    <label>Last Publishing Date</label>
+    <summarizedField>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Publishing_Date__c</summarizedField>
+    <summaryForeignKey>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Sync_Mobile_App_Depl_Pkg__c</summaryForeignKey>
+    <summaryOperation>max</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

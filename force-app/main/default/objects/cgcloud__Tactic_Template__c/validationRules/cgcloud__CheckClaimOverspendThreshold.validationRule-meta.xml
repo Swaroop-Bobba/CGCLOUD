@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__CheckClaimOverspendThreshold</fullName>
+    <active>true</active>
+    <description>Requires users to enter a claim overspend threshold when Check Claim Overspend is enabled.</description>
+    <errorConditionFormula>AND(
+    cgcloud__Should_Check_Claim_Overspend__c = TRUE,
+    ISBLANK(cgcloud__Claim_Overspend_Threshold_Percentage__c)
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Claim_Overspend_Threshold_Percentage__c</errorDisplayField>
+    <errorMessage>Enter the claim overspend threshold percentage if Check Claim Overspend is enabled.</errorMessage>
+</ValidationRule>

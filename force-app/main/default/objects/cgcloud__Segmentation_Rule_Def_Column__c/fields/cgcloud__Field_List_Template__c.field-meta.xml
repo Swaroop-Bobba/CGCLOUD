@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Field_List_Template__c</fullName>
+    <deprecated>false</deprecated>
+    <description>If the field type is &quot;List&quot; this defines the content of the list.</description>
+    <inlineHelpText>If the field type is &quot;List&quot; this defines the content of the list. Possible values are</inlineHelpText>
+    <label>Field List Template</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>text</fullName>
+                <default>false</default>
+                <label>text</label>
+            </value>
+            <value>
+                <fullName>number</fullName>
+                <default>false</default>
+                <label>number</label>
+            </value>
+            <value>
+                <fullName>picklist</fullName>
+                <default>false</default>
+                <label>picklist</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

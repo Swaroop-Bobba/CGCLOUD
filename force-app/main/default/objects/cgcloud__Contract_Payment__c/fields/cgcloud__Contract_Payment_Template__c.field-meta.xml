@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Contract_Payment_Template__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the contract payment template.</description>
+    <label>Contract Payment Template</label>
+    <referenceTo>cgcloud__Contract_Payment_Template__c</referenceTo>
+    <relationshipLabel>Contract Payments</relationshipLabel>
+    <relationshipName>Contract_Payments</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

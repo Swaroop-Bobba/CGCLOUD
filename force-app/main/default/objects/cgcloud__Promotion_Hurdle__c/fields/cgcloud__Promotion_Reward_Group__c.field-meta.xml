@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Promotion_Reward_Group__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Master-Detail to the Reward Group for which the hurdle applies to.</description>
+    <label>Promotion Reward Group</label>
+    <referenceTo>cgcloud__Promotion_Reward_Group__c</referenceTo>
+    <relationshipLabel>Hurdles</relationshipLabel>
+    <relationshipName>Promotion_Hurdles</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

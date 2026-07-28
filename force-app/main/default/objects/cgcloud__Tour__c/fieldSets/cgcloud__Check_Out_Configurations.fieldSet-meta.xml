@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Out_Configurations</fullName>
+    <description>CreateEditTour.page</description>
+    <displayedFields>
+        <field>cgcloud__Express_Check_Out__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <label>Check Out Configurations</label>
+</FieldSet>

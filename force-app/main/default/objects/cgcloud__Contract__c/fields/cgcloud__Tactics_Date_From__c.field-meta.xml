@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tactics_Date_From__c</fullName>
+    <deprecated>false</deprecated>
+    <description>This field is neccesary to validate that the dates of tactics are in the correct range</description>
+    <label>Tactics Date From</label>
+    <summarizedField>cgcloud__Contract_Tactic__c.cgcloud__Valid_From__c</summarizedField>
+    <summaryForeignKey>cgcloud__Contract_Tactic__c.cgcloud__Contract__c</summaryForeignKey>
+    <summaryOperation>min</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

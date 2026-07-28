@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Explicit_Default_Unit__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Default Unit
+          Unit to preset the Order_Item.UoM.
+          Used when Use_Product_Logistic !=&apos;Yes&apos;.</description>
+    <label>Explicit Default Unit</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ConsumerUnit</fullName>
+                <default>false</default>
+                <label>ConsumerUnit</label>
+            </value>
+            <value>
+                <fullName>SalesUnit</fullName>
+                <default>false</default>
+                <label>SalesUnit</label>
+            </value>
+            <value>
+                <fullName>Layer</fullName>
+                <default>false</default>
+                <label>Layer</label>
+            </value>
+            <value>
+                <fullName>Pallet</fullName>
+                <default>false</default>
+                <label>Pallet</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

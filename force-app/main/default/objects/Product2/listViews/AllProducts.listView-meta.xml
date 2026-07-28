@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AllProducts</fullName>
+    <columns>PRODUCT2.NAME</columns>
+    <columns>cgcloud__Description_1_Language_1__c</columns>
+    <columns>cgcloud__Product_Template__c</columns>
+    <columns>cgcloud__GTIN__c</columns>
+    <columns>cgcloud__Sales_Org__c</columns>
+    <columns>cgcloud__Criterion_1_Product__c</columns>
+    <columns>cgcloud__Product_Level__c</columns>
+    <columns>cgcloud__Criterion_1_Product_Description__c</columns>
+    <columns>cgcloud__Criterion_2_Product_Description__c</columns>
+    <columns>cgcloud__Criterion_3_Product_Description__c</columns>
+    <columns>cgcloud__Criterion_4_Product_Description__c</columns>
+    <columns>cgcloud__Criterion_5_Product_Description__c</columns>
+    <columns>PRODUCT2.CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Products</label>
+</ListView>

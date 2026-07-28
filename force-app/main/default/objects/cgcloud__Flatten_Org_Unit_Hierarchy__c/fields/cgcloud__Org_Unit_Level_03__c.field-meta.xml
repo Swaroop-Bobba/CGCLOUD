@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Org_Unit_Level_03__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the Org Unit level hierarchy.</description>
+    <label>Org Unit 03</label>
+    <referenceTo>cgcloud__Org_Unit__c</referenceTo>
+    <relationshipLabel>Flatten Org Unit Hierarchies (Org Unit 03)</relationshipLabel>
+    <relationshipName>Flatten_Org_Unit_Hierarchies3</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

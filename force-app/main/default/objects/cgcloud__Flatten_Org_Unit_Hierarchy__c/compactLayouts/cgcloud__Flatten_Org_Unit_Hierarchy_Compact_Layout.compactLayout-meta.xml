@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Flatten_Org_Unit_Hierarchy_Compact_Layout</fullName>
+    <fields>cgcloud__Org_Unit__c</fields>
+    <fields>cgcloud__Node_Level__c</fields>
+    <fields>cgcloud__Account__c</fields>
+    <label>Flatten Org Unit Hierarchy Compact Layout</label>
+</CompactLayout>

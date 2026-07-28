@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Enable_Subset_Load_Optimization__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Determines if the system uses KPI subset configurations for optimized loading of KPIs in promotion and account plan.</description>
+    <inlineHelpText>Determines if the system uses KPI subset configurations for optimized loading of KPIs in promotion and account plan.</inlineHelpText>
+    <label>Enable Subset Load Optimization</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

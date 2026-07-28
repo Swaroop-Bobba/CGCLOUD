@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Parent_TCCD__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <label>Parent TCCD</label>
+    <referenceTo>cgcloud__Tactic_Condition_Creation_Definition__c</referenceTo>
+    <relationshipLabel>Tactic Condition Creation Definitions</relationshipLabel>
+    <relationshipName>Tactic_Condition_Creation_Definitions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

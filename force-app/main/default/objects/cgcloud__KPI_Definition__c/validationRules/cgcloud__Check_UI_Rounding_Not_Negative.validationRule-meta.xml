@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_UI_Rounding_Not_Negative</fullName>
+    <active>true</active>
+    <description>The rounding obviously cannot be negative</description>
+    <errorConditionFormula>cgcloud__Display_Round__c &lt; 0</errorConditionFormula>
+    <errorDisplayField>cgcloud__Display_Round__c</errorDisplayField>
+    <errorMessage>Value should be zero or above</errorMessage>
+</ValidationRule>

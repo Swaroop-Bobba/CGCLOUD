@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>bofc__Action__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Action</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Open_Featured_Page</fullName>
+                <default>false</default>
+                <label>Open Featured Page</label>
+            </value>
+            <value>
+                <fullName>Click the Button</fullName>
+                <default>false</default>
+                <label>Click the Button</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

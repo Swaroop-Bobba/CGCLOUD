@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tactic_Payout_KPI_Definition__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>This field dictates which field of the Payment Tactic Grid that the Tactic Payout amount will be automatically allocated to upon loading</description>
+    <inlineHelpText>Defines the KPI used to distribute the Tactic Payout.</inlineHelpText>
+    <label>Tactic Payout KPI Definition</label>
+    <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
+    <relationshipLabel>Payment Templates</relationshipLabel>
+    <relationshipName>Payment_Templates</relationshipName>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

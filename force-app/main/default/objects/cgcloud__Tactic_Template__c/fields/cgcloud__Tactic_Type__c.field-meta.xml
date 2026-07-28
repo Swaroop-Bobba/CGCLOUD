@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tactic_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies the type of a tactic</description>
+    <inlineHelpText>Specifies the type of a tactic</inlineHelpText>
+    <label>Tactic Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Display</fullName>
+                <default>true</default>
+                <label>Display</label>
+            </value>
+            <value>
+                <fullName>DisplayPerAbs</fullName>
+                <default>false</default>
+                <label>DisplayPerAbs</label>
+            </value>
+            <value>
+                <fullName>PriceReduction</fullName>
+                <default>false</default>
+                <label>PriceReduction</label>
+            </value>
+            <value>
+                <fullName>PriceReductionPerAbs</fullName>
+                <default>false</default>
+                <label>PriceReductionPerAbs</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

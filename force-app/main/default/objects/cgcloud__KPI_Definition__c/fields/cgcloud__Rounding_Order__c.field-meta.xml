@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Rounding_Order__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Period Then Sub Periods method rounds period values first, and then rounds the buckets ensuring their merged value matches the period value.
+Sub Periods Then Period rounds subperiods first and then merge them into periods.</description>
+    <inlineHelpText>Period Then Sub Periods method rounds period values first, and then rounds the buckets ensuring their merged value matches the period value.
+Sub Periods Then Period rounds subperiods first and then merges them into periods.</inlineHelpText>
+    <label>Rounding Order</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>default</fullName>
+                <default>false</default>
+                <label>default</label>
+            </value>
+            <value>
+                <fullName>periodfirst</fullName>
+                <default>false</default>
+                <label>periodfirst</label>
+            </value>
+            <value>
+                <fullName>subperiodfirst</fullName>
+                <default>false</default>
+                <label>subperiodfirst</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

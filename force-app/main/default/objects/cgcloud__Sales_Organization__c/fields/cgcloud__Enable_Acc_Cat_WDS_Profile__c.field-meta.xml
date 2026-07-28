@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Enable_Acc_Cat_WDS_Profile__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Determines if the account, category, account and sales org specific profiles use the Profile bucket share calculation, which is found first.</description>
+    <inlineHelpText>If enabled, the profile search order for daily volume distribution will be Customer Category --&gt; Customer (Account) --&gt; Sales Org.</inlineHelpText>
+    <label>Enable Customer Category Profile</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

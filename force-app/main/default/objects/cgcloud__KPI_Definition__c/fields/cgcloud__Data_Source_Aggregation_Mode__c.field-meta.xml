@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Data_Source_Aggregation_Mode__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Aggregation Mode</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>standard</fullName>
+                <default>true</default>
+                <label>standard</label>
+            </value>
+            <value>
+                <fullName>custom</fullName>
+                <default>false</default>
+                <label>custom</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

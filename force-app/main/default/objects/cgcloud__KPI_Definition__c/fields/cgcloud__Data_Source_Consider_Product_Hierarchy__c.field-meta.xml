@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Data_Source_Consider_Product_Hierarchy__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Flag indicating whether the product hierarchy is considered for the condition search.</description>
+    <inlineHelpText>Defines if the product hierarchy must be considered for the condition search</inlineHelpText>
+    <label>Consider Product Hierarchy</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

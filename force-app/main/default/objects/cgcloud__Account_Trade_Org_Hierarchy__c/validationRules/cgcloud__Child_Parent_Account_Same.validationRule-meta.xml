@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Child_Parent_Account_Same</fullName>
+    <active>true</active>
+    <description>The Child Customer and the Parent Customer can&apos;t be the same.</description>
+    <errorConditionFormula>cgcloud__Child_Account__c =  cgcloud__Parent_Account__c</errorConditionFormula>
+    <errorMessage>The Child Customer and the Parent Customer can&apos;t be the same.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Mailing_Country__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Mailing Country of customer.</description>
+    <label>Mailing Country</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>en</fullName>
+                <default>false</default>
+                <label>en</label>
+            </value>
+            <value>
+                <fullName>de</fullName>
+                <default>false</default>
+                <label>de</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

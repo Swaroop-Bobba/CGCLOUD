@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__only_record_type_rewards_can_be_added</fullName>
+    <active>true</active>
+    <description>Only pricing condition templates with &apos;Rewards&apos; Record Type can be selected..</description>
+    <errorConditionFormula>AND(
+cgcloud__Pricing_Condition_Template__r.RecordType.DeveloperName &lt;&gt; &apos;Rewards&apos;,
+NOT(ISBLANK(cgcloud__Pricing_Condition_Template__c)),
+cgcloud__Free_Item__c = false)</errorConditionFormula>
+    <errorMessage>Only pricing condition templates with &apos;Rewards&apos; Record Type can be selected.</errorMessage>
+</ValidationRule>

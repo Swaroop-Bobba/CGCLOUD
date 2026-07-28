@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_BOMScope_NotComponentValCmpdKPIs</fullName>
+    <active>true</active>
+    <description>BOM Scope cannot contain &apos;Component&apos; for Compound, Editable Calculated and Validation KPIs.</description>
+    <errorConditionFormula>AND(OR(RecordType.DeveloperName = &apos;compound&apos;, RecordType.DeveloperName = &apos;validation&apos;, RecordType.DeveloperName = &apos;editable_calculated&apos;), INCLUDES(cgcloud__BoM_Scope__c, &quot;Component&quot;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__BoM_Scope__c</errorDisplayField>
+    <errorMessage>BOM Scope cannot contain &apos;Component&apos; for Compound, Editable Calculated and Validation KPIs.</errorMessage>
+</ValidationRule>

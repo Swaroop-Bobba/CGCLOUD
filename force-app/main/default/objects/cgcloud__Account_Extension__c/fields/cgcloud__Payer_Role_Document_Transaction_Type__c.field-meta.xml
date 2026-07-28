@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payer_Role_Document_Transaction_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies how to handle delivery documents regarding payments.</description>
+    <label>Delivery Document Transaction Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CashInvoice</fullName>
+                <default>false</default>
+                <label>CashInvoice</label>
+            </value>
+            <value>
+                <fullName>CreditInvoice</fullName>
+                <default>false</default>
+                <label>CreditInvoice</label>
+            </value>
+            <value>
+                <fullName>ValuatedDeliveryNote</fullName>
+                <default>false</default>
+                <label>ValuatedDeliveryNote</label>
+            </value>
+            <value>
+                <fullName>NonValuatedDeliveryNote</fullName>
+                <default>false</default>
+                <label>NonValuatedDeliveryNote</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

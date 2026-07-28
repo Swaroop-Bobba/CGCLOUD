@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Restrict_Negative_Values</fullName>
+    <active>true</active>
+    <description>Week Day values must be greater or equal than 0 (&gt;=0)</description>
+    <errorConditionFormula>cgcloud__Monday__c &lt; 0 || cgcloud__Tuesday__c &lt; 0 || cgcloud__Wednesday__c &lt; 0 || cgcloud__Thursday__c &lt; 0 || cgcloud__Friday__c &lt; 0 || cgcloud__Saturday__c &lt; 0 || cgcloud__Sunday__c &lt; 0</errorConditionFormula>
+    <errorMessage>Week Day values must be greater or equal than 0.</errorMessage>
+</ValidationRule>

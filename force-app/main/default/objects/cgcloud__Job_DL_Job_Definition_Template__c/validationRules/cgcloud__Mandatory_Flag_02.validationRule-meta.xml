@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Mandatory_Flag_02</fullName>
+    <active>true</active>
+    <description>Job Action Success must be &apos;Validation&apos; if the Mandatory is checked.</description>
+    <errorConditionFormula>cgcloud__Mandatory__c &amp;&amp; NOT(ISPICKVAL(cgcloud__Job_Action_Success__c, &apos;Validation&apos;))</errorConditionFormula>
+    <errorMessage>Job Action Success must be &apos;Validation&apos; if Mandatory is checked.</errorMessage>
+</ValidationRule>

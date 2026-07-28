@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Anchor_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Type of Customer Anchor for the Rate-Based Funding Record. This will drive the visibility of which Anchor Attribute will be displayed.</description>
+    <inlineHelpText>Defines the visibility of which anchor attribute will be displayed.</inlineHelpText>
+    <label>Anchor Type</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Customer</fullName>
+                <default>false</default>
+                <label>Customer</label>
+            </value>
+            <value>
+                <fullName>Customer Set</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Customer Set</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

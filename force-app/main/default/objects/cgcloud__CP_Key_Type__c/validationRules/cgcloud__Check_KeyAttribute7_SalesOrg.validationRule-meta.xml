@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_KeyAttribute7_SalesOrg</fullName>
+    <active>true</active>
+    <description>The Key 7 and the Key Type must have the same Sales Org.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK(cgcloud__Key_7__c)), TEXT( cgcloud__Key_7__r.cgcloud__Sales_Org__c) != TEXT(cgcloud__Sales_Org__c))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Key_7__c</errorDisplayField>
+    <errorMessage>The Key 7 and the Key Type must have the same Sales Org.</errorMessage>
+</ValidationRule>

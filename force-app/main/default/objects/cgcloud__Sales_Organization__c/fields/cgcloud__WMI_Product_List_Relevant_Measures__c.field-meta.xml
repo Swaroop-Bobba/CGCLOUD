@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__WMI_Product_List_Relevant_Measures__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Measure codes defined for weeklymeasureint table</description>
+    <label>Weekly Measure Int</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CONS</fullName>
+                <default>false</default>
+                <label>CONS</label>
+            </value>
+            <value>
+                <fullName>BSL</fullName>
+                <default>false</default>
+                <label>BSL</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Disable_Discontinued_Products</fullName>
+    <active>true</active>
+    <description>Prevents deselection of the Include Discontinued Products checkbox.</description>
+    <errorConditionFormula>AND(
+        ISCHANGED(cgcloud__Should_Include_Discontinued_Products__c),
+        PRIORVALUE(cgcloud__Should_Include_Discontinued_Products__c))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Should_Include_Discontinued_Products__c</errorDisplayField>
+    <errorMessage>After you&apos;ve selected to include discontinued products, you can&apos;t undo it.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Vehicle_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies the vehicle specific speed profiles which are used in the external ptv tool for route optimization.</description>
+    <label>Vehicle Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Car</fullName>
+                <default>true</default>
+                <label>Car</label>
+            </value>
+            <value>
+                <fullName>TruckSlow</fullName>
+                <default>false</default>
+                <label>TruckSlow</label>
+            </value>
+            <value>
+                <fullName>TruckFast</fullName>
+                <default>false</default>
+                <label>TruckFast</label>
+            </value>
+            <value>
+                <fullName>Trailer</fullName>
+                <default>false</default>
+                <label>Trailer</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

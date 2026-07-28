@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Disable_AutoSync__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Set this value to true to disable automatic synchronization to off platform. This value will be set to false after the refresh is completed.</description>
+    <inlineHelpText>Set this value to true to disable automatic synchronization to off platform. This value will be set to false after the refresh is completed.</inlineHelpText>
+    <label>Disable AutoSync</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

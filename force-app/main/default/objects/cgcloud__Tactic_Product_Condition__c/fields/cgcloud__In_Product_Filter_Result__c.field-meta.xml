@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__In_Product_Filter_Result__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Indicates if the product is there because it is in the result of the product filter (or products below this group are in the result of the product filter).</description>
+    <label>In Product Filter Result</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

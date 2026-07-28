@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Authentication__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Authentication</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>None</fullName>
+                <default>true</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>NameOptional</fullName>
+                <default>false</default>
+                <label>NameOptional</label>
+            </value>
+            <value>
+                <fullName>NameRequired</fullName>
+                <default>false</default>
+                <label>NameRequired</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

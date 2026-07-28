@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Max_Total_of_Columns</fullName>
+    <active>true</active>
+    <description>The maximum number of columns allowed is 15.</description>
+    <errorConditionFormula>cgcloud__Total_Columns__c &gt; 15</errorConditionFormula>
+    <errorMessage>The maximum number of columns allowed is 15.</errorMessage>
+</ValidationRule>

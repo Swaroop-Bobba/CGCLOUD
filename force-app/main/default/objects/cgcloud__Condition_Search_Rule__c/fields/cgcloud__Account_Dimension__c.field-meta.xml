@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account_Dimension__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines the account hierarchical node to start condition search from.</description>
+    <inlineHelpText>Defines the account hierarchical node to start condition search from.</inlineHelpText>
+    <label>Account Dimension</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>cgcloud__Condition_Anchor__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not_Relevant</fullName>
+                <default>false</default>
+                <label>Not_Relevant</label>
+            </value>
+            <value>
+                <fullName>Exact</fullName>
+                <default>true</default>
+                <label>Exact</label>
+            </value>
+            <value>
+                <fullName>Bottom_Up</fullName>
+                <default>false</default>
+                <label>Bottom_Up</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Account_Product</controllingFieldValue>
+            <controllingFieldValue>Account</controllingFieldValue>
+            <valueName>Exact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Account_Product</controllingFieldValue>
+            <controllingFieldValue>Account</controllingFieldValue>
+            <valueName>Bottom_Up</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Product</controllingFieldValue>
+            <valueName>Not_Relevant</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

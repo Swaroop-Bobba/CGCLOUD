@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__pricing_condition_tem_cannot_be_changed</fullName>
+    <active>true</active>
+    <description>The Pricing Condition Template cannot be edited after creation.</description>
+    <errorConditionFormula>AND(NOT(ISNEW()), ISCHANGED( cgcloud__Pricing_Condition_Template__c ))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Pricing_Condition_Template__c</errorDisplayField>
+    <errorMessage>The Pricing Condition Template can&apos;t be edited after Promotion Reward creation.</errorMessage>
+</ValidationRule>

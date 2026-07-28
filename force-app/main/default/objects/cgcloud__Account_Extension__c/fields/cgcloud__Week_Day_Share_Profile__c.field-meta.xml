@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Week_Day_Share_Profile__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Lookup to the Week Day Share Profile that is utilized for calculations for the referenced account.</description>
+    <label>Week Day Share Profile</label>
+    <referenceTo>cgcloud__Week_Day_Share_Profile__c</referenceTo>
+    <relationshipLabel>Customer Extensions</relationshipLabel>
+    <relationshipName>Customer_Extensions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

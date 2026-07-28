@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Invalid_Inventory_Check</fullName>
+    <active>true</active>
+    <description>Inventory Transaction can&apos;t be created for Invalid Inventory.</description>
+    <errorConditionFormula>IF(NOT(cgcloud__Allow_Manual_Creation__c) &amp;&amp;  cgcloud__Inventory__r.cgcloud__Invalid__c, True, False)</errorConditionFormula>
+    <errorMessage>Inventory Transaction can&apos;t be created for Invalid Inventory.</errorMessage>
+</ValidationRule>

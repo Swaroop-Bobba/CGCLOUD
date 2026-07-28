@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__AllAssets</fullName>
+    <columns>ASSET.NAME</columns>
+    <columns>cgcloud__Description__c</columns>
+    <columns>ASSET.SERIAL_NUMBER</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ASSET.STATUS</columns>
+    <columns>cgcloud__Asset_Template__c</columns>
+    <columns>cgcloud__Asset_Type__c</columns>
+    <columns>cgcloud__POS__c</columns>
+    <columns>cgcloud__Brand__c</columns>
+    <columns>cgcloud__Sales_Org__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>contains</operation>
+        <value>NTO Store #214</value>
+    </filters>
+    <label>All Assets</label>
+</ListView>

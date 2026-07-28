@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Operator_must_be_blank_for_no_condition</fullName>
+    <active>true</active>
+    <description>Operator must be None if no condition is selected</description>
+    <errorConditionFormula>AND( ISBLANK( cgcloud__Condition__c ) , NOT(ISBLANK(TEXT( cgcloud__Condition_Operator__c ))))</errorConditionFormula>
+    <errorMessage>Operator must be None if no Condition is selected</errorMessage>
+</ValidationRule>

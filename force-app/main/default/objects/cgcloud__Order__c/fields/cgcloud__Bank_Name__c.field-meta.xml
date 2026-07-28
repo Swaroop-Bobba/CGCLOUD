@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Bank_Name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Contains the name of the bank.</description>
+    <label>Bank Name</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>SantanderBank</fullName>
+                <default>false</default>
+                <label>SantanderBank</label>
+            </value>
+            <value>
+                <fullName>CitiBank</fullName>
+                <default>false</default>
+                <label>CitiBank</label>
+            </value>
+            <value>
+                <fullName>Bank_of_Scotland</fullName>
+                <default>false</default>
+                <label>Bank_of_Scotland</label>
+            </value>
+            <value>
+                <fullName>IngDiBa</fullName>
+                <default>false</default>
+                <label>IngDiBa</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

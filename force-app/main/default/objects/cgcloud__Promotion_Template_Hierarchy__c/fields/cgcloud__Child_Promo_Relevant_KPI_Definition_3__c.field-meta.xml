@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Child_Promo_Relevant_KPI_Definition_3__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Lookup to the third kpi which is used to transfer values from the parent to the child process.</description>
+    <label>Child Promotion KPI Definition 3</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>cgcloud__KPI_Definition__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Editable</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
+    <relationshipLabel>Promotion Template Hierarchies (Child Promo Relevant KPI Definition 3)</relationshipLabel>
+    <relationshipName>Promo_Temp_Hierarchy_KPI_Definition_3</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

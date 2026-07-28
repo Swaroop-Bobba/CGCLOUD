@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Default_Price_List_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Default price list type of the sales organization</description>
+    <label>Default Price List Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>WS1999</fullName>
+                <default>false</default>
+                <label>WS1999</label>
+            </value>
+            <value>
+                <fullName>WS2000</fullName>
+                <default>false</default>
+                <label>WS2000</label>
+            </value>
+            <value>
+                <fullName>NotRelevant</fullName>
+                <default>false</default>
+                <label>NotRelevant</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__KPI_Set_Plan_Dependent__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the KPI Set which has &apos;Plan&apos; usage and is child object dependent.</description>
+    <label>Plan Dependent KPI Set</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>cgcloud__KPI_Set__c.cgcloud__Usage__c</field>
+            <operation>equals</operation>
+            <value>Plan</value>
+        </filterItems>
+        <filterItems>
+            <field>cgcloud__KPI_Set__c.cgcloud__Child_Object_Dependency__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <infoMessage>Select the KPI Set</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__KPI_Set__c</referenceTo>
+    <relationshipLabel>Customer Templates</relationshipLabel>
+    <relationshipName>Customer_Templates</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_Mismatch</fullName>
+    <active>true</active>
+    <description>The Category and the Customer Business Plan must have the same Sales Org</description>
+    <errorConditionFormula>cgcloud__Account_Plan__r.cgcloud__Sales_Org__c &lt;&gt; cgcloud__Category__r.cgcloud__Sales_Org__c</errorConditionFormula>
+    <errorMessage>The Category and the Customer Business Plan must have the same Sales Org</errorMessage>
+</ValidationRule>

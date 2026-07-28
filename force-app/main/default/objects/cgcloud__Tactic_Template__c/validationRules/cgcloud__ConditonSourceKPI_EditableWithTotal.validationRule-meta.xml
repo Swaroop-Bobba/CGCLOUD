@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__ConditonSourceKPI_EditableWithTotal</fullName>
+    <active>true</active>
+    <description>The KPI is only allowed to have record type &apos;Editable&apos; and edit mode &apos;Total&apos;.</description>
+    <errorConditionFormula>AND(cgcloud__Enable_Condition_Creation__c = true, AND(NOT(ISBLANK(cgcloud__Condition_Source_Kpi__c)), OR(cgcloud__Condition_Source_Kpi__r.RecordType.DeveloperName &lt;&gt; &apos;editable&apos;,NOT(ISPICKVAL(cgcloud__Condition_Source_Kpi__r.cgcloud__Editable_Edit_Mode__c, &apos;total&apos;)))))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Condition_Source_Kpi__c</errorDisplayField>
+    <errorMessage>The KPI is only allowed to have record type ‘Editable’ and edit mode ‘Total’</errorMessage>
+</ValidationRule>

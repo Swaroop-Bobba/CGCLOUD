@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Accrual_Input_Measure_Name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Accrual Input Measure Name</description>
+    <externalId>false</externalId>
+    <formula>cgcloud__Accrual_Input_Measure__r.Name</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Accrual Input Measure Name</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

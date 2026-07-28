@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Customer_Role_Price_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines the Role Price type from the customer.</description>
+    <label>Customer Role Price Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>factory</fullName>
+                <default>false</default>
+                <label>factory</label>
+            </value>
+            <value>
+                <fullName>consumer</fullName>
+                <default>false</default>
+                <label>consumer</label>
+            </value>
+            <value>
+                <fullName>NotRelevant</fullName>
+                <default>false</default>
+                <label>NotRelevant</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

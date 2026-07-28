@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validated_Storage_Levels</fullName>
+    <active>false</active>
+    <description>Check if Storage Levels values are Tactic or measures when writeback is checked and Scope is account.</description>
+    <errorConditionFormula>( cgcloud__Storage_Options_Writeback__c == TRUE &amp;&amp;
+      (INCLUDES( cgcloud__Storage_Options_Storage_Levels__c , &quot;Tactic&quot; ) || INCLUDES( cgcloud__Storage_Options_Storage_Levels__c , &quot;measures&quot; ) )
+      ) &amp;&amp; (
+      ISPICKVAL(cgcloud__Scope__c , &quot;account&quot;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Storage_Options_Storage_Levels__c</errorDisplayField>
+    <errorMessage>Invalid Storage Level Date, please select a valid Scope.</errorMessage>
+</ValidationRule>

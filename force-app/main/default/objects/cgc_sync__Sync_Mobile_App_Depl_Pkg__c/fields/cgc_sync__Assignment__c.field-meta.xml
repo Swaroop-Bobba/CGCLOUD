@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Assignment__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Display assignment type and number of assignments per assignment type as csv.</description>
+    <externalId>false</externalId>
+    <formula>If( cgc_sync__Assignment_to_All__c = 0 &amp;&amp; cgc_sync__Assignment_to_User__c = 0, &apos;Not assigned&apos;, 
+If( cgc_sync__Assignment_to_All__c &gt; 0, &apos;All&apos;, &apos;&apos;) &amp;
+If( cgc_sync__Assignment_to_All__c &gt; 0 &amp;&amp; cgc_sync__Assignment_to_User__c &gt; 0, &apos;, &apos;, &apos;&apos;) &amp;
+If( cgc_sync__Assignment_to_User__c &gt; 0, &apos;User(&apos; &amp; Text(cgc_sync__Assignment_to_User__c) &amp; &apos;)&apos;, &apos;&apos;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Assignment</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

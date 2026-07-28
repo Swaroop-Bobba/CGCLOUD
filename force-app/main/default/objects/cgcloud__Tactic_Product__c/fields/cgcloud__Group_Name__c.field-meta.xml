@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Group_Name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Product register grouping drives the way that the products are displayed in the order.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Relevant only for selectable promotions.</inlineHelpText>
+    <label>Group Name</label>
+    <length>80</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Distribution_Time_Hier_NotEmpty</fullName>
+    <active>true</active>
+    <description>Distribution (TimeHierarchy) cannot be empty when Distribution Type (Time Hierarchy) is Metric (KPI).</description>
+    <errorConditionFormula>AND(
+      OR($RecordType.DeveloperName = &quot;editable&quot;,
+      $RecordType.DeveloperName = &quot;editable_calculated&quot;),
+
+      ISBLANK(cgcloud__Distribution_Time_Hierarchy_Dist_Metric__c),
+
+      ISPICKVAL(cgcloud__Distribution_Time_Hierarchy_Dist_Type__c, &quot;metric&quot;)
+      )</errorConditionFormula>
+    <errorDisplayField>cgcloud__Distribution_Time_Hierarchy_Dist_Metric__c</errorDisplayField>
+    <errorMessage>Distribution (TimeHierarchy) cannot be empty when Distribution Type (Time Hierarchy) is Metric (KPI).</errorMessage>
+</ValidationRule>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Total_Available_Overdraw__c</fullName>
+    <deprecated>false</deprecated>
+    <description>this field is to make calculation as follows: Fixed-Based Overdraw + RBF-Based Overdraw</description>
+    <externalId>false</externalId>
+    <formula>cgcloud__Fixed_Based_Overdraw__c  +  cgcloud__RBF_Based_Overdraw__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Available Overdraw</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

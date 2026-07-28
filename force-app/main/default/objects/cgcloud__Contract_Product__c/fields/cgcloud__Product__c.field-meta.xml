@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <label>Product</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 AND ((4 AND 2) OR (3 AND 5))</booleanFilter>
+        <errorMessage>The Product and the Contract Product must have the same Sales Org.</errorMessage>
+        <filterItems>
+            <field>Product2.cgcloud__Competitive_Product__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </filterItems>
+        <filterItems>
+            <field>Product2.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>$Source.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </filterItems>
+        <filterItems>
+            <field>$Source.cgcloud__Sales_Org__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </filterItems>
+        <filterItems>
+            <field>Product2.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Product2</referenceTo>
+    <relationshipLabel>Contract Product</relationshipLabel>
+    <relationshipName>Contract_Product</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

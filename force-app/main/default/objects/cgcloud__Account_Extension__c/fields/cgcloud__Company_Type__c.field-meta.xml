@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Company_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines the type of Customer.</description>
+    <label>Company Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Retailer</fullName>
+                <default>false</default>
+                <label>Retailer</label>
+            </value>
+            <value>
+                <fullName>Independent</fullName>
+                <default>false</default>
+                <label>Independent</label>
+            </value>
+            <value>
+                <fullName>OnTrade</fullName>
+                <default>false</default>
+                <label>OnTrade</label>
+            </value>
+            <value>
+                <fullName>Consumer</fullName>
+                <default>false</default>
+                <label>Consumer</label>
+            </value>
+            <value>
+                <fullName>ThirdParty</fullName>
+                <default>false</default>
+                <label>ThirdParty</label>
+            </value>
+            <value>
+                <fullName>Wholesaler</fullName>
+                <default>false</default>
+                <label>Wholesaler</label>
+            </value>
+            <value>
+                <fullName>Payer</fullName>
+                <default>false</default>
+                <label>Payer</label>
+            </value>
+            <value>
+                <fullName>Payee</fullName>
+                <default>false</default>
+                <label>Payee</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

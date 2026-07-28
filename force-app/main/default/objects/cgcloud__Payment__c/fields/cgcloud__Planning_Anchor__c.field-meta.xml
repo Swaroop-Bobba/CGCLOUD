@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Planning_Anchor__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <inlineHelpText>Value determined by Payment Anchor</inlineHelpText>
+    <label>Planning Anchor</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Planning Anchors</relationshipLabel>
+    <relationshipName>Planning_Anchors1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

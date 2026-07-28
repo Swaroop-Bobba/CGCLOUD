@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Usage__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Usage</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>reportmeta</fullName>
+                <default>true</default>
+                <label>Report Metadata</label>
+            </value>
+            <value>
+                <fullName>integrationmeta</fullName>
+                <default>false</default>
+                <label>Integration Metadata</label>
+            </value>
+            <value>
+                <fullName>productdim</fullName>
+                <default>false</default>
+                <label>Report Product Dimension</label>
+            </value>
+            <value>
+                <fullName>promotiondim</fullName>
+                <default>false</default>
+                <label>Report Promotion Dimension</label>
+            </value>
+            <value>
+                <fullName>tacticdim</fullName>
+                <default>false</default>
+                <label>Report Tactic Dimension</label>
+            </value>
+            <value>
+                <fullName>paymentdim</fullName>
+                <default>false</default>
+                <label>Report Payment Dimension</label>
+            </value>
+            <value>
+                <fullName>tacticprodcondattrmeta</fullName>
+                <default>false</default>
+                <label>Report Tactic Product Condition Attribute Metadata</label>
+            </value>
+            <value>
+                <fullName>intaccountdim</fullName>
+                <default>false</default>
+                <label>Integration Account Dimension</label>
+            </value>
+            <value>
+                <fullName>intproductdim</fullName>
+                <default>false</default>
+                <label>Integration Product Dimension</label>
+            </value>
+            <value>
+                <fullName>intpromotiondim</fullName>
+                <default>false</default>
+                <label>Integration Promotion Dimension</label>
+            </value>
+            <value>
+                <fullName>inttacticdim</fullName>
+                <default>false</default>
+                <label>Integration Tactic Dimension</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

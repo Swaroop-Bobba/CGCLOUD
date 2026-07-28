@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Data_Source_Condition_Search_Group__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the condition search group.</description>
+    <inlineHelpText>Defines the condition search group.</inlineHelpText>
+    <label>Condition Search Group</label>
+    <referenceTo>cgcloud__Condition_Search_Group__c</referenceTo>
+    <relationshipLabel>KPI Definitions</relationshipLabel>
+    <relationshipName>KPI_Definitions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

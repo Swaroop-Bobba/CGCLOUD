@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Signature_Template_Compact_Layout</fullName>
+    <fields>cgcloud__Description__c</fields>
+    <fields>cgcloud__Attribute_Set__c</fields>
+    <fields>cgcloud__Active__c</fields>
+    <fields>cgcloud__Sales_Org__c</fields>
+    <label>Signature Template Compact Layout</label>
+</CompactLayout>

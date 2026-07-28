@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Dom_Prd_Meta_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Dom Prd Meta Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Product</fullName>
+                <default>false</default>
+                <label>Product</label>
+            </value>
+            <value>
+                <fullName>PrdGroup</fullName>
+                <default>false</default>
+                <label>PrdGroup</label>
+            </value>
+            <value>
+                <fullName>GenericCategory</fullName>
+                <default>false</default>
+                <label>GenericCategory</label>
+            </value>
+            <value>
+                <fullName>Category</fullName>
+                <default>false</default>
+                <label>Category</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

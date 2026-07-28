@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Last_Successful_FSOD_At__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Last successful execution of First Sync of Day, when last Synchronized Sync Status was received.</description>
+    <label>Last Successful FSOD</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

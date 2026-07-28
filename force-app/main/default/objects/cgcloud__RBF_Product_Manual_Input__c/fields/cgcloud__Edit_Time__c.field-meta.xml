@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Edit_Time__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Edit Time is used to sequence a users manual edits to grid data</description>
+    <label>Edit Time</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

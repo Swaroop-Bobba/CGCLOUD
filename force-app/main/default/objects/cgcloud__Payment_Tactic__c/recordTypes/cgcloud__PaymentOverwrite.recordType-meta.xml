@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__PaymentOverwrite</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>cgcloud__Payment_Tactic_Compact_Layout_with_Payment_Overwrite</compactLayoutAssignment>
+    <description>The Sales Org of the Payment has the Enable Payment Overwrite check to true</description>
+    <label>PaymentOverwrite</label>
+    <picklistValues>
+        <picklist>cgcloud__Fund_Distribution_Metric__c</picklist>
+        <values>
+            <fullName>LE_Revenue%5F%5Fc</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LE_Volume%5F%5Fc</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

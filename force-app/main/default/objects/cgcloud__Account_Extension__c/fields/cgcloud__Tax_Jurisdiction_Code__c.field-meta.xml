@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tax_Jurisdiction_Code__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Describes where the taxes have to be paid.</description>
+    <externalId>false</externalId>
+    <label>Tax Jurisdiction Code</label>
+    <length>15</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

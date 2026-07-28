@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Maximum_number_of_modules_reached</fullName>
+    <active>true</active>
+    <description>More than 10 Listing Modules can&apos;t be added to the same Product Assorment.</description>
+    <errorConditionFormula>AND(ISNEW(), cgcloud__Product_Assortment__r.cgcloud__Number_Of_Modules__c = 10)</errorConditionFormula>
+    <errorMessage>More than 10 Listing Modules can&apos;t be added to the same Product Assorment.</errorMessage>
+</ValidationRule>

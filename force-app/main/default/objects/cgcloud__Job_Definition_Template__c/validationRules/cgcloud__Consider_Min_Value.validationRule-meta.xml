@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Consider_Min_Value</fullName>
+    <active>true</active>
+    <description>The Min Value can&apos;t be empty.</description>
+    <errorConditionFormula>cgcloud__Consider_Min_Value__c &amp;&amp; ISNULL(cgcloud__Min_Value__c)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Min_Value__c</errorDisplayField>
+    <errorMessage>The Min Value can&apos;t be empty.</errorMessage>
+</ValidationRule>

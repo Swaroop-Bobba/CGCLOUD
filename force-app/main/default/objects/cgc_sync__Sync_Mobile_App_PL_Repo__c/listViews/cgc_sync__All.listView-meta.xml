@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__All</fullName>
+    <columns>cgc_sync__Object__c</columns>
+    <columns>cgc_sync__Field__c</columns>
+    <columns>cgc_sync__Picklist_Value__c</columns>
+    <columns>cgc_sync__Code__c</columns>
+    <columns>cgc_sync__Mobile_App_Domain__c</columns>
+    <columns>cgc_sync__Business_Area__c</columns>
+    <columns>cgc_sync__Text_Language_1__c</columns>
+    <columns>cgc_sync__Text_Language_2__c</columns>
+    <columns>cgc_sync__Text_Language_3__c</columns>
+    <columns>cgc_sync__Text_Language_4__c</columns>
+    <columns>cgc_sync__ShortText_Language_1__c</columns>
+    <columns>cgc_sync__ShortText_Language_2__c</columns>
+    <columns>cgc_sync__ShortText_Language_3__c</columns>
+    <columns>cgc_sync__ShortText_Language_4__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+    <language>en_US</language>
+</ListView>

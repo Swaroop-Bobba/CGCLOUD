@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Aggregation_Merge_Rule__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Determines how the subperiods are merged into full weeks/months.</description>
+    <label>Merge Rule</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>avg</fullName>
+                <default>false</default>
+                <label>avg</label>
+            </value>
+            <value>
+                <fullName>sum</fullName>
+                <default>true</default>
+                <label>sum</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

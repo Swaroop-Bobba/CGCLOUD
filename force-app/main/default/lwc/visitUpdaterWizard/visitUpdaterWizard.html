@@ -1,0 +1,222 @@
+<template>
+    <div class="slds-card slds-p-around_medium">
+        <!-- Progress Indicator -->
+        <lightning-progress-indicator current-step={currentStep} type="base" variant="default" class="slds-m-bottom_medium">
+            <lightning-progress-step label="Select Fields" value="1"></lightning-progress-step>
+            <lightning-progress-step label="Update Values" value="2"></lightning-progress-step>
+            <lightning-progress-step label="Preview" value="3"></lightning-progress-step>
+            <lightning-progress-step label="Confirm" value="4"></lightning-progress-step>
+        </lightning-progress-indicator>
+
+        <!-- Loading Spinner for Details Retrieval -->
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_large" style="height: 150px;">
+                <lightning-spinner alternative-text="Loading visit details..." size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:false={isLoading}>
+            <!-- No Context Warning -->
+            <template if:false={selectedVisitId}>
+                <div class="slds-m-bottom_medium slds-p-around_small slds-theme_error slds-text-color_destructive slds-box" style="border-left: 4px solid #ea001e; background-color: #fef5f5;">
+                    <strong>⚠️ No Visit Context Detected:</strong>
+                    <p class="slds-m-top_xx-small">The wizard could not detect a Visit ID. Please ensure you open this agent from a Visit record page context to retrieve and pre-populate field values.</p>
+                </div>
+            </template>
+
+            <!-- Main Wizard Steps (Only shown if Visit ID is present) -->
+            <template if:true={selectedVisitId}>
+                <!-- Top Header Bar with Cancel Option -->
+                <div class="slds-grid slds-grid_align-spread slds-m-bottom_small slds-grid_vertical-align-center">
+                    <div>
+                        <template if:true={isStep1}><h2 class="slds-text-heading_small">Select Fields to Update</h2></template>
+                        <template if:true={isStep2}><h2 class="slds-text-heading_small">Enter New Values</h2></template>
+                        <template if:true={isStep3}><h2 class="slds-text-heading_small">Preview Changes</h2></template>
+                        <template if:true={isStep4}><h2 class="slds-text-heading_small">Wizard Completed</h2></template>
+                    </div>
+                    <template if:true={showCancelButton}>
+                        <lightning-button label="Cancel" variant="destructive-text" onclick={handleCancelWizard} title="Cancel update and exit wizard"></lightning-button>
+                    </template>
+                </div>
+
+                <!-- Step 1: Select Fields -->
+                <template if:true={isStep1}>
+                    <div class="slds-m-bottom_small slds-p-around_x-small slds-box slds-theme_warning" style="font-size: 0.8125rem; border-left: 4px solid #dd7a01; background-color: #fef8f0; color: #814400;">
+                        💡 <strong>Note:</strong> If the field you wish to update is not listed below, please click <strong>Cancel</strong> at top right to exit.
+                    </div>
+                    <div class="slds-box slds-theme_shade">
+                        <!-- Select All Checkbox -->
+                        <div class="slds-form-element slds-p-around_x-small slds-m-bottom_x-small slds-box slds-theme_default" style="border-left: 4px solid #0176d3; font-weight: bold;">
+                            <lightning-input type="checkbox" label="Select All Fields" checked={selectAllChecked} name="selectAll" onchange={handleSelectAllChange}></lightning-input>
+                        </div>
+                        <div class="slds-form-element slds-p-around_x-small">
+                            <lightning-input type="checkbox" label="Subject" checked={selectedFields.cgcloud__Subject__c} name="cgcloud__Subject__c" onchange={handleFieldCheckboxChange}></lightning-input>
+                        </div>
+                        <div class="slds-form-element slds-p-around_x-small">
+                            <lightning-input type="checkbox" label="Status" checked={selectedFields.Status} name="Status" onchange={handleFieldCheckboxChange}></lightning-input>
+                        </div>
+                        <div class="slds-form-element slds-p-around_x-small">
+                            <lightning-input type="checkbox" label="Start Date/Time" checked={selectedFields.PlannedVisitStartTime} name="PlannedVisitStartTime" onchange={handleFieldCheckboxChange}></lightning-input>
+                        </div>
+                        <div class="slds-form-element slds-p-around_x-small">
+                            <lightning-input type="checkbox" label="End Date/Time" checked={selectedFields.PlannedVisitEndTime} name="PlannedVisitEndTime" onchange={handleFieldCheckboxChange}></lightning-input>
+                        </div>
+                        <div class="slds-form-element slds-p-around_x-small">
+                            <lightning-input type="checkbox" label="Responsible User" checked={selectedFields.cgcloud__Responsible__c} name="cgcloud__Responsible__c" onchange={handleFieldCheckboxChange}></lightning-input>
+                        </div>
+                        <div class="slds-form-element slds-p-around_x-small">
+                            <lightning-input type="checkbox" label="Accountable User" checked={selectedFields.cgcloud__Accountable__c} name="cgcloud__Accountable__c" onchange={handleFieldCheckboxChange}></lightning-input>
+                        </div>
+                        <div class="slds-form-element slds-p-around_x-small">
+                            <lightning-input type="checkbox" label="Notes" checked={selectedFields.cgcloud__Note__c} name="cgcloud__Note__c" onchange={handleFieldCheckboxChange}></lightning-input>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Step 2: Dynamic Form -->
+                <template if:true={isStep2}>
+                    <h2 class="slds-text-heading_small slds-m-bottom_small">Enter New Values</h2>
+                    <div class="slds-form slds-p-around_x-small">
+                        <template if:true={selectedFields.cgcloud__Subject__c}>
+                            <lightning-textarea
+                                name="cgcloud__Subject__c"
+                                label="Subject"
+                                value={fieldValues.cgcloud__Subject__c}
+                                onchange={handleValueChange}
+                                class="slds-m-bottom_small">
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:true={selectedFields.Status}>
+                            <lightning-combobox
+                                name="Status"
+                                label="Status"
+                                value={fieldValues.Status}
+                                placeholder="Select Status"
+                                options={statusOptions}
+                                onchange={handleValueChange}
+                                class="slds-m-bottom_small">
+                            </lightning-combobox>
+                        </template>
+
+                        <template if:true={selectedFields.PlannedVisitStartTime}>
+                            <lightning-input
+                                type="datetime"
+                                name="PlannedVisitStartTime"
+                                label="Start Date/Time"
+                                value={fieldValues.PlannedVisitStartTime}
+                                onchange={handleValueChange}
+                                class="slds-m-bottom_small">
+                            </lightning-input>
+                        </template>
+
+                        <template if:true={selectedFields.PlannedVisitEndTime}>
+                            <lightning-input
+                                type="datetime"
+                                name="PlannedVisitEndTime"
+                                label="End Date/Time"
+                                value={fieldValues.PlannedVisitEndTime}
+                                onchange={handleValueChange}
+                                class="slds-m-bottom_small">
+                            </lightning-input>
+                        </template>
+
+                        <template if:true={selectedFields.cgcloud__Responsible__c}>
+                            <lightning-combobox
+                                name="cgcloud__Responsible__c"
+                                label="Responsible User"
+                                value={fieldValues.cgcloud__Responsible__c}
+                                placeholder="Select Responsible User"
+                                options={userOptions}
+                                onchange={handleValueChange}
+                                class="slds-m-bottom_small">
+                            </lightning-combobox>
+                        </template>
+
+                        <template if:true={selectedFields.cgcloud__Accountable__c}>
+                            <lightning-combobox
+                                name="cgcloud__Accountable__c"
+                                label="Accountable User"
+                                value={fieldValues.cgcloud__Accountable__c}
+                                placeholder="Select Accountable User"
+                                options={userOptions}
+                                onchange={handleValueChange}
+                                class="slds-m-bottom_small">
+                            </lightning-combobox>
+                        </template>
+
+                        <template if:true={selectedFields.cgcloud__Note__c}>
+                            <lightning-textarea
+                                name="cgcloud__Note__c"
+                                label="Notes"
+                                value={fieldValues.cgcloud__Note__c}
+                                onchange={handleValueChange}
+                                class="slds-m-bottom_small">
+                            </lightning-textarea>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Step 3: Preview -->
+                <template if:true={isStep3}>
+                    <h2 class="slds-text-heading_small slds-m-bottom_small">Preview Changes</h2>
+                    <div class="slds-m-bottom_medium slds-p-around_x-small slds-theme_alert-texture">
+                        <strong>Selected Visit:</strong> {selectedVisitName}
+                    </div>
+                    
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-m-bottom_medium">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col"><div class="slds-truncate" title="Field">Field</div></th>
+                                <th scope="col"><div class="slds-truncate" title="Current Value">Current Value</div></th>
+                                <th scope="col"><div class="slds-truncate" title="New Value">New Value</div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={previewChanges} for:item="change">
+                                <tr key={change.fieldName} class="slds-hint-parent">
+                                    <td><div class="slds-truncate"><strong>{change.label}</strong></div></td>
+                                    <td><div class="slds-truncate">{change.current}</div></td>
+                                    <td><div class="slds-truncate slds-text-color_success"><strong>{change.newValue}</strong></div></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+
+                </template>
+
+                <!-- Step 4: Confirmation Page -->
+                <template if:true={isStep4}>
+                    <template if:true={isCancelled}>
+                        <div class="slds-m-bottom_medium slds-p-around_small slds-box slds-theme_warning" style="font-weight: bold; border-left: 4px solid #dd7a01; background-color: #fef8f0; color: #814400;">
+                            ⚠️ Update Cancelled: No changes were made to the visit record.
+                        </div>
+                    </template>
+                    <template if:false={isCancelled}>
+                        <div class="slds-m-bottom_medium slds-p-around_small slds-box slds-theme_success" style="font-weight: bold; border-left: 4px solid #2e7d32; background-color: #e8f5e9; color: #2e7d32;">
+                            ✔️ Visit updates are prepared and ready!
+                        </div>
+                    </template>
+
+                    <!-- Submit Instruction Note -->
+                    <div class="slds-m-vertical_medium slds-text-color_error slds-text-align_center">
+                        <strong>⚠️ IMPORTANT:</strong> Click the standard <strong>"Submit"</strong> button at the bottom of the chat panel to finalize.
+                    </div>
+                </template>
+
+                <!-- Navigation Buttons -->
+                <div class="slds-m-top_medium slds-align_absolute-center">
+                    <template if:true={showBackButton}>
+                        <lightning-button label="Back" variant="neutral" onclick={handleBack} class="slds-m-right_x-small" disabled={isConfirming}></lightning-button>
+                    </template>
+                    <template if:true={showNextButton}>
+                        <lightning-button label="Next" variant="brand" onclick={handleNext} disabled={isNextDisabled}></lightning-button>
+                    </template>
+                    <template if:true={isStep3}>
+                        <lightning-button label="Confirm" variant="success" onclick={handleConfirm} disabled={isConfirming}></lightning-button>
+                    </template>
+                </div>
+            </template>
+        </template>
+    </div>
+</template>

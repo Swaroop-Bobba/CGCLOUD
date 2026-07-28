@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Rejected_Amount_Not_Null</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+      $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+      ISNULL( cgcloud__Rejected_Amount__c )
+      )</errorConditionFormula>
+    <errorMessage>Rejected Amount value cannot be null.</errorMessage>
+</ValidationRule>

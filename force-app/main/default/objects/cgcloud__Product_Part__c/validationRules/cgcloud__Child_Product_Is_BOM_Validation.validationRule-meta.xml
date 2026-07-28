@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Child_Product_Is_BOM_Validation</fullName>
+    <active>true</active>
+    <description>BOM products cannot be selected for child products.</description>
+    <errorConditionFormula>cgcloud__Child_Product__r.cgcloud__Is_Bill_Of_Material__c = true</errorConditionFormula>
+    <errorDisplayField>cgcloud__Child_Product__c</errorDisplayField>
+    <errorMessage>BOM products cannot be selected.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Initiation_Date__c</fullName>
+    <defaultValue>TODAY()</defaultValue>
+    <deprecated>false</deprecated>
+    <description>This dates specifies the date of the entry of the claim.</description>
+    <label>Initiation Date</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

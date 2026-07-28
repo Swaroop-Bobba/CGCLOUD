@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Condition_Search_Group_NotEmpty</fullName>
+    <active>true</active>
+    <description>Table Name, Read code and Consider Product Hierarchy/Consider Sub Accounts must not be selected when Condition Search Group is selected.</description>
+    <errorConditionFormula>AND($RecordType.DeveloperName = &quot;read&quot;,
+NOT(ISBLANK(cgcloud__Data_Source_Condition_Search_Group__c)),
+OR(NOT(ISPICKVAL(cgcloud__Data_Source_Table_Name__c, &quot;&quot;)),
+cgcloud__Data_Source_Consider_Product_Hierarchy__c = true,
+cgcloud__Data_Source_Load_For_Sub_Accounts__c = true,
+NOT(ISBLANK(cgcloud__Data_Source_Measure_Code__c))
+)
+)</errorConditionFormula>
+    <errorMessage>Table Name, Read code and Consider Product Hierarchy/Consider Sub Accounts must not be selected when Condition Search Group is selected.</errorMessage>
+</ValidationRule>

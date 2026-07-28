@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Custom_Calendar__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Custom calendar to which the period belongs.</description>
+    <label>Custom Calendar</label>
+    <referenceTo>cgcloud__Custom_Calendar__c</referenceTo>
+    <relationshipLabel>Custom Periods</relationshipLabel>
+    <relationshipName>Custom_Periods</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>true</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

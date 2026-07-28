@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Reporting_Read_Is_Valid</fullName>
+    <active>false</active>
+    <description>For reporting relevant kpi of type read, KPI must have account scope.</description>
+    <errorConditionFormula>AND(
+      cgcloud__Reporting_Relevant__c, ISPICKVAL(cgcloud__Reporting_Type__c, &quot;read&quot;),
+      NOT(ISPICKVAL(cgcloud__Scope__c, &quot;account&quot;))
+      )</errorConditionFormula>
+    <errorMessage>For reporting relevant kpi of type read, KPI must have account scope.</errorMessage>
+</ValidationRule>

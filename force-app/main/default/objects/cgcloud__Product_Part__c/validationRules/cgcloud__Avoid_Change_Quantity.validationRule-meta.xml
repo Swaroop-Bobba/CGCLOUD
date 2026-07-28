@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Avoid_Change_Quantity</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+ISCHANGED( cgcloud__Quantity__c ),
+NOT(ISBLANK(PRIORVALUE( cgcloud__Quantity__c )))
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Quantity__c</errorDisplayField>
+    <errorMessage>The Quantity can&apos;t be edited after Product Part creation.</errorMessage>
+</ValidationRule>

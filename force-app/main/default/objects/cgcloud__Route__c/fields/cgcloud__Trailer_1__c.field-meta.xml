@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Trailer_1__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>First default trailer.</description>
+    <inlineHelpText>Please select vehicles of the type Trailer.</inlineHelpText>
+    <label>Trailer 1</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>cgcloud__Vehicle__c.cgcloud__Vehicle_Type__c</field>
+            <operation>equals</operation>
+            <value>Trailer</value>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__Vehicle__c</referenceTo>
+    <relationshipLabel>Routes (Trailer 1)</relationshipLabel>
+    <relationshipName>Routes1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

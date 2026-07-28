@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Check Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>SecurityCheck</fullName>
+                <default>false</default>
+                <label>SecurityCheck</label>
+            </value>
+            <value>
+                <fullName>VehicleCheck</fullName>
+                <default>true</default>
+                <label>VehicleCheck</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

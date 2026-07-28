@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Rounding_Rule__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines the rounding rule to be applied for the target unit of measure.</description>
+    <label>Rounding Rule</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Never</fullName>
+                <default>true</default>
+                <label>Never</label>
+            </value>
+            <value>
+                <fullName>Up</fullName>
+                <default>false</default>
+                <label>Up</label>
+            </value>
+            <value>
+                <fullName>Down</fullName>
+                <default>false</default>
+                <label>Down</label>
+            </value>
+            <value>
+                <fullName>Nearest</fullName>
+                <default>false</default>
+                <label>Nearest</label>
+            </value>
+            <value>
+                <fullName>UserExit</fullName>
+                <default>false</default>
+                <label>UserExit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

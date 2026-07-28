@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Modification_Reason__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies whether the user must enter a reason if the preordered quantity has been modified.</description>
+    <inlineHelpText>Attribute at present not used.</inlineHelpText>
+    <label>Modification Reason</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>NotReq</fullName>
+                <default>false</default>
+                <label>NotReq</label>
+            </value>
+            <value>
+                <fullName>Opt</fullName>
+                <default>false</default>
+                <label>Opt</label>
+            </value>
+            <value>
+                <fullName>Mand</fullName>
+                <default>false</default>
+                <label>Mand</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

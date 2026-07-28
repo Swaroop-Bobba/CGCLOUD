@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Promotion_Hurdle_Expression__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Master-Detail to the Expression which defines the Hurdle.</description>
+    <label>Promotion Expression</label>
+    <referenceTo>cgcloud__Promotion_Hurdle_Expression__c</referenceTo>
+    <relationshipLabel>Promotion Hurdles</relationshipLabel>
+    <relationshipName>Promotion_Hurdles</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

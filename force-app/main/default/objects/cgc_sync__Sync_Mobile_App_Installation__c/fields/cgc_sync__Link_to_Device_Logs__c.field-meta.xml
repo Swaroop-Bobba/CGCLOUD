@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Link_to_Device_Logs__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Link to the device logs.</description>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(LEFT($Api.Partner_Server_URL_260, FIND( &apos;/services&apos;, $Api.Partner_Server_URL_260)) + &apos;/lightning/r/Report/&apos;+$Setup.cgc_sync__Sync_Report_Links__c.cgc_sync__Device_Event_Logs_Id__c+&apos;/view?fv0=&apos; + cgc_sync__DeviceId__c, &quot;Logs&quot;, &quot;_blank&quot;) &amp; &quot; | &quot; &amp; 
+HYPERLINK(LEFT($Api.Partner_Server_URL_260, FIND( &apos;/services&apos;, $Api.Partner_Server_URL_260)) + &apos;/lightning/r/Report/&apos;+ $Setup.cgc_sync__Sync_Report_Links__c.cgc_sync__Sync_History_Id__c +&apos;/view?fv1=&apos; + cgc_sync__DeviceId__c, &quot;Sync History&quot;, &quot;_blank&quot;) &amp; &quot; | &quot; &amp; 
+HYPERLINK(LEFT($Api.Partner_Server_URL_260, FIND( &apos;/services&apos;, $Api.Partner_Server_URL_260)) + &apos;/lightning/r/Report/&apos;+  $Setup.cgc_sync__Sync_Report_Links__c.cgc_sync__KPI_Id__c  +&apos;/view?fv0=&apos; + cgc_sync__DeviceId__c, &quot;KPIs&quot;, &quot;_blank&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Link to Device Logs</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

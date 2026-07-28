@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Contract__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Relation to the customer contract.</description>
+    <label>Customer Contract</label>
+    <referenceTo>cgcloud__Contract__c</referenceTo>
+    <relationshipLabel>Customer Contract Product</relationshipLabel>
+    <relationshipName>Contract_Product</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

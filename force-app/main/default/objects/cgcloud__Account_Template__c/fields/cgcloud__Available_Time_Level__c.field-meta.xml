@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Available_Time_Level__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Select time intervals for viewing and editing KPIs in an account plan and associated CBPs.</description>
+    <label>Time Intervals for KPIs</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>cgcloud__Time_Level</valueSetName>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

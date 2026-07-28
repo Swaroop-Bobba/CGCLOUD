@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Preset__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Describes whether the Tactic Template will be preset when creating the contract. If not checked, Tactics will be available for adding manually after creation.</description>
+    <label>Preset</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

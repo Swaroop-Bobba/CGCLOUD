@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Remote_Procedure_Call_Supported_Commands__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Holds a list of command code names as a semicolon separated list of strings. The client populates this list, allowing the back-end to determine what remote procedures could be called by the back-end.</description>
+    <inlineHelpText>Stores supported command code names of the client version (newer versions may have new commands compared to older ones).</inlineHelpText>
+    <label>RPC Supported Commands</label>
+    <length>4096</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

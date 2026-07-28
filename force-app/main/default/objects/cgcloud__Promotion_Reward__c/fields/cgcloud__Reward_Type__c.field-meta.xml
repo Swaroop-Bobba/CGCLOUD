@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Reward_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines the type of reward.</description>
+    <label>Reward Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>SpecialBasePrice</fullName>
+                <default>false</default>
+                <label>Special Base Price</label>
+            </value>
+            <value>
+                <fullName>PercentageDiscount</fullName>
+                <default>false</default>
+                <label>Percentage Discount</label>
+            </value>
+            <value>
+                <fullName>AmountPerUnit</fullName>
+                <default>false</default>
+                <label>Amount Per Unit</label>
+            </value>
+            <value>
+                <fullName>FlatRate</fullName>
+                <default>false</default>
+                <label>Flat Rate</label>
+            </value>
+            <value>
+                <fullName>FreeItem</fullName>
+                <default>false</default>
+                <label>Free Item</label>
+            </value>
+            <value>
+                <fullName>Special</fullName>
+                <default>false</default>
+                <label>Special</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

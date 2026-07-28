@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_should_be_same_for_all_lookups</fullName>
+    <active>true</active>
+    <description>The Visit Template and Job Definition List must have the same Sales Org.</description>
+    <errorConditionFormula>AND (cgcloud__Field_Sales_Activity__r.Id = null, (TEXT( cgcloud__Visit_Template__r.cgcloud__Sales_Org__c ) &lt;&gt; TEXT( cgcloud__Sales_Org__c )))</errorConditionFormula>
+    <errorMessage>The Visit Template and Activity must have the same Sales Org.</errorMessage>
+</ValidationRule>

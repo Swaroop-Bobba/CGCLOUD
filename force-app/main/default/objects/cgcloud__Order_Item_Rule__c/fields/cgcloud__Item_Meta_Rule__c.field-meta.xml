@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Item_Meta_Rule__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies how the rules applies to the order item template.</description>
+    <label>Item Meta Rule</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>According to Price Effect</fullName>
+                <default>false</default>
+                <label>According to Price Effect</label>
+            </value>
+            <value>
+                <fullName>All Items (Total)</fullName>
+                <default>false</default>
+                <label>All Items (Total)</label>
+            </value>
+            <value>
+                <fullName>Delivery (excl. Free Item)</fullName>
+                <default>false</default>
+                <label>Delivery (excl. Free Item)</label>
+            </value>
+            <value>
+                <fullName>Delivery (incl. Free Item)</fullName>
+                <default>false</default>
+                <label>Delivery (incl. Free Item)</label>
+            </value>
+            <value>
+                <fullName>Returns Only</fullName>
+                <default>false</default>
+                <label>Returns Only</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Classification__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies the area that causes the issue.</description>
+    <label>Classification</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Inquiry</fullName>
+                <default>true</default>
+                <label>Inquiry</label>
+            </value>
+            <value>
+                <fullName>Complaint</fullName>
+                <default>false</default>
+                <label>Complaint</label>
+            </value>
+            <value>
+                <fullName>Order</fullName>
+                <default>false</default>
+                <label>Order</label>
+            </value>
+            <value>
+                <fullName>Placement</fullName>
+                <default>false</default>
+                <label>Placement</label>
+            </value>
+            <value>
+                <fullName>Service</fullName>
+                <default>false</default>
+                <label>Service</label>
+            </value>
+            <value>
+                <fullName>Vehicle</fullName>
+                <default>false</default>
+                <label>Vehicle</label>
+            </value>
+            <value>
+                <fullName>TimeEntry</fullName>
+                <default>false</default>
+                <label>TimeEntry</label>
+            </value>
+            <value>
+                <fullName>Training</fullName>
+                <default>false</default>
+                <label>Training</label>
+            </value>
+            <value>
+                <fullName>Company</fullName>
+                <default>false</default>
+                <label>Company</label>
+            </value>
+            <value>
+                <fullName>Private</fullName>
+                <default>false</default>
+                <label>Private</label>
+            </value>
+            <value>
+                <fullName>Repair Asset</fullName>
+                <default>false</default>
+                <label>Repair Asset</label>
+            </value>
+            <value>
+                <fullName>Asset Maintenance</fullName>
+                <default>false</default>
+                <label>Asset Maintenance</label>
+            </value>
+            <value>
+                <fullName>Asset Replacement</fullName>
+                <default>false</default>
+                <label>Asset Replacement</label>
+            </value>
+            <value>
+                <fullName>Asset Retirement</fullName>
+                <default>false</default>
+                <label>Asset Retirement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

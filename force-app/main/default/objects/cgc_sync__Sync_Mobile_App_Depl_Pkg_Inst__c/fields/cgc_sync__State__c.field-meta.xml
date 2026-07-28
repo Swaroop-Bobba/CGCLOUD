@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__State__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Represents deployment package installation status.
+        Possible values are: 
+        Downloaded
+        Error
+        Installed</description>
+    <label>State</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Downloaded</fullName>
+                <default>false</default>
+                <label>Downloaded</label>
+            </value>
+            <value>
+                <fullName>Error</fullName>
+                <default>false</default>
+                <label>Error</label>
+            </value>
+            <value>
+                <fullName>Installed</fullName>
+                <default>false</default>
+                <label>Installed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

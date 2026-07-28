@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Promotion_Tactic__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&quot;/one/one.app#/sObject/&quot; &amp; Id &amp; &quot;/view&quot;,   cgcloud__Tactic__r.cgcloud__Promotion__r.cgcloud__Slogan__c &amp;&apos; - &apos;&amp; cgcloud__Tactic__r.cgcloud__Tactic_Template__r.cgcloud__Description__c  )</formula>
+    <label>Promotion - Tactic</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Clone_TH</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <linkType>javascript</linkType>
+    <masterLabel>Clone TH</masterLabel>
+    <openType>onClickJavaScript</openType>
+    <protected>false</protected>
+    <url>var evt = $A.get(&quot;e.force:navigateToComponent&quot;);
+    evt.setParams({
+        componentDef: &quot;c:CloneTheme&quot;,
+        componentAttributes: {
+            // Attributes here.
+        }
+    });
+evt.fire();</url>
+</WebLink>

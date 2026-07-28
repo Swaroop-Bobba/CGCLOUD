@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Scale_Type_FromTo_Allowed_Metatypes</fullName>
+    <active>true</active>
+    <errorConditionFormula>(TEXT(cgcloud__Scale_Type__c) == &apos;From&apos; || TEXT(cgcloud__Scale_Type__c) == &apos;To&apos;)  &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;FixAmount&apos; &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;Percentage&apos; &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;FlatRate&apos; &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;AddFreeItm&apos; &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;Price&apos;</errorConditionFormula>
+    <errorMessage>Meta Type must be &apos;Price&apos;, &apos;Amount&apos;, &apos;Add Free Item&apos;, &apos;Percentage&apos; or &apos;Flat Rate&apos; if the Scale Type is &apos;From&apos; or &apos;To&apos;.</errorMessage>
+</ValidationRule>

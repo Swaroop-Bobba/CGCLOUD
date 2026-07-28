@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Copied_Components_Check_On_Derive</fullName>
+    <active>true</active>
+    <description>Copied Components for a Derivable Promotion Template cannot include Manual Input.</description>
+    <errorConditionFormula>AND(
+			ISPICKVAL(cgcloud__Usage__c,&quot;Derive&quot;),
+			INCLUDES(cgcloud__Copied_Components__c,&apos;ManualInput&apos;)
+		)</errorConditionFormula>
+    <errorMessage>Copied Components for a Derivable Promotion Template cannot include Manual Input.</errorMessage>
+</ValidationRule>

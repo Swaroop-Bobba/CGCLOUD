@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Related_Account__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The customer who is related to the main customer of the relationship.</description>
+    <label>Related Customer</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Related Customer’s Relationships</relationshipLabel>
+    <relationshipName>Related_Account_Relation</relationshipName>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

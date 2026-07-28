@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Hurdle__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to Hurdle. Define if a specific hurdle condition resolution must be done against rewards values.</description>
+    <inlineHelpText>Defines if the specific hurdle condition resolution must be done against reward values.</inlineHelpText>
+    <label>Hurdle</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>cgcloud__Promotion_Hurdle__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Reward-Specific</value>
+        </filterItems>
+        <filterItems>
+            <field>cgcloud__Promotion_Hurdle__c.cgcloud__Promotion_Reward_Group__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.cgcloud__Promotion_Reward_Group__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__Promotion_Hurdle__c</referenceTo>
+    <relationshipLabel>Promotion Rewards</relationshipLabel>
+    <relationshipName>Promotion_Rewards</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

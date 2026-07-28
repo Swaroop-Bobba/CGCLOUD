@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Measured_At__c</fullName>
+    <defaultValue>Now()</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Stores the exact date and time when the measurement was performed for this particular KPI.</description>
+    <inlineHelpText>Stores the exact date and time when the measurement was performed for this particular KPI.</inlineHelpText>
+    <label>Measured At</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

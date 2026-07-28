@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Promotion_Aggregation_Level__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines at which level the product is located.</description>
+    <inlineHelpText>Defines at which level the product is located.</inlineHelpText>
+    <label>Promotion Aggregation Level</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Category</fullName>
+                <default>false</default>
+                <label>Category</label>
+            </value>
+            <value>
+                <fullName>SubCategory</fullName>
+                <default>false</default>
+                <label>SubCategory</label>
+            </value>
+            <value>
+                <fullName>Brand</fullName>
+                <default>true</default>
+                <label>Brand</label>
+            </value>
+            <value>
+                <fullName>Flavor</fullName>
+                <default>false</default>
+                <label>Flavor</label>
+            </value>
+            <value>
+                <fullName>Package</fullName>
+                <default>false</default>
+                <label>Package</label>
+            </value>
+            <value>
+                <fullName>Product</fullName>
+                <default>false</default>
+                <label>Product</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

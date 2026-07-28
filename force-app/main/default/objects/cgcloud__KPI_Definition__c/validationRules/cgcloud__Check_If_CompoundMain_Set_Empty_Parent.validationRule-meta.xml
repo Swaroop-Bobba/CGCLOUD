@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_CompoundMain_Set_Empty_Parent</fullName>
+    <active>false</active>
+    <description>Compound Main can&apos;t be set with out Parent.</description>
+    <errorConditionFormula>AND(
+      $RecordType.DeveloperName = &quot;editable_calculated&quot;,
+      AND(ISBLANK(cgcloud__Parent__c),cgcloud__Compound_Main__c))</errorConditionFormula>
+    <errorMessage>Compound Main can&apos;t be set with out Parent.</errorMessage>
+</ValidationRule>

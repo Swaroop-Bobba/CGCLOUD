@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Default_Theme</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( cgc_sync__isDefault__c,  NOT(cgc_sync__isActive__c) )</errorConditionFormula>
+    <errorMessage>Non active theme cannot be selected as Default.</errorMessage>
+</ValidationRule>

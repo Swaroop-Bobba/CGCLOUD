@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__End_Warehouse__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>End Warehouse</description>
+    <label>End Warehouse</label>
+    <referenceTo>cgcloud__Warehouse__c</referenceTo>
+    <relationshipLabel>Routes (End Warehouse)</relationshipLabel>
+    <relationshipName>Routes1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

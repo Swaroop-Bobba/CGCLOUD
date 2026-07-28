@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Editable_Fixed_Totals__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>This is field is for lump sum. Enabling this means that when a user introduces a total, the totals will not change even if other things change (kpi, products, etc.)</description>
+    <label>Fixed Totals</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

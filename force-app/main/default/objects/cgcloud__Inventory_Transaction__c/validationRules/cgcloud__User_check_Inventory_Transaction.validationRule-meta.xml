@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__User_check_Inventory_Transaction</fullName>
+    <active>true</active>
+    <description>The user for the selected Inventory and the &apos;Logged in User&apos; must be equal for creating Cash Transaction.</description>
+    <errorConditionFormula>IF(NOT(cgcloud__Allow_Manual_Creation__c) &amp;&amp; cgcloud__Inventory__r.RecordType.DeveloperName = &apos;Cash_Float&apos; &amp;&amp; cgcloud__Inventory__r.cgcloud__User__c &lt;&gt; &apos;&apos; &amp;&amp; (cgcloud__Inventory__r.cgcloud__User__c &lt;&gt;   $User.Id ) , True, False)</errorConditionFormula>
+    <errorMessage>The user for the selected Inventory and the &apos;Logged in User&apos; must be equal for creating Cash Transaction.</errorMessage>
+</ValidationRule>

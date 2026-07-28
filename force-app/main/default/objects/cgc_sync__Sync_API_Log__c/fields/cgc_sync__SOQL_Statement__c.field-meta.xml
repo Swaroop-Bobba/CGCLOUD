@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__SOQL_Statement__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Stores the related SOQL statement that&apos;s been measured, or set to a blank string if the KPI is not tied to any specific SOQL statement but rather some higher level metric.</description>
+    <inlineHelpText>Stores the related SOQL statement that&apos;s been measured, or set to a blank string if the KPI is not tied to any specific SOQL statement but rather some higher level metric.</inlineHelpText>
+    <label>SOQL Statement</label>
+    <length>131072</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

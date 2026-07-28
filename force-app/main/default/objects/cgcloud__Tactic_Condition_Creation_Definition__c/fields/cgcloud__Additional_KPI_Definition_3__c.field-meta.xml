@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Additional_KPI_Definition_3__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Defines the KPI definition used to provide additional information for the condition.</description>
+    <label>Additional KPI Definition 3</label>
+    <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
+    <relationshipLabel>Tactic Condition Creation Definitions (Additional KPI Definition 3)</relationshipLabel>
+    <relationshipName>Tactic_Condition_Creation_Definitions3</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

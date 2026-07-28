@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Hierarchy_Search_Validation</fullName>
+    <active>true</active>
+    <description>If Key Type is configured with &apos;Consider Reward&apos; and &apos;Product or Product Hierarchy&apos;, then Product Hierarchy Search must be &apos;No&apos;.</description>
+    <errorConditionFormula>AND(
+cgcloud__Key_Type__r.cgcloud__Consider_Product_Hierarchy__c = true,
+cgcloud__Key_Type__r.cgcloud__Consider_Promotion_Rewards__c = true,
+NOT(ISPICKVAL(cgcloud__Product_Hierarchy_Search__c , &apos;No&apos;))
+)</errorConditionFormula>
+    <errorMessage>Product Hierarchy Search must be &apos;No&apos; if the Key Type is configured with &apos;Consider Reward&apos; and &apos;Product or Product Hierarchy&apos;.</errorMessage>
+</ValidationRule>

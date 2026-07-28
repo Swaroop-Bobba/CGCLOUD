@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Approval_lock_open_for_stop_transacting</fullName>
+    <active>true</active>
+    <description>The record cannot be edited while the status is set to approved except through the stop transacting process. In that case, only Date_Thru__c and Total_Amount__c can be updated.</description>
+    <errorConditionFormula>AND(
+    $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+    cgcloud__Stop_Transacting_Unlock__c = FALSE,
+    ISPICKVAL(cgcloud__Status__c, &apos;Approved&apos;) || ISPICKVAL(PRIORVALUE(cgcloud__Status__c), &apos;Approved&apos;) || ISPICKVAL(cgcloud__Status__c, &apos;Ready to Approve&apos;) || ISPICKVAL(cgcloud__Status__c, &apos;Processed&apos;) || ISPICKVAL(cgcloud__Status__c, &apos;Processing&apos;),
+          ISCHANGED(cgcloud__Active__c) ||
+          ISCHANGED(cgcloud__Currency__c) ||
+          ISCHANGED(cgcloud__Account__c) ||
+          ISCHANGED(cgcloud__Date_From__c) ||
+          ISCHANGED(cgcloud__Date_Thru__c) ||
+          ISCHANGED(cgcloud__Description__c) ||
+          ISCHANGED(cgcloud__Fund_Anchor__c) ||
+          ISCHANGED(cgcloud__Fund_Template__c) ||
+          ISCHANGED(cgcloud__Rate_Based_Funding_Template__c)
+          )</errorConditionFormula>
+    <errorMessage>Any field except Status can&apos;t be edited if the Status is &apos;Processing&apos;, &apos;Processed&apos;, &apos;Approved&apos; or &apos;Ready to Approve&apos;.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Start_Geolocation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Business partner’s location coordinates at the start of a visit.</description>
+    <displayLocationInDecimal>false</displayLocationInDecimal>
+    <inlineHelpText>Latitude (-90; 90)
+      Longitude (-180; 180)</inlineHelpText>
+    <label>Start Geolocation</label>
+    <required>false</required>
+    <scale>15</scale>
+    <trackHistory>false</trackHistory>
+    <type>Location</type>
+</CustomField>

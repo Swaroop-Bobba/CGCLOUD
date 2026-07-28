@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Fund_Transaction</fullName>
+    <fields>cgcloud__Fund_Transaction_Template_Description__c</fields>
+    <fields>Name</fields>
+    <fields>cgcloud__Source_Fund__c</fields>
+    <fields>cgcloud__Target_Fund__c</fields>
+    <fields>cgcloud__Amount__c</fields>
+    <fields>cgcloud__Date__c</fields>
+    <fields>cgcloud__Currency__c</fields>
+    <label>Fund Transaction</label>
+</CompactLayout>

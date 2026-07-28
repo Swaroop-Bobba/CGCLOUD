@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Fund_Validity_Period</fullName>
+    <active>true</active>
+    <description>The validity period of a fund must not exceed 18 months.</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(cgcloud__Valid_From__c)),
+    NOT(ISBLANK(cgcloud__Valid_Thru__c)),
+    ( (YEAR(cgcloud__Valid_Thru__c) - YEAR(cgcloud__Valid_From__c)) * 12 + 
+     MONTH(cgcloud__Valid_Thru__c) - 
+     MONTH(cgcloud__Valid_From__c) ) &gt;= 18
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Valid_Thru__c</errorDisplayField>
+    <errorMessage>Select a date that’s within 18 months from the Valid From date.</errorMessage>
+</ValidationRule>

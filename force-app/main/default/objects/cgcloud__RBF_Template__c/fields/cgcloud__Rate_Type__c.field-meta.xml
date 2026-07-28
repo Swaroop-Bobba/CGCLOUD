@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Rate_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Allows for the various calculation methods of the Rate-Based Funding KPIs. 
+Note: The Budget Administrator has the responsibility to match Rate Type to the appropriate Data Inputs.</description>
+    <inlineHelpText>Allows for the various calculation methods of the Rate-Based Funding KPIs.</inlineHelpText>
+    <label>Rate Type</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Currency/Case</fullName>
+                <default>false</default>
+                <label>Currency/Case</label>
+            </value>
+            <value>
+                <fullName>Percent of Revenue</fullName>
+                <default>false</default>
+                <label>Percent of Revenue</label>
+            </value>
+            <value>
+                <fullName>Fixed</fullName>
+                <default>false</default>
+                <label>Fixed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

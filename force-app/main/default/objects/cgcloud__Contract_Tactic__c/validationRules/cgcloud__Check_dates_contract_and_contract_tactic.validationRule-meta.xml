@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_dates_contract_and_contract_tactic</fullName>
+    <active>true</active>
+    <description>The Contract Tactic time frame must be within the Customer Contract time frame.</description>
+    <errorConditionFormula>OR( cgcloud__Valid_From__c &lt;  cgcloud__Contract__r.cgcloud__Valid_From__c ,  cgcloud__Valid_Thru__c  &gt;  cgcloud__Contract__r.cgcloud__Valid_Thru__c )</errorConditionFormula>
+    <errorMessage>The Contract Tactic time frame must be within the Customer Contract time frame.</errorMessage>
+</ValidationRule>

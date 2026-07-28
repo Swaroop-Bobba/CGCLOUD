@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Description_1__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Description 1 based on the user specific language.</description>
+    <externalId>false</externalId>
+    <formula>CASE($User.cgcloud__Language_Postfix__c,
+&quot;Language1&quot;, cgcloud__Description_1_Language_1__c,
+&quot;Language2&quot;, BLANKVALUE(cgcloud__Description_1_Language_2__c,cgcloud__Description_1_Language_1__c),
+&quot;Language3&quot;, BLANKVALUE(cgcloud__Description_1_Language_3__c,cgcloud__Description_1_Language_1__c),
+&quot;Language4&quot;, BLANKVALUE(cgcloud__Description_1_Language_4__c,cgcloud__Description_1_Language_1__c),
+cgcloud__Description_1_Language_1__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Description</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

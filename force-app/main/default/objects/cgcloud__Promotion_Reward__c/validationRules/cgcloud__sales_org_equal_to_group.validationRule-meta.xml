@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__sales_org_equal_to_group</fullName>
+    <active>true</active>
+    <description>The Pricing Condition Template and the Reward Group must have the same Sales Org.</description>
+    <errorConditionFormula>AND(
+TEXT(cgcloud__Pricing_Condition_Template__r.cgcloud__Sales_Org__c) &lt;&gt; TEXT(cgcloud__Promotion_Reward_Group__r.cgcloud__Sales_Org__c),
+NOT(ISBLANK(cgcloud__Pricing_Condition_Template__c)),
+cgcloud__Free_Item__c = false)</errorConditionFormula>
+    <errorMessage>The Pricing Condition Template and the Reward Group must have the same Sales Org.</errorMessage>
+</ValidationRule>

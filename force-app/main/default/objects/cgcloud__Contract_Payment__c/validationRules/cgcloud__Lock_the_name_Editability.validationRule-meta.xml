@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Lock_the_name_Editability</fullName>
+    <active>true</active>
+    <description>The Contract Payment Name can&apos;t be edited after Contract Payment creation.</description>
+    <errorConditionFormula>AND( RecordType.DeveloperName == &apos;ReadOnly&apos;,  ISCHANGED( Name ))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Accountable__c</errorDisplayField>
+    <errorMessage>The Contract Payment Name can&apos;t be edited after Contract Payment creation.</errorMessage>
+</ValidationRule>

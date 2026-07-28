@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__UoM_Scan_Behavior__c</fullName>
+    <deprecated>false</deprecated>
+    <description>UoM Scan Behavior</description>
+    <label>UoM Scan Behavior</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Standard</fullName>
+                <default>true</default>
+                <label>Standard</label>
+            </value>
+            <value>
+                <fullName>Barcode</fullName>
+                <default>false</default>
+                <label>Barcode</label>
+            </value>
+            <value>
+                <fullName>Current</fullName>
+                <default>false</default>
+                <label>Current</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

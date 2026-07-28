@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Restrict_Editability_After_Activation</fullName>
+    <active>true</active>
+    <description>Visit Template, Default Management Type, User Policy, Valid From and Valid Thru can&apos;t be edited if the Active is checked.</description>
+    <errorConditionFormula>AND
+(
+	NOT(ISNEW()),
+	cgcloud__Active__c,
+	OR
+	(
+		ISCHANGED(cgcloud__Visit_Template__c), 
+		ISCHANGED(cgcloud__Default_Management_Type__c),
+		ISCHANGED(cgcloud__User_Policy__c),
+		(ISCHANGED(cgcloud__Valid_From__c) &amp;&amp; PRIORVALUE(cgcloud__Valid_From__c) &lt; TODAY()),
+		(ISCHANGED(cgcloud__Valid_Thru__c) &amp;&amp; PRIORVALUE(cgcloud__Valid_Thru__c) &lt; TODAY())
+	) 
+)</errorConditionFormula>
+    <errorMessage>Visit Template, Default Management Type, User Policy, Valid From and Valid Thru can&apos;t be edited if the Active is checked.</errorMessage>
+</ValidationRule>

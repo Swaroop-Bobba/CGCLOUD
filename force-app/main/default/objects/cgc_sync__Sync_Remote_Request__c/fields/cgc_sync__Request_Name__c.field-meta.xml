@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Request_Name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Name of the remote request.
+		Possible values are: 
+		CLEAN_FAILURE_QUEUE—Clear Upload Failures
+		REQUEST_DB_CONTENT—Request Data
+		REQUEST_STATS—Request Statistics
+		RESET_STATS—Reset API Stats
+		RESUPPLY—Resupply
+		TECH_PANEL—Activate Debug Window
+		TRACE_MODE—Activate Trace Mode
+		UPLOAD_LOG_DUMP—Request Logs</description>
+    <label>Request Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>TECH_PANEL</fullName>
+                <default>false</default>
+                <label>Activate Debug Window</label>
+            </value>
+            <value>
+                <fullName>TRACE_MODE</fullName>
+                <default>false</default>
+                <label>Activate Trace Mode</label>
+            </value>
+            <value>
+                <fullName>CLEAN_FAILURE_QUEUE</fullName>
+                <default>false</default>
+                <label>Clear Upload Failures</label>
+            </value>
+            <value>
+                <fullName>UPLOAD_LOG_DUMP</fullName>
+                <default>false</default>
+                <label>Request Logs</label>
+            </value>
+            <value>
+                <fullName>REQUEST_STATS</fullName>
+                <default>false</default>
+                <label>Request Statistics</label>
+            </value>
+            <value>
+                <fullName>RESET_STATS</fullName>
+                <default>false</default>
+                <label>Reset API Stats</label>
+            </value>
+            <value>
+                <fullName>RESUPPLY</fullName>
+                <default>false</default>
+                <label>Resupply</label>
+            </value>
+            <value>
+                <fullName>REQUEST_DB_CONTENT</fullName>
+                <default>false</default>
+                <label>Request Data</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

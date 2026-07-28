@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__PlanningMode_Frequency_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(  
+!ISBLANK(TEXT(cgcloud__Planning_Mode__c ) ),
+IF(
+ OR(  ISBLANK(cgcloud__Frequency__c), cgcloud__Frequency__c &lt;= 0  , cgcloud__Frequency__c &lt;  cgcloud__Start_Week__c  ), true, false) ,
+ false)</errorConditionFormula>
+    <errorMessage>Frequency must be a number greater than 0 and higher or equal to StartWeek if the Planning Mode isn&apos;t &apos;None&apos;.</errorMessage>
+</ValidationRule>

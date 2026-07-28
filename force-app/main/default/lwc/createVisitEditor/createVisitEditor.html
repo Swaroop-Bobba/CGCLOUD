@@ -1,0 +1,311 @@
+<template>
+    <div class="slds-card create-visit-card">
+        <!-- Form Body -->
+        <div class="form-body slds-form">
+            <!-- Spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+            </template>
+
+            <!-- Simple Header with Blue Text -->
+            <div class="slds-p-bottom_medium">
+                <h2 class="form-title-simple">Schedule a Store Visit</h2>
+            </div>
+            <div class="slds-grid slds-wrap slds-gutters_direct">
+                <!-- Subject -->
+                <div class="slds-col slds-size_1-of-1 slds-p-bottom_small">
+                    <lightning-input 
+                        type="text" 
+                        name="subject" 
+                        label="Subject" 
+                        value={subject} 
+                        placeholder="e.g., Bi-weekly Audit, Stock Replenishment" 
+                        onchange={handleFieldChange} 
+                        required>
+                    </lightning-input>
+                </div>
+
+                <!-- Account Dynamic Lookup -->
+                <div class={columnClassName}>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">
+                            <abbr class="slds-required" title="required">*</abbr>Account
+                        </label>
+                        <div class="slds-form-element__control lookup-relative-container">
+                            <lightning-input
+                                type="search"
+                                name="accountSearch"
+                                value={accountSearchTerm}
+                                placeholder="Search Accounts..."
+                                onchange={handleAccountSearch}
+                                onfocus={handleAccountFocus}
+                                onblur={handleAccountBlur}
+                                variant="label-hidden"
+                                required>
+                            </lightning-input>
+                            
+                            <!-- Dropdown Results -->
+                            <template if:true={showAccountDropdown}>
+                                <div class="custom-lookup-dropdown" role="listbox">
+                                    <ul>
+                                        <template if:true={isLoadingAccounts}>
+                                            <li class="slds-p-around_x-small slds-text-align_center">
+                                                <lightning-spinner size="small" variant="brand" alternative-text="Searching..."></lightning-spinner>
+                                            </li>
+                                        </template>
+                                        <template if:false={isLoadingAccounts}>
+                                            <template for:each={filteredAccounts} for:item="acc">
+                                                <li key={acc.value} data-id={acc.value} data-label={acc.label} onmousedown={handleAccountSelect}>
+                                                    <span class="slds-listbox__option-text_entity">{acc.label}</span>
+                                                </li>
+                                            </template>
+                                            <template if:true={isAccountListEmpty}>
+                                                <li class="slds-p-around_x-small slds-text-align_center slds-text-color_weak">
+                                                    No Accounts found
+                                                </li>
+                                            </template>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Place Dynamic Lookup -->
+                <div class={columnClassName}>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">
+                            <abbr class="slds-required" title="required">*</abbr>Place
+                        </label>
+                        <div class="slds-form-element__control lookup-relative-container">
+                            <lightning-input
+                                type="search"
+                                name="placeSearch"
+                                value={placeSearchTerm}
+                                placeholder="Search Places..."
+                                onchange={handlePlaceSearch}
+                                onfocus={handlePlaceFocus}
+                                onblur={handlePlaceBlur}
+                                variant="label-hidden"
+                                required>
+                            </lightning-input>
+                            
+                            <!-- Dropdown Results -->
+                            <template if:true={showPlaceDropdown}>
+                                <div class="custom-lookup-dropdown" role="listbox">
+                                    <ul>
+                                        <template if:true={isLoadingPlaces}>
+                                            <li class="slds-p-around_x-small slds-text-align_center">
+                                                <lightning-spinner size="small" variant="brand" alternative-text="Searching..."></lightning-spinner>
+                                            </li>
+                                        </template>
+                                        <template if:false={isLoadingPlaces}>
+                                            <template for:each={filteredPlaces} for:item="place">
+                                                <li key={place.value} data-id={place.value} data-label={place.label} onmousedown={handlePlaceSelect}>
+                                                    <span class="slds-listbox__option-text_entity">{place.label}</span>
+                                                </li>
+                                            </template>
+                                            <template if:true={isPlaceListEmpty}>
+                                                <li class="slds-p-around_x-small slds-text-align_center slds-text-color_weak">
+                                                    No Places found
+                                                </li>
+                                            </template>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="slds-grid slds-wrap slds-gutters_direct">
+                <!-- Planned Start -->
+                <div class={columnClassName}>
+                    <lightning-input 
+                        type="datetime" 
+                        name="plannedStartTime" 
+                        label="Planned Visit Start" 
+                        value={plannedStartTime} 
+                        onchange={handleFieldChange} 
+                        required>
+                    </lightning-input>
+                </div>
+
+                <!-- Planned End -->
+                <div class={columnClassName}>
+                    <lightning-input 
+                        type="datetime" 
+                        name="plannedEndTime" 
+                        label="Planned End" 
+                        value={plannedEndTime} 
+                        onchange={handleFieldChange}>
+                    </lightning-input>
+                </div>
+
+                <!-- All Day Event -->
+                <div class="slds-col slds-size_1-of-1 slds-p-vertical_small">
+                    <lightning-input 
+                        type="checkbox" 
+                        name="isAllDayEvent" 
+                        label="All Day Event" 
+                        checked={isAllDayEvent} 
+                        onchange={handleCheckboxChange}>
+                    </lightning-input>
+                </div>
+
+                <!-- Visit Template Dynamic Lookup -->
+                <div class={columnClassName}>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">
+                            <abbr class="slds-required" title="required">*</abbr>Visit Template
+                        </label>
+                        <div class="slds-form-element__control lookup-relative-container">
+                            <lightning-input
+                                type="search"
+                                name="templateSearch"
+                                value={templateSearchTerm}
+                                placeholder="Search Templates..."
+                                onchange={handleTemplateSearch}
+                                onfocus={handleTemplateFocus}
+                                onblur={handleTemplateBlur}
+                                variant="label-hidden"
+                                required>
+                            </lightning-input>
+                            
+                            <!-- Dropdown Results -->
+                            <template if:true={showTemplateDropdown}>
+                                <div class="custom-lookup-dropdown" role="listbox">
+                                    <ul>
+                                        <template if:true={isLoadingTemplates}>
+                                            <li class="slds-p-around_x-small slds-text-align_center">
+                                                <lightning-spinner size="small" variant="brand" alternative-text="Searching..."></lightning-spinner>
+                                            </li>
+                                        </template>
+                                        <template if:false={isLoadingTemplates}>
+                                            <template for:each={filteredTemplates} for:item="temp">
+                                                <li key={temp.value} data-id={temp.value} data-label={temp.label} onmousedown={handleTemplateSelect}>
+                                                    <span class="slds-listbox__option-text_entity">{temp.label}</span>
+                                                </li>
+                                            </template>
+                                            <template if:true={isTemplateListEmpty}>
+                                                <li class="slds-p-around_x-small slds-text-align_center slds-text-color_weak">
+                                                    No Templates found
+                                                </li>
+                                            </template>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accountable Dynamic Lookup -->
+                <div class={columnClassName}>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Accountable</label>
+                        <div class="slds-form-element__control lookup-relative-container">
+                            <lightning-input
+                                type="search"
+                                name="accountableSearch"
+                                value={accountableSearchTerm}
+                                placeholder="Search Accountable User..."
+                                onchange={handleAccountableSearch}
+                                onfocus={handleAccountableFocus}
+                                onblur={handleAccountableBlur}
+                                variant="label-hidden">
+                            </lightning-input>
+                            
+                            <!-- Dropdown Results -->
+                            <template if:true={showAccountableDropdown}>
+                                <div class="custom-lookup-dropdown" role="listbox">
+                                    <ul>
+                                        <template if:true={isLoadingAccountable}>
+                                            <li class="slds-p-around_x-small slds-text-align_center">
+                                                <lightning-spinner size="small" variant="brand" alternative-text="Searching..."></lightning-spinner>
+                                            </li>
+                                        </template>
+                                        <template if:false={isLoadingAccountable}>
+                                            <template for:each={filteredAccountable} for:item="user">
+                                                <li key={user.value} data-id={user.value} data-label={user.label} onmousedown={handleAccountableSelect}>
+                                                    <span class="slds-listbox__option-text_entity">{user.label}</span>
+                                                </li>
+                                            </template>
+                                            <template if:true={isAccountableListEmpty}>
+                                                <li class="slds-p-around_x-small slds-text-align_center slds-text-color_weak">
+                                                    No Users found
+                                                </li>
+                                            </template>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Responsible User -->
+                <template if:true={isCGCloudUser}>
+                    <div class="slds-col slds-size_1-of-1 slds-p-bottom_medium">
+                        <lightning-input 
+                            type="text" 
+                            name="responsibleName" 
+                            label="Responsible User" 
+                            value={responsibleName} 
+                            disabled>
+                        </lightning-input>
+                    </div>
+                </template>
+                <template if:false={isCGCloudUser}>
+                    <!-- Responsible User Dynamic Lookup -->
+                    <div class={columnClassName}>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Responsible User</label>
+                            <div class="slds-form-element__control lookup-relative-container">
+                                <lightning-input
+                                    type="search"
+                                    name="responsibleSearch"
+                                    value={responsibleSearchTerm}
+                                    placeholder="Search Responsible User..."
+                                    onchange={handleResponsibleSearch}
+                                    onfocus={handleResponsibleFocus}
+                                    onblur={handleResponsibleBlur}
+                                    variant="label-hidden">
+                                </lightning-input>
+                                
+                                <!-- Dropdown Results -->
+                                <template if:true={showResponsibleDropdown}>
+                                    <div class="custom-lookup-dropdown" role="listbox">
+                                        <ul>
+                                            <template if:true={isLoadingResponsible}>
+                                                <li class="slds-p-around_x-small slds-text-align_center">
+                                                    <lightning-spinner size="small" variant="brand" alternative-text="Searching..."></lightning-spinner>
+                                                </li>
+                                            </template>
+                                            <template if:false={isLoadingResponsible}>
+                                                <template for:each={filteredResponsible} for:item="user">
+                                                    <li key={user.value} data-id={user.value} data-label={user.label} onmousedown={handleResponsibleSelect}>
+                                                        <span class="slds-listbox__option-text_entity">{user.label}</span>
+                                                    </li>
+                                                </template>
+                                                <template if:true={isResponsibleListEmpty}>
+                                                    <li class="slds-p-around_x-small slds-text-align_center slds-text-color_weak">
+                                                        No Users found
+                                                    </li>
+                                                </template>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+        </div>
+    </div>
+</template>

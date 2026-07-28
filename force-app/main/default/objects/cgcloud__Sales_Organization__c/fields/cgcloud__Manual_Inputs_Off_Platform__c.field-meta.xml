@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Manual_Inputs_Off_Platform__c</fullName>
+    <deprecated>false</deprecated>
+    <description>List of elements for which manual inputs are saved in Consumer Goods Processing Services.</description>
+    <inlineHelpText>Saved choices are permanent. Carefully select the elements for which you want to enable manual inputs in Consumer Goods Processing Services.</inlineHelpText>
+    <label>Manual Inputs in CGPS</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CBP</fullName>
+                <default>false</default>
+                <label>Account Plan</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

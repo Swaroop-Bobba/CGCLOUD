@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Hierarchy_Search_Data_Source</fullName>
+    <active>true</active>
+    <description>Data Source Table Name must be &apos;Account Product Measure&apos; or &apos;Product Measure&apos; if the Consider Product Hierarchy is enabled.</description>
+    <errorConditionFormula>AND(
+      cgcloud__Data_Source_Consider_Product_Hierarchy__c,
+      NOT(
+      OR(
+      ISPICKVAL(cgcloud__Data_Source_Table_Name__c, &apos;accountproductmeasure&apos;),
+      ISPICKVAL(cgcloud__Data_Source_Table_Name__c, &apos;productmeasure&apos;)
+      )
+      )
+      )</errorConditionFormula>
+    <errorMessage>Data Source Table Name must be &apos;Account Product Measure&apos; or &apos;Product Measure&apos; if the Consider Product Hierarchy is enabled.</errorMessage>
+</ValidationRule>

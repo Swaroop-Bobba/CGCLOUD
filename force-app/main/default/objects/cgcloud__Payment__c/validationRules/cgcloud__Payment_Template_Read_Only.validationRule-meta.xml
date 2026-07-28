@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payment_Template_Read_Only</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+      $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+      ISCHANGED( cgcloud__Payment_Template__c )
+      )</errorConditionFormula>
+    <errorMessage>Payment Template cannot be changed.</errorMessage>
+</ValidationRule>

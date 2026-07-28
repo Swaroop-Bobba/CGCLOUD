@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__BOM_Handling_Mismatch_Push</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(  ISPICKVAL(cgcloud__Usage__c, &apos;Push&apos;),  TEXT(cgcloud__Child_Promotion_Template__r.cgcloud__BOM_Handler__c)  &lt;&gt;  TEXT(cgcloud__Parent_Promotion_Template__r.cgcloud__BOM_Handler__c) )</errorConditionFormula>
+    <errorMessage>The Parent and the Child Promotion Template with Usage as Push must have the same BOM Handling.</errorMessage>
+</ValidationRule>

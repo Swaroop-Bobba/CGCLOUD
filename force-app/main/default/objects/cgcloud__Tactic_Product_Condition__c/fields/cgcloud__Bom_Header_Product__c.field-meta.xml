@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Bom_Header_Product__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the BOM header of the product used to generate this condition.</description>
+    <label>BOM Header Product</label>
+    <referenceTo>Product2</referenceTo>
+    <relationshipLabel>Tactic Product Conditions</relationshipLabel>
+    <relationshipName>Tactic_Product_Conditions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

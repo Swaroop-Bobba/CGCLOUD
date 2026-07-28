@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Last_Extended_Time__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Holds the timestamp when the custom calendar was extended.</description>
+    <label>Last Extended Time</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

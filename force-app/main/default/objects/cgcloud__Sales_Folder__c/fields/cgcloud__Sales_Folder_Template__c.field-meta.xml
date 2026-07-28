@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Folder_Template__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the Sales Folder Template</description>
+    <label>Sales Folder Template</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>No matches found or Sales Folder Template is not active.</errorMessage>
+        <filterItems>
+            <field>cgcloud__Sales_Folder_Template__c.cgcloud__Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__Sales_Folder_Template__c</referenceTo>
+    <relationshipLabel>Sales Folders</relationshipLabel>
+    <relationshipName>Sales_Folders</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

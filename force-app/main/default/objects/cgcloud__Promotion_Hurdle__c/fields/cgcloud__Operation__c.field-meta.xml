@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Operation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Define how hurdles are combined based on the sequence.</description>
+    <label>Operation</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>AND</fullName>
+                <default>true</default>
+                <label>AND</label>
+            </value>
+            <value>
+                <fullName>OR</fullName>
+                <default>false</default>
+                <label>OR</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

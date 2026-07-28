@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Accrual_Claim_Measure_Code__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Write back measure code of the payment tactic payout KPI used to identify the relevant payment tactic KPI.</description>
+    <externalId>false</externalId>
+    <formula>SUBSTITUTE(cgcloud__Tactic_Payout_KPI_Definition__r.cgcloud__Storage_Options_Measure_Code__c, &apos;#&apos;, &apos;C&apos;)</formula>
+    <label>Accrual Claim Measure Code</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

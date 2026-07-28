@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Trailer2_Field_Vehicle_Type_Validation</fullName>
+    <active>true</active>
+    <description>Only vehicles with &apos;Trailer&apos; Vehicle Type can be selected in Trailer 2.</description>
+    <errorConditionFormula>AND(
+      NOT(ISBLANK( cgcloud__Trailer_2__c)),
+      NOT(
+      ISPICKVAL( cgcloud__Trailer_2__r.cgcloud__Vehicle_Type__c , &apos;Trailer&apos;)
+      )
+      )</errorConditionFormula>
+    <errorMessage>Only vehicles with &apos;Trailer&apos; Vehicle Type can be selected in Trailer 2.</errorMessage>
+</ValidationRule>

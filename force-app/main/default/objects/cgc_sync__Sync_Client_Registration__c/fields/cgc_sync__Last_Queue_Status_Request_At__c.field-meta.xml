@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Last_Queue_Status_Request_At__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Timestamp of the last synchronization request.</description>
+    <inlineHelpText>Specifies the timestamp of the last synchronization request.</inlineHelpText>
+    <label>Last Sync Request Queued At</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

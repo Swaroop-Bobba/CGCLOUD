@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Scale_Type_FromTo_Metatype_Price</fullName>
+    <active>true</active>
+    <errorConditionFormula>(TEXT(cgcloud__Scale_Type__c) == &apos;From&apos; || TEXT(cgcloud__Scale_Type__c) == &apos;To&apos;) &amp;&amp; TEXT(cgcloud__Meta_Type__c) == &apos;Price&apos; &amp;&amp; TEXT(cgcloud__Base__c) == &apos;Value&apos;</errorConditionFormula>
+    <errorMessage>Base can&apos;t be &apos;Value&apos; if the Scale Type is &apos;From&apos; or &apos;To&apos; and the meta Type is &apos;Price&apos;.</errorMessage>
+</ValidationRule>

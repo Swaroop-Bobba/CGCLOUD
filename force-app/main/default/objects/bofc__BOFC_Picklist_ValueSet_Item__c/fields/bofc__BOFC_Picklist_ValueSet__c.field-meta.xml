@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>bofc__BOFC_Picklist_ValueSet__c</fullName>
+    <deprecated>false</deprecated>
+    <label>BOFC Picklist ValueSet</label>
+    <referenceTo>bofc__BOFC_Picklist_ValueSet__c</referenceTo>
+    <relationshipLabel>BOFC Picklist ValueSet Items</relationshipLabel>
+    <relationshipName>BOFC_Picklist_ValueSet_Items</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

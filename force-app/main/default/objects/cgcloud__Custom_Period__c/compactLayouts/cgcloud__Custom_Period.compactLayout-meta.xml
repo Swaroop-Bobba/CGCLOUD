@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Custom_Period</fullName>
+    <fields>cgcloud__Description__c</fields>
+    <fields>Name</fields>
+    <fields>cgcloud__Date_From__c</fields>
+    <fields>cgcloud__Date_Thru__c</fields>
+    <label>Custom Period</label>
+</CompactLayout>

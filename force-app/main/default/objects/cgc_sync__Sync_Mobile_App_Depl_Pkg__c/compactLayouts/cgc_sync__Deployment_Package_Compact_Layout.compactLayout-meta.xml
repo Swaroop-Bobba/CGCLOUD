@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Deployment_Package_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>cgc_sync__Name__c</fields>
+    <fields>cgc_sync__Assignment__c</fields>
+    <fields>cgc_sync__AggregatedState__c</fields>
+    <label>Deployment Package Compact Layout</label>
+</CompactLayout>

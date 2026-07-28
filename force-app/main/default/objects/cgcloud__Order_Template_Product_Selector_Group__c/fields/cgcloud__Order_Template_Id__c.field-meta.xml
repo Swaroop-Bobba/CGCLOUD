@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Order_Template_Id__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to Order Template.</description>
+    <label>Order Template Id</label>
+    <referenceTo>cgcloud__Order_Template__c</referenceTo>
+    <relationshipLabel>Product Selector Groups</relationshipLabel>
+    <relationshipName>Product_Selector_Groups</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

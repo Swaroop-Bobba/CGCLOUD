@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Date_mock__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Help/Mock field to visualize calendar in visual force page. Value of this field won&apos;t be saved in the database.</description>
+    <label>Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

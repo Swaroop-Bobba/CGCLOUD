@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Category_Only</fullName>
+    <active>true</active>
+    <description>Customer Business Plan Category must be a Product of level &quot;Category&quot;</description>
+    <errorConditionFormula>TEXT(cgcloud__Category__r.cgcloud__Product_Level__c) &lt;&gt; &apos;Category&apos;</errorConditionFormula>
+    <errorMessage>Customer Business Plan Category must be a Product of level &quot;Category&quot;</errorMessage>
+</ValidationRule>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Additional_PTP_Kpi_Definition_1__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Editable lookup to KPI_Definition</description>
+    <inlineHelpText>Defines the KPI used to write back into the claim tactic product at the Additional KPI Value 1 attribute.</inlineHelpText>
+    <label>Additional PTP KPI Definition 1</label>
+    <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
+    <relationshipLabel>Payment Templates (Additional PTP Kpi Definition 1)</relationshipLabel>
+    <relationshipName>Payment_Template_KPI_Definition1</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

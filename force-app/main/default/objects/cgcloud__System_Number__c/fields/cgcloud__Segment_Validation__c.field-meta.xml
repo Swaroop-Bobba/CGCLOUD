@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Segment_Validation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Segment Validation</description>
+    <label>Segment Validation</label>
+    <summarizedField>cgcloud__System_Number_Segment__c.cgcloud__Type_Validation__c</summarizedField>
+    <summaryForeignKey>cgcloud__System_Number_Segment__c.cgcloud__System_Number__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

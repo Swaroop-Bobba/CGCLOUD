@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Search_Strategy__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Defines the search strategy of the calculation schema step.</description>
+    <label>Search Strategy</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>The Search Strategy and the Pricing Condition Template must have the same Sales Org and Search Strategy must be active .</errorMessage>
+        <filterItems>
+            <field>cgcloud__CP_Search_Strategy__c.cgcloud__Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>cgcloud__CP_Search_Strategy__c.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__CP_Search_Strategy__c</referenceTo>
+    <relationshipLabel>Pricing Condition Templates</relationshipLabel>
+    <relationshipName>Pricing_Condition_Templates</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

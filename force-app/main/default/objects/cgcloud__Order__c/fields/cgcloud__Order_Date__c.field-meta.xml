@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Order_Date__c</fullName>
+    <defaultValue>today()</defaultValue>
+    <deprecated>false</deprecated>
+    <description>The day the customer commited to the sales document. For
+			order entries this is the order date.</description>
+    <label>Order Date</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

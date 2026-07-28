@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Org_Level__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Level of an organization unit regarding a organization type.</description>
+    <label>Org Level</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Client</fullName>
+                <default>false</default>
+                <label>Client</label>
+            </value>
+            <value>
+                <fullName>SalesOrganization</fullName>
+                <default>false</default>
+                <label>SalesOrganization</label>
+            </value>
+            <value>
+                <fullName>SalesOffice</fullName>
+                <default>false</default>
+                <label>SalesOffice</label>
+            </value>
+            <value>
+                <fullName>SalesRep</fullName>
+                <default>false</default>
+                <label>SalesRep</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

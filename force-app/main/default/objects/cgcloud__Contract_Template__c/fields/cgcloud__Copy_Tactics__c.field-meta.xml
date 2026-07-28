@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Copy_Tactics__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Describes whether the tactics created after this tactic template will be included in the copy of the contract.</description>
+    <label>Copy Tactics</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

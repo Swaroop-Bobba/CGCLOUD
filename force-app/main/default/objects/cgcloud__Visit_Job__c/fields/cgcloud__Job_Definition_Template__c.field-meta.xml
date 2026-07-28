@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Job_Definition_Template__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <label>Job Definition Template</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>((1 AND 2) OR (3 AND 4))</booleanFilter>
+        <filterItems>
+            <field>$Source.cgcloud__Product__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </filterItems>
+        <filterItems>
+            <field>cgcloud__Job_Definition_Template__c.cgcloud__Job_Template__r.cgcloud__Product_Reference__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </filterItems>
+        <filterItems>
+            <field>$Source.cgcloud__Product__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </filterItems>
+        <filterItems>
+            <field>cgcloud__Job_Definition_Template__c.cgcloud__Job_Template__r.cgcloud__Product_Reference__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__Job_Definition_Template__c</referenceTo>
+    <relationshipLabel>Visit Jobs</relationshipLabel>
+    <relationshipName>Call_Jobs</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

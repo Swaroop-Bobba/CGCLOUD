@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Assortment__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to the assortment the order template relation belongs to.</description>
+    <label>Product Assortment</label>
+    <lookupFilter>
+        <active>false</active>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Assortment</referenceTo>
+    <relationshipLabel>Order Templates</relationshipLabel>
+    <relationshipName>Product_Assortment_Order_Templates</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

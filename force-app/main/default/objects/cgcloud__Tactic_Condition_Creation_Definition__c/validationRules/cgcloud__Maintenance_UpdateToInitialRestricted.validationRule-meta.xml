@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Maintenance_UpdateToInitialRestricted</fullName>
+    <active>true</active>
+    <description>The Maintenance field cannot be updated to &apos;Initial&apos; from any other value.</description>
+    <errorConditionFormula>AND(
+   ISPICKVAL(cgcloud__Maintenance__c , &apos;Initial&apos;),
+   ISCHANGED(cgcloud__Maintenance__c)
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Maintenance__c</errorDisplayField>
+    <errorMessage>The Maintenance field cannot be updated to &apos;Initial&apos; from any other value.</errorMessage>
+</ValidationRule>

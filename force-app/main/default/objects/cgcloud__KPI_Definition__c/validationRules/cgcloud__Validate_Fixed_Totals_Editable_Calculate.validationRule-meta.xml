@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Fixed_Totals_Editable_Calculate</fullName>
+    <active>true</active>
+    <description>Fixed totals can only be enabled when it is compound main or has no parents</description>
+    <errorConditionFormula>AND (
+      cgcloud__Editable_Fixed_Totals__c,
+      RecordType.DeveloperName == &apos;editable_calculated&apos;,
+      NOT(cgcloud__Compound_Main__c),
+      NOT(ISBLANK(cgcloud__Parent__c))
+      )</errorConditionFormula>
+    <errorMessage>Fixed totals can only be enabled when it is compound main or has no parents</errorMessage>
+</ValidationRule>

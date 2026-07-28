@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Volume_Percent__c</fullName>
+    <deprecated>false</deprecated>
+    <description>It indicates how much percent the specific sub account contributes to the overall volume of the account.</description>
+    <label>% of Volume</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

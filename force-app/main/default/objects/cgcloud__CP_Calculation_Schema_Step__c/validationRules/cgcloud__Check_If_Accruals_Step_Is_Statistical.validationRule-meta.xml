@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Accruals_Step_Is_Statistical</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF( 
+cgcloud__Accrual__c = true,  
+IF( cgcloud__Statistical__c  = false,  true , false), 
+false)</errorConditionFormula>
+    <errorMessage>Step must be marked as &apos;Statistical&apos; if the Step is marked as &apos;Accrual&apos;.</errorMessage>
+</ValidationRule>

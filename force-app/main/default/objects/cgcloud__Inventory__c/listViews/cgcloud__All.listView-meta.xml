@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__All</fullName>
+    <columns>NAME</columns>
+    <columns>cgcloud__Phase__c</columns>
+    <columns>cgcloud__Inventory_Template__c</columns>
+    <columns>RECORDTYPE</columns>
+    <columns>cgcloud__Quota_Type__c</columns>
+    <columns>cgcloud__User__c</columns>
+    <columns>cgcloud__Product__c</columns>
+    <columns>cgcloud__Account__c</columns>
+    <columns>cgcloud__Tour__c</columns>
+    <columns>cgcloud__Sales_Org__c</columns>
+    <columns>cgcloud__Balance__c</columns>
+    <columns>cgcloud__Currency__c</columns>
+    <columns>cgcloud__Description_Language_1__c</columns>
+    <columns>cgcloud__Initial_Inventory__c</columns>
+    <columns>cgcloud__Inventory_Control_Measure__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

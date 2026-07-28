@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__RBF_Total_KPI__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The KPI definition that represents the total funding value</description>
+    <inlineHelpText>Indicate the KPI definition that will represents the total funding value</inlineHelpText>
+    <label>RBF Total KPI</label>
+    <referenceTo>cgcloud__KPI_Definition__c</referenceTo>
+    <relationshipLabel>KPI Definitions</relationshipLabel>
+    <relationshipName>RBF_Templates</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

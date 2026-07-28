@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__CGCloud_Customers</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>cgcloud__Account_Number__c</columns>
+    <columns>cgcloud__Sales_Org__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ACCOUNT.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Account.cgcloud__Customer</value>
+    </filters>
+    <label>CGCloud Customers</label>
+    <language>en_US</language>
+</ListView>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validation_rule_for_sales_org_name</fullName>
+    <active>true</active>
+    <description>Name must match with selected Sales Org value.</description>
+    <errorConditionFormula>Name  &lt;&gt; Text( cgcloud__Sales_Org_Value__c )</errorConditionFormula>
+    <errorMessage>Name must match with selected Sales Org value.</errorMessage>
+</ValidationRule>

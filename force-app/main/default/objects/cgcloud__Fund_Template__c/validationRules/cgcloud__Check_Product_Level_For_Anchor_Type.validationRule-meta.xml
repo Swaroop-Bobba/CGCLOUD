@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Product_Level_For_Anchor_Type</fullName>
+    <active>true</active>
+    <description>Product Anchor Level should not be empty, if Anchor Type is Customer Product</description>
+    <errorConditionFormula>AND( $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE, TEXT(cgcloud__Anchor_Type__c) = &apos;Customer Product&apos;,  
+ISBlank(TEXT(cgcloud__Product_Anchor_Level__c )))</errorConditionFormula>
+    <errorMessage>Please select valid Product Anchor Level for selected Anchor Type.</errorMessage>
+</ValidationRule>

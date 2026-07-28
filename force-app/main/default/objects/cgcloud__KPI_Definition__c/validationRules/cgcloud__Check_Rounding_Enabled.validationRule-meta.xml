@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Rounding_Enabled</fullName>
+    <active>true</active>
+    <description>Checks that the rounding fields are set only if the Rounding_Type is set</description>
+    <errorConditionFormula>OR(
+  AND(ISBLANK(TEXT(cgcloud__Rounding_Type__c)), NOT(ISBLANK(TEXT(cgcloud__Rounding_Precision__c)))),
+  AND(NOT(ISBLANK(TEXT(cgcloud__Rounding_Type__c))), ISBLANK(TEXT(cgcloud__Rounding_Precision__c)))
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Rounding_Type__c</errorDisplayField>
+    <errorMessage>Rounding Precision must be enabled only when Rounding Type is enabled.</errorMessage>
+</ValidationRule>

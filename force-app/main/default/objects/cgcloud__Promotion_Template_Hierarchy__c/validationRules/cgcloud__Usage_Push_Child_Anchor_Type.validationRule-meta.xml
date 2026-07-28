@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Usage_Push_Child_Anchor_Type</fullName>
+    <active>true</active>
+    <description>The Child Promotion Template with Usage as Push must have Customer as anchor type.</description>
+    <errorConditionFormula>AND(ISPICKVAL(cgcloud__Usage__c, &apos;Push&apos;), NOT(ISPICKVAL(cgcloud__Child_Promotion_Template__r.cgcloud__Anchor_Type__c, &apos;Customer&apos;)))</errorConditionFormula>
+    <errorMessage>The Child Promotion Template with Usage as Push must have Customer as anchor type.</errorMessage>
+</ValidationRule>

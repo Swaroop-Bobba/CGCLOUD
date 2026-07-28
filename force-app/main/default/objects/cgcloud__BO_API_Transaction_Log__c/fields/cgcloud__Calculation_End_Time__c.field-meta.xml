@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Calculation_End_Time__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Timestamp when off-platform signaled that the calculation was finished (the same timestamp for all promotions of the transaction)</description>
+    <label>Calculation End Time</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

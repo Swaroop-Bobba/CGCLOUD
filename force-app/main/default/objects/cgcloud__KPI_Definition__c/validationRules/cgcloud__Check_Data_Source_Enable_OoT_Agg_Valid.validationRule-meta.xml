@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Data_Source_Enable_OoT_Agg_Valid</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+            ISPICKVAL(cgcloud__Data_Source_Enable_OoT_Aggregation__c, &quot;no&quot;),
+            OR(
+                NOT(
+                    RecordType.DeveloperName = &apos;read&apos;
+                    || RecordType.DeveloperName = &apos;uplift_prediction&apos;
+                ),
+                NOT(
+                    ISPICKVAL(cgcloud__Data_Source_Table_Name__c, &quot;promotiontacticdailymeasurereal&quot;) 
+                    || ISPICKVAL(cgcloud__Data_Source_Table_Name__c, &quot;promotiontacticweeklymeasurereal&quot;)
+                )
+            )
+        )</errorConditionFormula>
+    <errorDisplayField>cgcloud__Data_Source_Enable_OoT_Aggregation__c</errorDisplayField>
+    <errorMessage>Feature can only be disabled when KPI table name is &apos;promotiontacticdailymeasurereal&apos; or &apos;promotiontacticweeklymeasurereal&apos;</errorMessage>
+</ValidationRule>

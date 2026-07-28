@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Order_Payment_Template__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to order payment template.</description>
+    <label>Order Payment Template</label>
+    <referenceTo>cgcloud__Order_Payment_Template__c</referenceTo>
+    <relationshipLabel>Order Template Order Payment Templates</relationshipLabel>
+    <relationshipName>Order_Template_Order_Payment_Templates</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Mandatory_Flag_01</fullName>
+    <active>true</active>
+    <description>Job Definition can&apos;t be empty if the Job Action Success is &apos;Validation&apos;.</description>
+    <errorConditionFormula>ISPICKVAL(cgcloud__Job_Action_Success__c, &apos;Validation&apos;) &amp;&amp; NOT(cgcloud__Mandatory__c)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Mandatory__c</errorDisplayField>
+    <errorMessage>Mandatory should be checked if Job action success is &apos;Validation&apos;.</errorMessage>
+</ValidationRule>

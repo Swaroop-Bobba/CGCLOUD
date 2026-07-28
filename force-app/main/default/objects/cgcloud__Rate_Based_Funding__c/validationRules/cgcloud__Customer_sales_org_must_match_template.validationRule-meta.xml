@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Customer_sales_org_must_match_template</fullName>
+    <active>true</active>
+    <description>You cannot create an RBF with a customer of a Sales Org that does not match the sales org of the template.</description>
+    <errorConditionFormula>AND(
+  $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+  cgcloud__Account__r.cgcloud__Sales_Org__c &lt;&gt; cgcloud__Rate_Based_Funding_Template__r.cgcloud__Sales_Org__r.Name
+)</errorConditionFormula>
+    <errorMessage>The sales org of the customer does not match the sales org of the selected template.</errorMessage>
+</ValidationRule>

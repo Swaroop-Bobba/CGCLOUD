@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Is_Current__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>The flag which indicates the entry is related to latest installed deployment package. The value is set by the trigger.</description>
+    <label>Is Latest Package On Device</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Mobility_User_Guidance__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Mobility User Guidance</description>
+    <label>Mobility User Guidance</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sales</fullName>
+                <default>true</default>
+                <label>Sales</label>
+            </value>
+            <value>
+                <fullName>Merchandizing</fullName>
+                <default>false</default>
+                <label>Merchandizing</label>
+            </value>
+            <value>
+                <fullName>Delivery</fullName>
+                <default>false</default>
+                <label>Delivery</label>
+            </value>
+            <value>
+                <fullName>NonCustomer</fullName>
+                <default>false</default>
+                <label>NonCustomer</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

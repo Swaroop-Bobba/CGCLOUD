@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Acc_And_Prod_Dimension_NotRelevant</fullName>
+    <active>true</active>
+    <description>Account Dimension and Product Dimension must not be set as &apos;Not Relevant&apos; if Condition Anchor is selected as &apos;Account Product&apos;.</description>
+    <errorConditionFormula>AND(ISPICKVAL(cgcloud__Condition_Anchor__c,&quot;Account_Product&quot;), OR(ISPICKVAL(cgcloud__Account_Dimension__c,&quot;Not_Relevant&quot;),ISPICKVAL(cgcloud__Product_Dimension__c,&quot;Not_Relevant&quot;)))</errorConditionFormula>
+    <errorMessage>Account Dimension and Product Dimension must not be set as &apos;Not Relevant&apos; if Condition Anchor is selected as &apos;Account Product&apos;.</errorMessage>
+</ValidationRule>

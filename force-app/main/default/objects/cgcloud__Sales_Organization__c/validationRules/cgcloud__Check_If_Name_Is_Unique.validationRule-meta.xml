@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_If_Name_Is_Unique</fullName>
+    <active>true</active>
+    <errorConditionFormula>and( 
+Name = VLOOKUP 
+($ObjectType.cgcloud__Sales_Organization__c.Fields.Name , $ObjectType.cgcloud__Sales_Organization__c.Fields.Name, Name ), 
+
+not( 
+Id=VLOOKUP 
+($ObjectType.cgcloud__Sales_Organization__c.Fields.Id , $ObjectType.cgcloud__Sales_Organization__c.Fields.Name, Name )))</errorConditionFormula>
+    <errorMessage>Sales Organization Name already exists, please enter different Name.</errorMessage>
+</ValidationRule>

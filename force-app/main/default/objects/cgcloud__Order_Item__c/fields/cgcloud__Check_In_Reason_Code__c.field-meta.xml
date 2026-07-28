@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_In_Reason_Code__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Allows specification of a reason if the checked in product quantity does not fit to the expected product quantity given via product inventory.</description>
+    <label>Check In Reason Code</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Broken</fullName>
+                <default>false</default>
+                <label>Broken</label>
+            </value>
+            <value>
+                <fullName>Stolen</fullName>
+                <default>false</default>
+                <label>Stolen</label>
+            </value>
+            <value>
+                <fullName>Miscounting</fullName>
+                <default>false</default>
+                <label>Miscounting</label>
+            </value>
+            <value>
+                <fullName>NoDoc</fullName>
+                <default>false</default>
+                <label>NoDoc</label>
+            </value>
+            <value>
+                <fullName>Misc.</fullName>
+                <default>false</default>
+                <label>Misc.</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

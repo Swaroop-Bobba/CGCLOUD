@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Active__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines if the current record should be used for the promotion access rights.</description>
+    <label>Active</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Inactive</fullName>
+                <default>true</default>
+                <label>Inactive</label>
+            </value>
+            <value>
+                <fullName>Active</fullName>
+                <default>false</default>
+                <label>Active</label>
+            </value>
+            <value>
+                <fullName>ToBeActivated</fullName>
+                <default>false</default>
+                <label>ToBeActivated</label>
+            </value>
+            <value>
+                <fullName>ToBeDeactivated</fullName>
+                <default>false</default>
+                <label>ToBeDeactivated</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

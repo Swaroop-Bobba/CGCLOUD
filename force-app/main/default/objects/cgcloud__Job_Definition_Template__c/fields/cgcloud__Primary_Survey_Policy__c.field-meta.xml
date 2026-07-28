@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Primary_Survey_Policy__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Allows specification of three primary product survey questions used for discrepancy survey in a matrix like display on the CGCloud OnPremise mobility devices.
+      Supported survey questions: Facings, Price, Distribution</description>
+    <label>Primary Survey Policy</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Facings</fullName>
+                <default>false</default>
+                <label>Facings</label>
+            </value>
+            <value>
+                <fullName>PriceSurvey</fullName>
+                <default>false</default>
+                <label>PriceSurvey</label>
+            </value>
+            <value>
+                <fullName>Distribution</fullName>
+                <default>false</default>
+                <label>Distribution</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Time_Of_Day__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Contains the time of day which has to be used by the automatic planning algorithm to schedule the call. Can be empty.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please enter time in hh:mm format (00:00-23:59)</inlineHelpText>
+    <label>Time Of Day</label>
+    <length>5</length>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

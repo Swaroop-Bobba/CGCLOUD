@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_Sort_Value</fullName>
+    <active>true</active>
+    <description>Ensures that you enter a whole number in the Sort field.</description>
+    <errorConditionFormula>OR(FLOOR(cgcloud__Sort__c) &lt;&gt; CEILING(cgcloud__Sort__c), cgcloud__Sort__c&lt;0)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Sort__c</errorDisplayField>
+    <errorMessage>Enter a whole number.</errorMessage>
+</ValidationRule>

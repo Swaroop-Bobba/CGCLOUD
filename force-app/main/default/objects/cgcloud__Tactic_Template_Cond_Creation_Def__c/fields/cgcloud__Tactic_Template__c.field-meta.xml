@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tactic_Template__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to Tactic Template.</description>
+    <label>Tactic Template</label>
+    <referenceTo>cgcloud__Tactic_Template__c</referenceTo>
+    <relationshipLabel>Tactic Template Cond Creation Def</relationshipLabel>
+    <relationshipName>Tactic_Template_Cond_Creation_Def</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

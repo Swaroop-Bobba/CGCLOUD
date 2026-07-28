@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Price_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Price type for factory or consumer.</description>
+    <label>Price Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>factory</fullName>
+                <default>true</default>
+                <label>factory</label>
+            </value>
+            <value>
+                <fullName>consumer</fullName>
+                <default>false</default>
+                <label>consumer</label>
+            </value>
+            <value>
+                <fullName>NotRelevant</fullName>
+                <default>false</default>
+                <label>NotRelevant</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

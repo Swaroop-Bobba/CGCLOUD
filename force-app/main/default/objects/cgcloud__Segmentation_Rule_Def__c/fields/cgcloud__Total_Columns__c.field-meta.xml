@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Total_Columns__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Count of total columns.</description>
+    <label>Total Columns</label>
+    <summaryForeignKey>cgcloud__Segmentation_Rule_Def_Column__c.cgcloud__Segmentation_Rule_Def__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

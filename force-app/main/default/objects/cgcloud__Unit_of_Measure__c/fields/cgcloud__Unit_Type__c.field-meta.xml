@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Unit_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Type of the unit of measure.</description>
+    <label>Unit Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>SalesUnit</fullName>
+                <default>true</default>
+                <label>SalesUnit</label>
+            </value>
+            <value>
+                <fullName>Layer</fullName>
+                <default>false</default>
+                <label>Layer</label>
+            </value>
+            <value>
+                <fullName>Pallet</fullName>
+                <default>false</default>
+                <label>Pallet</label>
+            </value>
+            <value>
+                <fullName>ConsumerUnit</fullName>
+                <default>false</default>
+                <label>ConsumerUnit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

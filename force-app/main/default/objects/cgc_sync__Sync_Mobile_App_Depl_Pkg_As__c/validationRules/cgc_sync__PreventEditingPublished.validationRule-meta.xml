@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__PreventEditingPublished</fullName>
+    <active>true</active>
+    <description>Published assignments must not be edited.</description>
+    <errorConditionFormula>Not ISNEW() &amp;&amp;
+PRIORVALUE(cgc_sync__Publishing_Date__c) &lt;= Now() &amp;&amp;
+cgc_sync__State__c &lt;&gt; &apos;Revoked&apos; &amp;&amp;
+Not ISCHANGED(RecordTypeId)</errorConditionFormula>
+    <errorMessage>Edit denied.
+Deployment Mobility Package Assignment is already published.
+Assignment is no longer editable.</errorMessage>
+</ValidationRule>

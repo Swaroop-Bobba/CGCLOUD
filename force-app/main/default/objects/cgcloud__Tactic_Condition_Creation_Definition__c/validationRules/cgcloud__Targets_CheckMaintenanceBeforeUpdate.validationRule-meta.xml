@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Targets_CheckMaintenanceBeforeUpdate</fullName>
+    <active>true</active>
+    <description>The Targets field can be changed after creation only if Maintenance field is set to &apos;Initial&apos;.</description>
+    <errorConditionFormula>AND(
+  NOT(ISPICKVAL(cgcloud__Maintenance__c,&apos;Initial&apos;)),
+  ISCHANGED(cgcloud__Targets__c)
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Targets__c</errorDisplayField>
+    <errorMessage>The Targets field can be changed after creation only if Maintenance field is set to &apos;Initial&apos;.</errorMessage>
+</ValidationRule>

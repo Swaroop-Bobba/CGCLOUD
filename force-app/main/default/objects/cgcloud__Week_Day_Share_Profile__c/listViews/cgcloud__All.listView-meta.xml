@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__All</fullName>
+    <columns>NAME</columns>
+    <columns>cgcloud__Description__c</columns>
+    <columns>cgcloud__Sales_Org__c</columns>
+    <columns>cgcloud__Monday_Percentage__c</columns>
+    <columns>cgcloud__Tuesday_Percentage__c</columns>
+    <columns>cgcloud__Wednesday_Percentage__c</columns>
+    <columns>cgcloud__Thursday_Percentage__c</columns>
+    <columns>cgcloud__Friday_Percentage__c</columns>
+    <columns>cgcloud__Saturday_Percentage__c</columns>
+    <columns>cgcloud__Sunday_Percentage__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+    <language>en_US</language>
+</ListView>

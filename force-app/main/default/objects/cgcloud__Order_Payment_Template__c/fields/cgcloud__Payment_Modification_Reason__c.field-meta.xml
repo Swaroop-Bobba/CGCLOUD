@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payment_Modification_Reason__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Picklist values defining the needs for modification of payment.</description>
+    <label>Payment Modification Reason</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Lost</fullName>
+                <default>false</default>
+                <label>Lost</label>
+            </value>
+            <value>
+                <fullName>Miscounting</fullName>
+                <default>false</default>
+                <label>Miscounting</label>
+            </value>
+            <value>
+                <fullName>NoReceipt</fullName>
+                <default>false</default>
+                <label>NoReceipt</label>
+            </value>
+            <value>
+                <fullName>Stolen</fullName>
+                <default>false</default>
+                <label>Stolen</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

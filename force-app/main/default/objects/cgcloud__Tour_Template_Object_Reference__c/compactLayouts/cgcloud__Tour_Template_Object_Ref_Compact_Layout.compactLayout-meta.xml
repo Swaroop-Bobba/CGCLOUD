@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tour_Template_Object_Ref_Compact_Layout</fullName>
+    <fields>cgcloud__Usage__c</fields>
+    <fields>cgcloud__Order_Template__c</fields>
+    <fields>cgcloud__Visit_Template__c</fields>
+    <fields>cgcloud__Signature_Template__c</fields>
+    <fields>cgcloud__Start_Of_Day__c</fields>
+    <fields>cgcloud__End_Of_Day__c</fields>
+    <label>Tour Template Object Ref Compact Layout</label>
+</CompactLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Delivery_Role_Valid_From__c</fullName>
+    <deprecated>false</deprecated>
+    <description>From this date on the Delivery Role is valid.</description>
+    <label>Delivery Role Valid From</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

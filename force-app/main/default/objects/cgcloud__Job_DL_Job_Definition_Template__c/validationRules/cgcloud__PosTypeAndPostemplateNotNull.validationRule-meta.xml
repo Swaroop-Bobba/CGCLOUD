@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__PosTypeAndPostemplateNotNull</fullName>
+    <active>true</active>
+    <description>A job definition  record with Measure_Type = &apos;POS&apos; Can have either  POS_Type or POS_Template value assigned, not both.</description>
+    <errorConditionFormula>cgcloud__Measure_Type__c == &apos;POS&apos; &amp;&amp;  NOT(ISBLANK(TEXT(cgcloud__POS_Type__c))) &amp;&amp;  NOT(ISBLANK(cgcloud__POS_Template__c))</errorConditionFormula>
+    <errorMessage>POS Type and POS Template can&apos;t be selected at the same time.</errorMessage>
+</ValidationRule>

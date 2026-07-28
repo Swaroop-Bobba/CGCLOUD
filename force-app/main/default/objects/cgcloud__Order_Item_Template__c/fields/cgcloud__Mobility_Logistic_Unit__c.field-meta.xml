@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Mobility_Logistic_Unit__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Mobility: Logistic Unit</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ConsumerUnit</fullName>
+                <default>false</default>
+                <label>ConsumerUnit</label>
+            </value>
+            <value>
+                <fullName>OrderUnit</fullName>
+                <default>false</default>
+                <label>OrderUnit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

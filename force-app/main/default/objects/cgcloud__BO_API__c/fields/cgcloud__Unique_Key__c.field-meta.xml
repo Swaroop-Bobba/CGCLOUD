@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Unique_Key__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <deprecated>false</deprecated>
+    <description>Field used to keep schema constraints.
+
+Technical field updated by workflow. Unique (case insensitive). ExternalId.
+
+Value: Name+Sales_Org</description>
+    <externalId>true</externalId>
+    <label>Unique Key</label>
+    <length>85</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

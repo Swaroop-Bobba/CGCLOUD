@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Product_Policy__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Describes the cardinality of the products related to the contracts based on this template.</description>
+    <label>Product Policy</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No</fullName>
+                <default>false</default>
+                <label>No</label>
+            </value>
+            <value>
+                <fullName>ZeroOrMore</fullName>
+                <default>true</default>
+                <label>ZeroOrMore</label>
+            </value>
+            <value>
+                <fullName>OneOrMore</fullName>
+                <default>false</default>
+                <label>OneOrMore</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

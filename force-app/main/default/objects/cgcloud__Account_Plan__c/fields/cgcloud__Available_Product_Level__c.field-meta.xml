@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Available_Product_Level__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies the multiple set of values user can choose which will be further used for aggregation on the calculation grid for account plan.</description>
+    <label>Available Product Aggregation Levels</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>cgcloud__Product_Level</valueSetName>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

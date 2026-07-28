@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Balance__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>This technical field is created for Total balance update in Inventory (Roll-up Summary field). Checkbox value is updating by workflow field update.</description>
+    <label>Balance</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

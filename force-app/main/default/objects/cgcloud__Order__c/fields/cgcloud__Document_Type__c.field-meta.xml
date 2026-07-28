@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Document_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies the type of the order document in order to distinguish DSD and non-DSD order entries.</description>
+    <label>Document Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Delivery</fullName>
+                <default>false</default>
+                <label>Delivery</label>
+            </value>
+            <value>
+                <fullName>ProductCheckIn</fullName>
+                <default>false</default>
+                <label>ProductCheckIn</label>
+            </value>
+            <value>
+                <fullName>ProductCheckOut</fullName>
+                <default>false</default>
+                <label>ProductCheckOut</label>
+            </value>
+            <value>
+                <fullName>TruckAudit</fullName>
+                <default>false</default>
+                <label>TruckAudit</label>
+            </value>
+            <value>
+                <fullName>CashCheckIn</fullName>
+                <default>false</default>
+                <label>CashCheckIn</label>
+            </value>
+            <value>
+                <fullName>CashCheckOut</fullName>
+                <default>false</default>
+                <label>CashCheckOut</label>
+            </value>
+            <value>
+                <fullName>OrderEntry</fullName>
+                <default>false</default>
+                <label>OrderEntry</label>
+            </value>
+            <value>
+                <fullName>Invoice</fullName>
+                <default>false</default>
+                <label>Invoice</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

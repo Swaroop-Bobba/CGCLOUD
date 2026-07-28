@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Promotion_Template_Tactic_Template_Compact_Layout</fullName>
+    <fields>cgcloud__Promotion_Template__c</fields>
+    <fields>cgcloud__Tactic_Template__c</fields>
+    <label>Promotion Template Tactic Template Compact Layout</label>
+</CompactLayout>

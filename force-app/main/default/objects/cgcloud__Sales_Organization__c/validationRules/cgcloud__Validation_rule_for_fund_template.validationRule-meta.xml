@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validation_rule_for_fund_template</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF( cgcloud__Enable_Auto_Tactic_Fund_Assignment__c == true  &amp;&amp;  ISBLANK(cgcloud__Default_Tactic_Fund_Template__c),true,false  )</errorConditionFormula>
+    <errorDisplayField>cgcloud__Default_Tactic_Fund_Template__c</errorDisplayField>
+    <errorMessage>Please select the Default Fund Template to proceed.</errorMessage>
+</ValidationRule>

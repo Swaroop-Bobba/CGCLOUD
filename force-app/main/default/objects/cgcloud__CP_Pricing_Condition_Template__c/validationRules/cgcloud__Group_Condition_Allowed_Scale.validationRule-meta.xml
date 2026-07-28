@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Group_Condition_Allowed_Scale</fullName>
+    <active>true</active>
+    <errorConditionFormula>( cgcloud__Item_Grouping__c == true) &amp;&amp; TEXT( cgcloud__Scale_Type__c ) != &apos;From&apos; &amp;&amp; TEXT(cgcloud__Scale_Type__c) != &apos;To&apos;</errorConditionFormula>
+    <errorMessage>Scale Type must be &apos;From&apos; or &apos;To&apos; if the Item Grouping is checked.</errorMessage>
+</ValidationRule>

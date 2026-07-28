@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__product_level_should_be_product</fullName>
+    <active>true</active>
+    <description>Only products of Product Level = &apos;Product&apos; must be added to the reward.</description>
+    <errorConditionFormula>NOT (ISPICKVAL(cgcloud__Product__r.cgcloud__Product_Level__c , &quot;Product&quot;))</errorConditionFormula>
+    <errorMessage>Only products with &apos;Product&apos; Product Level can be selected.</errorMessage>
+</ValidationRule>

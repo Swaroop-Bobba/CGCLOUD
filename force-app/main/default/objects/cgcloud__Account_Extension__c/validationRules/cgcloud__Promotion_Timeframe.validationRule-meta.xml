@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Promotion_Timeframe</fullName>
+    <active>true</active>
+    <description>Validates that Promotion Valid From and Promotion Valid Thru both or none are filled.
+      If both are filled, validates that Promotion Valid From &lt;= Promotion Valid Thru</description>
+    <errorConditionFormula>NOT(
+      OR(
+      AND(
+      ISBLANK(cgcloud__Promotion_Valid_From__c),
+      ISBLANK(cgcloud__Promotion_Valid_Thru__c)),
+      AND(
+      NOT ISBLANK(cgcloud__Promotion_Valid_From__c),
+      NOT ISBLANK(cgcloud__Promotion_Valid_Thru__c),
+      cgcloud__Promotion_Valid_From__c &lt;= cgcloud__Promotion_Valid_Thru__c)))</errorConditionFormula>
+    <errorMessage>Valid From and Valid Thru can&apos;t be empty and Valid From can&apos;t be later than Valid Thru if the Role &apos;Promotion&apos; is assigned to the Customer.</errorMessage>
+</ValidationRule>

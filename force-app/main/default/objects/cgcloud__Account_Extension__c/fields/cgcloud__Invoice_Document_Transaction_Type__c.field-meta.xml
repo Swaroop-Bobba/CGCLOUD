@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Invoice_Document_Transaction_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies how to handle invoice documents regarding payments.</description>
+    <label>Invoice Document Transaction Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>InvoiceCashInvoice</fullName>
+                <default>false</default>
+                <label>InvoiceCashInvoice</label>
+            </value>
+            <value>
+                <fullName>InvoiceCreditInvoice</fullName>
+                <default>false</default>
+                <label>InvoiceCreditInvoice</label>
+            </value>
+            <value>
+                <fullName>NoPayment</fullName>
+                <default>false</default>
+                <label>NoPayment</label>
+            </value>
+            <value>
+                <fullName>CreditMemo</fullName>
+                <default>false</default>
+                <label>CreditMemo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

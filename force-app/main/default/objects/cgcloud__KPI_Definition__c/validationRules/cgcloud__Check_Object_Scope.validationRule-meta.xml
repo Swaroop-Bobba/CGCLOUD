@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Object_Scope</fullName>
+    <active>true</active>
+    <description>Object Scope must be &apos;Promotion&apos; or &apos;Promotion Tactic&apos; if the Consider Sub Accounts is checked.</description>
+    <errorConditionFormula>AND(
+cgcloud__Data_Source_Load_For_Sub_Accounts__c = TRUE,
+NOT(ISPICKVAL(cgcloud__Scope__c, &quot;promotiontactic&quot;)),
+NOT(ISPICKVAL(cgcloud__Scope__c, &quot;promotion&quot;))
+)</errorConditionFormula>
+    <errorMessage>Object Scope must be &apos;Promotion&apos; or &apos;Promotion Tactic&apos; if the Consider Sub Accounts is checked.</errorMessage>
+</ValidationRule>

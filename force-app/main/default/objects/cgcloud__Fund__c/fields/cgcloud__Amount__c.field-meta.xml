@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Amount__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Amount</label>
+    <summarizedField>cgcloud__Fund_Transaction_Row__c.cgcloud__Amount__c</summarizedField>
+    <summaryForeignKey>cgcloud__Fund_Transaction_Row__c.cgcloud__Target_Fund__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

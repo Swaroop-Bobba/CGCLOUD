@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Assignment_to_All__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Deployment package can be downloaded by all users.</description>
+    <label>Assignment to All</label>
+    <summaryFilterItems>
+        <field>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Assignment_Type__c</field>
+        <operation>equals</operation>
+        <value>All</value>
+    </summaryFilterItems>
+    <summaryForeignKey>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Sync_Mobile_App_Depl_Pkg__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Default_Truck__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Default Truck</description>
+    <inlineHelpText>Please select vehicles of the type Truck Fast or Truck Slow.</inlineHelpText>
+    <label>Default Truck</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <filterItems>
+            <field>cgcloud__Vehicle__c.cgcloud__Vehicle_Type__c</field>
+            <operation>equals</operation>
+            <value>TruckSlow</value>
+        </filterItems>
+        <filterItems>
+            <field>cgcloud__Vehicle__c.cgcloud__Vehicle_Type__c</field>
+            <operation>equals</operation>
+            <value>TruckFast</value>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__Vehicle__c</referenceTo>
+    <relationshipLabel>Routes</relationshipLabel>
+    <relationshipName>Routes</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

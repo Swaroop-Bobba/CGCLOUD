@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Schemaless_Extension_JSON__c</fullName>
+    <defaultValue>&quot;{}&quot;</defaultValue>
+    <deprecated>false</deprecated>
+    <description>This field is designed to contain schemaless, user/project specific data associated with a specific application installation.</description>
+    <inlineHelpText>Stores a JSON document that can be accessed by the mobile clients.</inlineHelpText>
+    <label>Schemaless Extension JSON</label>
+    <length>131072</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

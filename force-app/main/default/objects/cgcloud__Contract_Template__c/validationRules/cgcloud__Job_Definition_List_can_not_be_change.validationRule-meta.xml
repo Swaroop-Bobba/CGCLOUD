@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Job_Definition_List_can_not_be_change</fullName>
+    <active>false</active>
+    <errorConditionFormula>ISCHANGED( cgcloud__Job_Definition_List__c )</errorConditionFormula>
+    <errorMessage>The Activity can&apos;t be edited after Contract Template creation.</errorMessage>
+</ValidationRule>

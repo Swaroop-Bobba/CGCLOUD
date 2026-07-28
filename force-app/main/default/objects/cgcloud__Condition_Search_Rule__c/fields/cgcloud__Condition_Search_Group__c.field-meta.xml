@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Condition_Search_Group__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reference to the Condition Search Group object.</description>
+    <label>Condition Search Group</label>
+    <referenceTo>cgcloud__Condition_Search_Group__c</referenceTo>
+    <relationshipLabel>Condition Search Rules</relationshipLabel>
+    <relationshipName>Condition_Search_Rules</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

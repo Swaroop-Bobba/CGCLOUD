@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Condition_Operator__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Operator which is applied to the Conditional answer.</description>
+    <label>Operator</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>In</fullName>
+                <default>false</default>
+                <label>In</label>
+            </value>
+            <value>
+                <fullName>Not In</fullName>
+                <default>false</default>
+                <label>Not In</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

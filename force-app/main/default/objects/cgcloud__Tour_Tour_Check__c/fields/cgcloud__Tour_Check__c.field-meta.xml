@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tour_Check__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <label>Tour Check</label>
+    <referenceTo>cgcloud__Tour_Check__c</referenceTo>
+    <relationshipLabel>Tour Tour Checks</relationshipLabel>
+    <relationshipName>Tour_Tour_Checks</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

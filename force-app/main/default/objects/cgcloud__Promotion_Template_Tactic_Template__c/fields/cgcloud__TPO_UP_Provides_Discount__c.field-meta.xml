@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__TPO_UP_Provides_Discount__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Specifies if a Tactic created from the referenced Template provides Discount through the TPO Discount field.</description>
+    <inlineHelpText>Specifies if a Tactic created from the referenced Template provides Discount through the TPO Discount field.</inlineHelpText>
+    <label>TPO UP Provides Discount</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Truck__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <inlineHelpText>Please select vehicles of the type Truck Fast or Truck Slow.</inlineHelpText>
+    <label>Truck</label>
+    <referenceTo>cgcloud__Vehicle__c</referenceTo>
+    <relationshipLabel>Tours</relationshipLabel>
+    <relationshipName>Tours</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

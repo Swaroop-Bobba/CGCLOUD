@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Planning_Assort_List_Product_Level</fullName>
+    <active>true</active>
+    <description>Checks if Product Assortment List record type has a product level different from product.</description>
+    <errorConditionFormula>AND (RecordType.DeveloperName =  &apos;Planning_Assortment_List&apos;, TEXT(cgcloud__Product_Level__c) &lt;&gt; &apos;Product&apos;)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Product_Level__c</errorDisplayField>
+    <errorMessage>Product Level must be &apos;Product&apos; for product assortment templates with record type &apos;Planning Assortment List&apos;.</errorMessage>
+</ValidationRule>

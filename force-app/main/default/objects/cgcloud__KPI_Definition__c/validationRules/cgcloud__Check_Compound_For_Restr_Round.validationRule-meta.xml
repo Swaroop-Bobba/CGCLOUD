@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Compound_For_Restr_Round</fullName>
+    <active>true</active>
+    <description>Restricted rounding is not allowed for non main kpis of a compound. If a value is entered there, it is transformed to main and distriubted.</description>
+    <errorConditionFormula>AND(RecordType.DeveloperName == &apos;editable_calculated&apos;, NOT(ISBLANK( cgcloud__Parent__c )), NOT(cgcloud__Compound_Main__c), ISPICKVAL(cgcloud__Rounding_Type__c, &apos;carryoverrestrictedtoperiod&apos;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Compound_Main__c</errorDisplayField>
+    <errorMessage>We couldn’t create the KPI. Ensure that only the primary KPI of a compound has the rounding type as Rounding Within Period and try again.</errorMessage>
+</ValidationRule>

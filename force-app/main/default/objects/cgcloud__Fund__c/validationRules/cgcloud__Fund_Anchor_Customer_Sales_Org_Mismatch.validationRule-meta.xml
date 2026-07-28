@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Fund_Anchor_Customer_Sales_Org_Mismatch</fullName>
+    <active>true</active>
+    <description>Validate if Fund Customer sales org matches with user sales org</description>
+    <errorConditionFormula>AND( !$Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c, OR( ISNEW(), ISCHANGED( cgcloud__Anchor_Account__c )),
+ cgcloud__Anchor_Account__r.cgcloud__Sales_Org__c &lt;&gt; Text( $User.cgcloud__Sales_Org__c ))</errorConditionFormula>
+    <errorMessage>The User and the Anchor Customer must have the same Sales Org.</errorMessage>
+</ValidationRule>

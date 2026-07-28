@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Organization__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <label>Sales Organization</label>
+    <referenceTo>cgcloud__Sales_Organization__c</referenceTo>
+    <relationshipLabel>Customer Extensions</relationshipLabel>
+    <relationshipName>Customer_Extensions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

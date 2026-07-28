@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Inventory_Control_Measure__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Inventory Control Measure</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Qty/Consumer Unit</fullName>
+                <default>true</default>
+                <label>Qty/Consumer Unit</label>
+            </value>
+            <value>
+                <fullName>Qty/Order Unit</fullName>
+                <default>false</default>
+                <label>Qty/Order Unit</label>
+            </value>
+            <value>
+                <fullName>Value/Domestic Currency</fullName>
+                <default>false</default>
+                <label>Value/Domestic Currency</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

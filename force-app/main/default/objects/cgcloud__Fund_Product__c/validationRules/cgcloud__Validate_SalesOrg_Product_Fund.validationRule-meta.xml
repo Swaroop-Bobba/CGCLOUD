@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Validate_SalesOrg_Product_Fund</fullName>
+    <active>true</active>
+    <description>Cannot select category or brand that is not part of the sales org of the fund</description>
+    <errorConditionFormula>AND(
+$Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,cgcloud__Fund__r.cgcloud__Sales_Org__c  &lt;&gt;  cgcloud__Product__r.cgcloud__Sales_Org__c)</errorConditionFormula>
+    <errorMessage>Sales Org of one or more products you selected does not match the Sales Org of the fund.</errorMessage>
+</ValidationRule>

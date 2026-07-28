@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Relationship_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Relationship Type</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>BillTo</fullName>
+                <default>false</default>
+                <label>Bill To</label>
+            </value>
+            <value>
+                <fullName>DeliveryRecipient</fullName>
+                <default>false</default>
+                <label>Delivery Recipient</label>
+            </value>
+            <value>
+                <fullName>Payee</fullName>
+                <default>false</default>
+                <label>Payee</label>
+            </value>
+            <value>
+                <fullName>Payer</fullName>
+                <default>false</default>
+                <label>Payer</label>
+            </value>
+            <value>
+                <fullName>Wholesaler</fullName>
+                <default>false</default>
+                <label>Wholesaler</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

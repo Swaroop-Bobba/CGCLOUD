@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__LE_Spend_Pending__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Sum of Tactic_Fund.LE_Spend__c of records whose Phase is not equal to Committed or Cancelled</description>
+    <label>LE Spend (Pending)</label>
+    <summarizedField>cgcloud__Tactic_Fund__c.cgcloud__LE_Spend__c</summarizedField>
+    <summaryFilterItems>
+        <field>cgcloud__Tactic_Fund__c.cgcloud__Phase__c</field>
+        <operation>notEqual</operation>
+        <value>Committed</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>cgcloud__Tactic_Fund__c.cgcloud__Phase__c</field>
+        <operation>notEqual</operation>
+        <value>Cancelled</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>cgcloud__Tactic_Fund__c.cgcloud__Active_Tactic__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>cgcloud__Tactic_Fund__c.cgcloud__Fund__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Segment_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Segment Type</description>
+    <inlineHelpText>Segment Type</inlineHelpText>
+    <label>Segment Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Constant</fullName>
+                <default>false</default>
+                <label>Constant</label>
+            </value>
+            <value>
+                <fullName>Counter</fullName>
+                <default>false</default>
+                <label>Counter</label>
+            </value>
+            <value>
+                <fullName>InitCounter</fullName>
+                <default>false</default>
+                <label>InitCounter</label>
+            </value>
+            <value>
+                <fullName>LU</fullName>
+                <default>false</default>
+                <label>LU</label>
+            </value>
+            <value>
+                <fullName>Year</fullName>
+                <default>false</default>
+                <label>Year</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

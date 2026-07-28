@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Do_not_substitute_yourself</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(cgcloud__Substitution__r.cgcloud__Substituted__c=cgcloud__Substitute__c, RecordType.DeveloperName = &apos;Substitution_Customer&apos;)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Substitute__c</errorDisplayField>
+    <errorMessage>The Substituted and the Substitute can&apos;t be the same.</errorMessage>
+</ValidationRule>

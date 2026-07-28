@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Tactic__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Tactic that generated the condition</description>
+    <label>Tactic</label>
+    <referenceTo>cgcloud__Tactic__c</referenceTo>
+    <relationshipLabel>Tactic Product Conditions</relationshipLabel>
+    <relationshipName>Tactic_Product_Conditions</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

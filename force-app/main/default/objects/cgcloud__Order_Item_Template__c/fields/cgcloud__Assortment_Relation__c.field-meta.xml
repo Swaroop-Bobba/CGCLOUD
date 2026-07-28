@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Assortment_Relation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Controls whether the assignment of products to sales document item templates within the customer selling assortment has to be considered or not.
+
+- No: The system doesn&apos;t consider any assignment.
+
+- Yes: The system filters the disposal list subject to the assignment. The validation although checks the assignment of each product to the according sales document item template.</description>
+    <label>Assortment Relation</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

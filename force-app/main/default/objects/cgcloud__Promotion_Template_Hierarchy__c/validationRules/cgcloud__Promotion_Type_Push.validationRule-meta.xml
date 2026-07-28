@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Promotion_Type_Push</fullName>
+    <active>true</active>
+    <description>The Parent and the Child Promotion Template with Usage as Push must have must have the Promotion Type as ‘Promotion’.</description>
+    <errorConditionFormula>AND(
+		ISPICKVAL(cgcloud__Usage__c,&quot;Push&quot;),
+		OR(NOT(ISPICKVAL(cgcloud__Child_Promotion_Template__r.cgcloud__Promotion_Type__c,&quot;Promotion&quot;)),NOT(ISPICKVAL(cgcloud__Parent_Promotion_Template__r.cgcloud__Promotion_Type__c,&quot;Promotion&quot;))))</errorConditionFormula>
+    <errorMessage>The Parent and the Child Promotion Template with Usage as Push must have must have the Promotion Type as ‘Promotion’.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Count_Products__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Count of Promotion_Reward_Product__c records.</description>
+    <label>Count Products</label>
+    <summaryForeignKey>cgcloud__Promotion_Reward_Product__c.cgcloud__Promotion_Reward__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

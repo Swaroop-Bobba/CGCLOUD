@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Manual_condition_order_header_values</fullName>
+    <active>true</active>
+    <errorConditionFormula>(cgcloud__Manual__c == true &amp;&amp; ISPICKVAL(cgcloud__Condition_Level__c, &apos;OrderHeader&apos;)) &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;Percentage&apos; &amp;&amp; TEXT(cgcloud__Meta_Type__c) != &apos;FlatRate&apos;</errorConditionFormula>
+    <errorMessage>Meta Type must be &apos;Percentage&apos;, &apos;Price&apos; or &apos;Flat Rate&apos; if the Manual is checked and the Conditional Level is &apos;Order Item&apos;. And Meta Type can&apos;t be &apos;Price&apos; if the Condition Level is &apos;Order Header&apos;.</errorMessage>
+</ValidationRule>

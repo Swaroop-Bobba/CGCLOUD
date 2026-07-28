@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Sync_Triggered_By__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Sync Triggered By</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Scheduler</fullName>
+                <default>false</default>
+                <label>Scheduler</label>
+            </value>
+            <value>
+                <fullName>SyncOnOnline</fullName>
+                <default>false</default>
+                <label>Sync On Online</label>
+            </value>
+            <value>
+                <fullName>SyncOnResume</fullName>
+                <default>false</default>
+                <label>Sync On Resume</label>
+            </value>
+            <value>
+                <fullName>SyncOnStartup</fullName>
+                <default>false</default>
+                <label>Sync On Startup</label>
+            </value>
+            <value>
+                <fullName>User Action</fullName>
+                <default>false</default>
+                <label>User Action</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

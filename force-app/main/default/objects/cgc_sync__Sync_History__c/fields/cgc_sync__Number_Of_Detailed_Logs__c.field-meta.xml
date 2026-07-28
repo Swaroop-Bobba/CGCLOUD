@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Number_Of_Detailed_Logs__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Provide number of detailed log messages</description>
+    <label>Number of detailed Logs</label>
+    <summaryForeignKey>cgc_sync__Sync_History_Detail__c.cgc_sync__Sync_History__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

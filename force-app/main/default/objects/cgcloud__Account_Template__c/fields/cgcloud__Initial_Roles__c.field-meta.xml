@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Initial_Roles__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Set of roles that a new account gets, when it&apos;s created on the CGCloud Mobility App.</description>
+    <label>Initial Roles</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>customer</fullName>
+                <default>false</default>
+                <label>customer</label>
+            </value>
+            <value>
+                <fullName>deliveryrecipient</fullName>
+                <default>false</default>
+                <label>deliveryrecipient</label>
+            </value>
+            <value>
+                <fullName>order</fullName>
+                <default>false</default>
+                <label>order</label>
+            </value>
+            <value>
+                <fullName>payer</fullName>
+                <default>false</default>
+                <label>payer</label>
+            </value>
+            <value>
+                <fullName>store</fullName>
+                <default>false</default>
+                <label>store</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>10</visibleLines>
+</CustomField>

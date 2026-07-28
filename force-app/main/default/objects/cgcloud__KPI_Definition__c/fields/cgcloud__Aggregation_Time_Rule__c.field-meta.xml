@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Aggregation_Time_Rule__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Aggregation Time Rule</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>aggregate</fullName>
+                <default>false</default>
+                <label>aggregate</label>
+            </value>
+            <value>
+                <fullName>formula</fullName>
+                <default>false</default>
+                <label>formula</label>
+            </value>
+            <value>
+                <fullName>read</fullName>
+                <default>false</default>
+                <label>read</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

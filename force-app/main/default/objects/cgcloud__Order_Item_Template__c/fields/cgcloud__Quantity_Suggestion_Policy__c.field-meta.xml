@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Quantity_Suggestion_Policy__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The attribute specifies whether a order quantity will be suggested in the disposal list and whether the suggestion will be based on the ordered quantity or on the delivered (invoiced quantity) of the item in question.</description>
+    <label>Quantity Suggestion Policy</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No</fullName>
+                <default>false</default>
+                <label>No</label>
+            </value>
+            <value>
+                <fullName>OrderedQuantity</fullName>
+                <default>false</default>
+                <label>OrderedQuantity</label>
+            </value>
+            <value>
+                <fullName>DeliveredQuantity</fullName>
+                <default>false</default>
+                <label>DeliveredQuantity</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

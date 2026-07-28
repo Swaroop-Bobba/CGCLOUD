@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account_Multiplicity__c</fullName>
+    <deprecated>false</deprecated>
+    <description>How many business partners can be assigned to an assortment of this template.</description>
+    <label>Customer Multiplicity</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>0</fullName>
+                <default>false</default>
+                <label>0</label>
+            </value>
+            <value>
+                <fullName>1</fullName>
+                <default>false</default>
+                <label>1</label>
+            </value>
+            <value>
+                <fullName>n</fullName>
+                <default>false</default>
+                <label>n</label>
+            </value>
+            <value>
+                <fullName>m</fullName>
+                <default>false</default>
+                <label>m</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

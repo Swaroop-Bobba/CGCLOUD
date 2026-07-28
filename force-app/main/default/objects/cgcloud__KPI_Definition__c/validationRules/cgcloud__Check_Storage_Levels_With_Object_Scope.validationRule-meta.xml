@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Storage_Levels_With_Object_Scope</fullName>
+    <active>true</active>
+    <description>Storage Levels cannot include &apos;Tactic&apos; if the Object Scope is not &apos;promotiontactic&apos; or &apos;paymentactic&apos;</description>
+    <errorConditionFormula>AND(
+  INCLUDES(cgcloud__Storage_Options_Storage_Levels__c, &apos;Tactic&apos;),
+  AND(
+    NOT(ISPICKVAL(cgcloud__Scope__c, &apos;promotiontactic&apos;)),
+    NOT(ISPICKVAL(cgcloud__Scope__c, &apos;paymenttactic&apos;))
+  )
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Storage_Options_Storage_Levels__c</errorDisplayField>
+    <errorMessage>Storage Levels can include &apos;Tactic&apos; only if object scope is &apos;promotiontactic&apos; or &apos;paymenttactic&apos;</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Template_Customer_Sales_Org_Mismatch</fullName>
+    <active>true</active>
+    <description>The Fund Template and the Anchor Customer must have the same Sales Org.</description>
+    <errorConditionFormula>AND(ISNEW(),
+TEXT( cgcloud__Fund_Template__r.cgcloud__Sales_Org__c ) &lt;&gt; cgcloud__Anchor_Account__r.cgcloud__Sales_Org__c, 
+NOT(ISBLANK(cgcloud__Anchor_Product__c)),
+!$Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c
+)</errorConditionFormula>
+    <errorMessage>The Fund Template and the Anchor Customer must have the same Sales Org.</errorMessage>
+</ValidationRule>

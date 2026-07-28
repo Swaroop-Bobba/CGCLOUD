@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__MinPublishingDate__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Start date from which this package can be published.</description>
+    <label>First Publishing Date</label>
+    <summarizedField>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Publishing_Date__c</summarizedField>
+    <summaryForeignKey>cgc_sync__Sync_Mobile_App_Depl_Pkg_As__c.cgc_sync__Sync_Mobile_App_Depl_Pkg__c</summaryForeignKey>
+    <summaryOperation>min</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

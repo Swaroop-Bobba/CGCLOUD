@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Order_Ability_depend_on_IsOrderUnit_is_c</fullName>
+    <active>true</active>
+    <errorConditionFormula>cgcloud__Is_Order_Unit__c = true  &amp;&amp;  cgcloud__Order_Ability__c  &lt;&gt; true</errorConditionFormula>
+    <errorDisplayField>cgcloud__Order_Ability__c</errorDisplayField>
+    <errorMessage>Order Ability must be checked if the Is Order Unit is checked.</errorMessage>
+</ValidationRule>

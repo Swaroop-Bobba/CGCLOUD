@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Substitution__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the substitution with which the substitution item record is related.</description>
+    <label>Substitution</label>
+    <referenceTo>cgcloud__Substitution__c</referenceTo>
+    <relationshipLabel>Substitution Customers</relationshipLabel>
+    <relationshipName>Substitutions</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

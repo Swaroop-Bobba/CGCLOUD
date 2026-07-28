@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Output_Entity__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the business object API entity.</description>
+    <inlineHelpText>If set, the engine will map the inputs to the outputs based on the Input/Output Mapping fields.</inlineHelpText>
+    <label>Output Entity</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Output Entity must have &quot;Output&quot; Location</errorMessage>
+        <filterItems>
+            <field>cgcloud__BO_API_Entity__c.cgcloud__Location__c</field>
+            <operation>equals</operation>
+            <value>Output</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__BO_API_Entity__c</referenceTo>
+    <relationshipLabel>Workflow Entities (Output)</relationshipLabel>
+    <relationshipName>BO_API_Workflow_Output_Entities</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

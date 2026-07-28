@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Manual_Source_Attribute__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Defines from which field the manual condition is taken.</description>
+    <inlineHelpText>Define from which field the manual condition is taken.</inlineHelpText>
+    <label>Manual Source Attribute</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>PricingInfo1</fullName>
+                <default>false</default>
+                <label>Pricing Info 1</label>
+            </value>
+            <value>
+                <fullName>PricingInfo2</fullName>
+                <default>false</default>
+                <label>Pricing Info 2</label>
+            </value>
+            <value>
+                <fullName>PricingInfo3</fullName>
+                <default>false</default>
+                <label>Pricing Info 3</label>
+            </value>
+            <value>
+                <fullName>PricingInfo4</fullName>
+                <default>false</default>
+                <label>Pricing Info 4</label>
+            </value>
+            <value>
+                <fullName>PricingInfo5</fullName>
+                <default>false</default>
+                <label>Pricing Info 5</label>
+            </value>
+            <value>
+                <fullName>PricingInfo6</fullName>
+                <default>false</default>
+                <label>Pricing Info 6</label>
+            </value>
+            <value>
+                <fullName>PricingInfo7</fullName>
+                <default>false</default>
+                <label>Pricing Info 7</label>
+            </value>
+            <value>
+                <fullName>PricingInfo8</fullName>
+                <default>false</default>
+                <label>Pricing Info 8</label>
+            </value>
+            <value>
+                <fullName>PricingInfo9</fullName>
+                <default>false</default>
+                <label>Pricing Info 9</label>
+            </value>
+            <value>
+                <fullName>PricingInfo10</fullName>
+                <default>false</default>
+                <label>Pricing Info 10</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

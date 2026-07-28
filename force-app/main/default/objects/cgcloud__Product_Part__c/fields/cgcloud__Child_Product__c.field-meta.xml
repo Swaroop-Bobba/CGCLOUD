@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Child_Product__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the product which belongs to the bill of material referred by ParentId.</description>
+    <label>Child Product</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Product2.cgcloud__Product_Level__c</field>
+            <operation>equals</operation>
+            <value>Product</value>
+        </filterItems>
+        <filterItems>
+            <field>Product2.cgcloud__Is_Bill_Of_Material__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </filterItems>
+        <filterItems>
+            <field>Product2.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>$User.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>Product2</referenceTo>
+    <relationshipLabel>Product Parts (Child Product)</relationshipLabel>
+    <relationshipName>Child_Product_Parts</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

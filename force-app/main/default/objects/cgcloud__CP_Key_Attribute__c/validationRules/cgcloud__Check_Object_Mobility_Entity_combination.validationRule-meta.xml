@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Object_Mobility_Entity_combination</fullName>
+    <active>true</active>
+    <description>Validate that values in Context Section and Source Object fields are properly dependent</description>
+    <errorConditionFormula>OR
+        (
+        AND
+        (
+        ISPICKVAL( cgcloud__Object__c , &quot;Order&quot;),
+        NOT(CONTAINS(cgcloud__Mobility_Entity__c, &quot;Order&quot;))
+        ),
+        AND
+        (
+        ISPICKVAL(cgcloud__Object__c, &quot;Custom&quot;),
+        NOT(CONTAINS(cgcloud__Mobility_Entity__c,&quot;Item&quot;)),
+        NOT(CONTAINS(cgcloud__Mobility_Entity__c,&quot;Main&quot;))
+        ),
+        AND
+        (
+        OR
+        (
+        ISPICKVAL( cgcloud__Object__c , &quot;Customer&quot;),
+        ISPICKVAL( cgcloud__Object__c , &quot;Product&quot;)
+        ),
+        TEXT(cgcloud__Object__c) != cgcloud__Mobility_Entity__c
+        )
+        )</errorConditionFormula>
+    <errorMessage>Invalid Context Section and Source Mapping. Try again with a valid combination.</errorMessage>
+</ValidationRule>

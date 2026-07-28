@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Data_Type_Job_Template</fullName>
+    <active>true</active>
+    <description>The Data Type and the Job Template can&apos;t be edited after Job Definition Template creation.</description>
+    <errorConditionFormula>ISCHANGED(cgcloud__Data_Type__c) || ISCHANGED(cgcloud__Job_Template__c)</errorConditionFormula>
+    <errorMessage>The Data Type and the Job Template can&apos;t be edited after Job Definition Template creation.</errorMessage>
+</ValidationRule>

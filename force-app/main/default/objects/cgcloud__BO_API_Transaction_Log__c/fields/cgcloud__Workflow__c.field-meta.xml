@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Workflow__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <label>Workflow</label>
+    <referenceTo>cgcloud__BO_API_Workflow__c</referenceTo>
+    <relationshipLabel>Business Object API Transaction Logs</relationshipLabel>
+    <relationshipName>BO_API_Transaction_Log</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

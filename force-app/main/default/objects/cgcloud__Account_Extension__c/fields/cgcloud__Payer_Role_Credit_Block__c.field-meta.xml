@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payer_Role_Credit_Block__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Specifies if the customer is credit blocked or not.</description>
+    <label>Payer Role Credit Block</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

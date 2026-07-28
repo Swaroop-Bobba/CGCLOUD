@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Is_Vst_Start_Osid_Range__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Indicates whether the visit was started outside the allowed distance between GPS location and the store geolocation (true) or not (false).</description>
+    <label>Visit Start Outside Range</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

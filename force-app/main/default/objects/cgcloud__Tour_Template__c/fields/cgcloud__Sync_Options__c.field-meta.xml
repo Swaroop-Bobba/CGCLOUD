@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sync_Options__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies if an immediate background synchronization will be started after special event</description>
+    <label>Sync Options</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No</fullName>
+                <default>true</default>
+                <label>No</label>
+            </value>
+            <value>
+                <fullName>OnTourStart</fullName>
+                <default>false</default>
+                <label>OnTourStart</label>
+            </value>
+            <value>
+                <fullName>OnTourEnd</fullName>
+                <default>false</default>
+                <label>OnTourEnd</label>
+            </value>
+            <value>
+                <fullName>OnTourEndStart</fullName>
+                <default>false</default>
+                <label>OnTourEndStart</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

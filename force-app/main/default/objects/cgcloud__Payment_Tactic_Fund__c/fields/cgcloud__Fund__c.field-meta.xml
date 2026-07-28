@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Fund__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Fund</label>
+    <lookupFilter>
+        <active>false</active>
+        <filterItems>
+            <field>$User.cgcloud__Sales_Org__c</field>
+            <operation>equals</operation>
+            <valueField>cgcloud__Fund__c.cgcloud__Sales_Org__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>cgcloud__Fund__c</referenceTo>
+    <relationshipLabel>Claim Tactic Funds</relationshipLabel>
+    <relationshipName>Payment_Tactic_Funds</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

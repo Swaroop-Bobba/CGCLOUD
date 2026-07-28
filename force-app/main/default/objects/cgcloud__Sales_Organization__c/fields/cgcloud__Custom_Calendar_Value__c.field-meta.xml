@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Custom_Calendar_Value__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Active custom calendar to which this Sales Organization is used.</description>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&apos;/&apos;+ cgcloud__Custom_Calendar__r.Id ,  cgcloud__Custom_Calendar__r.Name)</formula>
+    <label>Custom Calendar</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

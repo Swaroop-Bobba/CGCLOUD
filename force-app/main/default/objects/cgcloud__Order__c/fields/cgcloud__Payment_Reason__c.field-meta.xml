@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Payment_Reason__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies a reason that leads to modifying the document
+			handling regarding payments.</description>
+    <label>Payment Reason</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CalculationFailed</fullName>
+                <default>false</default>
+                <label>CalculationFailed</label>
+            </value>
+            <value>
+                <fullName>PriceDisagreement</fullName>
+                <default>false</default>
+                <label>PriceDisagreement</label>
+            </value>
+            <value>
+                <fullName>WrongPrice</fullName>
+                <default>false</default>
+                <label>WrongPrice</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

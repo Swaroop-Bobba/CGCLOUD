@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Parent_Org_Unit__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the parent org unit in an org unit hierachy.</description>
+    <label>Parent Org Unit</label>
+    <referenceTo>cgcloud__Org_Unit__c</referenceTo>
+    <relationshipLabel>Child Org Unit Hierarchies</relationshipLabel>
+    <relationshipName>Org_Unit_Hierarchies1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__AvailableProductLevel_KPISet_Null</fullName>
+    <active>true</active>
+    <description>Available Product Level must not be empty if Plan Dependent KPI Set is selected.</description>
+    <errorConditionFormula>AND(NOT(ISBLANK( cgcloud__KPI_Set_Plan_Dependent__c )),ISNULL(cgcloud__Available_Product_Level__c ))</errorConditionFormula>
+    <errorMessage>Available Product Level must not be empty if Plan Dependent KPI Set is selected</errorMessage>
+</ValidationRule>

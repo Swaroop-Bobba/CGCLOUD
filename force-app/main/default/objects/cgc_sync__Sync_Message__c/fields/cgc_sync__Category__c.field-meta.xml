@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Category__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Category of the sync message:
+        Core sync message
+        Static sync message
+        Dynamic sync message</description>
+    <externalId>false</externalId>
+    <label>Category</label>
+    <length>100</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

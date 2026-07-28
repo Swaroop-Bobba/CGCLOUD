@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Visit_Template__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to visit template specific surveyed product (optional).</description>
+    <label>Visit Template</label>
+    <referenceTo>cgcloud__Visit_Template__c</referenceTo>
+    <relationshipLabel>Historic Products</relationshipLabel>
+    <relationshipName>Historic_Products</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

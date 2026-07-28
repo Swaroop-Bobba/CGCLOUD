@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Order__c</fullName>
+    <deprecated>false</deprecated>
+    <description>ID of the order where Order Item is associated with</description>
+    <label>Order</label>
+    <referenceTo>cgcloud__Order__c</referenceTo>
+    <relationshipLabel>Order Items</relationshipLabel>
+    <relationshipName>Order_Items</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

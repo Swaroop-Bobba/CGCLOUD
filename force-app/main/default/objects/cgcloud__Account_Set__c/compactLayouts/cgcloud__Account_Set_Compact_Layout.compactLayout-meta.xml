@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Account_Set_Compact_Layout</fullName>
+    <fields>cgcloud__Description__c</fields>
+    <fields>cgcloud__Sales_Org__c</fields>
+    <label>Account Set Compact Layout</label>
+</CompactLayout>

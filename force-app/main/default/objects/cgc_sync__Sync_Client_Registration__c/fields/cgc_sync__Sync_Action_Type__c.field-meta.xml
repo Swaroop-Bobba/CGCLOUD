@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Sync_Action_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Indicates the type of the last initiated synchronization process as Background Sync, FSOD, Initial Sync, On Demand, or Regular Sync.</description>
+    <inlineHelpText>Type of the last initiated synchronization process. Possible values are: Background Sync, FSOD, Initial Sync, On Demand or Regular Sync.</inlineHelpText>
+    <label>Sync Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>BACKGROUND_SYNC</fullName>
+                <default>false</default>
+                <label>Background Sync</label>
+            </value>
+            <value>
+                <fullName>FSOD</fullName>
+                <default>false</default>
+                <label>FSOD</label>
+            </value>
+            <value>
+                <fullName>INITIAL_SYNC</fullName>
+                <default>false</default>
+                <label>Initial Sync</label>
+            </value>
+            <value>
+                <fullName>ON_DEMAND_SYNC</fullName>
+                <default>false</default>
+                <label>On Demand</label>
+            </value>
+            <value>
+                <fullName>REGULAR_SYNC</fullName>
+                <default>false</default>
+                <label>Regular Sync</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

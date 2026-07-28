@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Thru_Date_less_than_From_Date</fullName>
+    <active>true</active>
+    <description>Demonstrate an error when Date Thru &lt; Date From.</description>
+    <errorConditionFormula>AND(
+  $Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c = FALSE,
+  cgcloud__Date_Thru__c &lt; cgcloud__Date_From__c
+)</errorConditionFormula>
+    <errorMessage>Date From can&apos;t be later than Date Thru.</errorMessage>
+</ValidationRule>

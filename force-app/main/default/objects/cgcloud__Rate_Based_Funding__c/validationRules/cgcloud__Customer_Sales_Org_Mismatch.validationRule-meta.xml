@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Customer_Sales_Org_Mismatch</fullName>
+    <active>true</active>
+    <description>Validate if Customer sales org matches with user sales org</description>
+    <errorConditionFormula>AND( !$Setup.cgcloud__Validation_Rules_Setting__c.cgcloud__Bypass_Validation__c,  OR( ISNEW(), ISCHANGED( cgcloud__Account__c )),
+        cgcloud__Account__r.cgcloud__Sales_Org__c &lt;&gt; Text( $User.cgcloud__Sales_Org__c ))</errorConditionFormula>
+    <errorMessage>The User and the Customer must have the same Sales Org.</errorMessage>
+</ValidationRule>

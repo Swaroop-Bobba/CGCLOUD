@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sort__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Input order of the manual inputs, it will be incremented by 1 for each new entry for a payment/tactic combination.</description>
+    <externalId>false</externalId>
+    <label>Sort</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

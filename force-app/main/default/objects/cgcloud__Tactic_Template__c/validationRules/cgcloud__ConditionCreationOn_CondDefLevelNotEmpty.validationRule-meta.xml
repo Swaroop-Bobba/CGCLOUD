@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__ConditionCreationOn_CondDefLevelNotEmpty</fullName>
+    <active>true</active>
+    <description>Condition Creation Definition Level field cannot be empty if Enable Condition Creation is selected.</description>
+    <errorConditionFormula>AND(cgcloud__Enable_Condition_Creation__c, ISPICKVAL(cgcloud__Condition_Creation_Definition_Level__c, &apos;&apos;))</errorConditionFormula>
+    <errorDisplayField>cgcloud__Condition_Creation_Definition_Level__c</errorDisplayField>
+    <errorMessage>Condition Creation Definition Level field cannot be empty if Enable Condition Creation is selected.</errorMessage>
+</ValidationRule>

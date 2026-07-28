@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Delivery_Documents_Condition__c</fullName>
+    <deprecated>false</deprecated>
+    <formula>IF( AND(cgcloud__Order_Template__r.RecordType.DeveloperName =
+			&apos;Order_Entry&apos; ,
+			ISPICKVAL(cgcloud__Order_Template__r.cgcloud__Document_Type__c,&apos;Delivery&apos;) ),
+			true, false)</formula>
+    <label>Delivery Documents Condition</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

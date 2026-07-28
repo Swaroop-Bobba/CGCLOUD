@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Date_From__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Start date of the custom calendar</description>
+    <inlineHelpText>Start date of the custom calendar</inlineHelpText>
+    <label>Date From</label>
+    <summarizedField>cgcloud__Custom_Period__c.cgcloud__Date_From__c</summarizedField>
+    <summaryForeignKey>cgcloud__Custom_Period__c.cgcloud__Custom_Calendar__c</summaryForeignKey>
+    <summaryOperation>min</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

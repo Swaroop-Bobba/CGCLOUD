@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Skip_Version_Update__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Flag used to skip the version update. This flag will always be stored as FALSE on database but the input value will be checked to detect if the version must be upgraded or not.</description>
+    <label>Skip Version Update</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgc_sync__Assignment_to_All_not_editable</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>cgc_sync__Deployment_Assignment_Package_Compact_Layout</compactLayoutAssignment>
+    <description>Record Type to display non editable assignment to all</description>
+    <label>Assignment to All not editable</label>
+    <picklistValues>
+        <picklist>cgc_sync__Assignment_Type__c</picklist>
+        <values>
+            <fullName>All</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

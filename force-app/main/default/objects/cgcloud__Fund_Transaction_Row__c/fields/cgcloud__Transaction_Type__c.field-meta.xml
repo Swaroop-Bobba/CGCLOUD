@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Transaction_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>This field identifies a Transaction row of type deposit or withdraw based on credit/debit transaction on the target fund of the record e.g. A negative transaction on the target fund identifies a transaction tow as Withdrawal type transaction.</description>
+    <label>Transaction Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Deposit</fullName>
+                <default>false</default>
+                <label>Deposit</label>
+            </value>
+            <value>
+                <fullName>Withdraw</fullName>
+                <default>false</default>
+                <label>Withdraw</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

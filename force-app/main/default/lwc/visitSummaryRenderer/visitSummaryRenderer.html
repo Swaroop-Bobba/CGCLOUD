@@ -1,0 +1,92 @@
+<template>
+    <div class="slds-card slds-p-around_medium slds-theme_default slds-m-bottom_small border-premium shadow-premium">
+        <!-- Visit Overview Header -->
+        <div class="slds-grid slds-grid_vertical-align-center slds-m-bottom_medium header-premium">
+            <div class="slds-col slds-grow">
+                <div class="slds-grid slds-grid_vertical-align-center">
+                    <span class="slds-icon_container slds-icon-standard-visit slds-m-right_small">
+                        <lightning-icon icon-name="standard:visit" size="small"></lightning-icon>
+                    </span>
+                    <div>
+                        <h2 class="slds-text-heading_medium slds-text-title_bold store-title">🏪 {storeName}</h2>
+                        <p class="slds-text-color_weak slds-text-body_small">📅 Visit Date: {visitDate}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-no-flex">
+                <span class={statusBadgeClass}>{visitStatus}</span>
+            </div>
+        </div>
+
+        <!-- Visit Summary Dashboard -->
+        <div class="slds-m-bottom_medium">
+            <h3 class="slds-text-title_caps slds-m-bottom_small header-section">📊 Execution Dashboard</h3>
+            
+            <!-- Tasks Progress -->
+            <div class="slds-m-bottom_medium slds-p-around_x-small slds-box slds-box_xx-small">
+                <div class="slds-grid slds-grid_align-spread slds-m-bottom_xx-small">
+                    <span class="slds-text-body_small slds-text-title_bold">📋 Tasks Progress</span>
+                    <span class="slds-text-body_small">{completedTasks} / {totalTasks} Completed</span>
+                </div>
+                <lightning-progress-bar value={tasksProgressValue} size="medium" variant="circular"></lightning-progress-bar>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="slds-grid slds-wrap slds-gutters_xx-small">
+                <!-- Promotions Audited -->
+                <div class="slds-col slds-size_1-of-2 slds-m-bottom_xx-small">
+                    <div class="slds-p-around_x-small slds-box slds-box_xx-small slds-text-align_center bg-metric">
+                        <span class="slds-text-body_small slds-text-color_weak">📣 Audited Promotions</span>
+                        <p class="slds-text-heading_medium slds-text-title_bold text-primary">{promotionsChecked}</p>
+                    </div>
+                </div>
+                <!-- Out of Stock Issues -->
+                <div class="slds-col slds-size_1-of-2 slds-m-bottom_xx-small">
+                    <div class="slds-p-around_x-small slds-box slds-box_xx-small slds-text-align_center bg-metric">
+                        <span class="slds-text-body_small slds-text-color_weak">🚫 OOS Issues</span>
+                        <p class="slds-text-heading_medium slds-text-title_bold text-error">{outOfStockIssues}</p>
+                    </div>
+                </div>
+                <!-- Orders Created -->
+                <div class="slds-col slds-size_1-of-2 slds-m-bottom_xx-small">
+                    <div class="slds-p-around_x-small slds-box slds-box_xx-small slds-text-align_center bg-metric">
+                        <span class="slds-text-body_small slds-text-color_weak">📦 Orders Created</span>
+                        <p class="slds-text-heading_medium slds-text-title_bold text-success">{ordersCreated}</p>
+                    </div>
+                </div>
+                <!-- Order Value -->
+                <div class="slds-col slds-size_1-of-2 slds-m-bottom_xx-small">
+                    <div class="slds-p-around_x-small slds-box slds-box_xx-small slds-text-align_center bg-metric">
+                        <span class="slds-text-body_small slds-text-color_weak">💰 Total Order Value</span>
+                        <p class="slds-text-heading_medium slds-text-title_bold text-success">₹{orderValue}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rep Notes -->
+        <div class="slds-m-bottom_medium slds-p-around_small slds-theme_shade notes-box">
+            <span class="slds-text-title_caps slds-m-bottom_xx-small slds-block text-weak">📝 Representative Notes</span>
+            <p class="slds-text-body_small slds-text-color_weak slds-italic">"{representativeNotes}"</p>
+        </div>
+
+        <!-- Suggested Next Steps -->
+        <div class="slds-border_top slds-p-top_medium">
+            <p class="slds-text-title_bold slds-m-bottom_small text-suggestions">💡 Suggested Next Steps:</p>
+            <div class="chip-column">
+                <template for:each={suggestions} for:item="sug">
+                    <div key={sug.id} class="custom-action-chip" data-command={sug.command} onclick={handleChipClick}>
+                        <lightning-icon icon-name={sug.icon} size="xx-small" class="slds-m-right_xx-small icon-gray"></lightning-icon>
+                        <span class="slds-truncate">{sug.label}</span>
+                    </div>
+                </template>
+            </div>
+
+            <template if:true={feedbackMessage}>
+                <div class="slds-text-align_center slds-m-top_x-small">
+                    <span class="feedback-banner">{feedbackMessage}</span>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

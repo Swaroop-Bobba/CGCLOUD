@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Job_Definition_List_Template_Link_Compact_Layout</fullName>
+    <fields>cgcloud__Job_Definition_Template__c</fields>
+    <fields>cgcloud__Job_Definition_List_Template__c</fields>
+    <fields>cgcloud__Active__c</fields>
+    <label>Job Definition List Template Link Compact Layout</label>
+</CompactLayout>

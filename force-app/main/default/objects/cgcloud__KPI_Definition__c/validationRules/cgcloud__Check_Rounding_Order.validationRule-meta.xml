@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Check_Rounding_Order</fullName>
+    <active>true</active>
+    <description>Rounding order must be enabled when type is enabled</description>
+    <errorConditionFormula>AND(
+  NOT(ISBLANK(TEXT(cgcloud__Rounding_Type__c))),
+  ISBLANK(TEXT(cgcloud__Rounding_Order__c))
+)</errorConditionFormula>
+    <errorDisplayField>cgcloud__Rounding_Order__c</errorDisplayField>
+    <errorMessage>Rounding Order must be enabled when Rounding Type is enabled</errorMessage>
+</ValidationRule>

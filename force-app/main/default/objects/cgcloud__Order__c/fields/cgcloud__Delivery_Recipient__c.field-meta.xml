@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Delivery_Recipient__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reference to the Delivery Recipient of the selected account</description>
+    <label>Delivery Recipient</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Orders (Delivery Recipient)</relationshipLabel>
+    <relationshipName>Orders2</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>cgcloud__Sales_Org_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>TEXT( cgcloud__User_Document_Template__r.cgcloud__Sales_Org__c) &lt;&gt;  TEXT(cgcloud__Activity__r.cgcloud__Sales_Org__c)  &amp;&amp; 
+( NOT(ISBLANK(TEXT(cgcloud__User_Document_Template__r.cgcloud__Sales_Org__c)) ) &amp;&amp; NOT( ISBLANK(TEXT(cgcloud__Activity__r.cgcloud__Sales_Org__c)) ) )</errorConditionFormula>
+    <errorMessage>The Activity and the Daily Report must have the same Sales Org.</errorMessage>
+</ValidationRule>
