@@ -1,145 +1,145 @@
 // Updated to refresh local IDE compiler index
-public with sharing class Agent_Response {
+global with sharing class Agent_Response {
     @InvocableVariable(description='True if operation succeeded.')
-    public Boolean success;
+    global Boolean success;
 
     @InvocableVariable(description='Outcome message.')
-    public String message;
+    global String message;
     @InvocableVariable(description='Current user profile name')
-    public String profileName;
+    global String profileName;
     @InvocableVariable(description='List of users')
-    public List<UserOption> users;
+    global List<UserOption> users;
 
     @InvocableVariable(description='The CreateVisitWrapper object populated with the current visit details.')
     public CreateVisitWrapper createVisitWrapper;
 
     // Generic IDs and Names
     @InvocableVariable(description='The Account ID.')
-    public String accountId;
+    global String accountId;
     @InvocableVariable(description='The Account Name.')
-    public String accountName;
+    global String accountName;
     @InvocableVariable(description='The Visit ID.')
-    public String visitId;
+    global String visitId;
     @InvocableVariable(description='The Order ID.')
-    public String orderId;
+    global String orderId;
     @InvocableVariable(description='The Order Name.')
-    public String orderName;
+    global String orderName;
     @InvocableVariable(description='The Place ID.')
-    public String placeId;
+    global String placeId;
     @InvocableVariable(description='The Place Name.')
-    public String placeName;
+    global String placeName;
     @InvocableVariable(description='The Template ID.')
-    public String templateId;
+    global String templateId;
     @InvocableVariable(description='The Template Name.')
-    public String templateName;
+    global String templateName;
 
     // Common Strings
     @InvocableVariable(description='Store brief markdown summary.')
-    public String summary;
+    global String summary;
     @InvocableVariable(description='Visit summary report.')
-    public String visitSummary;
+    global String visitSummary;
     @InvocableVariable(description='Visit summary wrapper object.')
     public VisitSummaryWrapper visitSummaryObj;
     @InvocableVariable(description='The Visit Status.')
-    public String visitStatus;
+    global String visitStatus;
     @InvocableVariable(description='The Visit Date.')
-    public String visitDate;
+    global String visitDate;
     @InvocableVariable(description='The Visit End Date.')
-    public String visitEndDate;
+    global String visitEndDate;
     @InvocableVariable(description='The Accountable User.')
-    public String accountableUser;
+    global String accountableUser;
     @InvocableVariable(description='The Assigned User.')
-    public String assignedUser;
+    global String assignedUser;
     @InvocableVariable(description='The parsed planned start date/time (ISO string).')
-    public String plannedStartTimeStr;
+    global String plannedStartTimeStr;
     @InvocableVariable(description='Serialized list of matched IDs if ambiguous.')
-    public String suggestions;
+    global String suggestions;
     @InvocableVariable(description='True if user input has been submitted.')
-    public Boolean isSubmitted;
+    global Boolean isSubmitted;
 
     @InvocableVariable(description='The matched Owner/Responsible User ID.')
-    public String ownerId;
+    global String ownerId;
 
     @InvocableVariable(description='The matched Owner/Responsible User Name.')
-    public String ownerName;
+    global String ownerName;
 
     // Order/Recommendation Specific
     @InvocableVariable(description='The Order Status/Phase.')
-    public String orderStatus;
+    global String orderStatus;
     @InvocableVariable(description='Total orders.')
-    public Integer totalOrders;
+    global Integer totalOrders;
     @InvocableVariable(description='Total spend.')
-    public Decimal totalSpend;
+    global Decimal totalSpend;
     @InvocableVariable(description='AI buying insight.')
-    public String buyingInsight;
+    global String buyingInsight;
     @InvocableVariable(description='Phase breakdown.')
-    public String phaseBreakdown;
+    global String phaseBreakdown;
     @InvocableVariable(description='Recent orders list.')
-    public String recentOrders;
+    global String recentOrders;
     @InvocableVariable(description='Formatted list of recommended products.')
-    public String recommendations;
+    global String recommendations;
     @InvocableVariable(description='Total number of line items.')
-    public Integer itemCount;
+    global Integer itemCount;
     @InvocableVariable(description='Formatted text summary of line items.')
-    public String itemsSummary;
+    global String itemsSummary;
     @InvocableVariable(description='Formatted recent orders text.')
-    public String recentOrdersText;
+    global String recentOrdersText;
 
     // Account Specific Counts
     @InvocableVariable(description='Total Contacts count.')
-    public Integer totalContacts;
+    global Integer totalContacts;
     @InvocableVariable(description='Total Visits count.')
-    public Integer totalVisits;
+    global Integer totalVisits;
     @InvocableVariable(description='Pending Visit Tasks count.')
-    public Integer pendingVisitTasks;
+    global Integer pendingVisitTasks;
     @InvocableVariable(description='Total Activities count.')
-    public Integer totalActivities;
+    global Integer totalActivities;
     @InvocableVariable(description='Completed Activities count.')
-    public Integer completedActivities;
+    global Integer completedActivities;
     @InvocableVariable(description='Pending Activities count.')
-    public Integer pendingActivities;
+    global Integer pendingActivities;
     @InvocableVariable(description='The Account Age in days.')
-    public Integer accountAge;
+    global Integer accountAge;
     @InvocableVariable(description='The Account Phone number.')
-    public String accountPhone;
+    global String accountPhone;
     @InvocableVariable(description='The Account Email.')
-    public String accountEmail;
+    global String accountEmail;
     @InvocableVariable(description='The Account Location Navigate link.')
-    public String locationNavigateLink;
+    global String locationNavigateLink;
     @InvocableVariable(description='Active Promotions count.')
-    public Integer activePromotions;
+    global Integer activePromotions;
     @InvocableVariable(description='Out of Stock count.')
-    public Integer outOfStockCount;
+    global Integer outOfStockCount;
     @InvocableVariable(description='Total Retail Stores count.')
-    public Integer totalRetailStores;
+    global Integer totalRetailStores;
     @InvocableVariable(description='Total Store Assortments count.')
-    public Integer totalAssortments;
+    global Integer totalAssortments;
     @InvocableVariable(description='Total Store Products count.')
-    public Integer totalStoreProducts;
+    global Integer totalStoreProducts;
     @InvocableVariable(description='Total Tactics count.')
-    public Integer totalTactics;
+    global Integer totalTactics;
     @InvocableVariable(description='Total Assortment Products count.')
-    public Integer totalAssortmentProducts;
+    global Integer totalAssortmentProducts;
 
     // List structures
     @InvocableVariable(description='List of available/matching visits.')
-    public List<VisitOption> visits;
+    global List<VisitOption> visits;
     @InvocableVariable(description='List of overdue and stale visits.')
-    public List<StaleVisitInfo> staleVisits;
+    global List<StaleVisitInfo> staleVisits;
     @InvocableVariable(description='List of matching orders.')
-    public List<OrderOption> orders;
+    global List<OrderOption> orders;
     @InvocableVariable(description='List of matching accounts.')
-    public List<AccountOption> accounts;
+    global List<AccountOption> accounts;
     @InvocableVariable(description='Line items.')
-    public List<OrderItem> items;
+    global List<OrderItem> items;
     @InvocableVariable(description='List of related records.')
-    public List<RecordInfo> records;
+    global List<RecordInfo> records;
     @InvocableVariable(description='List of activities and questions/surveys associated with the visit.')
-    public List<ActivityInfo> activities;
+    global List<ActivityInfo> activities;
     @InvocableVariable(description='List of visit jobs (questions/surveys) with answer status.')
-    public List<JobStatusInfo> jobs;
+    global List<JobStatusInfo> jobs;
     @InvocableVariable(description='List of next steps options.')
-    public List<ItemDetail> itemDetails;
+    global List<ItemDetail> itemDetails;
 
     // Inner Classes
 
@@ -147,31 +147,31 @@ public with sharing class Agent_Response {
     /**
      * @description Auto-generated ApexDoc for class.
      */
-    public class UserOption {
+    global class UserOption {
         @InvocableVariable(description='The User ID.')
-        public String userId;
+        global String userId;
         @InvocableVariable(description='The User Name.')
-        public String name;
+        global String name;
         @InvocableVariable(description='The User Alias.')
-        public String alias;
+        global String alias;
         @InvocableVariable(description='The Profile Name of the User.')
-        public String profileName;
+        global String profileName;
     }
 
     /**
      * @description Auto-generated ApexDoc for class.
      */
-    public class VisitOption {
+    global class VisitOption {
         @InvocableVariable(description='The Visit ID.')
-        public String visitId;
+        global String visitId;
         @InvocableVariable(description='The associated Account ID.')
-        public String accountId;
+        global String accountId;
         @InvocableVariable(description='The associated Account Name.')
-        public String accountName;
+        global String accountName;
         @InvocableVariable(description='Formatted label.')
-        public String label;
+        global String label;
         @InvocableVariable(description='Category (e.g. Today, Upcoming).')
-        public String category;
+        global String category;
 
         public VisitOption() { /* empty block */ }
         public VisitOption(String id, String accId, String accName, String lbl) {
@@ -193,17 +193,17 @@ public with sharing class Agent_Response {
     /**
      * @description Auto-generated ApexDoc for class.
      */
-    public class OrderOption {
+    global class OrderOption {
         @InvocableVariable(description='The Order ID.')
-        public String orderId;
+        global String orderId;
         @InvocableVariable(description='The Order Name/Number.')
-        public String orderName;
+        global String orderName;
         @InvocableVariable(description='The parent Account ID.')
-        public String accountId;
+        global String accountId;
         @InvocableVariable(description='The parent Account Name.')
-        public String accountName;
+        global String accountName;
         @InvocableVariable(description='Formatted label with order info.')
-        public String label;
+        global String label;
 
         public OrderOption() { /* empty block */ }
         public OrderOption(String id, String name, String accId, String accName, String lbl) {
@@ -218,13 +218,13 @@ public with sharing class Agent_Response {
     /**
      * @description Auto-generated ApexDoc for class.
      */
-    public class AccountOption {
+    global class AccountOption {
         @InvocableVariable(description='The Account ID.')
-        public String accountId;
+        global String accountId;
         @InvocableVariable(description='The Account Name.')
-        public String accountName;
+        global String accountName;
         @InvocableVariable(description='Formatted label with account name.')
-        public String label;
+        global String label;
 
         public AccountOption() { /* empty block */ }
         public AccountOption(String id, String name, String lbl) {
@@ -237,29 +237,29 @@ public with sharing class Agent_Response {
     /**
      * @description Auto-generated ApexDoc for class.
      */
-    public class OrderItem {
+    global class OrderItem {
         @InvocableVariable(description='Product name.')
-        public String productName;
+        global String productName;
         @InvocableVariable(description='Quantity ordered.')
-        public Decimal quantity;
+        global Decimal quantity;
         @InvocableVariable(description='Unit of measure.')
-        public String uom;
+        global String uom;
     }
 
     /**
      * @description Auto-generated ApexDoc for class.
      */
-    public class RecordInfo {
+    global class RecordInfo {
         @InvocableVariable(description='Record name.')
-        public String name;
+        global String name;
         @InvocableVariable(description='Record status.')
-        public String status;
+        global String status;
         @InvocableVariable(description='Record owner.')
-        public String owner;
+        global String owner;
         @InvocableVariable(description='Record last modified date.')
-        public DateTime lastModified;
+        global DateTime lastModified;
         @InvocableVariable(description='Formatted label.')
-        public String label;
+        global String label;
 
         public RecordInfo() { /* empty block */ }
         public RecordInfo(String n, String s, String o, DateTime lm) {
@@ -281,71 +281,71 @@ public with sharing class Agent_Response {
     /**
      * @description Auto-generated ApexDoc for class.
      */
-    public class ActivityInfo {
+    global class ActivityInfo {
         @InvocableVariable(description='The ID of the Job Definition List record.')
-        public String activityId;
+        global String activityId;
         @InvocableVariable(description='The Name of the activity.')
-        public String activityName;
+        global String activityName;
         @InvocableVariable(description='The description of the activity.')
-        public String description;
+        global String description;
         @InvocableVariable(description='List of related questions/surveys.')
-        public List<QuestionInfo> questions;
+        global List<QuestionInfo> questions;
     }
 
     /**
      * @description Auto-generated ApexDoc for class.
      */
-    public class QuestionInfo {
+    global class QuestionInfo {
         @InvocableVariable(description='The ID of the Job Definition Template record.')
-        public String questionId;
+        global String questionId;
         @InvocableVariable(description='The Name of the question/survey.')
-        public String questionName;
+        global String questionName;
         @InvocableVariable(description='The description of the question/survey.')
-        public String description;
+        global String description;
         @InvocableVariable(description='Is this question mandatory?')
-        public Boolean mandatory;
+        global Boolean mandatory;
         @InvocableVariable(description='The type of job definition template: Question or Survey.')
-        public String jobType;
+        global String jobType;
     }
 
     /**
      * @description Auto-generated ApexDoc for class.
      */
-    public class JobStatusInfo {
+    global class JobStatusInfo {
         @InvocableVariable(description='The ID of the Visit Job record.')
-        public String jobId;
+        global String jobId;
         @InvocableVariable(description='The Name of the job definition template.')
-        public String questionName;
+        global String questionName;
         @InvocableVariable(description='The description of the question/survey.')
-        public String questionDescription;
+        global String questionDescription;
         @InvocableVariable(description='Whether the question/survey has been answered.')
-        public Boolean isDone;
+        global Boolean isDone;
         @InvocableVariable(description='The raw answer value.')
-        public String value;
+        global String value;
         @InvocableVariable(description='The formatted display answer value.')
-        public String displayValue;
+        global String displayValue;
         @InvocableVariable(description='Associated product name if applicable.')
-        public String productName;
+        global String productName;
         @InvocableVariable(description='Associated promotion name if applicable.')
-        public String promotionName;
+        global String promotionName;
         @InvocableVariable(description='The type of job: Question or Survey.')
-        public String jobType;
+        global String jobType;
         @InvocableVariable(description='The total number of products to check for this survey.')
-        public Integer totalProductCount;
+        global Integer totalProductCount;
     }
 
     /**
      * @description Auto-generated ApexDoc for class.
      */
-    public class ItemDetail {
+    global class ItemDetail {
         @InvocableVariable(description='The text label of the option.')
-        public String itemName;
+        global String itemName;
         @InvocableVariable(description='The description of the option.')
-        public String itemDescriptionText;
+        global String itemDescriptionText;
         @InvocableVariable(description='The image URL of the option.')
-        public String itemImageUrl;
+        global String itemImageUrl;
         @InvocableVariable(description='The MIME type of the option image.')
-        public String itemMimeType;
+        global String itemMimeType;
 
         public ItemDetail() { /* empty block */ }
         public ItemDetail(String itemName, String itemDescriptionText) {
@@ -359,22 +359,22 @@ public with sharing class Agent_Response {
     /**
      * @description Data structure representing a stale or overdue visit.
      */
-    public class StaleVisitInfo {
+    global class StaleVisitInfo {
         @InvocableVariable(description='The Visit Record ID.')
-        public String visitId;
+        global String visitId;
         @InvocableVariable(description='The Visit Name.')
-        public String visitName;
+        global String visitName;
         @InvocableVariable(description='The Account Name.')
-        public String accountName;
+        global String accountName;
         @InvocableVariable(description='The Current Status of the Visit.')
-        public String status;
+        global String status;
         @InvocableVariable(description='The Name of the Responsible Rep.')
-        public String responsibleRepName;
+        global String responsibleRepName;
         @InvocableVariable(description='The ID of the Responsible Rep.')
-        public String responsibleRepId;
+        global String responsibleRepId;
         @InvocableVariable(description='The Planned Start Time.')
-        public DateTime plannedStartTime;
+        global DateTime plannedStartTime;
         @InvocableVariable(description='The Created Date of the Visit.')
-        public DateTime createdDate;
+        global DateTime createdDate;
     }
 }

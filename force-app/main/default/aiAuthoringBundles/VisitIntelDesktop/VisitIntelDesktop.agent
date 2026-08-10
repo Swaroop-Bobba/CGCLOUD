@@ -61,8 +61,6 @@ variables:
     justUpdated: mutable boolean = False
         description: "True if a visit update has just been successfully submitted."
 
-
-
 language:
     default_locale: "en_US"
     additional_locales: ""
@@ -86,7 +84,7 @@ start_agent agent_router:
     reasoning:
         instructions: ->
             if @variables.visitId != "" and @variables.visitId is not None and @variables.visitId != "None" and @variables.accountId == "":
-                run get_visit_details
+                run @actions.get_visit_details
                     with recordId = @variables.visitId
                     set @variables.accountId = @outputs.accountId
                     set @variables.accountName = @outputs.accountName
@@ -106,13 +104,11 @@ start_agent agent_router:
             if @variables.accountId != "" and @variables.activeSubagent == "visit_updater":
                 transition to @subagent.visit_updater
 
-
             if @variables.accountId != "" and @variables.activeSubagent == "forecasting_insights":
                 transition to @subagent.forecasting_insights
 
             if @variables.accountId != "" and @variables.activeSubagent == "record_calculations_insights":
                 transition to @subagent.record_calculations_insights
-
 
             if @variables.activeSubagent == "create_visit":
                 transition to @subagent.create_visit
@@ -207,8 +203,6 @@ start_agent agent_router:
                 set @variables.visitId = ""
                 set @variables.accountId = ""
 
-
-
             go_to_intelligence: @utils.transition to @subagent.visit_intelligence
                 description: "Return to the main Visit Intelligence subagent dashboard."
 
@@ -299,6 +293,8 @@ start_agent agent_router:
                     description: "The Planned End Date/Time of the Visit."
                 accountableUser: string
                     description: "The Accountable User."
+                visitName: string
+                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
         get_available_visits:
             description: "Retrieve user's recently viewed, owned, and scheduled visits."
@@ -565,8 +561,6 @@ subagent visit_intelligence:
                 with deliveryNote = ...
                 with invoiceNote = ...
 
-
-
             switch_visit: @utils.transition to @subagent.clear_context
                 description: "Change, switch, or select another Visit or work on a different store."
 
@@ -588,7 +582,6 @@ subagent visit_intelligence:
             go_to_calculations: @utils.transition to @subagent.record_calculations_insights
                 description: "Transition to the Record Calculations & Insights subagent to run dynamic calculations, record ages, averages, and duration queries."
 
-
             store_brief: @actions.get_store_brief
                 description: "Retrieve a consolidated store brief and audit summary for the current visit and account context."
                 with agentName = "Visit_Intelligence"
@@ -607,8 +600,6 @@ subagent visit_intelligence:
                 with agentName = "Visit_Intelligence"
                 with actionType = "generateSummary"
                 with visitId = @variables.visitId
-
-
 
             search_users: @actions.search_users
                 description: "Search for a user by name to get their details before assigning a visit."
@@ -630,7 +621,6 @@ subagent visit_intelligence:
                 with visitIds = ...
 
     actions:
-
         get_related_counts:
             description: "Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account."
             target: "apex://Agent_Global_Handler"
@@ -894,8 +884,6 @@ subagent visit_intelligence:
                     description: "Generated visit summary text."
                     is_displayable: True
 
-
-
         search_users:
             description: "Search for users by name."
             target: "apex://Agent_Global_Handler"
@@ -1022,7 +1010,6 @@ subagent clear_context:
         set @variables.activeSubagent = "visit_intelligence"
         transition to @subagent.agent_router
 
-
     actions:
         get_visit_details:
             description: "Retrieve details of the current Visit record and its associated Account."
@@ -1048,9 +1035,8 @@ subagent clear_context:
                     description: "The Planned End Date/Time of the Visit."
                 accountableUser: string
                     description: "The Accountable User."
-
-
-
+                visitName: string
+                    description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
 subagent visit_activities:
     label: "Visit Activities"
@@ -1350,7 +1336,6 @@ subagent create_visit:
                     description: "The Planned Start Date/Time."
                 assignedUser: string
                     description: "The Assigned User."
-
 
 subagent visit_updater:
     label: "Visit Updater Agent"

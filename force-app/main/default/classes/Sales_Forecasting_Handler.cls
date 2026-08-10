@@ -1,61 +1,61 @@
-public with sharing class Sales_Forecasting_Handler {
+global with sharing class Sales_Forecasting_Handler {
 
-    public class Request {
+    global class Request {
         @InvocableVariable(required=true description='The name of the agent executing the request.')
-        public String agentName;
+        global String agentName;
 
         @InvocableVariable(required=true description='The type of action to perform (e.g. getOrderForecast, getProductForecast, getCustomerForecast, getSalesForecast, getInventoryForecast, getVisitForecast, searchAccounts).')
-        public String actionType;
+        global String actionType;
 
         @InvocableVariable(description='The Account ID.')
-        public String accountId;
+        global String accountId;
 
         @InvocableVariable(description='The Visit ID.')
-        public String visitId;
+        global String visitId;
 
         @InvocableVariable(description='The Order ID.')
-        public String orderId;
+        global String orderId;
 
         @InvocableVariable(description='The Product ID.')
-        public String productId;
+        global String productId;
 
         @InvocableVariable(description='The forecasting period: week, month, quarter.')
-        public String period;
+        global String period;
 
         @InvocableVariable(description='The forecast breakdown dimension: account, route, rep.')
-        public String forecastBy;
+        global String forecastBy;
 
         @InvocableVariable(description='The search query.')
-        public String searchQuery;
+        global String searchQuery;
     }
 
-    public class Result {
+    global class Result {
         @InvocableVariable(description='Whether the forecast calculation was successful.')
-        public Boolean success;
+        global Boolean success;
 
         @InvocableVariable(description='The generated forecast summary.')
-        public String forecastSummary;
+        global String forecastSummary;
 
         @InvocableVariable(description='The confidence level of the prediction (High, Medium, Low).')
-        public String confidenceLevel;
+        global String confidenceLevel;
 
         @InvocableVariable(description='Key factors and reasoning data points.')
-        public String reasoning;
+        global String reasoning;
 
         @InvocableVariable(description='List of matching accounts from search.')
-        public List<AccountOption> accounts;
+        global List<AccountOption> accounts;
     }
 
-    public class AccountOption {
+    global class AccountOption {
         @InvocableVariable(description='The Account ID.')
-        public String accountId;
+        global String accountId;
         @InvocableVariable(description='The Account Name.')
-        public String accountName;
+        global String accountName;
         @InvocableVariable(description='Formatted label with account name.')
-        public String label;
+        global String label;
 
-        public AccountOption() {}
-        public AccountOption(String id, String name, String lbl) {
+        global AccountOption() {}
+        global AccountOption(String id, String name, String lbl) {
             this.accountId = id;
             this.accountName = name;
             this.label = lbl;
@@ -66,7 +66,7 @@ public with sharing class Sales_Forecasting_Handler {
         label='Sales Forecasting Agent Handler'
         description='Handles order, product, customer, sales, inventory, and visit predictions'
     )
-    public static List<Result> execute(List<Request> requests) {
+    global static List<Result> execute(List<Request> requests) {
         List<Result> results = new List<Result>();
         for (Request req : requests) {
             Result res = new Result();

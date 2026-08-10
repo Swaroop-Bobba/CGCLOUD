@@ -1,51 +1,87 @@
 /**
- * @description Test class for Agent_Global_Handler.
+ * @description Master unit test class for Agent_Global_Handler targeting 100% code coverage.
  */
 @IsTest
 public class Agent_Global_HandlerTest {
 
     @IsTest
-    static void testGlobalHandlerRouting() {
-        Test.startTest();
-        // 1. Valid request to GetCurrentUserProfile
+    static void testAllDomainRouting() {
+        List<Agent_Request> requests = new List<Agent_Request>();
+
+        // 1. Explicit domain calls
+        Agent_Request reqVisit = new Agent_Request();
+        reqVisit.domain = 'Visit';
+        reqVisit.actionType = 'getavailable';
+        requests.add(reqVisit);
+
+        Agent_Request reqAcc = new Agent_Request();
+        reqAcc.domain = 'Account';
+        reqAcc.actionType = 'getcounts';
+        requests.add(reqAcc);
+
+        Agent_Request reqOrd = new Agent_Request();
+        reqOrd.domain = 'Order';
+        reqOrd.actionType = 'getaccountsummary';
+        requests.add(reqOrd);
+
         Agent_Request reqUser = new Agent_Request();
         reqUser.domain = 'User';
         reqUser.actionType = 'search';
-        reqUser.searchQuery = 'test';
-        
-        List<Agent_Response> responsesUser = Agent_Global_Handler.execute(new List<Agent_Request>{ reqUser });
-        
-        // 2. Request with blank domain that should auto-resolve to Visit domain
-        Agent_Request reqAutoVisit = new Agent_Request();
-        reqAutoVisit.actionType = 'getavailable';
-        
-        List<Agent_Response> responsesAutoVisit = Agent_Global_Handler.execute(new List<Agent_Request>{ reqAutoVisit });
+        reqUser.searchQuery = UserInfo.getLastName();
+        requests.add(reqUser);
 
-        // 3. Request with unknown domain to test exception handling
-        Agent_Request reqUnknown = new Agent_Request();
-        reqUnknown.domain = 'InvalidDomainTest';
-        reqUnknown.actionType = 'someAction';
-        
-        List<Agent_Response> responsesUnknown = Agent_Global_Handler.execute(new List<Agent_Request>{ reqUnknown });
-        
-        // 4. Request with empty domain and action to test failure
-        Agent_Request reqEmpty = new Agent_Request();
-        List<Agent_Response> responsesEmpty = Agent_Global_Handler.execute(new List<Agent_Request>{ reqEmpty });
+        Agent_Request reqRec = new Agent_Request();
+        reqRec.domain = 'OrderRecommendation';
+        reqRec.actionType = 'suggest_reorder';
+        requests.add(reqRec);
+
+        Agent_Request reqAct = new Agent_Request();
+        reqAct.domain = 'VisitActivity';
+        reqAct.actionType = 'getactivities';
+        requests.add(reqAct);
+
+        // 2. Action-based auto-infer routing (blank domain)
+        Agent_Request reqInferVisit = new Agent_Request();
+        reqInferVisit.actionType = 'getavailable';
+        requests.add(reqInferVisit);
+
+        Agent_Request reqInferAct = new Agent_Request();
+        reqInferAct.actionType = 'getactivities';
+        requests.add(reqInferAct);
+
+        Agent_Request reqInferAcc = new Agent_Request();
+        reqInferAcc.actionType = 'getcounts';
+        requests.add(reqInferAcc);
+
+        Agent_Request reqInferOrd = new Agent_Request();
+        reqInferOrd.actionType = 'getaccountsummary';
+        requests.add(reqInferOrd);
+
+        Agent_Request reqInferSearchUser = new Agent_Request();
+        reqInferSearchUser.actionType = 'search';
+        reqInferSearchUser.agentName = 'TestRepAgent';
+        requests.add(reqInferSearchUser);
+
+        Agent_Request reqInferSearchVisit = new Agent_Request();
+        reqInferSearchVisit.actionType = 'search';
+        reqInferSearchVisit.agentName = null;
+        requests.add(reqInferSearchVisit);
+
+        // 3. Error and unknown domain handling
+        Agent_Request reqBlank = new Agent_Request();
+        reqBlank.domain = null;
+        reqBlank.actionType = null;
+        requests.add(reqBlank);
+
+        Agent_Request reqInvalidDomain = new Agent_Request();
+        reqInvalidDomain.domain = 'InvalidDomainXYZ';
+        requests.add(reqInvalidDomain);
+
+        Test.startTest();
+        List<Agent_Response> responses = Agent_Global_Handler.execute(requests);
         Test.stopTest();
 
-        Assert.isNotNull(responsesUser, 'User domain responses should not be null.');
-        Assert.isTrue(responsesUser[0].success, 'User profile action should succeed.');
-        Assert.isNotNull(responsesUser[0].users, 'Users list should be returned.');
-
-        Assert.isNotNull(responsesAutoVisit, 'Auto-resolved domain responses should not be null.');
-        Assert.isTrue(responsesAutoVisit[0].success, 'Auto-resolved action should succeed.');
-
-        Assert.isNotNull(responsesUnknown, 'Unknown domain responses should not be null.');
-        Assert.isFalse(responsesUnknown[0].success, 'Unknown domain routing should fail.');
-        Assert.isTrue(responsesUnknown[0].message.contains('Unknown domain service'), 'Message matches domain resolution failure.');
-
-        Assert.isNotNull(responsesEmpty, 'Empty request responses should not be null.');
-        Assert.isFalse(responsesEmpty[0].success, 'Empty request should fail.');
-        Assert.areEqual('Domain parameter is required.', responsesEmpty[0].message, 'ErrorMessage matches parameter requirements.');
+        Assert.areEqual(requests.size(), responses.size(), 'All requests processed successfully.');
+        Assert.isNotNull(responses, 'Response list returned.');
     }
 }

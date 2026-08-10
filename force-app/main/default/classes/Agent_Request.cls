@@ -3,109 +3,109 @@
  *              Contains all necessary fields to route and execute agent actions.
  */
 @SuppressWarnings('PMD.ExcessivePublicCount, PMD.TooManyFields')
-public with sharing class Agent_Request {
+global with sharing class Agent_Request {
     @InvocableVariable(required=false description='The domain of the agent (e.g. Visit, Account, Order, OrderRecommendation, VisitActivity).')
-    public String domain;
+    global String domain;
 
     @InvocableVariable(required=true description='The type of action to perform.')
-    public String actionType;
+    global String actionType;
 
     @InvocableVariable(description='The name of the agent executing the request.')
-    public String agentName;
+    global String agentName;
 
     @InvocableVariable(description='Matched Template')
-    public String matchedTemplate;
+    global String matchedTemplate;
 
     @InvocableVariable(description='The search query.')
-    public String searchQuery;
+    global String searchQuery;
 
     @InvocableVariable(description='The Account ID.')
-    public String accountId;
+    global String accountId;
 
     @InvocableVariable(description='The Visit ID.')
-    public String visitId;
+    global String visitId;
 
     @InvocableVariable(description='List of Visit record IDs to send notifications for.')
-    public List<String> visitIds;
+    global List<String> visitIds;
 
     @InvocableVariable(description='The Order ID.')
-    public String orderId;
+    global String orderId;
 
     @InvocableVariable(description='The Place ID.')
-    public String placeId;
+    global String placeId;
 
     // Visit Wrappers
     @InvocableVariable(description='Visit Creation details (wrapper).')
-    public CreateVisitWrapper createVisitWrapper;
+    global CreateVisitWrapper createVisitWrapper;
 
     // String inputs
     @InvocableVariable(description='New status value (string).')
-    public String status;
+    global String status;
     @InvocableVariable(description='Notes.')
-    public String notes;
+    global String notes;
     @InvocableVariable(description='Name of the user to assign.')
-    public String ownerName;
+    global String ownerName;
     @InvocableVariable(description='Record ID of the user to assign.')
-    public String ownerId;
+    global String ownerId;
     @InvocableVariable(description='Alias of the user to assign.')
-    public String ownerAlias;
+    global String ownerAlias;
     @InvocableVariable(description='Profile Name of the user to assign.')
-    public String ownerProfileName;
+    global String ownerProfileName;
 
     @InvocableVariable(description='Actual start date/time.')
-    public DateTime startTime;
+    global DateTime startTime;
     @InvocableVariable(description='Actual end date/time.')
-    public DateTime endTime;
+    global DateTime endTime;
     @InvocableVariable(description='New planned start date/time (DateTime).')
-    public DateTime plannedStartTime;
+    global DateTime plannedStartTime;
     @InvocableVariable(description='New planned end date/time (DateTime).')
-    public DateTime plannedEndTime;
+    global DateTime plannedEndTime;
 
     // Conversational Inputs
     @InvocableVariable(description='Account name or ID input.')
-    public String accountInput;
+    global String accountInput;
     @InvocableVariable(description='Place name or ID input.')
-    public String placeInput;
+    global String placeInput;
     @InvocableVariable(description='Template name or ID input.')
-    public String templateInput;
+    global String templateInput;
     @InvocableVariable(description='Planned start time input string.')
-    public String plannedStartTimeStr;
+    global String plannedStartTimeStr;
     @InvocableVariable(description='Planned end time input string.')
-    public String plannedEndTimeStr;
+    global String plannedEndTimeStr;
     @InvocableVariable(description='Visit subject.')
-    public String subject;
+    global String subject;
     @InvocableVariable(description='True if it is an all-day event.')
-    public Boolean isAllDayEvent;
+    global Boolean isAllDayEvent;
     @InvocableVariable(description='Accountable user input.')
-    public String accountableInput;
+    global String accountableInput;
     @InvocableVariable(description='Responsible user input.')
-    public String responsibleInput;
+    global String responsibleInput;
     @InvocableVariable(description='Suggestions string for conversational retry.')
-    public String suggestions;
+    global String suggestions;
 
     // Order specifics
     @InvocableVariable(description='The Order ID or Name for notes updates.')
-    public String orderIdentifier;
+    global String orderIdentifier;
     @InvocableVariable(description='New delivery note text.')
-    public String deliveryNote;
+    global String deliveryNote;
     @InvocableVariable(description='New invoice note text.')
-    public String invoiceNote;
+    global String invoiceNote;
 
     // Account specifics
     @InvocableVariable(description='The record type/category to retrieve related records for.')
-    public String recordType;
+    global String recordType;
 
     // Activity specifics
     @InvocableVariable(description='Filter status for visit jobs (all, answered, pending).')
-    public String statusFilter;
+    global String statusFilter;
     @InvocableVariable(description='The option label to exclude.')
-    public String excludeOption;
+    global String excludeOption;
     @InvocableVariable(description='Filter by question type: all, question, survey')
-    public String questionOrSurveyFilter;
+    global String questionOrSurveyFilter;
     // Promotion specifics
     @InvocableVariable(description='The Promotion ID or Name.')
-    public String promotionId;
+    global String promotionId;
 
     @InvocableVariable(description='The query offset for pagination.')
-    public String searchOffset;
+    global String searchOffset;
 }

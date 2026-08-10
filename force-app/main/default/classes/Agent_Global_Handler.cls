@@ -1,7 +1,7 @@
 /**
  * @description Global handler for routing agent requests to specific domain services.
  */
-public with sharing class Agent_Global_Handler {
+global with sharing class Agent_Global_Handler {
 
     /**
      * @description Auto-generated ApexDoc for method.
@@ -9,7 +9,7 @@ public with sharing class Agent_Global_Handler {
      * @return List of Agent_Response objects containing the result of the routed execution.
      */
     @InvocableMethod(label='Global Agent Handler' description='Universal handler that dynamically routes to the appropriate Service class based on the Domain parameter.')
-    public static List<Agent_Response> execute(List<Agent_Request> requests) {
+    global static List<Agent_Response> execute(List<Agent_Request> requests) {
         List<Agent_Response> results = new List<Agent_Response>();
 
         for (Agent_Request req : requests) {

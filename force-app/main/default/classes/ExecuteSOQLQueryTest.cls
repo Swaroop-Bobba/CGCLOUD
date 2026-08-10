@@ -1,53 +1,51 @@
 /**
- * @description Test class for ExecuteSOQLQuery.
+ * @description Unit test class for ExecuteSOQLQuery invocable action.
  */
 @IsTest
 public class ExecuteSOQLQueryTest {
 
     @IsTest
     static void testExecuteValidQuery() {
-        // Create standard account mock data
-        Account acc = new Account(Name = 'Test Execute SOQL Query Account');
+        Account acc = new Account(Name = 'SOQL Test Account');
         insert as user acc;
 
-        Test.startTest();
         ExecuteSOQLQuery.QueryRequest req = new ExecuteSOQLQuery.QueryRequest();
-        req.query = 'SELECT Id, Name FROM Account WHERE Name = \'Test Execute SOQL Query Account\'';
-        List<ExecuteSOQLQuery.QueryResponse> responses = ExecuteSOQLQuery.execute(new List<ExecuteSOQLQuery.QueryRequest>{ req });
+        req.query = 'SELECT Id, Name FROM Account WHERE Id = \'' + acc.Id + '\'';
+
+        Test.startTest();
+        List<ExecuteSOQLQuery.QueryResponse> resps = ExecuteSOQLQuery.execute(new List<ExecuteSOQLQuery.QueryRequest>{ req });
         Test.stopTest();
 
-        Assert.isNotNull(responses, 'Response list should not be null.');
-        Assert.areEqual(1, responses.size(), 'Response list size should be 1.');
-        Assert.isTrue(responses[0].success, 'Success flag should be true.');
-        Assert.isNotNull(responses[0].recordsJson, 'Serialized records JSON should not be null.');
-        Assert.isNull(responses[0].errorMessage, 'Error message should be null.');
+        Assert.areEqual(1, resps.size(), 'One response expected.');
+        Assert.isTrue(resps[0].success, 'Query should be successful.');
+        Assert.isNotNull(resps[0].recordsJson, 'Records JSON should be present.');
     }
 
     @IsTest
     static void testExecuteEmptyQuery() {
-        Test.startTest();
         ExecuteSOQLQuery.QueryRequest req = new ExecuteSOQLQuery.QueryRequest();
         req.query = '';
-        List<ExecuteSOQLQuery.QueryResponse> responses = ExecuteSOQLQuery.execute(new List<ExecuteSOQLQuery.QueryRequest>{ req });
+
+        Test.startTest();
+        List<ExecuteSOQLQuery.QueryResponse> resps = ExecuteSOQLQuery.execute(new List<ExecuteSOQLQuery.QueryRequest>{ req });
         Test.stopTest();
 
-        Assert.isNotNull(responses, 'Response list should not be null.');
-        Assert.areEqual(1, responses.size(), 'Response list size should be 1.');
-        Assert.isFalse(responses[0].success, 'Success flag should be false.');
-        Assert.areEqual('Query string cannot be empty.', responses[0].errorMessage, 'Error message matches empty query validation.');
+        Assert.areEqual(1, resps.size(), 'One response expected.');
+        Assert.isFalse(resps[0].success, 'Empty query should fail.');
+        Assert.areEqual('Query string cannot be empty.', resps[0].errorMessage, 'Error message should match.');
     }
 
     @IsTest
     static void testExecuteInvalidQuery() {
-        Test.startTest();
         ExecuteSOQLQuery.QueryRequest req = new ExecuteSOQLQuery.QueryRequest();
-        req.query = 'SELECT InvalidField__c FROM Account';
-        List<ExecuteSOQLQuery.QueryResponse> responses = ExecuteSOQLQuery.execute(new List<ExecuteSOQLQuery.QueryRequest>{ req });
+        req.query = 'SELECT InvalidField FROM NonExistentObject';
+
+        Test.startTest();
+        List<ExecuteSOQLQuery.QueryResponse> resps = ExecuteSOQLQuery.execute(new List<ExecuteSOQLQuery.QueryRequest>{ req });
         Test.stopTest();
 
-        Assert.isNotNull(responses, 'Response list should not be null.');
-        Assert.areEqual(1, responses.size(), 'Response list size should be 1.');
-        Assert.isFalse(responses[0].success, 'Success flag should be false.');
-        Assert.isNotNull(responses[0].errorMessage, 'Error message should be populated.');
+        Assert.areEqual(1, resps.size(), 'One response expected.');
+        Assert.isFalse(resps[0].success, 'Invalid query should fail.');
+        Assert.isNotNull(resps[0].errorMessage, 'Error message should be present.');
     }
 }

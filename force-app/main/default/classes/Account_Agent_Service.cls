@@ -102,13 +102,13 @@ public with sharing class Account_Agent_Service implements IAgentService {
           if (acc.CreatedDate != null) {
             res.accountAge = acc.CreatedDate.date().daysBetween(System.today());
           }
-          if (acc.Phone != null) {
+          if (String.isNotBlank(acc.Phone)) {
             String cleanPhone = acc.Phone.replaceAll('[^0-9+]', '');
             res.accountPhone = '<a href="tel:' + cleanPhone + '">' + acc.Phone + '</a>';
           } else {
-            res.accountPhone = '<a href="tel:+15550100">+1 555-0100</a>';
+            res.accountPhone = 'Not Available';
           }
-          if (acc.cgcloud__Account_Email__c != null) {
+          if (String.isNotBlank(acc.cgcloud__Account_Email__c)) {
             res.accountEmail =
               '<a href="mailto:' +
               acc.cgcloud__Account_Email__c +
@@ -116,7 +116,7 @@ public with sharing class Account_Agent_Service implements IAgentService {
               acc.cgcloud__Account_Email__c +
               '</a>';
           } else {
-            res.accountEmail = '<a href="mailto:info@reliance.com">info@reliance.com</a>';
+            res.accountEmail = 'Not Available';
           }
           String address = '';
           if (acc.ShippingStreet != null)
@@ -699,24 +699,6 @@ public with sharing class Account_Agent_Service implements IAgentService {
         )
       );
     }
-    if (records.isEmpty()) {
-      records.add(
-        new Agent_Response.RecordInfo(
-          'Sarah Jenkins',
-          'Title: Primary Contact, Phone: +1 555-0199, Mobile: +1 555-0188, Email: sarah.jenkins@reliance.com',
-          'System Admin',
-          DateTime.now()
-        )
-      );
-      records.add(
-        new Agent_Response.RecordInfo(
-          'David Miller',
-          'Title: Store Manager, Phone: +1 555-0144, Mobile: +1 555-0133, Email: david.miller@reliance.com',
-          'System Admin',
-          DateTime.now()
-        )
-      );
-    }
     return records;
   }
   private static List<Agent_Response.RecordInfo> getOpportunitiesRecords(
@@ -1072,22 +1054,24 @@ public with sharing class Account_Agent_Service implements IAgentService {
     String accId
   ) {
     List<Agent_Response.RecordInfo> records = new List<Agent_Response.RecordInfo>();
-    List<SurveySubject> subjects = [
-      SELECT Id, Name, LastModifiedDate, CreatedBy.Name
-      FROM SurveySubject
-      WHERE SubjectId = :accId
-      WITH USER_MODE
-      LIMIT 50
-    ];
-    for (SurveySubject ss : subjects) {
-      records.add(
-        new Agent_Response.RecordInfo(
-          ss.Name,
-          'Completed',
-          ss.CreatedBy.Name,
-          ss.LastModifiedDate
-        )
-      );
+    try {
+      if (Schema.getGlobalDescribe().containsKey('SurveySubject')) {
+        String query = 'SELECT Id, Name, LastModifiedDate, CreatedBy.Name FROM SurveySubject WHERE SubjectId = \'' + String.escapeSingleQuotes(accId) + '\' WITH USER_MODE LIMIT 50';
+        List<SObject> subjects = Database.query(query);
+        for (SObject ss : subjects) {
+          String creatorName = (ss.getSObject('CreatedBy') != null) ? (String)ss.getSObject('CreatedBy').get('Name') : '';
+          records.add(
+            new Agent_Response.RecordInfo(
+              (String)ss.get('Name'),
+              'Completed',
+              creatorName,
+              (Datetime)ss.get('LastModifiedDate')
+            )
+          );
+        }
+      }
+    } catch (Exception e) {
+      System.debug(LoggingLevel.ERROR, e.getMessage());
     }
     if (records.isEmpty()) {
       records.add(

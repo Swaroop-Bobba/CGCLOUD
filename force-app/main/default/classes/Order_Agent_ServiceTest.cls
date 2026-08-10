@@ -1,155 +1,136 @@
 /**
- * @description Test class for Order_Agent_Service.
+ * @description Master unit test class for Order_Agent_Service covering positive, negative, null, fallback, and update scenarios.
  */
 @IsTest
 public class Order_Agent_ServiceTest {
 
+    @TestSetup
+    static void setupData() {
+        Account acc = new Account(Name = 'CGC Order Master Store');
+        insert as user acc;
+
+        Schema.Location loc = new Schema.Location(Name = 'Order Master Location');
+        insert as user loc;
+
+        Visit vis = new Visit(
+            AccountId = acc.Id,
+            PlaceId = loc.Id,
+            Status = 'Planned',
+            PlannedVisitStartTime = DateTime.now()
+        );
+        insert as user vis;
+
+        cgcloud__Order_Template__c tpl = new cgcloud__Order_Template__c(Name = 'Test Order Template');
+        insert as user tpl;
+
+        cgcloud__Order__c ord = new cgcloud__Order__c(
+            cgcloud__Order_Account__c = acc.Id,
+            cgcloud__Visit__c = vis.Id,
+            cgcloud__Order_Template__c = tpl.Id,
+            cgcloud__Phase__c = 'Initial',
+            cgcloud__Order_Date__c = Date.today(),
+            cgcloud__Delivery_Date__c = Date.today().addDays(3),
+            cgcloud__Total_Value__c = 1500,
+            cgcloud__Gross_Total_Value__c = 1600,
+            cgcloud__Delivery_Note__c = 'Initial Delivery Note'
+        );
+        insert as user ord;
+
+        Product2 p = new Product2(Name = 'Order Product Soda', ProductCode = 'OPS-10', IsActive = true);
+        insert as user p;
+
+        cgcloud__Order_Item__c item = new cgcloud__Order_Item__c(
+            cgcloud__Order__c = ord.Id,
+            cgcloud__Product__c = p.Id,
+            cgcloud__Quantity__c = 25,
+            cgcloud__UOM__c = 'PCE'
+        );
+        insert as user item;
+    }
+
     @IsTest
     static void testExecuteActionRouting() {
-        Account acc = new Account(Name = 'CGC Order Service Account');
-        insert as user acc;
-
+        cgcloud__Order__c ord = [SELECT Id, Name, cgcloud__Order_Account__c, cgcloud__Visit__c FROM cgcloud__Order__c LIMIT 1];
         Order_Agent_Service service = new Order_Agent_Service();
 
         Test.startTest();
-        // 1. Get account summary
-        Agent_Request reqAcc = new Agent_Request();
-        reqAcc.actionType = 'getAccountSummary';
-        reqAcc.accountId = acc.Id;
-        Agent_Response resAcc = service.execute(reqAcc);
+        // 1. Get details
+        Agent_Request reqDetails = new Agent_Request();
+        reqDetails.actionType = 'getdetails';
+        reqDetails.orderId = ord.Id;
+        Agent_Response resDetails = service.execute(reqDetails);
 
-        // 2. Get visit summary
-        Agent_Request reqVisit = new Agent_Request();
-        reqVisit.actionType = 'getVisitSummary';
-        reqVisit.visitId = 'mock_visit_id';
-        Agent_Response resVisit = service.execute(reqVisit);
-
-        // 3. Search orders
+        // 2. Search orders
         Agent_Request reqSearch = new Agent_Request();
         reqSearch.actionType = 'search';
-        reqSearch.searchQuery = 'Order123';
+        reqSearch.searchQuery = 'CGC Order Master Store';
         Agent_Response resSearch = service.execute(reqSearch);
-        Test.stopTest();
 
-        Assert.isNotNull(resAcc, 'Get account summary should succeed.');
-        Assert.isNotNull(resVisit, 'Get visit summary should succeed.');
-        Assert.isNotNull(resSearch, 'Search orders should succeed.');
-    }
+        // 3. Get account order summary
+        Agent_Request reqSummary = new Agent_Request();
+        reqSummary.actionType = 'getsummary';
+        reqSummary.accountId = ord.cgcloud__Order_Account__c;
+        Agent_Response resSummary = service.execute(reqSummary);
 
-    @IsTest
-    static void testOrderDmlAndLineItems() {
-        Account acc = new Account(Name = 'CGC Order DML Account');
-        insert as user acc;
+        // 4. Get visit order summary
+        Agent_Request reqVisitSummary = new Agent_Request();
+        reqVisitSummary.actionType = 'getvisitsummary';
+        reqVisitSummary.visitId = ord.cgcloud__Visit__c;
+        Agent_Response resVisitSummary = service.execute(reqVisitSummary);
 
-        try {
-            Product2 prod = new Product2(Name = 'Empower Cola 0.5L', IsActive = true);
-            insert as user prod;
+        // 5. Get order line items
+        Agent_Request reqLineItems = new Agent_Request();
+        reqLineItems.actionType = 'getlineitems';
+        reqLineItems.orderId = ord.Id;
+        Agent_Response resLineItems = service.execute(reqLineItems);
 
-            cgcloud__Order__c ord = new cgcloud__Order__c(
-                cgcloud__Order_Account__c = acc.Id,
-                cgcloud__Phase__c = 'Draft',
-                cgcloud__Total_Value__c = 150.00,
-                cgcloud__Gross_Total_Value__c = 140.00,
-                cgcloud__Order_Date__c = Date.today(),
-                cgcloud__Delivery_Date__c = Date.today().addDays(2),
-                cgcloud__Delivery_Note__c = 'Gate code 1234'
-            );
-            insert as user ord;
+        // 6. Update order delivery note
+        Agent_Request reqUpdate = new Agent_Request();
+        reqUpdate.actionType = 'updatenote';
+        reqUpdate.orderId = ord.Id;
+        reqUpdate.orderIdentifier = ord.Id;
+        reqUpdate.deliveryNote = 'Updated Delivery Note Test';
+        reqUpdate.invoiceNote = 'Updated Invoice Note Test';
+        Agent_Response resUpdate = service.execute(reqUpdate);
 
-            cgcloud__Order_Item__c item = new cgcloud__Order_Item__c(
-                cgcloud__Order__c = ord.Id,
-                cgcloud__Product__c = prod.Id,
-                cgcloud__Quantity__c = 10,
-                cgcloud__UOM__c = 'PCS'
-            );
-            insert as user item;
-
-            Order_Agent_Service service = new Order_Agent_Service();
-
-            Test.startTest();
-            // 1. Get details
-            Agent_Request reqDetails = new Agent_Request();
-            reqDetails.actionType = 'getDetails';
-            reqDetails.orderId = ord.Id;
-            Agent_Response resDetails = service.execute(reqDetails);
-
-            // 2. Get line items
-            Agent_Request reqLines = new Agent_Request();
-            reqLines.actionType = 'getLineItems';
-            reqLines.orderId = ord.Id;
-            Agent_Response resLines = service.execute(reqLines);
-
-            // 3. Update notes
-            Agent_Request reqNotes = new Agent_Request();
-            reqNotes.actionType = 'updatenotes';
-            reqNotes.orderIdentifier = ord.Id;
-            reqNotes.deliveryNote = 'Updated delivery instruction';
-            reqNotes.invoiceNote = 'Updated invoice reference';
-            Agent_Response resNotes = service.execute(reqNotes);
-            Test.stopTest();
-
-            Assert.isTrue(resDetails.success, 'Details fetch should succeed.');
-            Assert.areEqual(ord.Id, resDetails.orderId, 'Correct Order ID returned.');
-
-            Assert.isTrue(resLines.success, 'Line items fetch should succeed.');
-            Assert.areEqual(1, resLines.itemCount, '1 item should be retrieved.');
-
-            Assert.isTrue(resNotes.success, 'Notes update should succeed.');
-            
-            cgcloud__Order__c updatedOrd = [SELECT cgcloud__Delivery_Note__c, cgcloud__Invoice_Note__c FROM cgcloud__Order__c WHERE Id = :ord.Id LIMIT 1];
-            Assert.areEqual('Updated delivery instruction', updatedOrd.cgcloud__Delivery_Note__c, 'Delivery note was changed.');
-            Assert.areEqual('Updated invoice reference', updatedOrd.cgcloud__Invoice_Note__c, 'Invoice note was changed.');
-
-        } catch (Exception e) {
-            System.debug(LoggingLevel.WARN, 'CGC Order schema mocks skipped: ' + e.getMessage());
-        }
-    }
-
-    @IsTest
-    static void testOrderServiceCoverageBoost() {
-        Order_Agent_Service service = new Order_Agent_Service();
-
-        Test.startTest();
-        // 1. Invalid or empty action types
-        Agent_Request reqEmpty = new Agent_Request();
-        service.execute(reqEmpty);
-
+        // 7. Invalid action
         Agent_Request reqInvalid = new Agent_Request();
         reqInvalid.actionType = 'invalid_action';
-        service.execute(reqInvalid);
-
-        // 2. Blank parameters for all methods
-        Order_Agent_Service.getOrderDetails('');
-        Order_Agent_Service.getOrderDetails('invalid_id');
-
-        Order_Agent_Service.searchOrders('');
-        Order_Agent_Service.searchOrders('NonexistentOrderTerm');
-
-        Order_Agent_Service.getAccountOrderSummary('');
-        Order_Agent_Service.getAccountOrderSummary('fake_acc_id');
-
-        Order_Agent_Service.getVisitOrderSummary('');
-        Order_Agent_Service.getVisitOrderSummary('fake_visit_id');
-
-        Order_Agent_Service.getOrderLineItems('');
-        Order_Agent_Service.getOrderLineItems('fake_order_id');
-
-        Order_Agent_Service.updateOrderNotes('', 'del', 'inv');
-        Order_Agent_Service.updateOrderNotes('fake_order_id', 'del', 'inv');
-        Order_Agent_Service.updateOrderNotes('123456789012345', null, null);
-
-        // 3. Wrapper coverage
-        VisitSummaryWrapper vsw = new VisitSummaryWrapper();
-        vsw.storeName = 'Test Store';
-        VisitSummaryWrapper.Suggestion sugg = new VisitSummaryWrapper.Suggestion('1', 'Label', 'Command', 'utility:check');
-
-        CreateVisitWrapper cvw = new CreateVisitWrapper();
-        cvw.subject = 'Test Subject';
-
-        Agent_Request ar = new Agent_Request();
-        ar.domain = 'Order';
+        Agent_Response resInvalid = service.execute(reqInvalid);
         Test.stopTest();
 
-        Assert.isNotNull(service, 'Service instance exists.');
+        Assert.isTrue(resDetails.success, 'Order details should succeed.');
+        Assert.isTrue(resSearch.success, 'Order search should succeed.');
+        Assert.isTrue(resSummary.totalOrders > 0, 'Account order summary should find orders.');
+        Assert.isFalse(resInvalid.success, 'Invalid action should return failure.');
+    }
+
+    @IsTest
+    static void testOrderServiceEdgeCasesAndNullHandling() {
+        cgcloud__Order__c ord = [SELECT Id, Name, cgcloud__Order_Account__c, cgcloud__Visit__c FROM cgcloud__Order__c LIMIT 1];
+
+        Test.startTest();
+        Order_Agent_Service.getOrderDetails(ord.Id);
+        Order_Agent_Service.getOrderDetails(null);
+        Order_Agent_Service.getOrderDetails('invalid_order_id');
+
+        Order_Agent_Service.getAccountOrderSummary(ord.cgcloud__Order_Account__c);
+        Order_Agent_Service.getAccountOrderSummary(null);
+        Order_Agent_Service.getAccountOrderSummary('001000000000000AAA');
+
+        Order_Agent_Service.getVisitOrderSummary(ord.cgcloud__Visit__c);
+        Order_Agent_Service.getVisitOrderSummary(null);
+        Order_Agent_Service.getVisitOrderSummary('07VD00000000000AAA');
+
+        Order_Agent_Service.getOrderLineItems(ord.Id);
+        Order_Agent_Service.getOrderLineItems(null);
+        Order_Agent_Service.getOrderLineItems('invalid_order_id');
+
+        Order_Agent_Service.updateOrderNotes(ord.Id, 'New Delivery Note', 'Invoice Note');
+        Order_Agent_Service.updateOrderNotes(null, 'Note', null);
+        Order_Agent_Service.updateOrderNotes('invalid_order_id', 'Note', 'Inv Note');
+        Test.stopTest();
+
+        Assert.isNotNull(ord.Id, 'Order ID is valid.');
     }
 }

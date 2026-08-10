@@ -2,6 +2,7 @@
  * @description Service class to handle user-related agent actions.
  */
 public with sharing class User_Agent_Service implements IAgentService {
+    @TestVisible private static Boolean forceException = false;
 
     /**
      * @description Executes user agent actions based on the provided request.
@@ -12,11 +13,14 @@ public with sharing class User_Agent_Service implements IAgentService {
         Agent_Response res = new Agent_Response();
         res.success = true;
 
-        String action = req.actionType != null ? req.actionType.toLowerCase().trim() : '';
+        String action = (req != null && req.actionType != null) ? req.actionType.toLowerCase().trim() : '';
 
         try {
+            if (Test.isRunningTest() && forceException) {
+                throw new QueryException('Forced test exception');
+            }
             if (action == 'search') {
-                res.users = searchUsers(req.searchQuery);
+                res.users = searchUsers(req != null ? req.searchQuery : null);
             } else {
                 res.success = false;
                 res.message = 'Unknown actionType: ' + action;
@@ -42,6 +46,9 @@ public with sharing class User_Agent_Service implements IAgentService {
         }
 
         try {
+            if (Test.isRunningTest() && forceException) {
+                throw new QueryException('Forced search exception');
+            }
             String searchStr = '%' + searchQuery.trim() + '%';
             List<User> userRecords = [
                 SELECT Id, Name, Alias, Profile.Name

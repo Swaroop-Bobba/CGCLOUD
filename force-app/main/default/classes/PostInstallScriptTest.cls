@@ -2,12 +2,26 @@
 private class PostInstallScriptTest {
 
     @isTest
-    static void testPostInstallScript() {
+    static void testPostInstallScriptSuccess() {
+        Test.startTest();
+        PostInstallScript postInstall = new PostInstallScript();
+        Test.testInstall(postInstall, new Version(1, 0));
+        postInstall.onInstall(null);
+        Test.stopTest();
+
+        System.assert(true, 'PostInstallScript executed without throwing exception');
+    }
+
+    @isTest
+    static void testPostInstallScriptException() {
+        PostInstallScript.forceException = true;
+
         Test.startTest();
         PostInstallScript postInstall = new PostInstallScript();
         Test.testInstall(postInstall, new Version(1, 0));
         Test.stopTest();
-        
-        System.assert(true, 'PostInstallScript executed without throwing exception');
+
+        PostInstallScript.forceException = false;
+        System.assert(true, 'PostInstallScript exception handled cleanly');
     }
 }

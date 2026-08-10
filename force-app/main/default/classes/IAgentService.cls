@@ -1,7 +1,7 @@
 /**
  * @description Interface for all Agent services.
  */
-public interface IAgentService {
+global interface IAgentService {
     
     /**
      * @description Executes the agent request.

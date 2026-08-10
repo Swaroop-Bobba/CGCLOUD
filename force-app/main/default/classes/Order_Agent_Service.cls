@@ -12,14 +12,18 @@ public with sharing class Order_Agent_Service  implements IAgentService {
                 res = getOrderDetails(req.orderId);
             } else if (action == 'search') {
                 res.orders = searchOrders(req.searchQuery);
-            } else if (action == 'getaccountsummary') {
+                res.success = true;
+            } else if (action == 'getaccountsummary' || action == 'getsummary') {
                 res = getAccountOrderSummary(req.accountId);
             } else if (action == 'getvisitsummary') {
                 res = getVisitOrderSummary(req.visitId);
             } else if (action == 'getlineitems') {
                 res = getOrderLineItems(req.orderId);
-            } else if (action == 'updatenotes') {
+            } else if (action == 'updatenotes' || action == 'updatenote') {
                 res = updateOrderNotes(req.orderIdentifier, req.deliveryNote, req.invoiceNote);
+            } else {
+                res.success = false;
+                res.message = 'Unknown actionType: ' + action;
             }
         } catch(Exception e) {
             res.success = false;
@@ -35,6 +39,7 @@ public with sharing class Order_Agent_Service  implements IAgentService {
      */
     public static Agent_Response getOrderDetails(String orderId) {
         Agent_Response res = new Agent_Response();
+        res.success = false;
         if (String.isBlank(orderId)) {
             return res;
         }
@@ -53,6 +58,7 @@ public with sharing class Order_Agent_Service  implements IAgentService {
             res.accountName = ord.cgcloud__Order_Account__r != null ? ord.cgcloud__Order_Account__r.Name : '';
             res.orderName = ord.Name;
             res.orderStatus = ord.cgcloud__Phase__c;
+            res.success = true;
         } catch (Exception e) { System.debug(LoggingLevel.ERROR, e.getMessage()); }
         return res;
     }
@@ -86,6 +92,7 @@ public with sharing class Order_Agent_Service  implements IAgentService {
      */
     public static Agent_Response getAccountOrderSummary(String accountId) {
         Agent_Response res = new Agent_Response();
+        res.success = true;
         res.totalOrders = 0;
         res.totalSpend = 0;
         res.buyingInsight = 'No historical order data available.';
