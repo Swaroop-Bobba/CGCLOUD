@@ -1,0 +1,18 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "jobs" : {
+      "title" : "Jobs",
+      "description" : "List of matching visit jobs (questions/surveys) with answer status.",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "@apexClassType/TW_CGC_Visit_AI__Agent_Response$JobStatusInfo"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

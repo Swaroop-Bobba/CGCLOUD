@@ -12,7 +12,7 @@ public class Visit_Agent_ServiceTest {
         Schema.Location loc = new Schema.Location(Name = 'CGC Master Visit Location');
         insert loc;
 
-        User currentUsr = [SELECT Id, Name FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+        User currentUsr = [SELECT Id, Name FROM User WHERE Id = :UserInfo.getUserId() WITH USER_MODE LIMIT 1];
 
         Visit vis1 = new Visit(
             AccountId = acc.Id,
@@ -399,7 +399,7 @@ public class Visit_Agent_ServiceTest {
         );
         insert vis;
 
-        User usr = [SELECT Id, Name, Alias, Username FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+        User usr = [SELECT Id, Name, Alias, Username FROM User WHERE Id = :UserInfo.getUserId() WITH USER_MODE LIMIT 1];
         Visit_Agent_Service service = new Visit_Agent_Service();
 
         Test.startTest();
@@ -566,7 +566,7 @@ public class Visit_Agent_ServiceTest {
         insert acc;
         Schema.Location loc = new Schema.Location(Name = 'Aura Lookup Location');
         insert loc;
-        User usr = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId() WITH USER_MODE LIMIT 1];
 
         Visit vis = new Visit(
             AccountId = acc.Id,

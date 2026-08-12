@@ -1,0 +1,18 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "staleVisits" : {
+      "title" : "Stale Visits",
+      "description" : "List of overdue and stale visits.",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "@apexClassType/TW_CGC_Visit_AI__Agent_Response$StaleVisitInfo"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

@@ -118,9 +118,14 @@ public class Account_Agent_ServiceTest {
             'tactics'
         };
         for (String rType : recordTypes) {
-            Account_Agent_Service.getRelatedRecords(accId, rType);
-            Account_Agent_Service.getRelatedRecords(fakeAccId, rType);
-            Account_Agent_Service.getRelatedRecords(null, rType);
+            List<Agent_Response.RecordInfo> realRecs = Account_Agent_Service.getRelatedRecords(accId, rType);
+            Assert.isNotNull(realRecs, 'Delegated related records query returned non-null list for type: ' + rType);
+
+            List<Agent_Response.RecordInfo> fakeRecs = Account_Agent_Service.getRelatedRecords(fakeAccId, rType);
+            Assert.isNotNull(fakeRecs, 'Delegated related records query returned non-null list for fake account: ' + rType);
+
+            List<Agent_Response.RecordInfo> nullRecs = Account_Agent_Service.getRelatedRecords(null, rType);
+            Assert.areEqual(0, nullRecs.size(), 'Null account ID should return empty list for type: ' + rType);
         }
 
         Account_Agent_Service.suggestProducts(accId);

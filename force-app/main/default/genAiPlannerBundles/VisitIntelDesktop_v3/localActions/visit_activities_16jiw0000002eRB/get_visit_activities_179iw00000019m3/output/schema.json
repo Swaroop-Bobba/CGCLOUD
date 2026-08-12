@@ -1,0 +1,18 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "activities" : {
+      "title" : "Activities",
+      "description" : "List of activities and questions/surveys associated with the visit template.",
+      "maxItems" : 2000,
+      "items" : {
+        "lightning:type" : "@apexClassType/TW_CGC_Visit_AI__Agent_Response$ActivityInfo"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}
