@@ -136,7 +136,7 @@ global with sharing class Visit_Agent_Handler {
                 } else if (action == 'getvisitdetails' || action == 'get_visit_details' || action == 'getvisit' || action == 'get_visit' || action == 'select_and_navigate_visit' || action == 'selectvisit' || action == 'select_visit') {
                     res = handleGetVisitDetails(req.visitId);
                 } else if (action == 'getvisitsummary' || action == 'get_visit_summary' || action == 'generatesummary' || action == 'generate_visit_summary') {
-                    res = handleGetVisitSummary(req.visitId);
+                    res = handleGetVisitSummary(req.visitId, req.accountId);
                 } else if (action == 'getstorebrief' || action == 'get_store_brief') {
                     res = handleGetStoreBrief(req.visitId, req.accountId);
                 } else if (action == 'getstalevisits' || action == 'get_stale_visits') {
@@ -401,9 +401,23 @@ global with sharing class Visit_Agent_Handler {
         String soql = 'SELECT Id, Name, Status, PlannedVisitStartTime, PlannedVisitEndTime, AccountId, Account.Name, Owner.Name';
         if (hasResponsible) { soql += ', cgcloud__Responsible__r.Name'; }
         if (hasAccountable) { soql += ', cgcloud__Accountable__r.Name'; }
-        soql += ' FROM Visit WHERE Id = :visitId LIMIT 1';
 
-        List<SObject> vList = Database.query(soql);
+        String cleanVisitId = visitId.trim();
+        List<SObject> vList = new List<SObject>();
+        Boolean isId = false;
+        try {
+            Id testId = (Id) cleanVisitId;
+            isId = true;
+        } catch (Exception e) {
+            isId = false;
+        }
+
+        if (isId) {
+            vList = Database.query(soql + ' FROM Visit WHERE Id = \'' + String.escapeSingleQuotes(cleanVisitId) + '\' LIMIT 1');
+        } else {
+            vList = Database.query(soql + ' FROM Visit WHERE Name = \'' + String.escapeSingleQuotes(cleanVisitId) + '\' LIMIT 1');
+        }
+
         if (vList.isEmpty()) {
             res.success = false;
             res.message = 'Visit not found for ID: ' + visitId;
@@ -412,9 +426,14 @@ global with sharing class Visit_Agent_Handler {
         }
 
         SObject v = vList[0];
+        String accId = (String) v.get('AccountId');
         SObject accRef = v.getSObject('Account');
         String accName = accRef != null ? (String) accRef.get('Name') : '';
-        String accId = (String) v.get('AccountId');
+        if (String.isBlank(accName) && String.isNotBlank(accId)) {
+            List<Account> directAccList = [SELECT Id, Name FROM Account WHERE Id = :accId LIMIT 1];
+            if (!directAccList.isEmpty()) { accName = directAccList[0].Name; }
+        }
+
         String vStatus = (String) v.get('Status');
         String vId = (String) v.get('Id');
         DateTime dtStart = (DateTime) v.get('PlannedVisitStartTime');
@@ -439,11 +458,11 @@ global with sharing class Visit_Agent_Handler {
         return res;
     }
 
-    private static Response handleGetVisitSummary(String visitId) {
+    private static Response handleGetVisitSummary(String visitId, String accountId) {
         Response res = new Response();
-        if (String.isBlank(visitId)) {
+        if (String.isBlank(visitId) && String.isBlank(accountId)) {
             res.success = false;
-            res.message = 'Visit ID is required.';
+            res.message = 'Visit ID or Account ID is required.';
             res.summary = 'Please select a valid Visit record.';
             return res;
         }
@@ -458,11 +477,31 @@ global with sharing class Visit_Agent_Handler {
 
         Boolean hasResponsible = Schema.getGlobalDescribe().get('visit').getDescribe().fields.getMap().containsKey('cgcloud__responsible__c');
 
-        String soql = 'SELECT Id, Status, PlannedVisitStartTime, PlannedVisitEndTime, AccountId, Account.Name, Account.BillingStreet, Account.BillingCity, Account.BillingState, Account.BillingPostalCode, Account.BillingCountry, Owner.Name';
+        String soql = 'SELECT Id, Status, PlannedVisitStartTime, PlannedVisitEndTime, AccountId, Account.Name, Account.BillingStreet, Account.BillingCity, Account.BillingState, Account.BillingPostalCode, Account.BillingCountry, Account.ShippingStreet, Account.ShippingCity, Account.ShippingState, Account.ShippingPostalCode, Account.ShippingCountry, Owner.Name';
         if (hasResponsible) { soql += ', cgcloud__Responsible__r.Name'; }
-        soql += ' FROM Visit WHERE Id = :visitId LIMIT 1';
 
-        List<SObject> vList = Database.query(soql);
+        List<SObject> vList = new List<SObject>();
+        if (String.isNotBlank(visitId)) {
+            String cleanVisitId = visitId.trim();
+            Boolean isId = false;
+            try {
+                Id testId = (Id) cleanVisitId;
+                isId = true;
+            } catch (Exception e) {
+                isId = false;
+            }
+
+            if (isId) {
+                vList = Database.query(soql + ' FROM Visit WHERE Id = \'' + String.escapeSingleQuotes(cleanVisitId) + '\' LIMIT 1');
+            } else {
+                vList = Database.query(soql + ' FROM Visit WHERE Name = \'' + String.escapeSingleQuotes(cleanVisitId) + '\' LIMIT 1');
+            }
+        }
+
+        if (vList.isEmpty() && String.isNotBlank(accountId)) {
+            vList = Database.query(soql + ' FROM Visit WHERE AccountId = \'' + String.escapeSingleQuotes(accountId.trim()) + '\' ORDER BY PlannedVisitStartTime DESC NULLS LAST LIMIT 1');
+        }
+
         if (vList.isEmpty()) {
             res.success = false;
             res.message = 'Visit not found for ID: ' + visitId;
@@ -471,8 +510,24 @@ global with sharing class Visit_Agent_Handler {
         }
 
         SObject v = vList[0];
+        String accId = (String) v.get('AccountId');
         SObject acc = v.getSObject('Account');
-        String accName = acc != null ? (String) acc.get('Name') : 'Account';
+
+        Account directAcc = null;
+        if (String.isNotBlank(accId)) {
+            List<Account> directAccs = [
+                SELECT Id, Name, ShippingStreet, ShippingCity, ShippingState, ShippingPostalCode, ShippingCountry,
+                       BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry
+                  FROM Account
+                 WHERE Id = :accId
+                 LIMIT 1
+            ];
+            if (!directAccs.isEmpty()) {
+                directAcc = directAccs[0];
+            }
+        }
+
+        String accName = directAcc != null ? directAcc.Name : (acc != null ? (String) acc.get('Name') : 'Account');
         DateTime dt = (DateTime) v.get('PlannedVisitStartTime');
         String timeStr = dt != null ? dt.format('M/d/yyyy h:mm a') : 'N/A';
         SObject ownerRef = v.getSObject('Owner');
@@ -480,28 +535,64 @@ global with sharing class Visit_Agent_Handler {
         String assigned = (hasResponsible && v.getSObject('cgcloud__Responsible__r') != null) ?
             (String) v.getSObject('cgcloud__Responsible__r').get('Name') : ownerName;
 
-        String address = '';
-        if (acc != null) {
-            List<String> parts = new List<String>();
-            if (String.isNotBlank((String) acc.get('BillingStreet'))) parts.add((String) acc.get('BillingStreet'));
-            if (String.isNotBlank((String) acc.get('BillingCity'))) parts.add((String) acc.get('BillingCity'));
-            if (String.isNotBlank((String) acc.get('BillingState'))) parts.add((String) acc.get('BillingState'));
-            if (String.isNotBlank((String) acc.get('BillingPostalCode'))) parts.add((String) acc.get('BillingPostalCode'));
-            if (String.isNotBlank((String) acc.get('BillingCountry'))) parts.add((String) acc.get('BillingCountry'));
-            address = String.join(parts, ', ');
-        }
-        if (String.isBlank(address)) {
-            address = accName;
+        List<String> parts = new List<String>();
+        if (directAcc != null) {
+            // Check Shipping Address first (standard physical store address in CG Cloud)
+            if (String.isNotBlank(directAcc.ShippingStreet)) parts.add(directAcc.ShippingStreet);
+            if (String.isNotBlank(directAcc.ShippingCity)) parts.add(directAcc.ShippingCity);
+            if (String.isNotBlank(directAcc.ShippingState)) parts.add(directAcc.ShippingState);
+            if (String.isNotBlank(directAcc.ShippingPostalCode)) parts.add(directAcc.ShippingPostalCode);
+            if (String.isNotBlank(directAcc.ShippingCountry)) parts.add(directAcc.ShippingCountry);
+
+            // Fallback to Billing Address
+            if (parts.isEmpty()) {
+                if (String.isNotBlank(directAcc.BillingStreet)) parts.add(directAcc.BillingStreet);
+                if (String.isNotBlank(directAcc.BillingCity)) parts.add(directAcc.BillingCity);
+                if (String.isNotBlank(directAcc.BillingState)) parts.add(directAcc.BillingState);
+                if (String.isNotBlank(directAcc.BillingPostalCode)) parts.add(directAcc.BillingPostalCode);
+                if (String.isNotBlank(directAcc.BillingCountry)) parts.add(directAcc.BillingCountry);
+            }
+        } else if (acc != null) {
+            if (String.isNotBlank((String) acc.get('ShippingStreet'))) parts.add((String) acc.get('ShippingStreet'));
+            if (String.isNotBlank((String) acc.get('ShippingCity'))) parts.add((String) acc.get('ShippingCity'));
+            if (String.isNotBlank((String) acc.get('ShippingState'))) parts.add((String) acc.get('ShippingState'));
+            if (String.isNotBlank((String) acc.get('ShippingPostalCode'))) parts.add((String) acc.get('ShippingPostalCode'));
+            if (String.isNotBlank((String) acc.get('ShippingCountry'))) parts.add((String) acc.get('ShippingCountry'));
+
+            if (parts.isEmpty()) {
+                if (String.isNotBlank((String) acc.get('BillingStreet'))) parts.add((String) acc.get('BillingStreet'));
+                if (String.isNotBlank((String) acc.get('BillingCity'))) parts.add((String) acc.get('BillingCity'));
+                if (String.isNotBlank((String) acc.get('BillingState'))) parts.add((String) acc.get('BillingState'));
+                if (String.isNotBlank((String) acc.get('BillingPostalCode'))) parts.add((String) acc.get('BillingPostalCode'));
+                if (String.isNotBlank((String) acc.get('BillingCountry'))) parts.add((String) acc.get('BillingCountry'));
+            }
         }
 
-        String mapsUrl = 'https://www.google.com/maps?q=' + EncodingUtil.urlEncode(address, 'UTF-8');
+        // Check RetailStore if still empty
+        if (parts.isEmpty() && String.isNotBlank(accId) && Schema.getGlobalDescribe().containsKey('retailstore')) {
+            try {
+                List<SObject> rsList = Database.query('SELECT Street, City, State, PostalCode, Country FROM RetailStore WHERE AccountId = \'' + String.escapeSingleQuotes(accId) + '\' AND (Street != null OR City != null) LIMIT 1');
+                if (!rsList.isEmpty()) {
+                    SObject rs = rsList[0];
+                    if (String.isNotBlank((String) rs.get('Street'))) { parts.add((String) rs.get('Street')); }
+                    if (String.isNotBlank((String) rs.get('City'))) { parts.add((String) rs.get('City')); }
+                    if (String.isNotBlank((String) rs.get('State'))) { parts.add((String) rs.get('State')); }
+                    if (String.isNotBlank((String) rs.get('PostalCode'))) { parts.add((String) rs.get('PostalCode')); }
+                    if (String.isNotBlank((String) rs.get('Country'))) { parts.add((String) rs.get('Country')); }
+                }
+            } catch (Exception e) {}
+        }
+
+        String fullAddress = !parts.isEmpty() ? String.join(parts, ', ') : 'N/A';
+        String mapsTarget = !parts.isEmpty() ? fullAddress : accName;
+        String mapsUrl = 'https://www.google.com/maps?q=' + EncodingUtil.urlEncode(mapsTarget, 'UTF-8');
 
         String md = '### 📊 Visit Summary: ' + accName + '\n\n';
         md += '- **Account**: [' + accName + '](/lightning/r/Account/' + v.get('AccountId') + '/view)\n';
         md += '- **Visit Status**: ' + v.get('Status') + '\n';
         md += '- **Scheduled Start**: ' + timeStr + '\n';
         md += '- **Assigned Rep**: ' + assigned + '\n';
-        md += '- **Location / Address**: ' + address + '\n';
+        md += '- **Location / Address**: ' + fullAddress + '\n';
         md += '- **Navigation**: [Open in Google Maps](' + mapsUrl + ')\n\n';
         md += '#### 🎯 Key Recommendations & Metrics:\n';
         md += '- Retail execution score: **94%**\n';
@@ -739,15 +830,46 @@ global with sharing class Visit_Agent_Handler {
         try {
             SObject v = Schema.getGlobalDescribe().get('Visit').newSObject();
             if (req.createVisitWrapper != null) {
-                v.put('AccountId', req.createVisitWrapper.accountId);
-                v.put('PlaceId', req.createVisitWrapper.placeId);
+                if (String.isBlank(req.createVisitWrapper.accountId) && String.isBlank(req.createVisitWrapper.placeId) && String.isBlank(req.createVisitWrapper.subject)) {
+                    res.success = false;
+                    res.message = 'Account or Location details are required to create a visit.';
+                    res.summary = 'Please select an Account or Location in the Create Visit form.';
+                    return res;
+                }
+                if (String.isNotBlank(req.createVisitWrapper.accountId)) {
+                    v.put('AccountId', req.createVisitWrapper.accountId);
+                }
+                if (String.isNotBlank(req.createVisitWrapper.placeId)) {
+                    v.put('PlaceId', req.createVisitWrapper.placeId);
+                }
                 DateTime startT = req.createVisitWrapper.plannedStartTime != null ? req.createVisitWrapper.plannedStartTime : System.now().addDays(1);
                 v.put('PlannedVisitStartTime', startT);
                 v.put('PlannedVisitEndTime', req.createVisitWrapper.plannedEndTime != null ? req.createVisitWrapper.plannedEndTime : startT.addHours(2));
                 v.put('Status', 'Planned');
+
+                Map<String, SObjectField> fMap = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap();
+                if (String.isNotBlank(req.createVisitWrapper.visitTemplateId) && fMap.containsKey('cgcloud__visit_template__c')) {
+                    v.put('cgcloud__Visit_Template__c', req.createVisitWrapper.visitTemplateId);
+                }
+                if (String.isNotBlank(req.createVisitWrapper.accountableId) && fMap.containsKey('cgcloud__accountable__c')) {
+                    v.put('cgcloud__Accountable__c', req.createVisitWrapper.accountableId);
+                }
+                if (String.isNotBlank(req.createVisitWrapper.responsibleId) && fMap.containsKey('cgcloud__responsible__c')) {
+                    v.put('cgcloud__Responsible__c', req.createVisitWrapper.responsibleId);
+                }
             } else {
-                v.put('AccountId', req.accountId);
-                v.put('PlaceId', req.placeId);
+                if (String.isBlank(req.accountId) && String.isBlank(req.placeId)) {
+                    res.success = false;
+                    res.message = 'Account or Location is required to create a visit.';
+                    res.summary = 'Please provide Account or Location details.';
+                    return res;
+                }
+                if (String.isNotBlank(req.accountId)) {
+                    v.put('AccountId', req.accountId);
+                }
+                if (String.isNotBlank(req.placeId)) {
+                    v.put('PlaceId', req.placeId);
+                }
                 DateTime startT = req.plannedStartTime != null ? req.plannedStartTime : System.now().addDays(1);
                 v.put('PlannedVisitStartTime', startT);
                 v.put('PlannedVisitEndTime', req.plannedEndTime != null ? req.plannedEndTime : startT.addHours(2));

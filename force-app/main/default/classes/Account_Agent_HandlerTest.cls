@@ -21,8 +21,10 @@ private class Account_Agent_HandlerTest {
             FirstName = 'Sarah',
             LastName = 'Connor',
             Title = 'Store Manager',
+            cgcloud__Job_Title__c = 'Store Manager',
             Email = 'sarah.connor@example.com',
             Phone = '555-1122',
+            MobilePhone = '555-9988',
             AccountId = acc.Id
         );
         insert con;
@@ -121,16 +123,37 @@ private class Account_Agent_HandlerTest {
         rBrief.actionType = 'getStoreBrief';
         rBrief.accountId = acc.Id;
 
+        Account_Agent_Handler.Request rRecInv = new Account_Agent_Handler.Request();
+        rRecInv.actionType = 'getRecords';
+        rRecInv.accountId = acc.Id;
+        rRecInv.category = 'inventory';
+
+        Account_Agent_Handler.Request rRecVisits = new Account_Agent_Handler.Request();
+        rRecVisits.actionType = 'getRecords';
+        rRecVisits.accountId = acc.Id;
+        rRecVisits.category = 'visits';
+
+        Account_Agent_Handler.Request rEligible = new Account_Agent_Handler.Request();
+        rEligible.actionType = 'getEligibleProducts';
+        rEligible.accountId = acc.Id;
+        rEligible.promotionId = '1';
+
+        Account_Agent_Handler.Request rDefault = new Account_Agent_Handler.Request();
+        rDefault.actionType = 'unknownAction';
+        rDefault.accountId = acc.Id;
+
         Test.startTest();
         List<Account_Agent_Handler.Response> resList = Account_Agent_Handler.execute(
-            new List<Account_Agent_Handler.Request>{ rCounts, rRecContacts, rRecOpps, rRecCases, rRecProducts, rProducts, rPromos, rBrief }
+            new List<Account_Agent_Handler.Request>{ rCounts, rRecContacts, rRecOpps, rRecCases, rRecProducts, rProducts, rPromos, rBrief, rRecInv, rRecVisits, rEligible, rDefault }
         );
         Test.stopTest();
 
-        Assert.areEqual(8, resList.size(), 'Expected 8 responses');
+        Assert.areEqual(12, resList.size(), 'Expected 12 responses');
         for (Account_Agent_Handler.Response r : resList) {
             Assert.isTrue(r.success, 'Expected action to succeed');
         }
+        Assert.isNotNull(resList[0].accountPhone, 'Phone link expected');
+        Assert.isNotNull(resList[0].locationNavigateLink, 'Location link expected');
     }
 
     @IsTest
@@ -223,5 +246,32 @@ private class Account_Agent_HandlerTest {
         for (Account_Agent_Handler.Response r : resList) {
             Assert.isFalse(r.success, 'Blank IDs should fail gracefully');
         }
+    }
+
+    @IsTest
+    static void testShippingAddressFallback() {
+        Account accShip = new Account(
+            Name = 'CGC Shipping Only Store',
+            ShippingStreet = '456 Ocean Ave',
+            ShippingCity = 'Miami',
+            ShippingState = 'FL',
+            ShippingPostalCode = '33139',
+            ShippingCountry = 'USA'
+        );
+        insert accShip;
+
+        Account_Agent_Handler.Request req = new Account_Agent_Handler.Request();
+        req.actionType = 'getAccountSummary';
+        req.accountId = accShip.Id;
+
+        Test.startTest();
+        List<Account_Agent_Handler.Response> resList = Account_Agent_Handler.execute(
+            new List<Account_Agent_Handler.Request>{ req }
+        );
+        Test.stopTest();
+
+        Assert.areEqual(1, resList.size(), 'Expected 1 response');
+        Assert.isTrue(resList[0].success, 'Expected summary to succeed');
+        Assert.isTrue(resList[0].summary.contains('456 Ocean Ave'), 'Expected shipping street in summary');
     }
 }

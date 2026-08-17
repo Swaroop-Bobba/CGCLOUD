@@ -233,4 +233,43 @@ private class Visit_Agent_HandlerTest {
         Assert.isTrue(resList[2].success, 'Fallback to available visits');
         Assert.isTrue(resList[3].success, 'Fallback to search');
     }
+
+    @IsTest
+    static void testVisitSummaryShippingAddress() {
+        Account accShip = new Account(
+            Name = 'CGC Shipping Visit Store',
+            ShippingStreet = '789 Sunset Blvd',
+            ShippingCity = 'Los Angeles',
+            ShippingState = 'CA',
+            ShippingPostalCode = '90028',
+            ShippingCountry = 'USA'
+        );
+        insert accShip;
+
+        SObject v = Schema.getGlobalDescribe().get('Visit').newSObject();
+        v.put('AccountId', accShip.Id);
+        if (Schema.getGlobalDescribe().containsKey('location')) {
+            Schema.Location loc = new Schema.Location(Name = 'Test Shipping Loc');
+            insert loc;
+            v.put('PlaceId', loc.Id);
+        }
+        v.put('PlannedVisitStartTime', Datetime.now());
+        v.put('PlannedVisitEndTime', Datetime.now().addHours(1));
+        v.put('Status', 'Planned');
+        Database.insert(v, AccessLevel.USER_MODE);
+
+        Visit_Agent_Handler.Request req = new Visit_Agent_Handler.Request();
+        req.actionType = 'getVisitSummary';
+        req.visitId = (String) v.get('Id');
+
+        Test.startTest();
+        List<Visit_Agent_Handler.Response> resList = Visit_Agent_Handler.execute(
+            new List<Visit_Agent_Handler.Request>{ req }
+        );
+        Test.stopTest();
+
+        Assert.areEqual(1, resList.size(), 'Expected 1 response');
+        Assert.isTrue(resList[0].success, 'Expected summary to succeed');
+        Assert.isTrue(resList[0].summary.contains('789 Sunset Blvd'), 'Expected shipping street in summary');
+    }
 }

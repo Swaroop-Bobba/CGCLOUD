@@ -390,8 +390,8 @@
                     |
                     | SECTION 1: DIRECT FEATURE REQUESTS (For experienced/power users)
                     | - Check if the user's message directly requests a specific feature, record type, action, or brief.
-                    | - If a direct request is detected, bypass any greeting menus/tables and run the corresponding action:
-                    |   * "Account Summary" / "show summary" / "account details" -> Call @actions.get_counts
+                    | - If a direct request is detected, bypass any greeting menus/tables and run the
+                    |   * "Account Summary" / "show summary" / "account details" / "1" / 1 -> Call @actions.get_counts. Present the returned summary markdown directly. Do NOT query or print raw visit history lists or contacts lists when Account Summary is requested.
                     |   * "Contacts" / "show contacts" / "get contact details" -> Call @actions.get_details with recordType = "contacts"
                     |   * "Promotions" / "active promotions" -> Call @actions.get_details with recordType = "promotions"
                     |   * "Eligible Products" / "eligible products of <index>" / "eligible products for <promotionName>" -> Call @actions.get_products with promotionId mapped to the selected promotion's ID or name.
@@ -440,18 +440,18 @@
                     |   A. IF THE GREETING MENU OR DYNAMIC NEXT STEPS MENU WAS PRESENTED:
                     |      1. Extract the text label of the numbered option corresponding to the user's input from the last message.
                     |      2. Execute the action for that option text:
-                    |         * Account Summary / Account Details -> Call @actions.get_counts. When get_counts returns, format the output to display Contacts count, Visits count, Account Age, Phone, Email, and Location Navigate link (using the exact markdown hyperlink values of accountPhone, accountEmail, and locationNavigateLink outputs). You MUST output the locationNavigateLink value verbatim on a single line without any newlines, spaces, wrapping, or extra markdown syntax inside the link. Do NOT show activities or tasks counts.
-                    |         * Contacts / View Contacts / Contact details -> Call @actions.get_details with recordType = "contacts"
-                    |         * Promotions / Audit active promotions / active promotions -> Call @actions.get_details with recordType = "promotions"
+                    |         * Account Summary / Account Details / Option 1 / "1" / 1 -> Call @actions.get_counts. Present the returned summary markdown directly without calling any other actions or querying raw record lists. Do NOT query or print the full visit history list or contacts list when Account Summary is requested. Do NOT show activities or tasks counts.
+                    |         * Contacts / View Contacts / Contact details / Option 2 / "2" / 2 -> Call @actions.get_details with recordType = "contacts"
+                    |         * Promotions / Audit active promotions / active promotions / Option 3 / "3" / 3 -> Call @actions.get_details with recordType = "promotions"
                     |         * Eligible Products / products for promotion / products of <number> -> Call @actions.get_products with promotionId resolved from index or name.
-                    |         * Pre-Visit Brief / Store Brief / Store Overview / Pre-visit briefing / pre visit breif -> Call @actions.store_brief
-                    |         * Inventory / Check inventory / Out of stock records -> Call @actions.get_details with recordType = "inventory"
-                    |         * Order History / purchasing patterns / Order summary -> Call @actions.order_summary
-                    |         * Update Visit / Update Visit Information / "7" -> You MUST NOT attempt to list fields or collect inputs yourself. You MUST transition immediately to the @subagent.visit_updater subagent by calling {!@actions.go_to_visit_updater}.
-                    |         * Sellable Products / Products in assortment -> Call @actions.get_details with recordType = "assortmentproducts"
-                    |         * Switch / Reset Context / Switch to a different visit -> Call @actions.switch_visit
+                    |         * Pre-Visit Brief / Store Brief / Store Overview / Pre-visit briefing / pre visit breif / Option 4 / "4" / 4 -> Call @actions.store_brief
+                    |         * Inventory / Check inventory / Out of stock records / Option 5 / "5" / 5 -> Call @actions.get_details with recordType = "inventory"
+                    |         * Order History / purchasing patterns / Order summary / Option 6 / "6" / 6 -> Call @actions.order_summary
+                    |         * Update Visit / Update Visit Information / Option 7 / "7" / 7 -> You MUST NOT attempt to list fields or collect inputs yourself. You MUST transition immediately to the @subagent.visit_updater subagent by calling {!@actions.go_to_visit_updater}.
+                    |         * Sellable Products / Products in assortment / Option 8 / "8" / 8 -> Call @actions.get_details with recordType = "assortmentproducts"
+                    |         * Switch / Reset Context / Switch to a different visit / Option 10 / "10" / 10 -> Call @actions.switch_visit
                     |         * Product Recommendations / suggestions -> Call @actions.suggest_products
-                    |         * Visit Activities / planned activities / surveys / checklists / questions / 📝 Visit Activities / 📝 Visit Activities (Fetch planned surveys, checklists, or check completed/pending questions) -> Transition to @subagent.visit_activities
+                    |         * Visit Activities / planned activities / surveys / checklists / questions / Option 9 / "9" / 9 / 📝 Visit Activities / 📝 Visit Activities (Fetch planned surveys, checklists, or check completed/pending questions) -> Transition to @subagent.visit_activities
                     |         * Forecasting / predictive insights / sales forecast / predictive -> Transition to @subagent.forecasting_insights using go_to_forecasting
                     |         * Record Calculations / calculations / dynamic calculations -> Transition to @subagent.record_calculations_insights using go_to_calculations
                     |
@@ -588,6 +588,7 @@
                     with agentName = "Visit_Intelligence"
                     with actionType = "generateSummary"
                     with visitId = @variables.visitId
+                    with accountId = @variables.accountId
 
                 search_users: @actions.search_users
                     description: "Search for a user by name to get their details before assigning a visit."
@@ -610,8 +611,8 @@
 
         actions:
             get_related_counts:
-                description: "Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account."
-                target: "apex://Order_Agent_Handler"
+                description: "Get summary counts and overview of the current Account."
+                target: "apex://Account_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -625,6 +626,28 @@
                 outputs:
                     summary: string
                         description: "Result summary text."
+                    accountName: string
+                        description: "The account name."
+                    accountPhone: string
+                        description: "Formatted phone link."
+                    accountEmail: string
+                        description: "Formatted email link."
+                    accountAge: string
+                        description: "Formatted account age."
+                    locationNavigateLink: string
+                        description: "Direct Google Maps link."
+                    totalContacts: integer
+                        description: "Count of contacts."
+                    totalVisits: integer
+                        description: "Count of visits."
+                    openOpportunities: integer
+                        description: "Count of open opportunities."
+                    totalPipelineValue: currency
+                        description: "Pipeline total value."
+                    openCases: integer
+                        description: "Count of open cases."
+                    googleMapsUrl: string
+                        description: "Google Maps URL."
                     message: string
                         description: "Status outcome message."
 
@@ -799,7 +822,8 @@
                         is_required: True
                     visitId: string
                         description: "The current Visit ID."
-                        is_required: True
+                    accountId: string
+                        description: "High level account contextual ID."
                 outputs:
                     visitSummary: string
                         description: "Generated visit summary text."
@@ -1179,37 +1203,50 @@
 
     subagent create_visit:
         label: "Create Visit Agent"
-        description: "Handle the creation of a new Visit record using the standard UI form. Only use if the user profile is NOT CGCloud_User_Profile."
+        description: "Handle the creation of a new Visit record using the interactive LWC form."
         before_reasoning:
             set @variables.activeSubagent = "create_visit"
+            set @variables.tempIsSubmitted = False
+            set @variables.tempMessage = ""
 
         reasoning:
-            instructions: ->
-                if @variables.visitId != "" and @variables.visitId is not None and @variables.visitId != "None":
-                    set @variables.activeSubagent = "visit_intelligence"
-                    set @variables.accountId = ""
-                    transition to @subagent.agent_router
+            instructions: |
+                You are now in the Create Visit Agent subagent.
 
-                if @variables.visitId == "":
-                    | You are now in the Create Visit Agent.
-                    | Please call the create_visit_record action immediately to present the record creation form to the user.
-                    | Do NOT ask the user for any details in text. Let the form collect them.
-                    | Greet the user verbatim with: "I've opened the Create Visit form for you. Please fill in the details in the form that appears in the chat."
-                    |
-                    | If the create_visit_record action returns success = False, you MUST display the error message returned in the message output field verbatim: "Failed to create visit: [message]" and do NOT transition.
+                SECTION 1: DISPLAYING THE FORM
+                - If the user's message is initiating visit creation (e.g., they typed "create visit", "new visit", "schedule visit", "plan a visit", or transitioned here):
+                  * Strict Short Prompt Rule: Output ONLY a short 1-sentence prompt verbatim: "Please fill in the details in the Create Visit form below." Do NOT list fields, do NOT ask questions in text, do NOT generate JSON or sample values, and do NOT simulate user inputs.
+                  * CRITICAL PROHIBITION: You MUST NEVER invent, simulate, synthesize, or supply dummy values for createVisitWrapper (such as dummy Subject, Account, Start Date, End Date, or Place). You MUST NEVER execute the creation action with fabricated data.
+                  * You MUST treat the createVisitWrapper parameter as empty and uncollected.
+                  * You MUST explicitly PROMPT the user to provide their visit details using the LWC form by calling the action {!@actions.create_visit_record} and prompting for createVisitWrapper.
+                - Otherwise (the user has filled in the details in the LWC form and submitted):
+                  * You MUST NOT prompt again. Proceed to execute the action {!@actions.create_visit_record} using the newly collected createVisitWrapper.
+                  * You MUST NOT print any options, introductory text, explanation, or greetings once the action is triggered. Simply call {!@actions.create_visit_record}.
+
+                SECTION 2: RETURN ON SUCCESS AND FAILURE HANDLING
+                - If @variables.tempIsSubmitted is True:
+                  * Display a confirmation message: "✅ Successfully created new Visit [Visit Record](/lightning/r/Visit/{!@variables.visitId}/view)."
+                  * Set @variables.tempIsSubmitted = False
+                  * Set @variables.tempMessage = ""
+                  * Set @variables.activeSubagent = "visit_intelligence"
+                  * Transition to @subagent.agent_router
+                - If @variables.tempIsSubmitted is False and @variables.tempMessage != "":
+                  * Surface the error message verbatim: "Failed to create visit: {!@variables.tempMessage}" and ask the user if they want to try again.
+                  * Set @variables.tempMessage = ""
 
             actions:
                 create_visit_record: @actions.create_visit_record
+                    description: "Validate fields and create a new Visit record from user form submission."
                     with agentName = "VisitIntelligence"
                     with actionType = "create_visit_record"
-                    description: "Validate fields and create a new Visit record."
                     with createVisitWrapper = ...
                     set @variables.visitId = @outputs.visitId
                     set @variables.accountId = @outputs.accountId
                     set @variables.visitStatus = @outputs.visitStatus
                     set @variables.visitDate = @outputs.visitDate
                     set @variables.assignedUser = @outputs.assignedUser
-
+                    set @variables.tempIsSubmitted = @outputs.success
+                    set @variables.tempMessage = @outputs.message
 
         actions:
             get_current_user_profile:
@@ -1229,7 +1266,7 @@
                         description: "The name of the user profile."
 
             create_visit_record:
-                description: "Validate fields and create a new Visit record. The visitData parameter must be populated using the form input."
+                description: "Validate fields and create a new Visit record. The createVisitWrapper parameter MUST be populated by the user through the interactive LWC form."
                 target: "apex://Visit_Agent_Handler"
                 inputs:
                     agentName: string
@@ -1238,7 +1275,7 @@
                         description: "The action to perform."
                     createVisitWrapper: object
                         complex_data_type_name: "c__createVisitWrapperType"
-                        description: "The visit details form data containing Subject, Account, Planned Start, Place, and optional fields."
+                        description: "The visit details form data collected directly from the user via the interactive LWC form."
                         is_required: True
                         is_user_input: True
                 outputs:
