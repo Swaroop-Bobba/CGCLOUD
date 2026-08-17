@@ -1,398 +1,331 @@
 /**
- * @description Master Service class to handle Visit operations for Agentforce.
+ * @description UI Controller Service for Visit Intelligence Lightning Web Components (createVisitEditor).
+ *              Provides AuraEnabled lookups, metadata queries, and context resolvers.
  */
-public with sharing class Visit_Agent_Service implements IAgentService {
-  /**
-   * @description Executes the visit-related agent actions.
-   * @param req The agent request.
-   * @return Agent_Response The agent response.
-   */
-  public Agent_Response execute(Agent_Request req) {
-    Agent_Response res = new Agent_Response();
-    String action = req.actionType != null
-      ? req.actionType.toLowerCase().trim()
-      : '';
+global with sharing class Visit_Agent_Service {
 
-    try {
-      if (action == 'getavailable') {
-        res.visits = getAvailableVisits();
-        Integer totalCount = [SELECT COUNT() FROM Visit WITH USER_MODE];
-        res.totalVisits = totalCount;
-        res.message =
-          'Total visits in the database: ' +
-          totalCount +
-          '. Showing the top 20 matches. Please let me know if you would like to apply filters like account, status, or date range to narrow down the results.';
-        res.success = true;
-      } else if (action == 'getaccountvisits') {
-        res.visits = getAccountVisits(req.accountId, req.searchOffset);
-        res.success = true;
-      } else if (action == 'getoosvisits') {
-        res.visits = getOosVisits(req.accountId, req.searchOffset);
-        res.success = true;
-      } else if (action == 'search') {
-        res.visits = searchVisits(req.searchQuery, req.searchOffset);
-        Integer totalCount = [SELECT COUNT() FROM Visit];
-        res.totalVisits = totalCount;
-        if (
-          String.isNotBlank(req.searchQuery) &&
-          (req.searchQuery.trim().equalsIgnoreCase('all') ||
-          req.searchQuery.trim().equalsIgnoreCase('all visits'))
-        ) {
-          res.message =
-            'Total visits in the database: ' +
-            totalCount +
-            '. Showing the top 20 matches. Please let me know if you would like to apply filters like account, status, or date range to narrow down the results.';
-        } else {
-          res.message =
-            'Total visits matching your search: ' +
-            res.visits.size() +
-            ' (out of ' +
-            totalCount +
-            ' in the org)';
+    global Visit_Agent_Service() {}
+
+    /**
+     * @description Returns available Visit status picklist options.
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String, String>> getStatusOptions() {
+        List<Map<String, String>> options = new List<Map<String, String>>();
+        try {
+            if (Schema.getGlobalDescribe().containsKey('visit')) {
+                Schema.DescribeFieldResult fieldResult = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap().get('Status').getDescribe();
+                for (Schema.PicklistEntry entry : fieldResult.getPicklistValues()) {
+                    options.add(new Map<String, String>{
+                        'label' => entry.getLabel(),
+                        'value' => entry.getValue()
+                    });
+                }
+            }
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error in getStatusOptions: ' + e.getMessage());
         }
-        res.success = true;
-      } else if (
-        action == 'updatevisit' ||
-        action == 'update_visit_record' ||
-        action == 'update_visit_status' ||
-        action == 'update_visit_owner' ||
-        action == 'update_visit_notes' ||
-        action == 'update_visit_start_time' ||
-        action == 'update_visit_end_time' ||
-        action == 'update_visit_status_mobile_action' ||
-        action == 'update_visit_owner_mobile_action' ||
-        action == 'update_visit_notes_mobile_action' ||
-        action == 'update_visit_start_time_mobile_action' ||
-        action == 'update_visit_end_time_mobile_action'
-      ) {
-        res = updateVisit(req);
-      } else if (action == 'get_visit_for_update') {
-        res = getVisitForUpdate(req);
-      } else if (
-        action == 'createvisit' ||
-        action == 'create_visit_record' ||
-        action == 'create_visit_record_mobile'
-      ) {
-        createVisit(req, res);
-      } else if (action == 'getstorebrief') {
-        res.message = getStoreBrief(req.visitId, req.accountId);
-        res.success = true;
-      } else if (action == 'generatesummary') {
-        res.message = generateVisitSummary(req.visitId);
-        res.success = true;
-      } else if (
-        action == 'promptvisitmobile' ||
-        action == 'prompt_visit_mobile'
-      ) {
-        promptVisitMobile(req, res);
-      } else if (action == 'select_and_navigate_visit') {
-        res = selectAndNavigateVisit(req);
-      } else if (action == 'getstalevisits' || action == 'get_stale_visits') {
-        res.staleVisits = getStaleVisits(req.accountId, req.searchOffset);
-        res.success = true;
-      } else if (action == 'sendvisitalerts' || action == 'send_visit_alerts') {
-        res = sendVisitAlerts(req.visitIds);
-      } else {
-        res.success = false;
-        res.message = 'Unknown actionType: ' + action;
-      }
-    } catch (Exception e) {
-      res.success = false;
-      res.message = e.getMessage();
+        return options;
     }
-    return res;
-  }
 
-  // --- Search Delegates ---
+    /**
+     * @description Returns active users in the system.
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String, String>> getActiveUsers() {
+        return searchUsers('');
+    }
 
-  /**
-   * @description Gets available visits for the current user.
-   * @return List<Agent_Response.VisitOption> List of visit options.
-   */
-  @AuraEnabled
-  public static List<Agent_Response.VisitOption> getAvailableVisits() {
-    return Visit_Search_Helper.getAvailableVisits();
-  }
+    /**
+     * @description Searches active users matching search term.
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String, String>> searchUsers(String searchTerm) {
+        List<Map<String, String>> options = new List<Map<String, String>>();
+        try {
+            List<User> users;
+            if (String.isBlank(searchTerm)) {
+                users = [SELECT Id, Name FROM User WHERE IsActive = TRUE WITH USER_MODE ORDER BY Name LIMIT 50];
+            } else {
+                String term = '%' + String.escapeSingleQuotes(searchTerm.trim()) + '%';
+                users = [SELECT Id, Name FROM User WHERE IsActive = TRUE AND Name LIKE :term WITH USER_MODE ORDER BY Name LIMIT 50];
+            }
+            for (User u : users) {
+                options.add(new Map<String, String>{
+                    'label' => u.Name,
+                    'value' => u.Id
+                });
+            }
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error in searchUsers: ' + e.getMessage());
+        }
+        return options;
+    }
 
-  /**
-   * @description Gets visits for a specific account.
-   * @param accountId Account ID.
-   * @param searchOffset Search offset.
-   * @return List<Agent_Response.VisitOption> List of visit options.
-   */
-  public static List<Agent_Response.VisitOption> getAccountVisits(String accountId, String searchOffset) {
-    return Visit_Search_Helper.getAccountVisits(accountId, searchOffset);
-  }
+    /**
+     * @description Resolves user display name for a given user ID.
+     */
+    @AuraEnabled(cacheable=true)
+    public static String getUserName(Id userId) {
+        if (userId == null) {
+            return '';
+        }
+        try {
+            List<User> users = [SELECT Name FROM User WHERE Id = :userId WITH USER_MODE LIMIT 1];
+            return users.isEmpty() ? '' : users[0].Name;
+        } catch (Exception e) {
+            return '';
+        }
+    }
 
-  /**
-   * @description Gets out-of-stock visits for an account.
-   * @param accountId Account ID.
-   * @param searchOffset Search offset.
-   * @return List<Agent_Response.VisitOption> List of visit options.
-   */
-  public static List<Agent_Response.VisitOption> getOosVisits(String accountId, String searchOffset) {
-    return Visit_Search_Helper.getOosVisits(accountId, searchOffset);
-  }
+    /**
+     * @description Searches Accounts matching search term.
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String, String>> searchAccounts(String searchTerm) {
+        List<Map<String, String>> options = new List<Map<String, String>>();
+        try {
+            List<Account> accounts;
+            if (String.isBlank(searchTerm)) {
+                accounts = [SELECT Id, Name FROM Account WITH USER_MODE ORDER BY Name LIMIT 50];
+            } else {
+                String term = '%' + String.escapeSingleQuotes(searchTerm.trim()) + '%';
+                accounts = [SELECT Id, Name FROM Account WHERE Name LIKE :term WITH USER_MODE ORDER BY Name LIMIT 50];
+            }
+            for (Account acc : accounts) {
+                options.add(new Map<String, String>{
+                    'label' => acc.Name,
+                    'value' => acc.Id
+                });
+            }
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error in searchAccounts: ' + e.getMessage());
+        }
+        return options;
+    }
 
-  /**
-   * @description Searches visits based on search query string.
-   * @param searchQuery Search query.
-   * @param searchOffset Search offset.
-   * @return List<Agent_Response.VisitOption> List of visit options.
-   */
-  public static List<Agent_Response.VisitOption> searchVisits(String searchQuery, String searchOffset) {
-    return Visit_Search_Helper.searchVisits(searchQuery, searchOffset);
-  }
+    /**
+     * @description Resolves Account Name for a given Account ID.
+     */
+    @AuraEnabled(cacheable=true)
+    public static String getAccountName(Id accountId) {
+        if (accountId == null) {
+            return '';
+        }
+        try {
+            List<Account> accounts = [SELECT Name FROM Account WHERE Id = :accountId WITH USER_MODE LIMIT 1];
+            return accounts.isEmpty() ? '' : accounts[0].Name;
+        } catch (Exception e) {
+            return '';
+        }
+    }
 
-  // --- Action Delegates ---
+    /**
+     * @description Searches Places (RetailStore / Location) matching search term.
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String, String>> searchPlaces(String searchTerm) {
+        List<Map<String, String>> options = new List<Map<String, String>>();
+        try {
+            String term = String.isNotBlank(searchTerm) ? '%' + String.escapeSingleQuotes(searchTerm.trim()) + '%' : '%';
+            if (Schema.getGlobalDescribe().containsKey('retailstore')) {
+                List<SObject> stores = Database.query('SELECT Id, Name FROM RetailStore WHERE Name LIKE :term ORDER BY Name LIMIT 25');
+                for (SObject rs : stores) {
+                    options.add(new Map<String, String>{
+                        'label' => (String) rs.get('Name') + ' (Retail Store)',
+                        'value' => (String) rs.get('Id')
+                    });
+                }
+            }
+            if (Schema.getGlobalDescribe().containsKey('location')) {
+                List<SObject> locs = Database.query('SELECT Id, Name FROM Location WHERE Name LIKE :term ORDER BY Name LIMIT 25');
+                for (SObject loc : locs) {
+                    options.add(new Map<String, String>{
+                        'label' => (String) loc.get('Name') + ' (Location)',
+                        'value' => (String) loc.get('Id')
+                    });
+                }
+            }
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error in searchPlaces: ' + e.getMessage());
+        }
+        return options;
+    }
 
-  /**
-   * @description Updates an existing visit record.
-   * @param req Agent request.
-   * @return Agent_Response Result of update.
-   */
-  public static Agent_Response updateVisit(Agent_Request req) {
-    return Visit_Action_Helper.updateVisit(req);
-  }
+    /**
+     * @description Resolves Place Name for a given Place ID.
+     */
+    @AuraEnabled(cacheable=true)
+    public static String getPlaceName(Id placeId) {
+        if (placeId == null) {
+            return '';
+        }
+        try {
+            if (Schema.getGlobalDescribe().containsKey('retailstore')) {
+                List<SObject> stores = Database.query('SELECT Name FROM RetailStore WHERE Id = :placeId LIMIT 1');
+                if (!stores.isEmpty()) {
+                    return (String) stores[0].get('Name');
+                }
+            }
+            if (Schema.getGlobalDescribe().containsKey('location')) {
+                List<SObject> locs = Database.query('SELECT Name FROM Location WHERE Id = :placeId LIMIT 1');
+                if (!locs.isEmpty()) {
+                    return (String) locs[0].get('Name');
+                }
+            }
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error in getPlaceName: ' + e.getMessage());
+        }
+        return '';
+    }
 
-  /**
-   * @description Retrieves visit details for full update.
-   * @param req Agent request.
-   * @return Agent_Response Visit update payload response.
-   */
-  public static Agent_Response getVisitForUpdate(Agent_Request req) {
-    return Visit_Action_Helper.getVisitForUpdate(req);
-  }
+    /**
+     * @description Searches CG Cloud Visit Templates matching search term.
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String, String>> searchTemplates(String searchTerm) {
+        List<Map<String, String>> options = new List<Map<String, String>>();
+        try {
+            if (Schema.getGlobalDescribe().containsKey('cgcloud__visit_template__c')) {
+                String term = String.isNotBlank(searchTerm) ? '%' + String.escapeSingleQuotes(searchTerm.trim()) + '%' : '%';
+                List<SObject> templates = Database.query('SELECT Id, Name FROM cgcloud__Visit_Template__c WHERE Name LIKE :term ORDER BY Name LIMIT 50');
+                for (SObject vt : templates) {
+                    options.add(new Map<String, String>{
+                        'label' => (String) vt.get('Name'),
+                        'value' => (String) vt.get('Id')
+                    });
+                }
+            }
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error in searchTemplates: ' + e.getMessage());
+        }
+        return options;
+    }
 
-  /**
-   * @description Creates a new visit record.
-   * @param req Agent request.
-   * @param res Agent response.
-   */
-  public static void createVisit(Agent_Request req, Agent_Response res) {
-    Visit_Action_Helper.createVisit(req, res);
-  }
+    /**
+     * @description Resolves Template Name for a given Template ID.
+     */
+    @AuraEnabled(cacheable=true)
+    public static String getTemplateName(Id templateId) {
+        if (templateId == null) {
+            return '';
+        }
+        try {
+            if (Schema.getGlobalDescribe().containsKey('cgcloud__visit_template__c')) {
+                List<SObject> templates = Database.query('SELECT Name FROM cgcloud__Visit_Template__c WHERE Id = :templateId LIMIT 1');
+                return templates.isEmpty() ? '' : (String) templates[0].get('Name');
+            }
+        } catch (Exception e) {
+            return '';
+        }
+        return '';
+    }
 
-  /**
-   * @description Prompts the visit mobile.
-   * @param req Agent request.
-   * @param res Agent response.
-   */
-  public static void promptVisitMobile(Agent_Request req, Agent_Response res) {
-    Visit_Action_Helper.promptVisitMobile(req, res);
-  }
+    /**
+     * @description Retrieves pre-populated Visit data for LWC modal editor.
+     */
+    @AuraEnabled(cacheable=true)
+    public static CreateVisitWrapper getVisitDataForLwc(Id visitId) {
+        if (visitId == null) {
+            return null;
+        }
+        try {
+            if (!Schema.getGlobalDescribe().containsKey('visit')) {
+                return null;
+            }
+            Boolean hasTemplate = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap().containsKey('cgcloud__visit_template__c');
+            Boolean hasAccountable = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap().containsKey('cgcloud__accountable__c');
+            Boolean hasResponsible = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap().containsKey('cgcloud__responsible__c');
 
-  /**
-   * @description Selects a visit by ID and returns navigation payload.
-   * @param req Agent request.
-   * @return Agent_Response Agent response.
-   */
-  public static Agent_Response selectAndNavigateVisit(Agent_Request req) {
-    return Visit_Action_Helper.selectAndNavigateVisit(req);
-  }
+            String query = 'SELECT Id, Name, AccountId, PlaceId, Status, PlannedVisitStartTime, PlannedVisitEndTime';
+            if (hasTemplate) query += ', cgcloud__Visit_Template__c';
+            if (hasAccountable) query += ', cgcloud__Accountable__c';
+            if (hasResponsible) query += ', cgcloud__Responsible__c';
+            query += ' FROM Visit WHERE Id = :visitId LIMIT 1';
 
-  /**
-   * @description Gets stale visits for an account.
-   * @param accountId Account ID.
-   * @param searchOffset Query offset.
-   * @return List<Agent_Response.StaleVisitInfo> Stale visits list.
-   */
-  public static List<Agent_Response.StaleVisitInfo> getStaleVisits(String accountId, String searchOffset) {
-    return Visit_Action_Helper.getStaleVisits(accountId, searchOffset);
-  }
+            List<SObject> visits = Database.query(query);
+            if (visits.isEmpty()) {
+                return null;
+            }
+            SObject v = visits[0];
+            CreateVisitWrapper wrapper = new CreateVisitWrapper();
+            wrapper.subject = (String) v.get('Name');
+            wrapper.accountId = (String) v.get('AccountId');
+            wrapper.placeId = (String) v.get('PlaceId');
+            if (hasTemplate) wrapper.visitTemplateId = (String) v.get('cgcloud__Visit_Template__c');
+            if (hasAccountable) wrapper.accountableId = (String) v.get('cgcloud__Accountable__c');
+            if (hasResponsible) wrapper.responsibleId = (String) v.get('cgcloud__Responsible__c');
+            wrapper.plannedStartTime = (DateTime) v.get('PlannedVisitStartTime');
+            wrapper.plannedEndTime = (DateTime) v.get('PlannedVisitEndTime');
+            return wrapper;
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error in getVisitDataForLwc: ' + e.getMessage());
+            return null;
+        }
+    }
 
-  /**
-   * @description Sends custom notifications and creates tasks for specified visits.
-   * @param visitIds List of visit IDs.
-   * @return Agent_Response Result of sending alerts.
-   */
-  public static Agent_Response sendVisitAlerts(List<String> visitIds) {
-    return Visit_Action_Helper.sendVisitAlerts(visitIds);
-  }
+    /**
+     * @description Retrieves the current user's profile and ID for Responsible Rep assignments.
+     */
+    @AuraEnabled(cacheable=true)
+    public static Map<String, Object> getResponsibleUserContext() {
+        Map<String, Object> result = new Map<String, Object>();
+        try {
+            User u = [SELECT Id, Name, Profile.Name FROM User WHERE Id = :UserInfo.getUserId() WITH USER_MODE LIMIT 1];
+            result.put('userId', u.Id);
+            result.put('userName', u.Name);
+            result.put('isCGCloudUser', (u.Profile.Name == 'CGCloud_User_Profile'));
+        } catch (Exception e) {
+            result.put('userId', UserInfo.getUserId());
+            result.put('userName', UserInfo.getUserName());
+            result.put('isCGCloudUser', false);
+        }
+        return result;
+    }
 
-  // --- Summary Delegates ---
+    /**
+     * @description Retrieves dynamic field values for a given visit record.
+     */
+    @AuraEnabled(cacheable=true)
+    public static Map<String, Object> getVisitFieldValues(Id visitId) {
+        Map<String, Object> result = new Map<String, Object>();
+        if (visitId == null) {
+            return result;
+        }
+        try {
+            if (!Schema.getGlobalDescribe().containsKey('visit')) {
+                return result;
+            }
+            Boolean hasNote = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap().containsKey('cgcloud__note__c');
+            Boolean hasResponsible = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap().containsKey('cgcloud__responsible__c');
 
-  /**
-   * @description Gets question summary counts for a visit.
-   * @param visitId Visit ID.
-   * @return Map<String, Integer> Question summary map.
-   */
-  public static Map<String, Integer> getQuestionsSummaryCounts(String visitId) {
-    return Visit_Summary_Helper.getQuestionsSummaryCounts(visitId);
-  }
+            String query = 'SELECT Id, Name, Status, AccountId, Account.Name, PlaceId, PlannedVisitStartTime, PlannedVisitEndTime';
+            if (hasNote) query += ', cgcloud__Note__c';
+            if (hasResponsible) query += ', cgcloud__Responsible__c, cgcloud__Responsible__r.Name';
+            query += ' FROM Visit WHERE Id = :visitId LIMIT 1';
 
-  /**
-   * @description Gets planned activity details for a visit.
-   * @param visitId Visit ID.
-   * @return String Formatted details text.
-   */
-  public static String getPlannedActivitiesDetails(String visitId) {
-    return Visit_Summary_Helper.getPlannedActivitiesDetails(visitId);
-  }
-
-  /**
-   * @description Gets activity counts for a visit.
-   * @param visitId Visit ID.
-   * @return Map<String, Integer> Activity counts map.
-   */
-  public static Map<String, Integer> getActivityCounts(String visitId) {
-    return Visit_Summary_Helper.getActivityCounts(visitId);
-  }
-
-  /**
-   * @description Generates store brief summary string.
-   * @param visitId Visit ID.
-   * @param accountId Account ID.
-   * @return String Store brief text.
-   */
-  public static String getStoreBrief(String visitId, String accountId) {
-    return Visit_Summary_Helper.getStoreBrief(visitId, accountId);
-  }
-
-  /**
-   * @description Generates string summary for a visit.
-   * @param visitId Visit ID.
-   * @return String Summary text.
-   */
-  public static String generateVisitSummary(String visitId) {
-    return Visit_Summary_Helper.generateVisitSummary(visitId);
-  }
-
-  /**
-   * @description Generates object summary wrapper for a visit.
-   * @param visitId Visit ID.
-   * @return VisitSummaryWrapper Summary wrapper object.
-   */
-  public static VisitSummaryWrapper generateVisitSummaryObj(String visitId) {
-    return Visit_Summary_Helper.generateVisitSummaryObj(visitId);
-  }
-
-  // --- AuraEnabled Lookup Delegates ---
-
-  /**
-   * @description Gets picklist options for Visit Status.
-   * @return List<Map<String, String>> Options list.
-   */
-  @AuraEnabled(cacheable=true)
-  public static List<Map<String, String>> getStatusOptions() {
-    return Visit_Lookup_Helper.getStatusOptions();
-  }
-
-  /**
-   * @description Gets active users.
-   * @return List<Map<String, String>> Options list.
-   */
-  @AuraEnabled(cacheable=true)
-  public static List<Map<String, String>> getActiveUsers() {
-    return Visit_Lookup_Helper.getActiveUsers();
-  }
-
-  /**
-   * @description Searches active users.
-   * @param searchTerm Search query string.
-   * @return List<Map<String, String>> Options list.
-   */
-  @AuraEnabled(cacheable=true)
-  public static List<Map<String, String>> searchUsers(String searchTerm) {
-    return Visit_Lookup_Helper.searchUsers(searchTerm);
-  }
-
-  /**
-   * @description Gets user name by ID.
-   * @param userId User ID.
-   * @return String User name.
-   */
-  @AuraEnabled(cacheable=true)
-  public static String getUserName(Id userId) {
-    return Visit_Lookup_Helper.getUserName(userId);
-  }
-
-  /**
-   * @description Searches accounts.
-   * @param searchTerm Search query string.
-   * @return List<Map<String, String>> Options list.
-   */
-  @AuraEnabled(cacheable=true)
-  public static List<Map<String, String>> searchAccounts(String searchTerm) {
-    return Visit_Lookup_Helper.searchAccounts(searchTerm);
-  }
-
-  /**
-   * @description Gets account name by ID.
-   * @param accountId Account ID.
-   * @return String Account name.
-   */
-  @AuraEnabled(cacheable=true)
-  public static String getAccountName(Id accountId) {
-    return Visit_Lookup_Helper.getAccountName(accountId);
-  }
-
-  /**
-   * @description Searches places (RetailStore and Location).
-   * @param searchTerm Search query string.
-   * @return List<Map<String, String>> Options list.
-   */
-  @AuraEnabled(cacheable=true)
-  public static List<Map<String, String>> searchPlaces(String searchTerm) {
-    return Visit_Lookup_Helper.searchPlaces(searchTerm);
-  }
-
-  /**
-   * @description Gets place name by ID.
-   * @param placeId Place ID.
-   * @return String Place name.
-   */
-  @AuraEnabled(cacheable=true)
-  public static String getPlaceName(Id placeId) {
-    return Visit_Lookup_Helper.getPlaceName(placeId);
-  }
-
-  /**
-   * @description Searches visit templates.
-   * @param searchTerm Search query string.
-   * @return List<Map<String, String>> Options list.
-   */
-  @AuraEnabled(cacheable=true)
-  public static List<Map<String, String>> searchTemplates(String searchTerm) {
-    return Visit_Lookup_Helper.searchTemplates(searchTerm);
-  }
-
-  /**
-   * @description Gets template name by ID.
-   * @param templateId Template ID.
-   * @return String Template name.
-   */
-  @AuraEnabled(cacheable=true)
-  public static String getTemplateName(Id templateId) {
-    return Visit_Lookup_Helper.getTemplateName(templateId);
-  }
-
-  /**
-   * @description Gets visit details to pre-populate LWC editor form.
-   * @param visitId Visit ID.
-   * @return CreateVisitWrapper Wrapper object with visit details.
-   */
-  @AuraEnabled(cacheable=true)
-  public static CreateVisitWrapper getVisitDataForLwc(Id visitId) {
-    return Visit_Lookup_Helper.getVisitDataForLwc(visitId);
-  }
-
-  /**
-   * @description Gets responsible user context.
-   * @return Map<String, Object> Context map.
-   */
-  @AuraEnabled(cacheable=true)
-  public static Map<String, Object> getResponsibleUserContext() {
-    return Visit_Lookup_Helper.getResponsibleUserContext();
-  }
-
-  /**
-   * @description Gets current field values of a visit for LWC editor pre-population.
-   * @param visitId Visit ID.
-   * @return Map<String, Object> Field values map.
-   */
-  @AuraEnabled(cacheable=true)
-  public static Map<String, Object> getVisitFieldValues(Id visitId) {
-    return Visit_Lookup_Helper.getVisitFieldValues(visitId);
-  }
+            List<SObject> visits = Database.query(query);
+            if (!visits.isEmpty()) {
+                SObject v = visits[0];
+                result.put('id', (String) v.get('Id'));
+                result.put('name', (String) v.get('Name'));
+                result.put('status', (String) v.get('Status'));
+                result.put('accountId', (String) v.get('AccountId'));
+                SObject acc = v.getSObject('Account');
+                result.put('accountName', acc != null ? (String) acc.get('Name') : '');
+                result.put('placeId', (String) v.get('PlaceId'));
+                result.put('plannedStartTime', (DateTime) v.get('PlannedVisitStartTime'));
+                result.put('plannedEndTime', (DateTime) v.get('PlannedVisitEndTime'));
+                if (hasNote) result.put('notes', (String) v.get('cgcloud__Note__c'));
+                if (hasResponsible) {
+                    result.put('responsibleId', (String) v.get('cgcloud__Responsible__c'));
+                    SObject resp = v.getSObject('cgcloud__Responsible__r');
+                    result.put('responsibleName', resp != null ? (String) resp.get('Name') : '');
+                }
+            }
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error in getVisitFieldValues: ' + e.getMessage());
+        }
+        return result;
+    }
 }

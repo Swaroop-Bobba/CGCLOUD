@@ -1,14 +1,29 @@
-# List files or directories below to ignore them when running force:source:push, force:source:pull, and force:source:status
-# More information: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_exclude_source.htm
-#
-
+# List files or directories below to ignore them when building package version
 package.xml
-
-# LWC configuration files
 **/jsconfig.json
 **/.eslintrc.json
-
-# LWC Jest
 **/__tests__/**
-
 node_modules/
+.sfdx/
+.sf/
+scratch/
+docs/
+
+# Ignore non-packaged metadata directories
+force-app/main/default/aiAuthoringBundles/
+force-app/main/default/genAiPromptTemplates/
+force-app/main/default/objects/
+force-app/main/default/layouts/
+force-app/main/default/flexipages/
+force-app/main/default/genAiPlannerBundles/
+force-app/main/default/bots/
+force-app/main/default/tabs/
+force-app/main/default/applications/
+force-app/main/default/aura/
+force-app/main/default/contentassets/
+force-app/main/default/triggers/
+
+# Ignore legacy un-refactored classes
+force-app/main/default/classes/AgentMockDataSeeder*
+force-app/main/default/classes/MobileAgentUtility*
+

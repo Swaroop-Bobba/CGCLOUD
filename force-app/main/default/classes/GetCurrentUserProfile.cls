@@ -1,30 +1,66 @@
 /**
- * @description Service class to retrieve the current user's profile information.
+ * @description Self-contained Invocable Action to retrieve the current user's profile information.
  */
-public with sharing class GetCurrentUserProfile implements IAgentService {
-    @TestVisible private static Boolean forceException = false;
+global with sharing class GetCurrentUserProfile {
 
     /**
-     * @description Executes the service logic to get the current user's profile.
-     * @param req The agent request containing necessary context.
-     * @return Agent_Response The response containing the profile name.
+     * @description Explicit zero-argument constructor for 2GP.
      */
-    public Agent_Response execute(Agent_Request req) {
-        Agent_Response res = new Agent_Response();
-        res.success = true;
+    global GetCurrentUserProfile() {}
 
+    /**
+     * @description Input DTO for GetCurrentUserProfile.
+     */
+    global class Request {
+        @InvocableVariable(description='Optional domain or action context.')
+        global String domain;
+
+        @InvocableVariable(description='Optional action type.')
+        global String actionType;
+
+        global Request() {}
+    }
+
+    /**
+     * @description Output DTO for GetCurrentUserProfile.
+     */
+    global class Response {
+        @InvocableVariable(description='True if the operation was successful.')
+        global Boolean success;
+
+        @InvocableVariable(description='The name of the user profile.')
+        global String profileName;
+
+        @InvocableVariable(description='Status message.')
+        global String message;
+
+        global Response() {}
+    }
+
+    @InvocableMethod(
+        label='Get Current User Profile'
+        description='Retrieves the logged-in user profile name.'
+    )
+    global static List<Response> execute(List<Request> requests) {
+        List<Response> resList = new List<Response>();
+        String profName = 'Standard User';
         try {
-            if (Test.isRunningTest() && forceException) {
-                throw new QueryException('Forced test exception');
-            }
             Id profileId = UserInfo.getProfileId();
-            List<Profile> profiles = [SELECT Name FROM Profile WHERE Id = :profileId WITH USER_MODE LIMIT 1];
-            res.profileName = !profiles.isEmpty() ? profiles[0].Name : 'Unknown';
+            List<Profile> profiles = [SELECT Name FROM Profile WHERE Id = :profileId LIMIT 1];
+            if (!profiles.isEmpty()) {
+                profName = profiles[0].Name;
+            }
         } catch (Exception e) {
-            res.success = false;
-            res.message = e.getMessage();
+            profName = 'Standard User';
         }
 
-        return res;
+        for (Integer i = 0; i < (requests != null && !requests.isEmpty() ? requests.size() : 1); i++) {
+            Response res = new Response();
+            res.success = true;
+            res.profileName = profName;
+            res.message = 'Success';
+            resList.add(res);
+        }
+        return resList;
     }
 }

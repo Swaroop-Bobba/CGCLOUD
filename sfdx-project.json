@@ -1,12 +1,38 @@
 {
   "packageDirectories": [
     {
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
       "path": "force-app",
-      "default": true
+      "default": true,
+      "package": "CGC_AI_Agent",
+      "versionDescription": ""
     }
   ],
   "name": "CGC_AI_Agent",
-  "namespace": "",
+  "namespace": "VisitIntel",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "67.0"
+  "sourceApiVersion": "67.0",
+  "packageAliases": {
+    "CGC_AI_Agent": "0Hof60000000NavCAE",
+    "CGC_AI_Agent@0.1.0-1": "04tf6000000JGx7AAG",
+    "CGC_AI_Agent@0.1.0-2": "04tf6000000JGyjAAG",
+    "CGC_AI_Agent@0.1.0-3": "04tf6000000JH1xAAG",
+    "CGC_AI_Agent@0.1.0-4": "04tf6000000JH3ZAAW",
+    "CGC_AI_Agent@0.1.0-5": "04tf6000000JH5BAAW",
+    "CGC_AI_Agent@0.1.0-6": "04tf6000000JHA1AAO",
+    "CGC_AI_Agent@0.1.0-7": "04tf6000000JHGTAA4",
+    "CGC_AI_Agent@0.1.0-8": "04tf6000000JHd4AAG",
+    "CGC_AI_Agent@0.1.0-9": "04tf6000000JHgHAAW",
+    "CGC_AI_Agent@0.1.0-10": "04tf6000000JLbpAAG",
+    "CGC_AI_Agent@0.1.0-11": "04tf6000000JLiHAAW",
+    "CGC_AI_Agent@0.1.0-12": "04tf6000000JLyPAAW",
+    "CGC_AI_Agent@0.1.0-13": "04tf6000000JM01AAG",
+    "CGC_AI_Agent@0.1.0-14": "04tf6000000JM3FAAW",
+    "CGC_AI_Agent@0.1.0-15": "04tf6000000JM4rAAG",
+    "CGC_AI_Agent@0.1.0-16": "04tf6000000JM6TAAW",
+    "CGC_AI_Agent@0.1.0-17": "04tf6000000JMEXAA4",
+    "CGC_AI_Agent@0.1.0-18": "04tf6000000JMmPAAW",
+    "CGC_AI_Agent@0.1.0-19": "04tf6000000JMpdAAG"
+  }
 }

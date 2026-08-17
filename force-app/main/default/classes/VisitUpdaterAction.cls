@@ -45,31 +45,38 @@ global class VisitUpdaterAction {
                     responses.add(resp);
                     continue;
                 }
-                Visit v = new Visit(Id = visitId);
-                
-                Boolean hasResponsible = Schema.sObjectType.Visit.fields.getMap().containsKey('cgcloud__Responsible__c');
-                Boolean hasAccountable = Schema.sObjectType.Visit.fields.getMap().containsKey('cgcloud__Accountable__c');
+                Boolean hasVisit = Schema.getGlobalDescribe().containsKey('visit');
+                if (!hasVisit) {
+                    resp.success = false;
+                    resp.message = 'Visit object not available in this org.';
+                    responses.add(resp);
+                    continue;
+                }
+
+                SObject v = Schema.getGlobalDescribe().get('Visit').newSObject(visitId);
+                Map<String, Schema.SObjectField> fMap = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap();
                 
                 for (String fieldName : updates.keySet()) {
                     Object val = updates.get(fieldName);
-                    if (fieldName == 'Status') {
-                        v.Status = (String)val;
-                    } else if (fieldName == 'PlannedVisitStartTime') {
-                        v.PlannedVisitStartTime = val != null ? (DateTime)JSON.deserialize('"' + (String)val + '"', DateTime.class) : null;
-                    } else if (fieldName == 'PlannedVisitEndTime') {
-                        v.PlannedVisitEndTime = val != null ? (DateTime)JSON.deserialize('"' + (String)val + '"', DateTime.class) : null;
-                    } else if (fieldName == 'cgcloud__Responsible__c' && hasResponsible) {
+                    String lowerF = fieldName.toLowerCase();
+                    if (lowerF == 'status' && fMap.containsKey('status')) {
+                        v.put('Status', (String)val);
+                    } else if (lowerF == 'plannedvisitstarttime' && fMap.containsKey('plannedvisitstarttime')) {
+                        v.put('PlannedVisitStartTime', val != null ? (DateTime)JSON.deserialize('"' + (String)val + '"', DateTime.class) : null);
+                    } else if (lowerF == 'plannedvisitendtime' && fMap.containsKey('plannedvisitendtime')) {
+                        v.put('PlannedVisitEndTime', val != null ? (DateTime)JSON.deserialize('"' + (String)val + '"', DateTime.class) : null);
+                    } else if (lowerF == 'cgcloud__responsible__c' && fMap.containsKey('cgcloud__responsible__c')) {
                         v.put('cgcloud__Responsible__c', (String)val);
-                    } else if (fieldName == 'cgcloud__Accountable__c' && hasAccountable) {
+                    } else if (lowerF == 'cgcloud__accountable__c' && fMap.containsKey('cgcloud__accountable__c')) {
                         v.put('cgcloud__Accountable__c', (String)val);
-                    } else if (fieldName == 'cgcloud__Subject__c') {
-                        v.cgcloud__Subject__c = (String)val;
-                    } else if (fieldName == 'cgcloud__Note__c') {
-                        v.cgcloud__Note__c = (String)val;
+                    } else if (lowerF == 'cgcloud__subject__c' && fMap.containsKey('cgcloud__subject__c')) {
+                        v.put('cgcloud__Subject__c', (String)val);
+                    } else if (lowerF == 'cgcloud__note__c' && fMap.containsKey('cgcloud__note__c')) {
+                        v.put('cgcloud__Note__c', (String)val);
                     }
                 }
                 
-                update v;
+                Database.update(v, AccessLevel.USER_MODE);
                 resp.success = true;
                 resp.message = 'Successfully updated visit ' + visitId + ' with changes: ' + updatesJson;
             } catch (Exception e) {

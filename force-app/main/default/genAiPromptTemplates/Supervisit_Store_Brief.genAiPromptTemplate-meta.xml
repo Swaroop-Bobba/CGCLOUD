@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Store operations and Account 360 briefing for Supervisit AI.</description>
+    <developerName>Supervisit_Store_Brief</developerName>
+    <masterLabel>Supervisit Store Brief</masterLabel>
+    <templateVersions>
+        <content>You are a retail operations strategist providing a store brief for a Consumer Goods store account.
+
+Account Details:
+- Store Name: {!$Input:Account.Name}
+- Account Number: {!$Input:Account.AccountNumber}
+- Phone: {!$Input:Account.Phone}
+- Billing City: {!$Input:Account.BillingCity}
+
+Generate an actionable Store Briefing:
+1. **Store Identity**: Name, location, and account status.
+2. **Operations Snapshot**: Store tier, customer priority, and key points of contact.
+3. **Execution Guidelines**: Recommendations for merchandising, stock audits, and promotional compliance.
+</content>
+        <inputs>
+            <apiName>Account</apiName>
+            <definition>SOBJECT://Account</definition>
+            <masterLabel>Account</masterLabel>
+            <referenceName>Input:Account</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet</primaryModel>
+        <status>Published</status>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+</GenAiPromptTemplate>

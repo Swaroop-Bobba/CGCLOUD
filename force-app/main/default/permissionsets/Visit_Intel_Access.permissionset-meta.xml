@@ -1,13 +1,8 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <agentAccesses>
-        <agentName>VisitIntelDesktop</agentName>
-        <enabled>true</enabled>
-    </agentAccesses>
-    <agentAccesses>
-        <agentName>VisitIntelMobile</agentName>
-        <enabled>true</enabled>
-    </agentAccesses>
+    <description>Grants access to Visit Intelligence Domain Handler Apex classes</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Visit Intel Access</label>
     <userPermissions>
         <enabled>true</enabled>
         <name>RunFlow</name>
@@ -16,31 +11,36 @@
         <enabled>true</enabled>
         <flow>Get_Visit_Details</flow>
     </flowAccesses>
-    <description>Grants access to Visit Intel Agent Apex classes</description>
-    <hasActivationRequired>false</hasActivationRequired>
-    <label>Visit Intel Access</label>
     <classAccesses>
-        <apexClass>Account_Agent_Service</apexClass>
+        <apexClass>Visit_Agent_Handler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Account_Related_Records_Helper</apexClass>
+        <apexClass>Account_Agent_Handler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Agent_Global_Handler</apexClass>
+        <apexClass>Order_Agent_Handler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Agent_Request</apexClass>
+        <apexClass>Visit_Activity_Handler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Agent_Response</apexClass>
+        <apexClass>Sales_Forecasting_Handler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CreateVisitWrapper</apexClass>
+        <apexClass>Visit_Agent_Service</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitUpdaterController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitUpdaterAction</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -49,78 +49,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>GetCurrentUserProfile</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>IAgentService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MobileAgentUtility</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PostInstallScript</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Order_Agent_Service</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Order_Recommendation_Service</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Sales_Forecasting_Handler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Sales_Forecasting_Service</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>User_Agent_Service</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>VisitSummaryWrapper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>VisitUpdatePayload</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>VisitUpdaterAction</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>VisitUpdaterController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Visit_Action_Helper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Visit_Activity_Service</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Visit_Agent_Service</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Visit_Lookup_Helper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Visit_Search_Helper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Visit_Summary_Helper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
 </PermissionSet>

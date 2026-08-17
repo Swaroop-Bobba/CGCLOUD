@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Executive visit summary and retail execution intelligence for Supervisit AI.</description>
+    <developerName>Supervisit_Visit_Summary</developerName>
+    <masterLabel>Supervisit Visit Summary</masterLabel>
+    <templateVersions>
+        <content>You are an executive visit intelligence assistant for Consumer Goods Cloud field representatives.
+
+Summarize the following Visit:
+- Visit Record: {!$Input:Visit.Name}
+- Status: {!$Input:Visit.Status}
+- Start Time: {!$Input:Visit.PlannedVisitStartTime}
+- Account Name: {!$Input:Account.Name}
+
+Provide a structured, clean markdown executive briefing:
+1. **Visit Overview**: Store name, planned timing, and status.
+2. **Key Objectives**: Priorities to address during this store visit.
+3. **Navigation**: Direct Google Maps link formatted as: [Open in Google Maps](https://www.google.com/maps?q={!$Input:Account.Name})
+</content>
+        <inputs>
+            <apiName>Visit</apiName>
+            <definition>SOBJECT://Visit</definition>
+            <masterLabel>Visit</masterLabel>
+            <referenceName>Input:Visit</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Account</apiName>
+            <definition>SOBJECT://Account</definition>
+            <masterLabel>Account</masterLabel>
+            <referenceName>Input:Account</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet</primaryModel>
+        <status>Published</status>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+</GenAiPromptTemplate>

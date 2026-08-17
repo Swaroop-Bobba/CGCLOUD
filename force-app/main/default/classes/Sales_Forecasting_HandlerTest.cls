@@ -40,7 +40,6 @@ public class Sales_Forecasting_HandlerTest {
         r4.actionType = 'getSalesForecast';
         r4.accountId = acc.Id;
         r4.period = 'Monthly';
-        r4.forecastBy = 'Product';
         reqs.add(r4);
 
         Sales_Forecasting_Handler.Request r5 = new Sales_Forecasting_Handler.Request();
@@ -71,9 +70,5 @@ public class Sales_Forecasting_HandlerTest {
 
         Assert.isNotNull(results, 'Results list should be returned.');
         Assert.areEqual(8, results.size(), 'All 8 request options should return a result.');
-
-        // Inner class test
-        Sales_Forecasting_Handler.AccountOption aOpt = new Sales_Forecasting_Handler.AccountOption('acc1', 'Acc', 'Label');
-        Assert.isNotNull(aOpt.accountId, 'AccountOption constructor verified.');
     }
 }

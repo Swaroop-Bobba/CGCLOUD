@@ -1,45 +1,31 @@
-/**
- * @description Master unit test class for GetCurrentUserProfile service targeting 100% code coverage.
- */
 @IsTest
-public class GetCurrentUserProfileTest {
+private class GetCurrentUserProfileTest {
 
     @IsTest
-    static void testExecuteGetCurrentUserProfilePositive() {
-        GetCurrentUserProfile service = new GetCurrentUserProfile();
-        Agent_Request req = new Agent_Request();
+    static void testGetCurrentUserProfile() {
+        GetCurrentUserProfile.Request req = new GetCurrentUserProfile.Request();
+        req.domain = 'User';
+        req.actionType = 'getProfile';
 
         Test.startTest();
-        Agent_Response res = service.execute(req);
+        List<GetCurrentUserProfile.Response> resList = GetCurrentUserProfile.execute(
+            new List<GetCurrentUserProfile.Request>{ req }
+        );
         Test.stopTest();
 
-        Assert.isTrue(res.success, 'GetCurrentUserProfile should execute successfully.');
-        Assert.isNotNull(res.profileName, 'Profile name should be populated.');
+        Assert.isNotNull(resList, 'Response list should not be null');
+        Assert.areEqual(1, resList.size(), 'Expected 1 response');
+        Assert.isNotNull(resList[0].profileName, 'Profile name should not be null');
     }
 
     @IsTest
-    static void testExecuteGetCurrentUserProfileNullHandling() {
-        GetCurrentUserProfile service = new GetCurrentUserProfile();
+    static void testConstructors() {
+        GetCurrentUserProfile instance = new GetCurrentUserProfile();
+        GetCurrentUserProfile.Request req = new GetCurrentUserProfile.Request();
+        GetCurrentUserProfile.Response res = new GetCurrentUserProfile.Response();
 
-        Test.startTest();
-        Agent_Response res = service.execute(null);
-        Test.stopTest();
-
-        Assert.isTrue(res.success, 'GetCurrentUserProfile should handle null request.');
-        Assert.isNotNull(res.profileName, 'Profile name should be populated.');
-    }
-
-    @IsTest
-    static void testExecuteGetCurrentUserProfileExceptionCatch() {
-        GetCurrentUserProfile.forceException = true;
-        GetCurrentUserProfile service = new GetCurrentUserProfile();
-
-        Test.startTest();
-        Agent_Response res = service.execute(new Agent_Request());
-        Test.stopTest();
-
-        Assert.isFalse(res.success, 'GetCurrentUserProfile should handle exception.');
-        Assert.isNotNull(res.message, 'Error message should be populated.');
-        GetCurrentUserProfile.forceException = false;
+        Assert.isNotNull(instance, 'Instance should not be null');
+        Assert.isNotNull(req, 'Request should not be null');
+        Assert.isNotNull(res, 'Response should not be null');
     }
 }

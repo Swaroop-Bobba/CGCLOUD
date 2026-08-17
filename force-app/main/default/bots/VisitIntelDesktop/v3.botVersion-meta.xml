@@ -6,13 +6,13 @@
         <botSteps>
             <botMessages>
                 <message>Hi! I am the CGC Visit Intelligence Agent. I can help you summarize and detail related records for the current Visit and its Account. How can I assist you today?</message>
-                <messageIdentifier>fd5c404b-3c75-4d10-9d85-573ec59223d0</messageIdentifier>
+                <messageIdentifier>0d07b140-ef87-4add-9f90-70861ee687d1</messageIdentifier>
             </botMessages>
-            <stepIdentifier>7443498f-6c13-4b66-8cbf-fa7a89d3d39b</stepIdentifier>
+            <stepIdentifier>e11574c5-6ded-4b47-a490-2a1f6bc47807</stepIdentifier>
             <type>Message</type>
         </botSteps>
         <botSteps>
-            <stepIdentifier>a507c0d2-841d-4789-b74c-f20956e9fa66</stepIdentifier>
+            <stepIdentifier>44f721e8-90c0-44ec-b138-779ee3f886ce</stepIdentifier>
             <type>Wait</type>
         </botSteps>
         <developerName>Welcome</developerName>
@@ -24,13 +24,13 @@
         <botSteps>
             <botMessages>
                 <message>An error occurred. Please try again.</message>
-                <messageIdentifier>b8fe10db-b51b-42e8-b9b7-3fe6239b8f48</messageIdentifier>
+                <messageIdentifier>9ef631d2-6b21-4e41-a722-bad1648d59ef</messageIdentifier>
             </botMessages>
-            <stepIdentifier>e5438441-4c26-4f20-8ee8-bf8a0d34d691</stepIdentifier>
+            <stepIdentifier>baacc6e9-14da-4cf8-94da-0afe61f8464e</stepIdentifier>
             <type>Message</type>
         </botSteps>
         <botSteps>
-            <stepIdentifier>8ac5e1da-f4e2-4353-b52f-0fd3db0beb27</stepIdentifier>
+            <stepIdentifier>f1e871c4-e2b9-46c9-b084-dd3ce149f685</stepIdentifier>
             <type>Wait</type>
         </botSteps>
         <developerName>Rich_Content_Error_Handling</developerName>
@@ -54,11 +54,11 @@
     </conversationSystemDialogs>
     <conversationVariables>
         <dataType>Text</dataType>
-        <description>The Planned End Date/Time of the current Visit.</description>
-        <developerName>visitEndDate</developerName>
+        <description>The channel type: &apos;web&apos; or &apos;mobile&apos;. Set externally by the deployment configuration.</description>
+        <developerName>channelType</developerName>
         <includeInPrompt>false</includeInPrompt>
-        <label>Visit End Date</label>
-        <visibility>Internal</visibility>
+        <label>Channel Type</label>
+        <visibility>External</visibility>
     </conversationVariables>
     <conversationVariables>
         <dataType>Text</dataType>
@@ -70,130 +70,18 @@
     </conversationVariables>
     <conversationVariables>
         <dataType>Text</dataType>
-        <description>The channel type: &apos;web&apos; or &apos;mobile&apos;. Set externally by the deployment configuration.</description>
-        <developerName>channelType</developerName>
+        <description>The ID of the current record.</description>
+        <developerName>currentRecordId</developerName>
         <includeInPrompt>false</includeInPrompt>
-        <label>Channel Type</label>
+        <label>Current Record Id</label>
         <visibility>External</visibility>
     </conversationVariables>
     <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The ID of the current Visit.</description>
-        <developerName>visitId</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Visit Id</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The ID of the Account associated with the current Visit.</description>
-        <developerName>accountId</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Account Id</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>Status message returned from the update action.</description>
-        <developerName>tempMessage</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Temp Message</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The active subagent name: &apos;visit_intelligence&apos;, &apos;visit_activities&apos;, or &apos;create_visit&apos;.</description>
-        <developerName>activeSubagent</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Active Subagent</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The next topic to be visited</description>
-        <developerName>AgentScriptInternal_next_topic</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Next Topic</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The Date of the current Visit.</description>
-        <developerName>visitDate</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Visit Date</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
         <dataType>Boolean</dataType>
-        <description>Runtime condition evaluation for if statements</description>
-        <developerName>AgentScriptInternal_condition_1</developerName>
+        <description>True if the update action was successfully submitted.</description>
+        <developerName>tempIsSubmitted</developerName>
         <includeInPrompt>false</includeInPrompt>
-        <label>Runtime Condition 1</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The agent instructions</description>
-        <developerName>AgentScriptInternal_agent_instructions</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Agent Instructions</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The automatically pre-loaded visit summary text for the current Visit.</description>
-        <developerName>visitSummaryText</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Visit Summary Text</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Boolean</dataType>
-        <description>True if a visit update has just been successfully submitted.</description>
-        <developerName>justUpdated</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Just Updated</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The API name of the current object.</description>
-        <developerName>currentObjectApiName</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Current Object Api Name</label>
-        <visibility>External</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The Status of the current Visit.</description>
-        <developerName>visitStatus</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Visit Status</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The ID of the last seen record page to detect page navigation.</description>
-        <developerName>lastRecordId</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Last Record Id</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The Name of the current Visit (e.g. V-00000370).</description>
-        <developerName>visitName</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Visit Name</label>
-        <visibility>Internal</visibility>
-    </conversationVariables>
-    <conversationVariables>
-        <dataType>Text</dataType>
-        <description>The Name of the Account associated with the current Visit.</description>
-        <developerName>accountName</developerName>
-        <includeInPrompt>false</includeInPrompt>
-        <label>Account Name</label>
+        <label>Temp Is Submitted</label>
         <visibility>Internal</visibility>
     </conversationVariables>
     <conversationVariables>
@@ -213,11 +101,99 @@
         <visibility>Internal</visibility>
     </conversationVariables>
     <conversationVariables>
-        <dataType>Boolean</dataType>
-        <description>True if the update action was successfully submitted.</description>
-        <developerName>tempIsSubmitted</developerName>
+        <dataType>Text</dataType>
+        <description>The API name of the current object.</description>
+        <developerName>currentObjectApiName</developerName>
         <includeInPrompt>false</includeInPrompt>
-        <label>Temp Is Submitted</label>
+        <label>Current Object Api Name</label>
+        <visibility>External</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The ID of the Account associated with the current Visit.</description>
+        <developerName>accountId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Account Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>Status message returned from the update action.</description>
+        <developerName>tempMessage</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Temp Message</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The Name of the current Visit (e.g. V-00000370).</description>
+        <developerName>visitName</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit Name</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Boolean</dataType>
+        <description>Runtime condition evaluation for if statements</description>
+        <developerName>AgentScriptInternal_condition_1</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Runtime Condition 1</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Boolean</dataType>
+        <description>True if a visit update has just been successfully submitted.</description>
+        <developerName>justUpdated</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Just Updated</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The ID of the current Visit.</description>
+        <developerName>visitId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The next topic to be visited</description>
+        <developerName>AgentScriptInternal_next_topic</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Next Topic</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The Name of the Account associated with the current Visit.</description>
+        <developerName>accountName</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Account Name</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The agent instructions</description>
+        <developerName>AgentScriptInternal_agent_instructions</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Agent Instructions</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The Status of the current Visit.</description>
+        <developerName>visitStatus</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit Status</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The Planned End Date/Time of the current Visit.</description>
+        <developerName>visitEndDate</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit End Date</label>
         <visibility>Internal</visibility>
     </conversationVariables>
     <conversationVariables>
@@ -230,13 +206,38 @@
     </conversationVariables>
     <conversationVariables>
         <dataType>Text</dataType>
-        <description>The ID of the current record.</description>
-        <developerName>currentRecordId</developerName>
+        <description>The active subagent name: &apos;visit_intelligence&apos;, &apos;visit_activities&apos;, or &apos;create_visit&apos;.</description>
+        <developerName>activeSubagent</developerName>
         <includeInPrompt>false</includeInPrompt>
-        <label>Current Record Id</label>
-        <visibility>External</visibility>
+        <label>Active Subagent</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The Date of the current Visit.</description>
+        <developerName>visitDate</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit Date</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The ID of the last seen record page to detect page navigation.</description>
+        <developerName>lastRecordId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Last Record Id</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>The automatically pre-loaded visit summary text for the current Visit.</description>
+        <developerName>visitSummaryText</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>Visit Summary Text</label>
+        <visibility>Internal</visibility>
     </conversationVariables>
     <copilotPrimaryLanguage>en_US</copilotPrimaryLanguage>
+    <copilotSecondaryLanguages>en_GB</copilotSecondaryLanguages>
     <defaultStdObjForContactIdFltrEnabled>false</defaultStdObjForContactIdFltrEnabled>
     <entryDialog>Welcome</entryDialog>
     <intentDisambiguationEnabled>false</intentDisambiguationEnabled>

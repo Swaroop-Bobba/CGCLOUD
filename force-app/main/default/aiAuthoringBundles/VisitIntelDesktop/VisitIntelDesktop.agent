@@ -192,9 +192,6 @@
                     with searchQuery = ...
                     with searchOffset = ...
 
-                go_to_off_topic: @utils.transition to @subagent.off_topic
-                    description: "Route off-topic queries."
-
                 go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
                     description: "Route ambiguous queries."
 
@@ -222,7 +219,7 @@
         actions:
             get_stale_visits:
                 description: "Retrieves all visits that have been Planned for more than one day since creation, or InProgress for more than one day, optionally filtered by Account. Supports pagination with searchOffset."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -235,14 +232,14 @@
                     searchOffset: string
                         description: "Query offset for pagination (e.g. '0', '20', '40'). Optional."
                 outputs:
-                    staleVisits: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$StaleVisitInfo"
-                        description: "List of overdue and stale visits."
-                        is_displayable: True
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             send_visit_alerts:
                 description: "Sends custom notifications and creates offline task notifications for the responsible reps of the specified visits."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -258,10 +255,9 @@
                         description: "True if notifications were successfully sent."
                     message: string
                         description: "Status outcome message."
-                        is_displayable: True
             get_current_user_profile:
                 description: "Retrieve the current user's profile name."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://GetCurrentUserProfile"
                 inputs:
                     domain: string
                     actionType: string
@@ -298,7 +294,7 @@
 
             get_available_visits:
                 description: "Retrieve user's recently viewed, owned, and scheduled visits."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     actionType: string
                         description: "The type of action to perform: 'getAvailable'."
@@ -306,19 +302,16 @@
                     searchQuery: string
                         description: "The search query (should be empty for available visits)."
                 outputs:
-                    visits: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
-                        description: "List of available visits."
-                        is_displayable: False
+                    summary: string
+                        description: "Formatted Markdown list of available visits."
+
                     totalVisits: integer
                         description: "The exact total count of all visits in the database."
                     message: string
                         description: "Total database count details."
-                        is_displayable: False
-
             search_visits:
                 description: "Search for Visit records by account name, store name, visit name, status, date range, or combined filters."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     actionType: string
                         description: "The type of action to perform: 'search'."
@@ -330,19 +323,16 @@
                         description: "The query offset for pagination (e.g. '0', '20', '40')."
                         is_required: False
                 outputs:
-                    visits: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
-                        description: "List of matching visits."
-                        is_displayable: False
+                    summary: string
+                        description: "Formatted Markdown list of matching visits."
+
                     totalVisits: integer
                         description: "The exact total count of all visits in the database."
                     message: string
                         description: "Total database count details."
-                        is_displayable: False
-
             select_and_navigate_visit:
                 description: "Select a Visit by its record ID, load its account context, and navigate to its record page. Call this after the user selects a visit."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     actionType: string
                         description: "The type of action to perform: 'select_and_navigate_visit'."
@@ -621,7 +611,7 @@
         actions:
             get_related_counts:
                 description: "Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Order_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -633,42 +623,14 @@
                         description: "The associated Account ID."
                         is_required: True
                 outputs:
-                    totalContacts: integer
-                        description: "Total Contacts count."
-                    totalVisits: integer
-                        description: "Total Visits count."
-                    totalActivities: integer
-                        description: "Total Activities count."
-                    completedActivities: integer
-                        description: "Completed Activities count."
-                    pendingActivities: integer
-                        description: "Pending Activities count."
-                    accountAge: integer
-                        description: "Account Age in days."
-                    accountPhone: string
-                        description: "The Account Phone number formatted as a clickable tel link."
-                    accountEmail: string
-                        description: "The Account Email formatted as a clickable mailto link."
-                    locationNavigateLink: string
-                        description: "The Location Navigate Maps link formatted as a clickable link."
-                    activePromotions: integer
-                        description: "Active Promotions count."
-                    outOfStockCount: integer
-                        description: "Out of Stock count."
-                    totalRetailStores: integer
-                        description: "Total Retail Stores count."
-                    totalAssortments: integer
-                        description: "Total Store Assortments count."
-                    totalStoreProducts: integer
-                        description: "Total Store Products count."
-                    totalTactics: integer
-                        description: "Total Tactics count."
-                    totalAssortmentProducts: integer
-                        description: "Total Assortment Products count."
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             get_related_records:
                 description: "Retrieve list of detailed records of a specific type (contacts, visits, promotions, inventory, outOfStock, retailstores, assortments, storeproducts, tactics, assortmentproducts) for the current Account."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Account_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -683,14 +645,14 @@
                         description: "Type of records to retrieve: 'contacts', 'visits', 'promotions', 'inventory', 'outOfStock', 'retailstores', 'assortments', 'storeproducts', 'tactics', 'assortmentproducts'."
                         is_required: True
                 outputs:
-                    records: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$RecordInfo"
-                        description: "List of related records containing name, status, owner, and lastModified."
-                        is_displayable: False
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             get_promotion_products:
                 description: "Retrieve eligible products associated with a promotion using its ID or Name."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Account_Agent_Handler"
                 inputs:
                     domain: string
                         description: "The domain 'Account'."
@@ -702,13 +664,14 @@
                         description: "The ID or name of the promotion (e.g. P-00000950) to fetch products for."
                         is_required: True
                 outputs:
+                    summary: string
+                        description: "Result summary text."
                     message: string
-                        description: "Markdown list of eligible product names."
-                        is_displayable: True
+                        description: "Status outcome message."
 
             get_order_summary:
                 description: "Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Account."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Order_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -720,23 +683,14 @@
                         description: "The associated Account ID."
                         is_required: True
                 outputs:
-                    totalOrders: integer
-                        description: "Total number of historical orders."
-                    totalSpend: number
-                        description: "Total historical spend across all orders."
-                    buyingInsight: string
-                        description: "AI-generated buying insight summary: top products by frequency, most saleable product."
-                        is_displayable: True
-                    phaseBreakdown: string
-                        description: "Order value breakdown by phase."
-                        is_displayable: True
-                    recentOrders: string
-                        description: "Formatted list of recent orders with details."
-                        is_displayable: True
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             get_visit_orders:
                 description: "Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Visit ID."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Order_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -748,23 +702,14 @@
                         description: "The associated Visit ID."
                         is_required: True
                 outputs:
-                    totalOrders: integer
-                        description: "Total number of orders associated with the visit."
-                    totalSpend: number
-                        description: "Total spend across those orders."
-                    buyingInsight: string
-                        description: "AI-generated buying insight summary: top products by frequency, most saleable product."
-                        is_displayable: True
-                    phaseBreakdown: string
-                        description: "Order value breakdown by phase."
-                        is_displayable: True
-                    recentOrders: string
-                        description: "Formatted list of recent orders with details."
-                        is_displayable: True
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             get_order_items:
                 description: "Retrieve product line items for a specific CG Cloud Order."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Order_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -776,15 +721,14 @@
                         description: "The CG Cloud Order ID."
                         is_required: True
                 outputs:
-                    itemCount: integer
-                        description: "Total number of line items."
-                    itemsSummary: string
-                        description: "Formatted text summary of all line items."
-                        is_displayable: True
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             update_order_notes:
                 description: "Update delivery notes and/or invoice notes on a specific CG Cloud Order by its ID or Name/Number."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Order_Agent_Handler"
                 require_user_confirmation: True
                 inputs:
                     agentName: string
@@ -805,11 +749,9 @@
                         description: "Whether the update was successful."
                     message: string
                         description: "Success or error message."
-                        is_displayable: True
-
             get_store_brief:
                 description: "Get store brief data including order totals, top products, active promotions, and open tasks."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Account_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -826,11 +768,9 @@
                 outputs:
                     summary: string
                         description: "Formatted markdown store brief."
-                        is_displayable: True
-
             suggest_products:
                 description: "Get product recommendations for the active store based on catalog gaps and order history."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Order_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -842,13 +782,14 @@
                         description: "The associated Account ID."
                         is_required: True
                 outputs:
-                    recommendations: string
-                        description: "Formatted list of recommended products."
-                        is_displayable: True
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             generate_visit_summary:
                 description: "Collect visit execution metrics and return a formatted visit report."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -862,11 +803,9 @@
                 outputs:
                     visitSummary: string
                         description: "Generated visit summary text."
-                        is_displayable: True
-
             search_users:
                 description: "Search for users by name."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -878,14 +817,14 @@
                         description: "The name of the user to search for."
                         is_required: True
                 outputs:
-                    users: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$UserOption"
-                        description: "List of matching users containing name, userId, alias, and profileName."
-                        is_displayable: True
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             get_stale_visits:
                 description: "Retrieves all visits that have been Planned for more than one day since creation, or InProgress for more than one day, optionally filtered by Account. Supports pagination with searchOffset."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -898,14 +837,14 @@
                     searchOffset: string
                         description: "Query offset for pagination (e.g. '0', '20', '40'). Optional."
                 outputs:
-                    staleVisits: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$StaleVisitInfo"
-                        description: "List of overdue and stale visits."
-                        is_displayable: True
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             send_visit_alerts:
                 description: "Sends custom notifications and creates offline task notifications for the responsible reps of the specified visits."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent executing the request."
@@ -921,11 +860,9 @@
                         description: "True if notifications were successfully sent."
                     message: string
                         description: "Status outcome message."
-                        is_displayable: True
-
             get_account_visits:
                 description: "Retrieve list of Visit records for the active Account."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Account_Agent_Handler"
                 inputs:
                     actionType: string
                         description: "The type of action to perform: 'getAccountVisits'."
@@ -936,13 +873,14 @@
                     searchQuery: string
                         description: "The search query (should be empty for account visits)."
                 outputs:
-                    visits: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
-                        description: "List of visits for the Account."
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             get_oos_visits:
                 description: "Retrieve list of Visit records with out-of-stock issues for the active Account."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     actionType: string
                         description: "The type of action to perform: 'getOosVisits'."
@@ -953,11 +891,11 @@
                     searchQuery: string
                         description: "The search query (should be empty for OOS visits)."
                 outputs:
-                    visits: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$VisitOption"
-                        description: "List of visits with out-of-stock issues."
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
-    subagent off_topic:
         label: "Off Topic"
         description: "Redirect conversation to relevant topics when user request goes off-topic."
 
@@ -1179,7 +1117,7 @@
         actions:
             get_visit_activities:
                 description: "Retrieves activities, questions, and surveys associated with a visit based on its visit template."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Activity_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent."
@@ -1193,13 +1131,14 @@
                     questionOrSurveyFilter: string
                         description: "Filter by type: all, question, survey."
                 outputs:
-                    activities: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$ActivityInfo"
-                        description: "List of activities and questions/surveys associated with the visit template."
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             get_visit_jobs_status:
                 description: "Retrieves answered or pending visit jobs (questions/surveys) for a specific visit."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Activity_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent."
@@ -1215,13 +1154,14 @@
                     questionOrSurveyFilter: string
                         description: "Filter by type: all, question, survey."
                 outputs:
-                    jobs: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$JobStatusInfo"
-                        description: "List of matching visit jobs (questions/surveys) with answer status."
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
             get_next_steps:
                 description: "Retrieve the next steps options to show to the user as clickable choice buttons/cards."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Activity_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent."
@@ -1232,10 +1172,10 @@
                     excludeOption: string
                         description: "The option label to exclude."
                 outputs:
-                    itemDetails: list[object]
-                        complex_data_type_name: "@apexClassType/c__Agent_Response$ItemDetail"
-                        description: "List of next step options."
-                        is_displayable: True
+                    summary: string
+                        description: "Result summary text."
+                    message: string
+                        description: "Status outcome message."
 
     subagent create_visit:
         label: "Create Visit Agent"
@@ -1274,7 +1214,7 @@
         actions:
             get_current_user_profile:
                 description: "Retrieve the current user's profile name."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://GetCurrentUserProfile"
                 inputs:
                     domain: string
                         description: "The domain of execution. Must be GetCurrentUserProfile."
@@ -1290,7 +1230,7 @@
 
             create_visit_record:
                 description: "Validate fields and create a new Visit record. The visitData parameter must be populated using the form input."
-                target: "apex://Agent_Global_Handler"
+                target: "apex://Visit_Agent_Handler"
                 inputs:
                     agentName: string
                         description: "The name of the agent."
@@ -1462,7 +1402,7 @@
                 |    - Map aggregate expression fields (e.g., `expr0`, `expr1`, `expr2`) to their true metrics (e.g., Average Order Value, Order Count, Total Spend).
                 |    - Format all metrics, currency amounts (using $, e.g. $82,540 or $771.78), numbers (rounded to 2 decimal places for currencies, e.g. $771.78, and integer for counts), percentages, and dates cleanly.
                 | 5. Output Formatting (CRITICAL RULES):
-                |    - NEVER display raw JSON arrays, JSON objects, maps, lists, or attributes (e.g., any text containing `[{"attributes":` or `[{"Id":` or `[{"expr0":` or database brackets `[{` and `}]`) to the user. Under no circumstances should any raw JSON syntax, curly braces, square brackets, quotes, or JSON field-value maps ever be present in your final response.
+                |    - NEVER display raw JSON arrays, JSON objects, maps, lists, or attributes to the user. Under no circumstances should any raw JSON syntax, curly braces, square brackets, quotes, or JSON field-value maps ever be present in your final response.
                 |    - NEVER print database fields or raw technical formats directly to the user.
                 |    - Always parse the query results and formulate the final response as direct, polished, human-readable markdown text.
                 |    - Present results in a structured format:
@@ -1518,11 +1458,8 @@
                         description: "True if the query completed successfully."
                     recordsJson: string
                         description: "JSON serialized string of the records returned by the query."
-                        is_displayable: False
                     errorMessage: string
                         description: "Error message if the query failed."
-                        is_displayable: False
-
     subagent forecasting_insights:
         label: "Forecasting & Predictive Insights Workspace"
         description: "Core subagent that handles forecasting requests using Salesforce history."
@@ -1585,10 +1522,8 @@
                 outputs:
                     success: boolean
                     forecastSummary: string
-                        is_displayable: True
                     confidenceLevel: string
                     reasoning: string
-                        is_displayable: True
             get_product_forecast:
                 description: "Get product-specific velocity and demand predictions."
                 target: "apex://Sales_Forecasting_Handler"
@@ -1602,10 +1537,8 @@
                 outputs:
                     success: boolean
                     forecastSummary: string
-                        is_displayable: True
                     confidenceLevel: string
                     reasoning: string
-                        is_displayable: True
             get_customer_forecast:
                 description: "Get customer churn risk, frequency trends, and value segmentation."
                 target: "apex://Sales_Forecasting_Handler"
@@ -1618,10 +1551,8 @@
                 outputs:
                     success: boolean
                     forecastSummary: string
-                        is_displayable: True
                     confidenceLevel: string
                     reasoning: string
-                        is_displayable: True
             get_sales_forecast:
                 description: "Get sales forecast for period (week, month, quarter) and breakdown."
                 target: "apex://Sales_Forecasting_Handler"
@@ -1636,10 +1567,8 @@
                 outputs:
                     success: boolean
                     forecastSummary: string
-                        is_displayable: True
                     confidenceLevel: string
                     reasoning: string
-                        is_displayable: True
             get_inventory_forecast:
                 description: "Get stock depletion, replenishment, and overstocking predictions."
                 target: "apex://Sales_Forecasting_Handler"
@@ -1653,10 +1582,8 @@
                 outputs:
                     success: boolean
                     forecastSummary: string
-                        is_displayable: True
                     confidenceLevel: string
                     reasoning: string
-                        is_displayable: True
             get_visit_forecast:
                 description: "Get next visit scheduling and expected outcome predictions."
                 target: "apex://Sales_Forecasting_Handler"
@@ -1669,7 +1596,5 @@
                 outputs:
                     success: boolean
                     forecastSummary: string
-                        is_displayable: True
                     confidenceLevel: string
                     reasoning: string
-                        is_displayable: True
