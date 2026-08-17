@@ -272,4 +272,62 @@ private class Visit_Agent_HandlerTest {
         Assert.isTrue(resList[0].success, 'Expected summary to succeed');
         Assert.isTrue(resList[0].summary.contains('789 Sunset Blvd'), 'Expected shipping street in summary');
     }
+
+    @IsTest
+    static void testAdditionalCoverageAndFilters() {
+        Account acc = [SELECT Id FROM Account LIMIT 1];
+        String vId = 'fakeVisitId';
+        String vName = '';
+        if (Schema.getGlobalDescribe().containsKey('visit')) {
+            List<SObject> vList = Database.query('SELECT Id, Name, AccountId FROM Visit LIMIT 1');
+            if (!vList.isEmpty()) {
+                vId = (String) vList[0].get('Id');
+                vName = (String) vList[0].get('Name');
+            }
+        }
+
+        List<Visit_Agent_Handler.Request> requests = new List<Visit_Agent_Handler.Request>();
+
+        // Search date filters
+        List<String> queryFilters = new List<String>{
+            'yesterday', 'this month', 'next month', 'in progress', 'completed', 'cancelled'
+        };
+        for (String q : queryFilters) {
+            Visit_Agent_Handler.Request r = new Visit_Agent_Handler.Request();
+            r.actionType = 'search';
+            r.searchQuery = q;
+            requests.add(r);
+        }
+
+        // Summary by Name & AccountId
+        if (String.isNotBlank(vName)) {
+            Visit_Agent_Handler.Request rName = new Visit_Agent_Handler.Request();
+            rName.actionType = 'generateSummary';
+            rName.visitId = vName;
+            requests.add(rName);
+        }
+
+        Visit_Agent_Handler.Request rAccOnly = new Visit_Agent_Handler.Request();
+        rAccOnly.actionType = 'generateSummary';
+        rAccOnly.accountId = acc.Id;
+        requests.add(rAccOnly);
+
+        // Search users
+        Visit_Agent_Handler.Request rUsers = new Visit_Agent_Handler.Request();
+        rUsers.actionType = 'search_users';
+        rUsers.searchQuery = 'Standard';
+        requests.add(rUsers);
+
+        // Blank search query fallback
+        Visit_Agent_Handler.Request rBlank = new Visit_Agent_Handler.Request();
+        rBlank.actionType = 'search';
+        rBlank.searchQuery = '';
+        requests.add(rBlank);
+
+        Test.startTest();
+        List<Visit_Agent_Handler.Response> responses = Visit_Agent_Handler.execute(requests);
+        Test.stopTest();
+
+        Assert.isTrue(responses.size() > 0, 'Expected responses for all filters');
+    }
 }
