@@ -1,4 +1,7 @@
-@isTest
+/**
+ * Unit tests verifying permission set assignment during post-install execution.
+ */
+@IsTest
 private class PostInstallScriptTest {
 
     @isTest

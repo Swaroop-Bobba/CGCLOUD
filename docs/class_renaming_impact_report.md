@@ -28,7 +28,7 @@ The refactoring aligns all Agentforce entry points with the **Controller** namin
 | **9** | `Visit_Agent_Service.cls` | `Visit_Agent_ServiceTest.cls` | **`CreateVisitLwcController.cls`** | `CreateVisitLwcControllerTest.cls` | 💻 **LWC Controller**: `@AuraEnabled` lookups for Create Visit Form |
 | **10** | `VisitUpdaterController.cls` | `VisitUpdaterControllerTest.cls` | **`VisitUpdaterLwcController.cls`** | `VisitUpdaterLwcControllerTest.cls` | 💻 **LWC Controller**: `@AuraEnabled` lookups & saves for Update Wizard |
 | **11** | `MobileAgentUtility.cls` | `MobileAgentUtilityTest.cls` | **`AgentFuzzyMatchUtility.cls`** | `AgentFuzzyMatchUtilityTest.cls` | 🛠️ **Utility**: Natural Language Date/Time & Fuzzy Matching |
-| **12** | `AgentMockDataSeeder.cls` | `AgentMockDataSeederTest.cls` | **`AgentTestData.cls`** | `AgentTestDataTest.cls` | 📊 **Test Utility**: Demo & Unit Test Data Generator |
+| **12** | `AgentMockDataSeeder.cls` | `AgentMockDataSeederTest.cls` | *(Moved to `docs/agent_test_data.md`)* | *(Moved to `docs/agent_test_data.md`)* | 📄 **Docs / Scratch Utility**: Decoupled from Package |
 
 ---
 

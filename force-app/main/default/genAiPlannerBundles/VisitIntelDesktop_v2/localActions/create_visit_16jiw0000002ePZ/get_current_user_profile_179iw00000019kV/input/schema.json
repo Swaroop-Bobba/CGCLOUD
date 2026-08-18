@@ -11,7 +11,7 @@
     },
     "domain" : {
       "title" : "Domain",
-      "description" : "The domain of execution. Must be GetCurrentUserProfile.",
+      "description" : "The domain of execution. Must be UserContextController.",
       "lightning:type" : "lightning__textType",
       "lightning:isPII" : false,
       "copilotAction:isUserInput" : false

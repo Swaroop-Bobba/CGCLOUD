@@ -22,8 +22,4 @@ force-app/main/default/applications/
 force-app/main/default/aura/
 force-app/main/default/contentassets/
 force-app/main/default/triggers/
-
-# Ignore legacy un-refactored classes
-force-app/main/default/classes/AgentMockDataSeeder*
-force-app/main/default/classes/MobileAgentUtility*
-
+force-app/main/default/staticresources/

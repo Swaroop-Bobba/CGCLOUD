@@ -1,5 +1,6 @@
 /**
- * @description Wrapper class containing all data required to create a new Visit.
+ * Data structure holding fields needed to create a new Visit record
+ * from the interactive LWC creation form.
  */
 global class CreateVisitWrapper {
     @AuraEnabled

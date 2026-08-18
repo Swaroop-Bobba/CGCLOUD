@@ -1,3 +1,7 @@
+/**
+ * Automatically assigns the Visit Intel Access permission set to package
+ * installers upon package installation or upgrade.
+ */
 global class PostInstallScript implements System.InstallHandler {
     @TestVisible private static Boolean forceException = false;
 

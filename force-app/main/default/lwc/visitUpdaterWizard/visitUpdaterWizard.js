@@ -1,8 +1,8 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
-import getActiveUsers from '@salesforce/apex/VisitUpdaterController.getActiveUsers';
-import getVisitDetails from '@salesforce/apex/VisitUpdaterController.getVisitDetails';
-import updateVisitRecord from '@salesforce/apex/VisitUpdaterController.updateVisitRecord';
+import getActiveUsers from '@salesforce/apex/VisitUpdaterLwcController.getActiveUsers';
+import getVisitDetails from '@salesforce/apex/VisitUpdaterLwcController.getVisitDetails';
+import updateVisitRecord from '@salesforce/apex/VisitUpdaterLwcController.updateVisitRecord';
 
 export default class VisitUpdaterWizard extends LightningElement {
     _value;

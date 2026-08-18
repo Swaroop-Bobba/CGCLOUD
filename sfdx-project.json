@@ -6,7 +6,8 @@
       "path": "force-app",
       "default": true,
       "package": "CGC_AI_Agent",
-      "versionDescription": ""
+      "versionDescription": "",
+      "postInstallScript": "PostInstallScript"
     }
   ],
   "name": "CGC_AI_Agent",
@@ -33,6 +34,10 @@
     "CGC_AI_Agent@0.1.0-16": "04tf6000000JM6TAAW",
     "CGC_AI_Agent@0.1.0-17": "04tf6000000JMEXAA4",
     "CGC_AI_Agent@0.1.0-18": "04tf6000000JMmPAAW",
-    "CGC_AI_Agent@0.1.0-19": "04tf6000000JMpdAAG"
+    "CGC_AI_Agent@0.1.0-19": "04tf6000000JMpdAAG",
+    "CGC_AI_Agent@0.1.0-20": "04tf6000000JhMDAA0",
+    "CGC_AI_Agent@0.1.0-21": "04tf6000000JhXVAA0",
+    "CGC_AI_Agent@0.1.0-22": "04tf6000000JhZ7AAK",
+    "CGC_AI_Agent@0.1.0-23": "04tf6000000JiN7AAK"
   }
 }

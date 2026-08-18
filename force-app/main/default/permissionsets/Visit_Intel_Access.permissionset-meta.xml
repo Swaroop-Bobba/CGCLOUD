@@ -12,43 +12,47 @@
         <flow>Get_Visit_Details</flow>
     </flowAccesses>
     <classAccesses>
-        <apexClass>Visit_Agent_Handler</apexClass>
+        <apexClass>VisitAgentController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Account_Agent_Handler</apexClass>
+        <apexClass>AccountAgentController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Order_Agent_Handler</apexClass>
+        <apexClass>OrderAgentController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Visit_Activity_Handler</apexClass>
+        <apexClass>VisitActivityController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Sales_Forecasting_Handler</apexClass>
+        <apexClass>SalesForecastingController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Visit_Agent_Service</apexClass>
+        <apexClass>CreateVisitLwcController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>VisitUpdaterController</apexClass>
+        <apexClass>VisitUpdaterLwcController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>VisitUpdaterAction</apexClass>
+        <apexClass>VisitUpdaterActionController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ExecuteSOQLQuery</apexClass>
+        <apexClass>RecordCalculationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>GetCurrentUserProfile</apexClass>
+        <apexClass>UserContextController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AgentFuzzyMatchUtility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
 </PermissionSet>

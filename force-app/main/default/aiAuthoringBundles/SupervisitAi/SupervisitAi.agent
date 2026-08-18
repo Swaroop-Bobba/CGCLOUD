@@ -201,7 +201,7 @@
         actions:
             get_order_details_action:
                 description: "Retrieves line items, quantities, and values for a specific order."
-                target: "apex://Order_Agent_Handler"
+                target: "apex://OrderAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'getOrderDetails'."
@@ -218,7 +218,7 @@
 
             get_stale_visits:
                 description: "Retrieves overdue or stale planned visits."
-                target: "apex://Visit_Agent_Handler"
+                target: "apex://VisitAgentController"
                 inputs:
                     agentName: string
                         description: "The name of the agent."
@@ -238,7 +238,7 @@
 
             send_visit_alerts:
                 description: "Sends custom notifications and alerts for specified visits."
-                target: "apex://Visit_Agent_Handler"
+                target: "apex://VisitAgentController"
                 inputs:
                     agentName: string
                         description: "The agent name."
@@ -257,7 +257,7 @@
 
             get_current_user_profile:
                 description: "Retrieve current user profile name."
-                target: "apex://GetCurrentUserProfile"
+                target: "apex://UserContextController"
                 inputs:
                     domain: string
                     actionType: string
@@ -285,7 +285,7 @@
 
             get_available_visits:
                 description: "Retrieve available scheduled visits."
-                target: "apex://Visit_Agent_Handler"
+                target: "apex://VisitAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'getAvailable'."
@@ -302,7 +302,7 @@
 
             search_visits:
                 description: "Search for Visit records."
-                target: "apex://Visit_Agent_Handler"
+                target: "apex://VisitAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'search'."
@@ -322,7 +322,7 @@
 
             select_and_navigate_visit:
                 description: "Select a Visit by ID and load context."
-                target: "apex://Visit_Agent_Handler"
+                target: "apex://VisitAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'select_and_navigate_visit'."
@@ -404,7 +404,7 @@
         actions:
             get_account_details:
                 description: "Retrieves account overview, contacts, opps, and cases."
-                target: "apex://Account_Agent_Handler"
+                target: "apex://AccountAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'getAccountDetails'."
@@ -430,7 +430,7 @@
 
             get_visit_summary:
                 description: "Generates visit summary and metrics."
-                target: "apex://Visit_Agent_Handler"
+                target: "apex://VisitAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'generateSummary'."
@@ -447,7 +447,7 @@
 
             get_store_brief_action:
                 description: "Retrieves store brief operational details."
-                target: "apex://Visit_Agent_Handler"
+                target: "apex://VisitAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'getStoreBrief'."
@@ -460,7 +460,7 @@
 
             get_order_recommendations:
                 description: "Generates smart reorder recommendations."
-                target: "apex://Order_Agent_Handler"
+                target: "apex://OrderAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'suggestProducts'."
@@ -474,7 +474,7 @@
 
             search_orders_action:
                 description: "Retrieves recent orders and totals for an account."
-                target: "apex://Order_Agent_Handler"
+                target: "apex://OrderAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'getOrders'."
@@ -492,7 +492,7 @@
 
             get_order_details_action:
                 description: "Retrieves line items, quantities, and values for a specific order."
-                target: "apex://Order_Agent_Handler"
+                target: "apex://OrderAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'getOrderDetails'."
@@ -509,7 +509,7 @@
 
             get_account_records:
                 description: "Retrieves related records for Account."
-                target: "apex://Account_Agent_Handler"
+                target: "apex://AccountAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'getRecords'."
@@ -550,7 +550,7 @@
         actions:
             update_visit_notes_action:
                 description: "Updates notes on the active Visit."
-                target: "apex://Visit_Agent_Handler"
+                target: "apex://VisitAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'updateNotes'."
@@ -568,7 +568,7 @@
 
             submit_visit_updater:
                 description: "Executes visit update wizard action."
-                target: "apex://VisitUpdaterAction"
+                target: "apex://VisitUpdaterActionController"
                 inputs:
                     visitId: string
                         description: "Target Visit ID."
@@ -630,7 +630,7 @@
         actions:
             submit_new_visit:
                 description: "Creates a new Visit record using form input."
-                target: "apex://Visit_Agent_Handler"
+                target: "apex://VisitAgentController"
                 inputs:
                     actionType: string
                         description: "Set to 'create_visit_record'."
@@ -681,7 +681,7 @@
         actions:
             fetch_assessment_tasks:
                 description: "Fetches assessment tasks for visit."
-                target: "apex://Visit_Activity_Handler"
+                target: "apex://VisitActivityController"
                 inputs:
                     actionType: string
                         description: "Set to 'getActivities'."
@@ -698,7 +698,7 @@
 
             fetch_jobs_status:
                 description: "Fetches retail execution jobs status."
-                target: "apex://Visit_Activity_Handler"
+                target: "apex://VisitActivityController"
                 inputs:
                     actionType: string
                         description: "Set to 'getJobsStatus'."
@@ -712,7 +712,7 @@
 
             fetch_deliveries:
                 description: "Fetches delivery activities for visit."
-                target: "apex://Visit_Activity_Handler"
+                target: "apex://VisitActivityController"
                 inputs:
                     actionType: string
                         description: "Set to 'getDeliveryActivities'."
@@ -755,7 +755,7 @@
         actions:
             forecast_sales:
                 description: "Calculates sales revenue forecast."
-                target: "apex://Sales_Forecasting_Handler"
+                target: "apex://SalesForecastingController"
                 inputs:
                     actionType: string
                         description: "Set to 'getSalesForecast'."
@@ -772,7 +772,7 @@
 
             forecast_orders:
                 description: "Calculates order demand forecast."
-                target: "apex://Sales_Forecasting_Handler"
+                target: "apex://SalesForecastingController"
                 inputs:
                     actionType: string
                         description: "Set to 'getOrderForecast'."
@@ -789,7 +789,7 @@
 
             forecast_customers:
                 description: "Calculates customer revenue growth forecast."
-                target: "apex://Sales_Forecasting_Handler"
+                target: "apex://SalesForecastingController"
                 inputs:
                     actionType: string
                         description: "Set to 'getCustomerForecast'."

@@ -78,25 +78,26 @@ To achieve high code coverage across large domain services (> 3,000 lines of log
 ```apex
 @IsTest
 static void testServiceCoverageBoost() {
-    Visit_Agent_Service service = new Visit_Agent_Service();
+    VisitAgentController controller = new VisitAgentController();
 
     Test.startTest();
     // 1. Invalid or blank action routing
-    Agent_Request reqEmpty = new Agent_Request();
-    service.execute(reqEmpty);
+    VisitAgentController.Request reqEmpty = new VisitAgentController.Request();
+    VisitAgentController.execute(new List<VisitAgentController.Request>{ reqEmpty });
 
-    Agent_Request reqInvalid = new Agent_Request();
+    VisitAgentController.Request reqInvalid = new VisitAgentController.Request();
     reqInvalid.actionType = 'invalid_action_type';
-    service.execute(reqInvalid);
+    VisitAgentController.execute(new List<VisitAgentController.Request>{ reqInvalid });
 
-    // 2. Action invocations via service.execute(req)
-    Agent_Request r1 = new Agent_Request(); r1.actionType = 'getavailable'; service.execute(r1);
-    Agent_Request r2 = new Agent_Request(); r2.actionType = 'getaccountvisits'; r2.accountId = 'fake_acc_id'; service.execute(r2);
-    Agent_Request r3 = new Agent_Request(); r3.actionType = 'getoosvisits'; r3.accountId = 'fake_acc_id'; service.execute(r3);
-    Agent_Request r4 = new Agent_Request(); r4.actionType = 'search'; r4.searchQuery = 'TestQuery'; service.execute(r4);
-    Agent_Request r5 = new Agent_Request(); r5.actionType = 'getstorebrief'; r5.visitId = 'fake_visit_id'; service.execute(r5);
+    // 2. Action invocations via execute(req)
+    VisitAgentController.Request r1 = new VisitAgentController.Request(); r1.actionType = 'getavailable';
+    VisitAgentController.Request r2 = new VisitAgentController.Request(); r2.actionType = 'getaccountvisits'; r2.accountId = 'fake_acc_id';
+    VisitAgentController.Request r3 = new VisitAgentController.Request(); r3.actionType = 'getoosvisits'; r3.accountId = 'fake_acc_id';
+    VisitAgentController.Request r4 = new VisitAgentController.Request(); r4.actionType = 'search'; r4.searchQuery = 'TestQuery';
+    VisitAgentController.Request r5 = new VisitAgentController.Request(); r5.actionType = 'getstorebrief'; r5.visitId = 'fake_visit_id';
+    VisitAgentController.execute(new List<VisitAgentController.Request>{ r1, r2, r3, r4, r5 });
     Test.stopTest();
 
-    Assert.isNotNull(service, 'Service instance verified.');
+    Assert.isNotNull(controller, 'Controller instance verified.');
 }
 ```

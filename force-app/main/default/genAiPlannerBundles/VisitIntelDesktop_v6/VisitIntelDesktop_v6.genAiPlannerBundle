@@ -53,7 +53,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>create_visit_record_179f6000000KI2V</fullName>
             <description>Validate fields and create a new Visit record. The visitData parameter must be populated using the form input.</description>
             <developerName>create_visit_record_179f6000000KI2V</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -64,7 +64,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_current_user_profile_179f6000000KI2V</fullName>
             <description>Retrieve the current user&apos;s profile name.</description>
             <developerName>get_current_user_profile_179f6000000KI2V</developerName>
-            <invocationTarget>GetCurrentUserProfile</invocationTarget>
+            <invocationTarget>UserContextController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -111,7 +111,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>execute_update_wizard_179f6000000KI2U</fullName>
             <description>Perform dynamic multi-step visit updates using the standalone wizard LWC.</description>
             <developerName>execute_update_wizard_179f6000000KI2U</developerName>
-            <invocationTarget>VisitUpdaterAction</invocationTarget>
+            <invocationTarget>VisitUpdaterActionController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -169,7 +169,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_visit_jobs_status_179f6000000KI2W</fullName>
             <description>Retrieves answered or pending visit jobs (questions/surveys) for a specific visit.</description>
             <developerName>get_visit_jobs_status_179f6000000KI2W</developerName>
-            <invocationTarget>Visit_Activity_Handler</invocationTarget>
+            <invocationTarget>VisitActivityController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -180,7 +180,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_next_steps_179f6000000KI2W</fullName>
             <description>Retrieve the next steps options to show to the user as clickable choice buttons/cards.</description>
             <developerName>get_next_steps_179f6000000KI2W</developerName>
-            <invocationTarget>Visit_Activity_Handler</invocationTarget>
+            <invocationTarget>VisitActivityController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -191,7 +191,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_visit_activities_179f6000000KI2W</fullName>
             <description>Retrieves activities, questions, and surveys associated with a visit based on its visit template.</description>
             <developerName>get_visit_activities_179f6000000KI2W</developerName>
-            <invocationTarget>Visit_Activity_Handler</invocationTarget>
+            <invocationTarget>VisitActivityController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -239,7 +239,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_order_forecast_179f6000000KI2R</fullName>
             <description>Get order predictions including date, value, likely products, and affinity.</description>
             <developerName>get_order_forecast_179f6000000KI2R</developerName>
-            <invocationTarget>Sales_Forecasting_Handler</invocationTarget>
+            <invocationTarget>SalesForecastingController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -250,7 +250,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_sales_forecast_179f6000000KI2R</fullName>
             <description>Get sales forecast for period (week, month, quarter) and breakdown.</description>
             <developerName>get_sales_forecast_179f6000000KI2R</developerName>
-            <invocationTarget>Sales_Forecasting_Handler</invocationTarget>
+            <invocationTarget>SalesForecastingController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -261,7 +261,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_customer_forecast_179f6000000KI2R</fullName>
             <description>Get customer churn risk, frequency trends, and value segmentation.</description>
             <developerName>get_customer_forecast_179f6000000KI2R</developerName>
-            <invocationTarget>Sales_Forecasting_Handler</invocationTarget>
+            <invocationTarget>SalesForecastingController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -272,7 +272,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_visit_forecast_179f6000000KI2R</fullName>
             <description>Get next visit scheduling and expected outcome predictions.</description>
             <developerName>get_visit_forecast_179f6000000KI2R</developerName>
-            <invocationTarget>Sales_Forecasting_Handler</invocationTarget>
+            <invocationTarget>SalesForecastingController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -283,7 +283,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_inventory_forecast_179f6000000KI2R</fullName>
             <description>Get stock depletion, replenishment, and overstocking predictions.</description>
             <developerName>get_inventory_forecast_179f6000000KI2R</developerName>
-            <invocationTarget>Sales_Forecasting_Handler</invocationTarget>
+            <invocationTarget>SalesForecastingController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -294,7 +294,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_product_forecast_179f6000000KI2R</fullName>
             <description>Get product-specific velocity and demand predictions.</description>
             <developerName>get_product_forecast_179f6000000KI2R</developerName>
-            <invocationTarget>Sales_Forecasting_Handler</invocationTarget>
+            <invocationTarget>SalesForecastingController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -327,7 +327,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>execute_soql_179f6000000KI2Q</fullName>
             <description>Run dynamic SOQL query against Salesforce database in User Mode. Returns results serialized as a JSON string.</description>
             <developerName>execute_soql_179f6000000KI2Q</developerName>
-            <invocationTarget>ExecuteSOQLQuery</invocationTarget>
+            <invocationTarget>RecordCalculationController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -435,7 +435,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>update_order_notes_179f6000000KI2S</fullName>
             <description>Update delivery notes and/or invoice notes on a specific CG Cloud Order by its ID or Name/Number.</description>
             <developerName>update_order_notes_179f6000000KI2S</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>OrderAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>true</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -446,7 +446,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_order_items_179f6000000KI2S</fullName>
             <description>Retrieve product line items for a specific CG Cloud Order.</description>
             <developerName>get_order_items_179f6000000KI2S</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>OrderAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -457,7 +457,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_promotion_products_179f6000000KI2S</fullName>
             <description>Retrieve eligible products associated with a promotion using its ID or Name.</description>
             <developerName>get_promotion_products_179f6000000KI2S</developerName>
-            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTarget>AccountAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -468,7 +468,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_account_visits_179f6000000KI2S</fullName>
             <description>Retrieve list of Visit records for the active Account.</description>
             <developerName>get_account_visits_179f6000000KI2S</developerName>
-            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTarget>AccountAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -479,7 +479,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_store_brief_179f6000000KI2S</fullName>
             <description>Get store brief data including order totals, top products, active promotions, and open tasks.</description>
             <developerName>get_store_brief_179f6000000KI2S</developerName>
-            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTarget>AccountAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -490,7 +490,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>suggest_products_179f6000000KI2S</fullName>
             <description>Get product recommendations for the active store based on catalog gaps and order history.</description>
             <developerName>suggest_products_179f6000000KI2S</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>OrderAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -501,7 +501,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_order_summary_179f6000000KI2S</fullName>
             <description>Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Account.</description>
             <developerName>get_order_summary_179f6000000KI2S</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>OrderAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -512,7 +512,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>search_users_179f6000000KI2S</fullName>
             <description>Search for users by name.</description>
             <developerName>search_users_179f6000000KI2S</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -523,7 +523,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_related_records_179f6000000KI2S</fullName>
             <description>Retrieve list of detailed records of a specific type (contacts, visits, promotions, inventory, outOfStock, retailstores, assortments, storeproducts, tactics, assortmentproducts) for the current Account.</description>
             <developerName>get_related_records_179f6000000KI2S</developerName>
-            <invocationTarget>Account_Agent_Handler</invocationTarget>
+            <invocationTarget>AccountAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -534,7 +534,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_visit_orders_179f6000000KI2S</fullName>
             <description>Retrieve order history summary, buying insights, phase breakdown, and recent orders for a given Visit ID.</description>
             <developerName>get_visit_orders_179f6000000KI2S</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>OrderAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -545,7 +545,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_oos_visits_179f6000000KI2S</fullName>
             <description>Retrieve list of Visit records with out-of-stock issues for the active Account.</description>
             <developerName>get_oos_visits_179f6000000KI2S</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -556,7 +556,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_stale_visits_179f6000000KI2S</fullName>
             <description>Retrieves all visits that have been Planned for more than one day since creation, or InProgress for more than one day, optionally filtered by Account. Supports pagination with searchOffset.</description>
             <developerName>get_stale_visits_179f6000000KI2S</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -567,7 +567,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>generate_visit_summary_179f6000000KI2S</fullName>
             <description>Collect visit execution metrics and return a formatted visit report.</description>
             <developerName>generate_visit_summary_179f6000000KI2S</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -578,7 +578,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>send_visit_alerts_179f6000000KI2S</fullName>
             <description>Sends custom notifications and creates offline task notifications for the responsible reps of the specified visits.</description>
             <developerName>send_visit_alerts_179f6000000KI2S</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -589,7 +589,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_related_counts_179f6000000KI2S</fullName>
             <description>Get counts of related records (Contacts, Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics) for the current Account.</description>
             <developerName>get_related_counts_179f6000000KI2S</developerName>
-            <invocationTarget>Order_Agent_Handler</invocationTarget>
+            <invocationTarget>OrderAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -640,7 +640,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>search_visits_179f6000000KI2P</fullName>
             <description>Search for Visit records by account name, store name, visit name, status, date range, or combined filters.</description>
             <developerName>search_visits_179f6000000KI2P</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -651,7 +651,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>send_visit_alerts_179f6000000KI2P</fullName>
             <description>Sends custom notifications and creates offline task notifications for the responsible reps of the specified visits.</description>
             <developerName>send_visit_alerts_179f6000000KI2P</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -662,7 +662,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_available_visits_179f6000000KI2P</fullName>
             <description>Retrieve user&apos;s recently viewed, owned, and scheduled visits.</description>
             <developerName>get_available_visits_179f6000000KI2P</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -673,7 +673,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>select_and_navigate_visit_179f6000000KI2P</fullName>
             <description>Select a Visit by its record ID, load its account context, and navigate to its record page. Call this after the user selects a visit.</description>
             <developerName>select_and_navigate_visit_179f6000000KI2P</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -684,7 +684,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_current_user_profile_179f6000000KI2P</fullName>
             <description>Retrieve the current user&apos;s profile name.</description>
             <developerName>get_current_user_profile_179f6000000KI2P</developerName>
-            <invocationTarget>GetCurrentUserProfile</invocationTarget>
+            <invocationTarget>UserContextController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
@@ -695,7 +695,7 @@ Always maintain a professional, helpful, and concise tone.</description>
             <fullName>get_stale_visits_179f6000000KI2P</fullName>
             <description>Retrieves all visits that have been Planned for more than one day since creation, or InProgress for more than one day, optionally filtered by Account. Supports pagination with searchOffset.</description>
             <developerName>get_stale_visits_179f6000000KI2P</developerName>
-            <invocationTarget>Visit_Agent_Handler</invocationTarget>
+            <invocationTarget>VisitAgentController</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
