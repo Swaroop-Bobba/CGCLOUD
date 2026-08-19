@@ -58,6 +58,33 @@ global with sharing class VisitAgentController {
         @InvocableVariable(description='The create visit wrapper object.')
         global CreateVisitWrapper createVisitWrapper;
 
+        @InvocableVariable(description='Owner or Responsible User name.')
+        global String ownerName;
+
+        @InvocableVariable(description='Planned start time string.')
+        global String plannedStartTimeStr;
+
+        @InvocableVariable(description='Planned end time string.')
+        global String plannedEndTimeStr;
+
+        @InvocableVariable(description='Account search input string.')
+        global String accountInput;
+
+        @InvocableVariable(description='Place search input string.')
+        global String placeInput;
+
+        @InvocableVariable(description='Template search input string.')
+        global String templateInput;
+
+        @InvocableVariable(description='Subject of the visit.')
+        global String subject;
+
+        @InvocableVariable(description='Suggestions list or matched IDs string.')
+        global String suggestions;
+
+        @InvocableVariable(description='Matched Template name.')
+        global String matchedTemplate;
+
         global Request() {}
     }
 
@@ -110,6 +137,27 @@ global with sharing class VisitAgentController {
         @InvocableVariable(description='Accountable User Name.')
         global String accountableUser;
 
+        @InvocableVariable(description='True if user input is submitted.')
+        global Boolean isSubmitted;
+
+        @InvocableVariable(description='Suggestions list or matched IDs string.')
+        global String suggestions;
+
+        @InvocableVariable(description='Place/Location ID.')
+        global String placeId;
+
+        @InvocableVariable(description='Place/Location Name.')
+        global String placeName;
+
+        @InvocableVariable(description='Template ID.')
+        global String templateId;
+
+        @InvocableVariable(description='Template Name.')
+        global String templateName;
+
+        @InvocableVariable(description='Parsed Planned Start Time string.')
+        global String plannedStartTimeStr;
+
         global Response() {
             this.success = true;
             this.totalVisits = 0;
@@ -142,8 +190,18 @@ global with sharing class VisitAgentController {
                     res = handleGetStaleVisits(req.accountId, req.searchOffset);
                 } else if (action == 'sendvisitalerts' || action == 'send_visit_alerts') {
                     res = handleSendVisitAlerts(req.visitIds);
-                } else if (action == 'updatenotes' || action == 'update_notes' || action == 'update_visit_notes') {
+                } else if (action == 'update_visit_status_mobile_action' || action == 'updatestatus' || action == 'update_status') {
+                    res = handleUpdateStatus(req.visitId, req.status);
+                } else if (action == 'update_visit_owner_mobile_action' || action == 'updateowner' || action == 'update_owner') {
+                    res = handleUpdateOwner(req.visitId, req.ownerName, req.suggestions);
+                } else if (action == 'update_visit_notes_mobile_action' || action == 'updatenotes' || action == 'update_notes' || action == 'update_visit_notes') {
                     res = handleUpdateNotes(req.visitId, req.notes);
+                } else if (action == 'update_visit_start_time_mobile_action' || action == 'updatestarttime' || action == 'update_start_time') {
+                    res = handleUpdateStartTime(req.visitId, req.plannedStartTimeStr, req.plannedStartTime);
+                } else if (action == 'update_visit_end_time_mobile_action' || action == 'updateendtime' || action == 'update_end_time') {
+                    res = handleUpdateEndTime(req.visitId, req.plannedEndTimeStr, req.plannedEndTime);
+                } else if (action == 'prompt_visit_mobile' || action == 'promptvisitmobile') {
+                    res = handlePromptVisitMobile(req);
                 } else if (action == 'createvisitrecord' || action == 'create_visit_record' || action == 'create_visit_record_mobile' || action == 'createvisit') {
                     res = handleCreateVisitRecord(req);
                 } else {
@@ -812,6 +870,210 @@ global with sharing class VisitAgentController {
         return res;
     }
 
+    private static Response handleUpdateStatus(String visitId, String status) {
+        Response res = new Response();
+        if (String.isBlank(visitId)) {
+            res.success = false;
+            res.message = 'Visit ID is required to update status.';
+            return res;
+        }
+        if (String.isBlank(status)) {
+            res.success = false;
+            res.message = 'Status value is required.';
+            return res;
+        }
+        try {
+            SObject v = Schema.getGlobalDescribe().get('Visit').newSObject(visitId);
+            v.put('Status', status);
+            Database.update(v, AccessLevel.USER_MODE);
+            res.success = true;
+            res.visitStatus = status;
+            res.message = 'Status updated to ' + status + ' successfully.';
+            res.summary = '✅ Visit status updated to **' + status + '**.';
+        } catch (Exception e) {
+            res.success = false;
+            res.message = 'Failed to update status: ' + e.getMessage();
+        }
+        return res;
+    }
+
+    private static Response handleUpdateOwner(String visitId, String ownerName, String previousSuggestions) {
+        Response res = new Response();
+        if (String.isBlank(visitId)) {
+            res.success = false;
+            res.message = 'Visit ID is required to reassign owner.';
+            return res;
+        }
+        if (String.isBlank(ownerName)) {
+            res.success = false;
+            res.message = 'User name or ID is required.';
+            return res;
+        }
+        try {
+            AgentFuzzyMatchUtility.MatchResult mr = AgentFuzzyMatchUtility.matchRecord(ownerName, 'User', previousSuggestions);
+            if (!mr.success) {
+                res.success = false;
+                res.message = mr.message;
+                res.suggestions = mr.suggestions;
+                return res;
+            }
+
+            SObject v = Schema.getGlobalDescribe().get('Visit').newSObject(visitId);
+            Map<String, SObjectField> fMap = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap();
+            if (fMap.containsKey('cgcloud__responsible__c')) {
+                v.put('cgcloud__Responsible__c', mr.matchedId);
+            }
+            if (fMap.containsKey('ownerid')) {
+                v.put('OwnerId', mr.matchedId);
+            }
+            Database.update(v, AccessLevel.USER_MODE);
+            res.success = true;
+            res.assignedUser = mr.matchedName;
+            res.message = 'Visit successfully reassigned to ' + mr.matchedName + '.';
+            res.summary = '✅ Responsible user updated to **' + mr.matchedName + '**.';
+        } catch (Exception e) {
+            res.success = false;
+            res.message = 'Failed to reassign visit: ' + e.getMessage();
+        }
+        return res;
+    }
+
+    private static Response handleUpdateStartTime(String visitId, String plannedStartTimeStr, Datetime plannedStartTime) {
+        Response res = new Response();
+        if (String.isBlank(visitId)) {
+            res.success = false;
+            res.message = 'Visit ID is required.';
+            return res;
+        }
+        Datetime dt = plannedStartTime;
+        if (dt == null && String.isNotBlank(plannedStartTimeStr)) {
+            dt = AgentFuzzyMatchUtility.parseDateTime(plannedStartTimeStr);
+        }
+        if (dt == null) {
+            res.success = false;
+            res.message = 'Could not parse start time "' + plannedStartTimeStr + '". Please provide date/time like DD-MM-YYYY HH:MM or YYYY-MM-DD HH:MM.';
+            return res;
+        }
+        try {
+            SObject v = Schema.getGlobalDescribe().get('Visit').newSObject(visitId);
+            v.put('PlannedVisitStartTime', dt);
+            Database.update(v, AccessLevel.USER_MODE);
+            res.success = true;
+            res.visitDate = String.valueOf(dt);
+            res.message = 'Planned start time updated to ' + dt.format('yyyy-MM-dd HH:mm') + ' successfully.';
+            res.summary = '✅ Planned start time updated to **' + dt.format('yyyy-MM-dd HH:mm') + '**.';
+        } catch (Exception e) {
+            res.success = false;
+            res.message = 'Failed to update start time: ' + e.getMessage();
+        }
+        return res;
+    }
+
+    private static Response handleUpdateEndTime(String visitId, String plannedEndTimeStr, Datetime plannedEndTime) {
+        Response res = new Response();
+        if (String.isBlank(visitId)) {
+            res.success = false;
+            res.message = 'Visit ID is required.';
+            return res;
+        }
+        Datetime dt = plannedEndTime;
+        if (dt == null && String.isNotBlank(plannedEndTimeStr)) {
+            dt = AgentFuzzyMatchUtility.parseDateTime(plannedEndTimeStr);
+        }
+        if (dt == null) {
+            res.success = false;
+            res.message = 'Could not parse end time "' + plannedEndTimeStr + '". Please provide date/time like DD-MM-YYYY HH:MM or YYYY-MM-DD HH:MM.';
+            return res;
+        }
+        try {
+            SObject v = Schema.getGlobalDescribe().get('Visit').newSObject(visitId);
+            v.put('PlannedVisitEndTime', dt);
+            Database.update(v, AccessLevel.USER_MODE);
+            res.success = true;
+            res.visitEndDate = String.valueOf(dt);
+            res.message = 'Planned end time updated to ' + dt.format('yyyy-MM-dd HH:mm') + ' successfully.';
+            res.summary = '✅ Planned end time updated to **' + dt.format('yyyy-MM-dd HH:mm') + '**.';
+        } catch (Exception e) {
+            res.success = false;
+            res.message = 'Failed to update end time: ' + e.getMessage();
+        }
+        return res;
+    }
+
+    private static Response handlePromptVisitMobile(Request req) {
+        Response res = new Response();
+        res.isSubmitted = true;
+        
+        // 1. Account prompt
+        if (String.isNotBlank(req.accountInput) && req.accountInput != 'user_input_required') {
+            AgentFuzzyMatchUtility.MatchResult mr = AgentFuzzyMatchUtility.matchRecord(req.accountInput, 'Account', req.suggestions);
+            if (!mr.success) {
+                res.success = false;
+                res.message = mr.message;
+                res.suggestions = mr.suggestions;
+                return res;
+            }
+            res.success = true;
+            res.accountId = mr.matchedId;
+            res.accountName = mr.matchedName;
+            res.message = 'Matched Account: ' + mr.matchedName;
+            return res;
+        }
+
+        // 2. Place/Store prompt
+        if (String.isNotBlank(req.placeInput) && req.placeInput != 'user_input_required') {
+            String objType = Schema.getGlobalDescribe().containsKey('location') ? 'Location' : 'Account';
+            AgentFuzzyMatchUtility.MatchResult mr = AgentFuzzyMatchUtility.matchRecord(req.placeInput, objType, req.suggestions);
+            if (!mr.success) {
+                res.success = false;
+                res.message = mr.message;
+                res.suggestions = mr.suggestions;
+                return res;
+            }
+            res.success = true;
+            res.placeId = mr.matchedId;
+            res.placeName = mr.matchedName;
+            res.message = 'Matched Place: ' + mr.matchedName;
+            return res;
+        }
+
+        // 3. Template prompt
+        if (String.isNotBlank(req.templateInput) && req.templateInput != 'user_input_required') {
+            if (Schema.getGlobalDescribe().containsKey('cgcloud__visit_template__c')) {
+                AgentFuzzyMatchUtility.MatchResult mr = AgentFuzzyMatchUtility.matchRecord(req.templateInput, 'cgcloud__Visit_Template__c', req.suggestions);
+                if (!mr.success) {
+                    res.success = false;
+                    res.message = mr.message;
+                    res.suggestions = mr.suggestions;
+                    return res;
+                }
+                res.success = true;
+                res.templateId = mr.matchedId;
+                res.templateName = mr.matchedName;
+                res.message = 'Matched Template: ' + mr.matchedName;
+                return res;
+            }
+        }
+
+        // 4. Planned Start Time prompt
+        if (String.isNotBlank(req.plannedStartTimeStr) && req.plannedStartTimeStr != 'user_input_required') {
+            Datetime dt = AgentFuzzyMatchUtility.parseDateTime(req.plannedStartTimeStr);
+            if (dt != null) {
+                res.success = true;
+                res.plannedStartTimeStr = dt.format('yyyy-MM-dd HH:mm:ss');
+                res.message = 'Parsed Date/Time: ' + dt.format('yyyy-MM-dd HH:mm');
+            } else {
+                res.success = false;
+                res.message = 'Could not parse date/time "' + req.plannedStartTimeStr + '". Please use format DD-MM-YYYY HH:MM or YYYY-MM-DD HH:MM.';
+            }
+            return res;
+        }
+
+        res.success = true;
+        res.message = 'Ready for input.';
+        return res;
+    }
+
     private static Response handleSelectVisit(String visitId) {
         return handleGetVisitDetails(visitId);
     }
@@ -828,6 +1090,8 @@ global with sharing class VisitAgentController {
 
         try {
             SObject v = Schema.getGlobalDescribe().get('Visit').newSObject();
+            Map<String, SObjectField> fMap = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap();
+
             if (req.createVisitWrapper != null) {
                 if (String.isBlank(req.createVisitWrapper.accountId) && String.isBlank(req.createVisitWrapper.placeId) && String.isBlank(req.createVisitWrapper.subject)) {
                     res.success = false;
@@ -846,7 +1110,6 @@ global with sharing class VisitAgentController {
                 v.put('PlannedVisitEndTime', req.createVisitWrapper.plannedEndTime != null ? req.createVisitWrapper.plannedEndTime : startT.addHours(2));
                 v.put('Status', 'Planned');
 
-                Map<String, SObjectField> fMap = Schema.getGlobalDescribe().get('Visit').getDescribe().fields.getMap();
                 if (String.isNotBlank(req.createVisitWrapper.visitTemplateId) && fMap.containsKey('cgcloud__visit_template__c')) {
                     v.put('cgcloud__Visit_Template__c', req.createVisitWrapper.visitTemplateId);
                 }
@@ -857,21 +1120,49 @@ global with sharing class VisitAgentController {
                     v.put('cgcloud__Responsible__c', req.createVisitWrapper.responsibleId);
                 }
             } else {
-                if (String.isBlank(req.accountId) && String.isBlank(req.placeId)) {
+                String targetAccId = String.isNotBlank(req.accountId) ? req.accountId : req.accountInput;
+                String targetPlaceId = String.isNotBlank(req.placeId) ? req.placeId : req.placeInput;
+                String targetTmplId = String.isNotBlank(req.templateInput) ? req.templateInput : null;
+                String targetSubj = String.isNotBlank(req.subject) ? req.subject : req.notes;
+
+                if (String.isBlank(targetAccId) && String.isBlank(targetPlaceId)) {
                     res.success = false;
                     res.message = 'Account or Location is required to create a visit.';
                     res.summary = 'Please provide Account or Location details.';
                     return res;
                 }
-                if (String.isNotBlank(req.accountId)) {
-                    v.put('AccountId', req.accountId);
+                if (String.isNotBlank(targetAccId)) {
+                    v.put('AccountId', targetAccId);
                 }
-                if (String.isNotBlank(req.placeId)) {
-                    v.put('PlaceId', req.placeId);
+                if (String.isNotBlank(targetPlaceId)) {
+                    v.put('PlaceId', targetPlaceId);
                 }
-                DateTime startT = req.plannedStartTime != null ? req.plannedStartTime : System.now().addDays(1);
+                if (String.isNotBlank(targetTmplId) && fMap.containsKey('cgcloud__visit_template__c')) {
+                    v.put('cgcloud__Visit_Template__c', targetTmplId);
+                }
+                if (String.isNotBlank(targetSubj) && fMap.containsKey('cgcloud__subject__c')) {
+                    v.put('cgcloud__Subject__c', targetSubj);
+                }
+                if (String.isNotBlank(req.notes) && fMap.containsKey('cgcloud__note__c')) {
+                    v.put('cgcloud__Note__c', req.notes);
+                }
+
+                DateTime startT = req.plannedStartTime;
+                if (startT == null && String.isNotBlank(req.plannedStartTimeStr)) {
+                    startT = AgentFuzzyMatchUtility.parseDateTime(req.plannedStartTimeStr);
+                }
+                if (startT == null) {
+                    startT = System.now().addDays(1);
+                }
                 v.put('PlannedVisitStartTime', startT);
-                v.put('PlannedVisitEndTime', req.plannedEndTime != null ? req.plannedEndTime : startT.addHours(2));
+                DateTime endT = req.plannedEndTime;
+                if (endT == null && String.isNotBlank(req.plannedEndTimeStr)) {
+                    endT = AgentFuzzyMatchUtility.parseDateTime(req.plannedEndTimeStr);
+                }
+                if (endT == null) {
+                    endT = startT.addHours(2);
+                }
+                v.put('PlannedVisitEndTime', endT);
                 v.put('Status', String.isNotBlank(req.status) ? req.status : 'Planned');
             }
 
@@ -885,6 +1176,16 @@ global with sharing class VisitAgentController {
             Database.insert(v, AccessLevel.USER_MODE);
             res.success = true;
             res.visitId = (String) v.get('Id');
+            if (v.get('AccountId') != null) {
+                res.accountId = (String) v.get('AccountId');
+                List<Account> accList = [SELECT Id, Name FROM Account WHERE Id = :res.accountId LIMIT 1];
+                if (!accList.isEmpty()) {
+                    res.accountName = accList[0].Name;
+                }
+            }
+            res.visitStatus = (String) v.get('Status');
+            res.visitDate = String.valueOf(v.get('PlannedVisitStartTime'));
+            res.assignedUser = UserInfo.getName();
             res.message = 'Visit record created successfully.';
             res.summary = '✅ Successfully created new Visit **[Visit Record](/lightning/r/Visit/' + res.visitId + '/view)**.';
         } catch (Exception e) {

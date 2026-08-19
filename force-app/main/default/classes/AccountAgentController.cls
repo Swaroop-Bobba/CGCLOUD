@@ -268,7 +268,7 @@ global with sharing class AccountAgentController {
                 else if (String.isNotBlank(c.Phone)) { primaryPhone = c.Phone; }
             }
         }
-        res.accountPhone = primaryPhone != null ? '[' + primaryPhone + '](tel:' + primaryPhone + ')' : 'N/A';
+        res.accountPhone = formatTelLink(primaryPhone);
         res.accountEmail = primaryEmail != null ? '[' + primaryEmail + '](mailto:' + primaryEmail + ')' : 'N/A';
         res.locationNavigateLink = '[Open in Google Maps](' + res.googleMapsUrl + ')';
 
@@ -451,12 +451,12 @@ global with sharing class AccountAgentController {
                 sb += '  - Title: ' + jobTitle + '\n';
             }
             if (mobile != null) {
-                sb += '  - Mobile: [' + mobile + '](tel:' + mobile + ')\n';
+                sb += '  - Mobile: ' + formatTelLink(mobile) + '\n';
             } else if (phone != null) {
-                sb += '  - Mobile: [' + phone + '](tel:' + phone + ')\n';
+                sb += '  - Mobile: ' + formatTelLink(phone) + '\n';
             }
             if (phone != null && phone != mobile && mobile != null) {
-                sb += '  - Phone: [' + phone + '](tel:' + phone + ')\n';
+                sb += '  - Phone: ' + formatTelLink(phone) + '\n';
             }
             if (email != null) {
                 sb += '  - Email: [' + email + '](mailto:' + email + ')\n';
@@ -637,5 +637,13 @@ global with sharing class AccountAgentController {
         res.message = 'Found ' + accList.size() + ' Account(s).';
         res.summary = sb;
         return res;
+    }
+
+    private static String formatTelLink(String phoneStr) {
+        if (String.isBlank(phoneStr)) {
+            return 'N/A';
+        }
+        String cleanDigits = phoneStr.replaceAll('[^0-9+]', '');
+        return '[' + phoneStr + '](tel:' + cleanDigits + ')';
     }
 }

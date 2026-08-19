@@ -159,7 +159,7 @@ global with sharing class OrderAgentController {
                 Decimal grossVal = (Decimal) ord.get('cgcloud__Gross_Total_Value__c');
                 if (grossVal != null) { totalSum += grossVal; }
 
-                sb += '* **[' + ordName + '](/lightning/r/cgcloud__Order__c/' + ordId + '/view)**';
+                sb += '* **[' + ordName + '](' + getOrderRecordUrl(ordId) + ')**';
                 if (phase != null) { sb += ' | Status: ' + phase; }
                 if (grossVal != null) { sb += ' | Total: $' + grossVal.format(); }
                 sb += '\n';
@@ -215,7 +215,7 @@ global with sharing class OrderAgentController {
             DateTime created = (DateTime) ord.get('CreatedDate');
             String accName = ord.getSObject('cgcloud__Order_Account__r') != null ? (String) ord.getSObject('cgcloud__Order_Account__r').get('Name') : 'Account';
 
-            String sb = '### 📦 Order Details: **[' + ordName + '](/lightning/r/cgcloud__Order__c/' + ordId + '/view)**\n\n';
+            String sb = '### 📦 Order Details: **[' + ordName + '](' + getOrderRecordUrl(ordId) + ')**\n\n';
             sb += '* **Account**: ' + accName + '\n';
             sb += '* **Status**: ' + (phase != null ? phase : 'N/A') + '\n';
             sb += '* **Gross Total Value**: $' + (val != null ? val.format() : '0.00') + '\n';
@@ -407,11 +407,20 @@ global with sharing class OrderAgentController {
             res.success = true;
             res.message = 'Retrieved ' + invList.size() + ' inventory records.';
             res.summary = sb;
+            return res;
         } catch (Exception e) {
             res.success = true;
             res.message = 'No inventory records found.';
             res.summary = 'No on-shelf inventory audit records found for this store.';
         }
         return res;
+    }
+
+    private static String getOrderRecordUrl(String ordId) {
+        if (String.isBlank(ordId)) {
+            return '';
+        }
+        String objName = ordId.startsWith('02h') ? 'Order' : 'cgcloud__Order__c';
+        return '/lightning/r/' + objName + '/' + ordId + '/view';
     }
 }

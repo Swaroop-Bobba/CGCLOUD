@@ -116,7 +116,8 @@
                 | ===== SYSTEM INSTRUCTIONS =====
                 | 1. Visit Record Page Context: If the user has opened this agent from a Visit record page and currentRecordId is set, call {!@actions.get_visit} to load context. Then greet: "I found the current visit for [Account Name]. How can I help you with this account?"
                 | 2. First Launch (No Page Context): Greet with: "How can I assist you today? You can search for visits by account name, store name, status, or date range. You can also ask me to show your recent visits, today's planned visits, this week's visits, or this month's visits."
-                | 3. Output Format & Record Links: When presenting record hyperlinks (Visits or Accounts), you MUST always start the URL with a leading slash `/` (e.g., "[V-00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)" or "[Account Name](/lightning/r/Account/001f6000003XyzAAC/view)"). You MUST NEVER omit the leading slash `/` (never write "lightning/r/..." without the leading `/`), because omitting `/` breaks the URL to "https://lightning/...".
+                | 3. Output Format & Record Links: When presenting record hyperlinks for ANY Salesforce record (Visits, Accounts, Orders, Contacts, Opportunities, Cases, Products, Promotions), you MUST ALWAYS format the link with the complete Lightning URL starting with a leading forward slash `/` (e.g., "[V-00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)", "[Account Name](/lightning/r/Account/001f6000003XyzAAC/view)", "[O-00518](/lightning/r/Order/02hdn00000qckbua0/view)"). You MUST NEVER output a raw record ID as a link target (never write "[Label](001...)" or "[Label](02h...)" or "[Label](/001...)"), because omitting "/lightning/r/<Object>/" causes the chat interface to resolve the ID as an invalid web domain "https://001..." and breaks navigation. If the object API name is not known, output the record name as bold plain text (e.g., "**O-00518**").
+                | 4. External Links (Phone, Email, Maps): External links MUST use valid full protocols: `tel:<numeric_digits_only>` (e.g. `[(451) 641-7132](tel:4516417132)`), `mailto:<email>`, or full Google Maps URL `https://www.google.com/maps?q=...`. NEVER put parentheses inside the `(tel:...)` URL parameter.
                 |
                 | ===== SHARED INSTRUCTIONS =====
                 |
@@ -446,13 +447,13 @@
                     |   A. IF THE GREETING MENU OR DYNAMIC NEXT STEPS MENU WAS PRESENTED:
                     |      1. Extract the text label of the numbered option corresponding to the user's input from the last message.
                     |      2. Execute the action for that option text:
-                    |         * Account Summary / Account Details / Option 1 / "1" / 1 -> Call @actions.get_counts. Present the returned summary markdown directly without calling any other actions or querying raw record lists. Do NOT query or print the full visit history list or contacts list when Account Summary is requested. Do NOT show activities or tasks counts.
+                    |         * Account Summary / Account Details / Option 1 / "1" / 1 -> Call @actions.get_counts. Present the returned summary markdown directly without modifying or stripping hyperlinks. Do NOT query or print the full visit history list or contacts list when Account Summary is requested. Do NOT show activities or tasks counts.
                     |         * Contacts / View Contacts / Contact details / Option 2 / "2" / 2 -> Call @actions.get_details with recordType = "contacts"
                     |         * Promotions / Audit active promotions / active promotions / Option 3 / "3" / 3 -> Call @actions.get_details with recordType = "promotions"
                     |         * Eligible Products / products for promotion / products of <number> -> Call @actions.get_products with promotionId resolved from index or name.
                     |         * Pre-Visit Brief / Store Brief / Store Overview / Pre-visit briefing / pre visit breif / Option 4 / "4" / 4 -> Call @actions.store_brief
                     |         * Inventory / Check inventory / Out of stock records / Option 5 / "5" / 5 -> Call @actions.get_details with recordType = "inventory"
-                    |         * Order History / purchasing patterns / Order summary / Option 6 / "6" / 6 -> Call @actions.order_summary
+                    |         * Order History / purchasing patterns / Order summary / Option 6 / "6" / 6 -> Call @actions.order_summary. Present the order history summary. When displaying individual orders, keep the full lightning hyperlink (e.g., `[O-00518](/lightning/r/Order/02hdn00000qckbua0/view)`) and never replace it with a naked record ID.
                     |         * Update Visit / Update Visit Information / Option 7 / "7" / 7 -> You MUST NOT attempt to list fields or collect inputs yourself. You MUST transition immediately to the @subagent.visit_updater subagent by calling {!@actions.go_to_visit_updater}.
                     |         * Sellable Products / Products in assortment / Option 8 / "8" / 8 -> Call @actions.get_details with recordType = "assortmentproducts"
                     |         * Switch / Reset Context / Switch to a different visit / Option 10 / "10" / 10 -> Call @actions.switch_visit
@@ -1505,7 +1506,6 @@
                 
                 SECTION 2: RETURN ON SUCCESS AND FAILURE HANDLING
                 - If @variables.tempIsSubmitted is True:
-                * Run get_visit to load the latest visit details.
                 * If @variables.tempMessage contains "Cancelled":
                     - Output a short 1-line note: "Visit update cancelled."
                 * Otherwise (when changes were successfully saved):
@@ -1519,7 +1519,6 @@
                 * Set @variables.tempIsSubmitted = False
                 * set @variables.tempMessage = ""
                 * set @variables.tempUpdatesPayload = None
-                * set @variables.visitSummaryText = ""
                 * set @variables.justUpdated = False
                 * set @variables.activeSubagent = "visit_intelligence"
                 * Ask: "How can I help you with this visit?"
@@ -1545,8 +1544,7 @@
                     with updatesPayload = ...
                     set @variables.tempIsSubmitted = @outputs.success
                     set @variables.tempMessage = @outputs.message
-                get_visit: @actions.get_visit_details
-                    with recordId = @variables.visitId
+                    set @variables.visitId = @outputs.visitId
                     set @variables.accountId = @outputs.accountId
                     set @variables.accountName = @outputs.accountName
                     set @variables.visitStatus = @outputs.visitStatus
@@ -1554,6 +1552,8 @@
                     set @variables.assignedUser = @outputs.assignedUser
                     set @variables.visitEndDate = @outputs.visitEndDate
                     set @variables.accountableUser = @outputs.accountableUser
+                    set @variables.visitName = @outputs.visitName
+                    set @variables.visitSummaryText = @outputs.visitSummary
                 go_to_intelligence: @utils.transition to @subagent.visit_intelligence
                     description: "Transition back to the main options selection."
 
@@ -1575,6 +1575,26 @@
                         description: "True if the Visit record was successfully updated."
                     message: string
                         description: "Status message or error message from Salesforce."
+                    visitId: string
+                        description: "The updated Visit ID."
+                    accountId: string
+                        description: "The associated Account ID."
+                    accountName: string
+                        description: "The associated Account Name."
+                    visitStatus: string
+                        description: "The updated Visit Status."
+                    visitDate: string
+                        description: "The updated Planned Start Date/Time."
+                    assignedUser: string
+                        description: "The updated Assigned / Responsible User Name."
+                    visitEndDate: string
+                        description: "The updated Planned End Date/Time."
+                    accountableUser: string
+                        description: "The updated Accountable User Name."
+                    visitName: string
+                        description: "The Visit Name / Number."
+                    visitSummary: string
+                        description: "The updated Visit Summary text."
 
             get_visit_details:
                 description: "Retrieve details of the current Visit record and its associated Account."

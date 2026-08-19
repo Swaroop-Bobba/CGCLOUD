@@ -30,6 +30,10 @@
     </types>
     <types>
         <members>*</members>
+        <name>AiAuthoringBundle</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>StaticResource</name>
     </types>
     <version>67.0</version>

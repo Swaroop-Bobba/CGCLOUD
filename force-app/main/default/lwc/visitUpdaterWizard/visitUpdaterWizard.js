@@ -261,7 +261,8 @@ export default class VisitUpdaterWizard extends LightningElement {
 
     handleValueChange(event) {
         const fieldName = event.target.name;
-        this.fieldValues[fieldName] = event.target.value;
+        const val = (event.detail && event.detail.value !== undefined) ? event.detail.value : event.target.value;
+        this.fieldValues[fieldName] = val;
     }
 
     handleNext() {
@@ -301,8 +302,8 @@ export default class VisitUpdaterWizard extends LightningElement {
                 let newValLabel = '';
 
                 if (fieldName === 'Status') {
-                    currentValLabel = baseVisit.status;
-                    newValLabel = this.fieldValues.Status;
+                    currentValLabel = baseVisit.status || 'None';
+                    newValLabel = this.fieldValues.Status || 'None';
                 } else if (fieldName === 'PlannedVisitStartTime') {
                     currentValLabel = this.formatDate(baseVisit.plannedStartTime);
                     newValLabel = this.formatDate(this.fieldValues.PlannedVisitStartTime);
@@ -317,7 +318,7 @@ export default class VisitUpdaterWizard extends LightningElement {
                     newValLabel = this.getUserLabel(this.fieldValues.cgcloud__Accountable__c);
                 } else if (fieldName === 'cgcloud__Subject__c') {
                     currentValLabel = baseVisit.subject || 'None';
-                    newValLabel = this.getUserLabel(this.fieldValues.cgcloud__Subject__c);
+                    newValLabel = this.fieldValues.cgcloud__Subject__c || 'None';
                 } else if (fieldName === 'cgcloud__Note__c') {
                     currentValLabel = baseVisit.notes || 'None';
                     newValLabel = this.fieldValues.cgcloud__Note__c || 'None';
@@ -351,31 +352,35 @@ export default class VisitUpdaterWizard extends LightningElement {
     }
 
     handleConfirm() {
-        this.isLoading = true;
+        this.isLoading = false;
         this.isConfirming = true;
+        this.currentStep = '4';
         const updatesPayload = {};
         for (const fieldName of Object.keys(this.selectedFields)) {
             if (this.selectedFields[fieldName]) {
                 updatesPayload[fieldName] = this.fieldValues[fieldName];
             }
         }
-        updateVisitRecord({ visitId: this.selectedVisitId, updatesJson: JSON.stringify(updatesPayload) })
-            .then(() => {
-                this.isLoading = false;
-                this.currentStep = '4';
-                this.dispatchEvent(new CustomEvent('valuechange', {
-                    detail: {
-                        value: {
-                            visitId: this.selectedVisitId,
-                            updatesJson: JSON.stringify(updatesPayload)
-                        }
-                    }
-                }));
-            })
-            .catch(error => {
-                this.isLoading = false;
-                this.isConfirming = false;
-                console.error('Error updating visit record via AuraEnabled:', error);
-            });
+        
+        // Dispatch valuechange to Agentforce runtime
+        this.dispatchEvent(new CustomEvent('valuechange', {
+            detail: {
+                value: {
+                    visitId: this.selectedVisitId,
+                    updatesJson: JSON.stringify(updatesPayload)
+                }
+            }
+        }));
+
+        // Also asynchronously invoke direct Aura update for seamless local cache sync
+        if (this.selectedVisitId) {
+            updateVisitRecord({ visitId: this.selectedVisitId, updatesJson: JSON.stringify(updatesPayload) })
+                .then(() => {
+                    console.log('visitUpdaterWizard: Direct updateVisitRecord succeeded.');
+                })
+                .catch(error => {
+                    console.warn('visitUpdaterWizard: Direct updateVisitRecord error (action will handle execution):', error);
+                });
+        }
     }
 }

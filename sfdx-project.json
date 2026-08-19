@@ -7,6 +7,7 @@
       "default": true,
       "package": "CGC_AI_Agent",
       "versionDescription": "",
+      "definitionFile": "config/project-scratch-def.json",
       "postInstallScript": "PostInstallScript"
     }
   ],
@@ -38,6 +39,10 @@
     "CGC_AI_Agent@0.1.0-20": "04tf6000000JhMDAA0",
     "CGC_AI_Agent@0.1.0-21": "04tf6000000JhXVAA0",
     "CGC_AI_Agent@0.1.0-22": "04tf6000000JhZ7AAK",
-    "CGC_AI_Agent@0.1.0-23": "04tf6000000JiN7AAK"
+    "CGC_AI_Agent@0.1.0-23": "04tf6000000JiN7AAK",
+    "CGC_AI_Agent@0.1.0-24": "04tf6000000JkYbAAK",
+    "CGC_AI_Agent@0.1.0-25": "04tf6000000JkojAAC",
+    "CGC_AI_Agent@0.1.0-26": "04tf6000000Jl6TAAS",
+    "CGC_AI_Agent@0.1.0-27": "04tf6000000JoFdAAK"
   }
 }

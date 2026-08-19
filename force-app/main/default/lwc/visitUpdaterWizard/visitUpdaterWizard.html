@@ -75,7 +75,6 @@
 
                 <!-- Step 2: Dynamic Form -->
                 <template if:true={isStep2}>
-                    <h2 class="slds-text-heading_small slds-m-bottom_small">Enter New Values</h2>
                     <div class="slds-form slds-p-around_x-small">
                         <template if:true={selectedFields.cgcloud__Subject__c}>
                             <lightning-textarea
@@ -159,7 +158,6 @@
 
                 <!-- Step 3: Preview -->
                 <template if:true={isStep3}>
-                    <h2 class="slds-text-heading_small slds-m-bottom_small">Preview Changes</h2>
                     <div class="slds-m-bottom_medium slds-p-around_x-small slds-theme_alert-texture">
                         <strong>Selected Visit:</strong> {selectedVisitName}
                     </div>
