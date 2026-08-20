@@ -1,0 +1,548 @@
+# Salesforce Consumer Goods Cloud (CGC) Visit Intelligence Agent
+## Technical Architecture & Implementation Documentation
+
+---
+
+## 1. Executive Summary & Solution Architecture
+
+The **CGC Visit Intelligence Agent** is an enterprise AI solution built natively on the Salesforce Agentforce platform for **Salesforce Consumer Goods (CG) Cloud**. It empowers field representatives and retail sales supervisors to perform pre-visit planning, retail store execution audits, order history analysis, dynamic metric calculations, predictive sales forecasting, visit rescheduling, and interactive visit creation directly within natural language chat interfaces.
+
+### High-Level System Architecture
+
+```mermaid
+graph TD
+    subgraph UI_Layer["1. Interaction & Client Layer"]
+        DesktopUI["Desktop Experience<br/>(Agentforce Chat + LWC Editors)"]
+        MobileUI["Mobile Experience<br/>(Conversational Turns)"]
+    end
+
+    subgraph Agentforce_Layer["2. Agentforce Intelligence Engine (aiAuthoringBundles)"]
+        Router["agent_router<br/>(Context Loader & Dispatcher)"]
+        VI_Sub["visit_intelligence<br/>(Core Analytics & Summary)"]
+        VA_Sub["visit_activities<br/>(Surveys, Tasks, KPIs)"]
+        FC_Sub["forecasting_insights<br/>(Predictive Analytics)"]
+        RC_Sub["record_calculations_insights<br/>(Dynamic SOQL Calculations)"]
+        CV_Sub["create_visit<br/>(LWC Form / Conversational Turns)"]
+        VU_Sub["visit_updater<br/>(Wizard Modal / Text Updates)"]
+        Util_Sub["ambiguous_question / clear_context / off_topic"]
+    end
+
+    subgraph Lightning_Types_Layer["3. Custom Lightning Types & LWC Components"]
+        CVWT["c__createVisitWrapperType"] --> CVE_LWC["c/createVisitEditor LWC"]
+        VUPT["c__visitUpdatePayloadType"] --> VUW_LWC["c/visitUpdaterWizard LWC"]
+    end
+
+    subgraph Flow_Layer["4. Flow Automation"]
+        GVDFlow["Get_Visit_Details (AutoLaunched Flow)"]
+    end
+
+    subgraph Domain_Apex_Layer["5. Apex Domain Controllers (@InvocableMethod)"]
+        VAC["VisitAgentController"]
+        AAC["AccountAgentController"]
+        OAC["OrderAgentController"]
+        VActC["VisitActivityController"]
+        SFC["SalesForecastingController"]
+        RCC["RecordCalculationController"]
+        UCC["UserContextController"]
+        VUAC["VisitUpdaterActionController"]
+    end
+
+    subgraph Support_Apex_Layer["6. LWC Backends & Utility Engines"]
+        CVLC["CreateVisitLwcController (@AuraEnabled)"]
+        VULC["VisitUpdaterLwcController (@AuraEnabled)"]
+        Fuzzy["AgentFuzzyMatchUtility (Levenshtein & NLP Date)"]
+        DTOs["CreateVisitWrapper / VisitUpdatePayload"]
+    end
+
+    subgraph Security_Layer["7. Security, CSP & Governance"]
+        PS["Visit_Intel_Access Permission Set"]
+        CSP["Google1 & Google2 CSP Trusted Sites"]
+    end
+
+    DesktopUI --> Router
+    MobileUI --> Router
+
+    Router --> GVDFlow
+    Router --> VI_Sub
+    Router --> VA_Sub
+    Router --> FC_Sub
+    Router --> RC_Sub
+    Router --> CV_Sub
+    Router --> VU_Sub
+    Router --> Util_Sub
+
+    CV_Sub --> CVWT
+    VU_Sub --> VUPT
+    CVE_LWC --> CVLC
+    VUW_LWC --> VULC
+    VUW_LWC --> VUAC
+
+    VI_Sub --> VAC & AAC & OAC
+    VA_Sub --> VActC
+    FC_Sub --> SFC
+    RC_Sub --> RCC
+    CV_Sub --> VAC
+    VU_Sub --> VAC & VUAC
+
+    VAC --> Fuzzy
+    Domain_Apex_Layer --> PS
+    DesktopUI --> CSP
+```
+
+---
+
+## 2. Agentforce AI Agent Bundles (`aiAuthoringBundles`)
+
+The workspace contains three dedicated Agentforce agent authoring bundles configured with the **Anthropic Claude 3.5 Sonnet** model (`model://sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet`).
+
+### Agent Specification Overview
+
+| Attribute | [VisitIntelDesktop](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/aiAuthoringBundles/VisitIntelDesktop/VisitIntelDesktop.agent) | [VisitIntelMobile](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/aiAuthoringBundles/VisitIntelMobile/VisitIntelMobile.agent) | [SupervisitAi](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/aiAuthoringBundles/SupervisitAi/SupervisitAi.agent) |
+| :--- | :--- | :--- | :--- |
+| **Agent Label** | Visit Intelligence Desktop | Visit Intelligence Mobile | Supervisit AI |
+| **Agent Type** | `AgentforceEmployeeAgent` | `AgentforceEmployeeAgent` | `AgentforceEmployeeAgent` |
+| **Target User** | Supervisors & Reps on Desktop | Field Reps on Salesforce Mobile App | Executive & Retail Operations Specialists |
+| **UI Modality** | Interactive LWC Editors & Wizards | 100% Plain Text Multi-Turn State Machine | Hybrid Operations & Prompt Templates |
+| **Locales** | `en_US` (default), `en_GB` | `en_US` (default), `en_GB` | `en_US` (default), `en_GB` |
+
+---
+
+### Subagent Architecture & Routing Flow
+
+```mermaid
+stateDiagram-v2
+    [*] --> agent_router: Session Start / Context Init
+    
+    agent_router --> Get_Visit_Details_Flow: currentRecordId present on Visit
+    Get_Visit_Details_Flow --> agent_router: Sets Visit & Account Context
+    
+    agent_router --> visit_intelligence: Context Loaded / Default Routing
+    agent_router --> create_visit: "Create Visit" / "Schedule Visit"
+    agent_router --> forecasting_insights: "Forecast" / "Predict Sales"
+    agent_router --> record_calculations_insights: "Calculate" / "Sum" / "Average"
+
+    state visit_intelligence {
+        [*] --> Menu_Or_Action
+        Menu_Or_Action --> Account_Summary: Option 1
+        Menu_Or_Action --> Contacts: Option 2
+        Menu_Or_Action --> Promotions: Option 3
+        Menu_Or_Action --> PreVisit_Brief: Option 4
+        Menu_Or_Action --> Inventory_OOS: Option 5
+        Menu_Or_Action --> Order_History: Option 6
+        Menu_Or_Action --> Assortment_Products: Option 8
+    }
+
+    visit_intelligence --> visit_activities: Option 9 / "Activities"
+    visit_intelligence --> visit_updater: Option 7 / "Update Visit"
+    visit_intelligence --> create_visit: "Plan New Visit"
+    visit_intelligence --> forecasting_insights: "Sales Predictions"
+    visit_intelligence --> record_calculations_insights: "Custom Query"
+    visit_intelligence --> clear_context: "Switch Visit" / "Reset"
+
+    visit_activities --> visit_intelligence: Back to Menu
+    visit_updater --> visit_intelligence: Save/Cancel Completed
+    create_visit --> agent_router: Visit Created
+    forecasting_insights --> visit_intelligence: Return
+    record_calculations_insights --> visit_intelligence: Return
+```
+
+---
+
+### Desktop vs. Mobile Modality Comparison
+
+The core architectural divergence between `VisitIntelDesktop` and `VisitIntelMobile` lies in how user input is solicited and processed:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant Agent as Agentforce Engine
+    participant LWC as Custom LWC Component
+    participant Backend as Apex Domain Controller
+
+    Note over User,Backend: Desktop Flow (LWC Interactive Form)
+    User->>Agent: "Create visit"
+    Agent->>User: "Please fill in the details in the Create Visit form below."
+    Agent->>LWC: Render c/createVisitEditor via c__createVisitWrapperType
+    User->>LWC: Interacts with debounced lookups (Account, Place, Template)
+    User->>LWC: Submits form
+    LWC->>Agent: Passes populated CreateVisitWrapper DTO
+    Agent->>Backend: VisitAgentController.createVisitRecord(wrapper)
+    Backend-->>Agent: Returns {success: true, visitId: '0Z5...'}
+    Agent->>User: "✅ Successfully created new Visit [V-00370](/lightning/r/Visit/...)"
+
+    Note over User,Backend: Mobile Flow (Multi-Turn Conversational State Machine)
+    User->>Agent: "Create visit"
+    Agent->>User: "Please enter the Account name to create a visit."
+    User->>Agent: "Fresh Mart Downtown"
+    Agent->>Backend: prompt_visit_mobile (AgentFuzzyMatchUtility fuzzy match)
+    Backend-->>Agent: Matched Account ID & Name
+    Agent->>User: "Matched Account: Fresh Mart Downtown. Please enter the Place/Store name."
+    User->>Agent: "Main Store 01"
+    Agent->>Backend: prompt_visit_mobile (Match Place)
+    Backend-->>Agent: Matched Place ID & Name
+    Agent->>User: "Matched Place: Main Store 01. Please enter the Visit Template name."
+    User->>Agent: "Standard Audit"
+    Agent->>Backend: prompt_visit_mobile (Match Template)
+    Backend-->>Agent: Matched Template ID
+    Agent->>User: "Please enter the Subject for this visit."
+    User->>Agent: "Q3 Merchandising Review"
+    Agent->>User: "Please enter Planned Start Date & Time (e.g. DD-MM-YYYY HH:MM)."
+    User->>Agent: "Tomorrow at 10 AM"
+    Agent->>Backend: prompt_visit_mobile (NLP Datetime Parsing)
+    Backend-->>Agent: Parsed ISO DateTime
+    Agent->>Backend: create_visit_record_mobile (Execute insert)
+    Backend-->>Agent: Returns {success: true, visitId: '0Z5...'}
+    Agent->>User: "🎉 Visit has been successfully created! ID: 0Z5..."
+```
+
+---
+
+### Global Agent Directives & Formatting Constraints
+
+1. **Strict Lightning Navigation URLs**:
+   All record references for Visits, Accounts, Orders, Contacts, Opportunities, Cases, and Products MUST be formatted as complete Lightning view paths starting with a leading slash:
+   ```markdown
+   [V-00000370](/lightning/r/Visit/0Z5f6000000DWeqCAG/view)
+   [Fresh Mart](/lightning/r/Account/001f6000003XyzAAC/view)
+   [O-00518](/lightning/r/Order/02hdn00000qckbua0/view)
+   ```
+   > [!CAUTION]
+   > Raw record IDs (e.g. `[V-00370](0Z5...)`) cause the chat client to resolve invalid domains like `https://0z5...` and break in-app routing.
+
+2. **Direct Google Maps Protocol**:
+   All location links MUST use direct Google Maps search parameters:
+   ```markdown
+   [Open in Google Maps](https://www.google.com/maps?q=123+Main+St+San+Francisco+CA)
+   ```
+   Direct telephony and email links MUST use clean RFC protocols:
+   - Phone: `[(415) 555-0199](tel:4155550199)` (Numeric digits only in parameter).
+   - Email: `[contact@domain.com](mailto:contact@domain.com)`.
+
+3. **Numbered List Rendering for Visits**:
+   Search and list actions enforce sequentially numbered lists starting at `1` to enable unambiguous integer-based index selection by users.
+
+---
+
+## 3. Custom Lightning Types & LWC Architecture
+
+Custom Lightning Types bridge Agentforce's generative AI context with custom Lightning Web Components.
+
+```mermaid
+classDiagram
+    class CreateVisitWrapper {
+        +String subject
+        +String accountId
+        +DateTime plannedStartTime
+        +String placeId
+        +String visitTemplateId
+        +DateTime plannedEndTime
+        +Boolean isAllDayEvent
+        +String accountableId
+        +String responsibleId
+    }
+
+    class createVisitWrapperType {
+        <<LightningType>>
+        schema.json: @apexClassType/c__CreateVisitWrapper
+        editor.json: c/createVisitEditor
+    }
+
+    class createVisitEditor {
+        <<LWC Component>>
+        +CreateVisitWrapper value
+        +String visitId
+        +searchAccounts()
+        +searchPlaces()
+        +searchTemplates()
+        +searchUsers()
+        +getResponsibleUserContext()
+        +dispatchChange()
+    }
+
+    class VisitUpdatePayload {
+        +String visitId
+        +String updatesJson
+    }
+
+    class visitUpdatePayloadType {
+        <<LightningType>>
+        schema.json: @apexClassType/c__VisitUpdatePayload
+        editor.json: c/visitUpdaterWizard
+    }
+
+    class visitUpdaterWizard {
+        <<LWC Component>>
+        +VisitUpdatePayload value
+        +String visitId
+        +String currentStep
+        +Map selectedFields
+        +Map fieldValues
+        +getActiveUsers()
+        +getVisitDetails()
+        +handleSave()
+    }
+
+    CreateVisitWrapper --> createVisitWrapperType
+    createVisitWrapperType --> createVisitEditor
+    VisitUpdatePayload --> visitUpdatePayloadType
+    visitUpdatePayloadType --> visitUpdaterWizard
+```
+
+### Component Breakdown
+
+#### 1. `c/createVisitEditor`
+- **Location**: [createVisitEditor](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/lwc/createVisitEditor/createVisitEditor.js)
+- **Target Contract**: `lightning__AgentforceInput` with `targetType="c__createVisitWrapperType"`.
+- **Form Factors**: Large (Desktop) and Small (Tablet/Mobile).
+- **Core Capabilities**:
+  - **Dynamic Lookups**: Debounced SOSL/SOQL queries against `Account`, `RetailStore`/`Location`, `cgcloud__Visit_Template__c`, and `User`.
+  - **User Context Auto-Detection**: Calls [CreateVisitLwcController.getResponsibleUserContext](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/CreateVisitLwcController.cls#L69-L88). If the running user is assigned to a CG Cloud sales organization or profile, automatically populates and locks the `Responsible` user field.
+  - **Payload Binding**: Emits `change` custom events to bind field values directly to the agent's `createVisitWrapper` variable.
+
+#### 2. `c/visitUpdaterWizard`
+- **Location**: [visitUpdaterWizard](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/lwc/visitUpdaterWizard/visitUpdaterWizard.js)
+- **Target Contract**: `lightning__AgentforceInput` with `targetType="c__visitUpdatePayloadType"`.
+- **Core Capabilities**:
+  - **Contextual ID Resolution**: Uses `@wire(CurrentPageReference)` to auto-extract `recordId` when opened on a `Visit` record page.
+  - **4-Stage Stepper**:
+    1. *Field Selection*: Checkbox grid (`Subject`, `Status`, `PlannedStartTime`, `PlannedEndTime`, `Responsible`, `Accountable`, `Notes`).
+    2. *Field Inputs*: Dynamic input fields based on selected checkboxes.
+    3. *Review & Confirm*: Side-by-side diff comparing original values against staged changes.
+    4. *Finalized State*: Read-only receipt confirming update payload generation.
+  - **Payload Serialization**: Outputs a JSON payload string in `updatesJson` (e.g. `{"Status":"Completed","cgcloud__Note__c":"Audit done"}`).
+
+---
+
+## 4. Automation & Flow Layer (`flows`)
+
+### Flow: `Get_Visit_Details`
+- **Location**: [Get_Visit_Details.flow-meta.xml](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/flows/Get_Visit_Details.flow-meta.xml)
+- **Type**: `AutoLaunchedFlow` (API v61.0).
+- **Description**: High-performance, self-contained record context extractor executed automatically by the `agent_router` subagent when a session initiates.
+
+```mermaid
+flowchart TD
+    Start([Start: recordId]) --> Lookup_Visit[1. Lookup Visit Record by recordId]
+    
+    Lookup_Visit --> Dec_AccountId{Is AccountId Populated?}
+    Dec_AccountId -- Yes --> Dec_Visitor{Is Responsible/Visitor Populated?}
+    Dec_AccountId -- No --> Lookup_RetailStore[Lookup RetailStore using PlaceId to get AccountId]
+    
+    Lookup_RetailStore --> Dec_Visitor
+    
+    Dec_Visitor -- Yes --> Assign_VisitorId[Set userIdToQuery = Responsible/Visitor ID]
+    Dec_Visitor -- No --> Assign_OwnerId[Set userIdToQuery = OwnerId]
+    
+    Assign_VisitorId --> Lookup_Account[2. Lookup Account Name]
+    Assign_OwnerId --> Lookup_Account
+    
+    Lookup_Account --> Lookup_User[3. Lookup Assigned User Name]
+    Lookup_User --> Lookup_Accountable[4. Lookup Accountable User Name]
+    
+    Lookup_Accountable --> EndNode([Return Context Variables to Agent])
+```
+
+#### Flow Variable Specifications
+
+| Variable | Type | In / Out | Purpose |
+| :--- | :--- | :--- | :--- |
+| `recordId` | String | Input / Output | The Visit record ID being inspected. |
+| `accountId` | String | Output | The associated Account ID (resolved from Visit or RetailStore). |
+| `accountName` | String | Output | The Account Name. |
+| `assignedUser` | String | Output | Name of the assigned rep (`cgcloud__Responsible__c` or `Owner`). |
+| `accountableUser`| String | Output | Name of the accountable supervisor (`cgcloud__Accountable__c`). |
+| `visitStatus` | String | Output | Current status of the visit. |
+| `visitDate` | String | Output | Planned Visit Start Date & Time. |
+| `visitEndDate` | String | Output | Planned Visit End Date & Time. |
+| `visitName` | String | Output | Visit identifier name (e.g. `V-00000370`). |
+
+---
+
+## 5. Apex Domain Controllers Reference (`classes`)
+
+The backend architecture is structured around modular domain controllers. Each controller implements an `@InvocableMethod` dispatcher with unified request and response DTOs:
+
+```mermaid
+graph LR
+    subgraph InvocableControllers["Invocable Domain Controllers"]
+        VAC["VisitAgentController"]
+        AAC["AccountAgentController"]
+        OAC["OrderAgentController"]
+        VActC["VisitActivityController"]
+        SFC["SalesForecastingController"]
+        RCC["RecordCalculationController"]
+        UCC["UserContextController"]
+        VUAC["VisitUpdaterActionController"]
+    end
+
+    subgraph Utilities["Utilities & Helpers"]
+        AFMU["AgentFuzzyMatchUtility"]
+    end
+
+    VAC --> AFMU
+    VUAC --> VAC
+```
+
+### Comprehensive Controller Reference Matrix
+
+| Class Name | Test Class | Core Action Types (`actionType`) | Key Description & Capabilities |
+| :--- | :--- | :--- | :--- |
+| [VisitAgentController](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/VisitAgentController.cls) | `VisitAgentControllerTest` | `getAvailableVisits`, `searchVisits`, `getVisitDetails`, `getVisitSummary`, `getStoreBrief`, `prompt_visit_mobile`, `create_visit_record`, `update_status`, `update_owner`, `update_notes`, `update_start_time`, `update_end_time` | Primary domain engine for all visit operations, pagination, conversational fuzzy matching, notes and date updates, and visit insertion. |
+| [AccountAgentController](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/AccountAgentController.cls) | `AccountAgentControllerTest` | `getAccountDetails`, `getCounts`, `getRelatedRecords`, `getProducts`, `getPromotions`, `getStoreBrief`, `getAccountContacts`, `getAccountOpportunities`, `getAccountCases`, `getAccountVisits` | Provides complete Account 360 intelligence, related record rollups, sellable product assortments, and active promotion audits. |
+| [OrderAgentController](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/OrderAgentController.cls) | `OrderAgentControllerTest` | `getOrders`, `getOrderDetails`, `getAccountOrderSummary`, `getVisitOrderSummary`, `getOrderRecommendations`, `getInventoryChecks` | Queries order history, line item quantities/prices, account spend insights, predictive product recommendations, and inventory checks. |
+| [VisitActivityController](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/VisitActivityController.cls) | `VisitActivityControllerTest` | `getActivities`, `getJobsStatus`, `getDeliveryActivities`, `getNextSteps` | Inspects `AssessmentTask`, `RetailStoreKpi`, `cgcloud__Visit_Job__c`, survey question responses, and pending retail audit checklists. |
+| [SalesForecastingController](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/SalesForecastingController.cls) | `SalesForecastingControllerTest` | `getOrderForecast`, `getProductForecast`, `getCustomerForecast`, `getSalesForecast`, `getInventoryForecast`, `getVisitForecast` | Statistical and historical trend forecasting engine calculating projected order volumes, revenue run-rates, balance projections, and churn risks. |
+| [RecordCalculationController](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/RecordCalculationController.cls) | `RecordCalculationControllerTest` | `execute` (takes dynamic `query` string) | Executes dynamic SOQL aggregate queries strictly in `AccessLevel.USER_MODE` to compute custom totals, averages, and durations safely. |
+| [UserContextController](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/UserContextController.cls) | `UserContextControllerTest` | `getProfile` | Resolves the logged-in user profile, role, and identity to customize agent responses and permission checks. |
+| [VisitUpdaterActionController](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/VisitUpdaterActionController.cls) | `VisitUpdaterLwcControllerTest` | `executeUpdate` | Deserializes `VisitUpdatePayload` JSON and executes atomic DML updates on `Visit` records. |
+| [CreateVisitLwcController](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/CreateVisitLwcController.cls) | `CreateVisitLwcControllerTest` | `@AuraEnabled`: `searchAccounts`, `searchPlaces`, `searchTemplates`, `searchUsers`, `getResponsibleUserContext`, `getVisitDataForLwc` | Provides lookup search endpoints, status picklist options, and context resolution for the `createVisitEditor` LWC. |
+| [VisitUpdaterLwcController](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/VisitUpdaterLwcController.cls) | `VisitUpdaterLwcControllerTest` | `@AuraEnabled`: `getAvailableVisits`, `getVisitDetails`, `getActiveUsers`, `updateVisitRecord` | Provides visit detail loading, active user lookups, and update execution for the `visitUpdaterWizard` LWC. |
+| [AgentFuzzyMatchUtility](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/AgentFuzzyMatchUtility.cls) | `AgentFuzzyMatchUtilityTest` | Utility: `findBestMatchAccount`, `findBestMatchPlace`, `findBestMatchTemplate`, `findBestMatchUser`, `parseDateTime` | Implements Levenshtein string distance algorithm (0–100 similarity score) and natural language datetime parser ("tomorrow at 10am", "next Monday"). |
+
+---
+
+## 6. Security, Permissions & CSP Configuration
+
+### 1. Permission Set: `Visit_Intel_Access`
+- **Location**: [Visit_Intel_Access.permissionset-meta.xml](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/permissionsets/Visit_Intel_Access.permissionset-meta.xml)
+- **Role**: Master permission set granting access to all execution artifacts required by the Visit Intelligence agent.
+
+```mermaid
+graph TD
+    PS["Visit_Intel_Access (Permission Set)"]
+    
+    PS --> P_Flow["User Permission:<br/>RunFlow"]
+    PS --> F_Access["Flow Access:<br/>Get_Visit_Details"]
+    
+    subgraph Class_Accesses["Enabled Apex Classes"]
+        PS --> C1["VisitAgentController"]
+        PS --> C2["AccountAgentController"]
+        PS --> C3["OrderAgentController"]
+        PS --> C4["VisitActivityController"]
+        PS --> C5["SalesForecastingController"]
+        PS --> C6["RecordCalculationController"]
+        PS --> C7["UserContextController"]
+        PS --> C8["VisitUpdaterActionController"]
+        PS --> C9["CreateVisitLwcController"]
+        PS --> C10["VisitUpdaterLwcController"]
+        PS --> C11["AgentFuzzyMatchUtility"]
+    end
+```
+
+> [!IMPORTANT]
+> Whenever new domain controllers, LWC helpers, or action wrappers are created, they must be registered in [Visit_Intel_Access.permissionset-meta.xml](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/permissionsets/Visit_Intel_Access.permissionset-meta.xml).
+
+---
+
+### 2. Content Security Policy (CSP Trusted Sites)
+To permit Google Maps imagery, previews, and map tiles inside Agentforce components, two CSP Trusted Sites are configured:
+
+| Name | File | Endpoint URL | Context | Directives Enabled |
+| :--- | :--- | :--- | :--- | :--- |
+| **Google1** | [Google1.cspTrustedSite-meta.xml](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/cspTrustedSites/Google1.cspTrustedSite-meta.xml) | `https://*.google.com` | `All` | `isApplicableToImgSrc = true` |
+| **Google2** | [Google2.cspTrustedSite-meta.xml](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/cspTrustedSites/Google2.cspTrustedSite-meta.xml) | `https://google.com` | `All` | `isApplicableToImgSrc = true` |
+
+---
+
+### 3. Data Sharing & Security Enforcement
+- **User Mode Enforcement**: Controllers executing dynamic SOQL (e.g. `RecordCalculationController`, `CreateVisitLwcController`) execute with `AccessLevel.USER_MODE` or `WITH USER_MODE` to strictly adhere to Field-Level Security (FLS) and Object-Level Security (OLS).
+- **`with sharing` Keywords**: Applied across all utility and LWC controller classes to prevent unauthorized record traversal.
+- **Defensive Schema Checks**: All SOQL statements utilize `Schema.getGlobalDescribe()` field and object existence checks before querying optional Consumer Goods Cloud managed package fields (`cgcloud__*`).
+
+---
+
+## 7. Generative AI Prompt Templates (`genAiPromptTemplates`)
+
+The workspace defines flex prompt templates for executive summaries and briefing generation:
+
+```mermaid
+graph LR
+    AccountRec["Account Record"] --> SBT["Supervisit_Store_Brief<br/>(Flex Prompt Template)"]
+    VisitRec["Visit Record"] --> SVT["Supervisit_Visit_Summary<br/>(Flex Prompt Template)"]
+    AccountRec --> SVT
+
+    SBT --> LLM["Claude 3.5 Sonnet"]
+    SVT --> LLM
+
+    LLM --> BriefOut["Structured Store Brief<br/>(Identity, Operations, Guidelines)"]
+    LLM --> SumOut["Executive Visit Summary<br/>(Overview, Objectives, Direct Maps Link)"]
+```
+
+1. **[Supervisit_Store_Brief](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/genAiPromptTemplates/Supervisit_Store_Brief.genAiPromptTemplate-meta.xml)**:
+   - **Type**: `einstein_gpt__flex`.
+   - **Inputs**: `Account` (`SOBJECT://Account`).
+   - **Output**: Generates Store Identity, Operations Snapshot, and Merchandising Execution Guidelines.
+2. **[Supervisit_Visit_Summary](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/genAiPromptTemplates/Supervisit_Visit_Summary.genAiPromptTemplate-meta.xml)**:
+   - **Type**: `einstein_gpt__flex`.
+   - **Inputs**: `Visit` (`SOBJECT://Visit`) and `Account` (`SOBJECT://Account`).
+   - **Output**: Generates Executive Visit Overview, Key Objectives, and Direct Google Maps Navigation links.
+
+---
+
+## 8. Packaging & Deployment Configuration
+
+- **Project Definition**: [sfdx-project.json](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/sfdx-project.json)
+- **Package Name**: `CGC_AI_Agent`
+- **Namespace**: `VisitIntel`
+- **Source API Version**: `67.0`
+- **Post-Install Handler**: [PostInstallScript.cls](file:///c:/Users/Bhanu%20Bobba/Videos/CGCLOUD/CGC_AI_Agent/force-app/main/default/classes/PostInstallScript.cls) (automatically validates schema availability upon 2GP package installation).
+
+### Deployment Verification Commands (Salesforce CLI)
+
+```bash
+# 1. Validate / Deploy all metadata to target Org
+sf project deploy start --target-org <ORG_ALIAS>
+
+# 2. Run all Visit Intelligence Apex Unit Tests
+sf apex run test --test-level RunSpecifiedTests --tests VisitAgentControllerTest,AccountAgentControllerTest,OrderAgentControllerTest,VisitActivityControllerTest,SalesForecastingControllerTest,RecordCalculationControllerTest,UserContextControllerTest,CreateVisitLwcControllerTest,VisitUpdaterLwcControllerTest,AgentFuzzyMatchUtilityTest --target-org <ORG_ALIAS> --result-format human
+
+# 3. Assign master Permission Set to active user
+sf org assign permset --name Visit_Intel_Access --target-org <ORG_ALIAS>
+
+# 4. Preview / Test the Agentforce Agent Script
+sf agent preview --agent VisitIntelDesktop --target-org <ORG_ALIAS>
+```
+
+---
+
+## 9. Comprehensive Directory Map
+
+```
+force-app/main/default/
+├── aiAuthoringBundles/             # Agentforce AI Agent specifications
+│   ├── VisitIntelDesktop/          # Desktop Agent (Interactive LWC Forms)
+│   ├── VisitIntelMobile/           # Mobile Agent (Conversational Multi-Turn)
+│   └── SupervisitAi/               # Executive & Store Briefing Agent
+├── classes/                        # Invocable Domain Controllers & Tests
+│   ├── VisitAgentController.cls    # Visits & Scheduling Domain Handler
+│   ├── AccountAgentController.cls  # Account 360 Domain Handler
+│   ├── OrderAgentController.cls    # Orders & Spend Insights Handler
+│   ├── VisitActivityController.cls # Surveys & Tasks Handler
+│   ├── SalesForecastingController.cls # Predictive Analytics Handler
+│   ├── RecordCalculationController.cls # Dynamic SOQL Engine (User Mode)
+│   ├── UserContextController.cls   # Profile & Context Resolver
+│   ├── VisitUpdaterActionController.cls # Wizard DML Processor
+│   ├── CreateVisitLwcController.cls# Lookups for Create Visit LWC
+│   ├── VisitUpdaterLwcController.cls # Data for Updater Wizard LWC
+│   ├── AgentFuzzyMatchUtility.cls  # Levenshtein & NLP Date Utility
+│   ├── CreateVisitWrapper.cls      # DTO for Visit Creation
+│   ├── VisitUpdatePayload.cls      # DTO for Wizard Payload
+│   └── *Test.cls                   # Apex Test Suites
+├── cspTrustedSites/                # CSP Trusted Sites
+│   ├── Google1.cspTrustedSite-meta.xml # https://*.google.com
+│   └── Google2.cspTrustedSite-meta.xml # https://google.com
+├── flows/                          # Autolaunched Flows
+│   └── Get_Visit_Details.flow-meta.xml # Context Loader Flow
+├── genAiPromptTemplates/           # Generative Prompt Templates
+│   ├── Supervisit_Store_Brief.genAiPromptTemplate-meta.xml
+│   └── Supervisit_Visit_Summary.genAiPromptTemplate-meta.xml
+├── lightningTypes/                 # Custom Lightning Types for Agentforce
+│   ├── createVisitWrapperType/     # Mapped to CreateVisitWrapper DTO
+│   └── visitUpdatePayloadType/     # Mapped to VisitUpdatePayload DTO
+├── lwc/                            # Lightning Web Components
+│   ├── createVisitEditor/          # Interactive Visit Creation Form
+│   └── visitUpdaterWizard/         # Multi-Step Visit Updater Wizard
+└── permissionsets/                 # Security & Permissions
+    └── Visit_Intel_Access.permissionset-meta.xml
+```

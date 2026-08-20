@@ -95,7 +95,7 @@
         isDateTimeSelected: mutable boolean = False
             description: "True if Planned Start Date/Time has been selected."
 
-    start_agent agent_router:
+    start_agent TW_CGC_agent_router:
         description: "Route employees to the right subagent and initialize visit context."
         before_reasoning:
             
@@ -108,7 +108,7 @@
                 set @variables.visitDate = ""
                 set @variables.assignedUser = ""
                 set @variables.visitSummaryText = ""
-                set @variables.activeSubagent = "visit_intelligence"
+                set @variables.activeSubagent = "TW_CGC_visit_intelligence"
 
         reasoning:
             instructions: ->
@@ -124,23 +124,23 @@
                         set @variables.accountableUser = @outputs.accountableUser
                         set @variables.visitName = @outputs.visitName
 
-                if @variables.accountId != "" and @variables.activeSubagent == "visit_activities":
-                    transition to @subagent.visit_activities
+                if @variables.accountId != "" and @variables.activeSubagent == "TW_CGC_visit_activities":
+                    transition to @subagent.TW_CGC_visit_activities
                 
-                if @variables.accountId != "" and @variables.activeSubagent == "visit_intelligence":
-                    transition to @subagent.visit_intelligence
+                if @variables.accountId != "" and @variables.activeSubagent == "TW_CGC_visit_intelligence":
+                    transition to @subagent.TW_CGC_visit_intelligence
 
-                if @variables.accountId != "" and @variables.activeSubagent == "visit_updater":
-                    transition to @subagent.visit_updater
+                if @variables.accountId != "" and @variables.activeSubagent == "TW_CGC_visit_updater":
+                    transition to @subagent.TW_CGC_visit_updater
 
-                if @variables.activeSubagent == "forecasting_insights":
-                    transition to @subagent.forecasting_insights
+                if @variables.activeSubagent == "TW_CGC_forecasting_insights":
+                    transition to @subagent.TW_CGC_forecasting_insights
 
-                if @variables.activeSubagent == "record_calculations_insights":
-                    transition to @subagent.record_calculations_insights
+                if @variables.activeSubagent == "TW_CGC_record_calculations_insights":
+                    transition to @subagent.TW_CGC_record_calculations_insights
 
-                if @variables.activeSubagent == "create_visit":
-                    transition to @subagent.create_visit
+                if @variables.activeSubagent == "TW_CGC_create_visit":
+                    transition to @subagent.TW_CGC_create_visit
 
                 | ===== SYSTEM INSTRUCTIONS =====
                 | 1. Visit Record Page Context: If the user has opened this agent from a Visit record page and currentRecordId is set, call {!@actions.get_visit} to load context. Then greet: "I found the current visit for [Account Name]. How can I help you with this account?"
@@ -195,8 +195,8 @@
                     set @variables.visitEndDate = @outputs.visitEndDate
                     set @variables.accountableUser = @outputs.accountableUser
                     set @variables.visitSummaryText = ""
-                    set @variables.activeSubagent = "visit_intelligence"
-                    transition to @subagent.visit_intelligence
+                    set @variables.activeSubagent = "TW_CGC_visit_intelligence"
+                    transition to @subagent.TW_CGC_visit_intelligence
     
                 select_visit: @actions.select_and_navigate_visit
                     description: "Select a Visit by its record ID to load account context and navigate programmatically. The visitId MUST be a valid Visit ID (Id) obtained from the selected Visit record. Call this after the user selects a visit."
@@ -211,8 +211,8 @@
                     set @variables.visitEndDate = @outputs.visitEndDate
                     set @variables.accountableUser = @outputs.accountableUser
                     set @variables.visitSummaryText = ""
-                    set @variables.activeSubagent = "visit_intelligence"
-                    transition to @subagent.visit_intelligence
+                    set @variables.activeSubagent = "TW_CGC_visit_intelligence"
+                    transition to @subagent.TW_CGC_visit_intelligence
 
                 list_visits: @actions.get_available_visits
                     description: "Retrieve user's recently viewed, owned, and scheduled visits as custom VisitInfo objects."
@@ -225,18 +225,18 @@
                     with searchQuery = ...
                     with searchOffset = ...
 
-                go_to_ambiguous_question: @utils.transition to @subagent.ambiguous_question
+                go_to_ambiguous_question: @utils.transition to @subagent.TW_CGC_ambiguous_question
                     description: "Route ambiguous queries."
 
-                go_to_create_visit: @utils.transition to @subagent.create_visit
+                go_to_create_visit: @utils.transition to @subagent.TW_CGC_create_visit
                     description: "Route the user to the Create Visit Agent (LWC form) when they request to create, plan, schedule, or add a new visit."
                     set @variables.visitId = ""
                     set @variables.accountId = ""
 
-                go_to_forecasting: @utils.transition to @subagent.forecasting_insights
+                go_to_forecasting: @utils.transition to @subagent.TW_CGC_forecasting_insights
                     description: "Route the user directly to the Sales Forecasting & Predictive Insights Agent."
 
-                go_to_intelligence: @utils.transition to @subagent.visit_intelligence
+                go_to_intelligence: @utils.transition to @subagent.TW_CGC_visit_intelligence
                     description: "Return to the main Visit Intelligence subagent dashboard."
 
                 get_stale_visits: @actions.get_stale_visits
@@ -394,11 +394,11 @@
                     accountableUser: string
                         description: "The Accountable User."
 
-    subagent visit_intelligence:
+    subagent TW_CGC_visit_intelligence:
         label: "Visit Intelligence"
         description: "Analyze the current Visit record and retrieve/summarize related Account context including Contacts, Tasks, Promotions, and Out-of-Stock records."
         before_reasoning:
-            set @variables.activeSubagent = "visit_intelligence"
+            set @variables.activeSubagent = "TW_CGC_visit_intelligence"
             if @variables.channelType == "web" and @variables.currentObjectApiName == "Visit" and @variables.currentRecordId != "" and @variables.currentRecordId != @variables.lastRecordId:
                 set @variables.visitId = ""
                 set @variables.lastRecordId = @variables.currentRecordId
@@ -408,7 +408,7 @@
                 set @variables.visitDate = ""
                 set @variables.assignedUser = ""
                 set @variables.visitSummaryText = ""
-                transition to @subagent.agent_router
+                transition to @subagent.TW_CGC_agent_router
 
         reasoning:
             instructions: ->
@@ -435,13 +435,13 @@
                     |   * "Inventory" / "out-of-stock" / "oos" -> Call @actions.get_details with recordType = "inventory"
                     |   * "Order History" / "orders" -> Call @actions.order_summary
                     |   * "Visit Report" / "generate reports" / "summarize visit" -> Call @actions.generate_visit_summary
-                    |   * "Update" / "change visit" / "assign visit" / "update status" / "reassign visit" / "change owner" / "add notes" / "update start time" / "update end time" or choosing the "Update Visit Information" option (option 7) -> You MUST NOT attempt to answer or collect fields yourself. You MUST transition immediately to the @subagent.visit_updater subagent by calling {!@actions.go_to_visit_updater}.
+                    |   * "Update" / "change visit" / "assign visit" / "update status" / "reassign visit" / "change owner" / "add notes" / "update start time" / "update end time" or choosing the "Update Visit Information" option (option 7) -> You MUST NOT attempt to answer or collect fields yourself. You MUST transition immediately to the @subagent.TW_CGC_visit_updater subagent by calling {!@actions.go_to_visit_updater}.
                     |   * "Sellable Products" / "products in assortment" -> Call @actions.get_details with recordType = "assortmentproducts"
                     |   * "Switch" / "reset context" / "change visit" -> Call @actions.switch_visit
                     |   * "Order Suggestions" / "what should I order" -> Call @actions.suggest_products
                     |   * "Create Visit" / "New Visit" / "Schedule Visit" / "Plan a Visit" / "Add Visit" / "Create Customer Visit" / "Visit Creation" -> Transition immediately to the Create Visit Agent (LWC) using go_to_create_visit
-                    |   * "predictive insights" / "forecast" / "forecasting" / "order forecast" / "sales forecast" / "customer forecast" / "customer forecasting" / "product forecast" / "inventory forecast" / "visit forecast" / "buying trends" / "churn risk" -> Transition to @subagent.forecasting_insights using go_to_forecasting
-                    |   * "calculate" / "how many days since" / "average order value" / "total spend calculation" -> Transition to @subagent.record_calculations_insights using go_to_calculations
+                    |   * "predictive insights" / "forecast" / "forecasting" / "order forecast" / "sales forecast" / "customer forecast" / "customer forecasting" / "product forecast" / "inventory forecast" / "visit forecast" / "buying trends" / "churn risk" -> Transition to @subagent.TW_CGC_forecasting_insights using go_to_forecasting
+                    |   * "calculate" / "how many days since" / "average order value" / "total spend calculation" -> Transition to @subagent.TW_CGC_record_calculations_insights using go_to_calculations
                     |   * "Overdue Visits" / "stale visits" / "get overdue visits" / "show visits planned for more than a day" -> Call @actions.get_stale_visits
                     |   * "Send Alerts" / "send notifications" / "notify reps" -> Call @actions.send_visit_alerts
                     |
@@ -483,16 +483,16 @@
                     |         * Pre-Visit Brief / Store Brief / Store Overview / Pre-visit briefing / pre visit breif / Option 4 / "4" / 4 -> Call @actions.store_brief
                     |         * Inventory / Check inventory / Out of stock records / Option 5 / "5" / 5 -> Call @actions.get_details with recordType = "inventory"
                     |         * Order History / purchasing patterns / Order summary / Option 6 / "6" / 6 -> Call @actions.order_summary. Present the order history summary. When displaying individual orders, keep the full lightning hyperlink (e.g., `[O-00518](/lightning/r/Order/02hdn00000qckbua0/view)`) and never replace it with a naked record ID.
-                    |         * Update Visit / Update Visit Information / Option 7 / "7" / 7 -> You MUST NOT attempt to list fields or collect inputs yourself. You MUST transition immediately to the @subagent.visit_updater subagent by calling {!@actions.go_to_visit_updater}.
+                    |         * Update Visit / Update Visit Information / Option 7 / "7" / 7 -> You MUST NOT attempt to list fields or collect inputs yourself. You MUST transition immediately to the @subagent.TW_CGC_visit_updater subagent by calling {!@actions.go_to_visit_updater}.
                     |         * Sellable Products / Products in assortment / Option 8 / "8" / 8 -> Call @actions.get_details with recordType = "assortmentproducts"
                     |         * Switch / Reset Context / Switch to a different visit / Option 10 / "10" / 10 -> Call @actions.switch_visit
                     |         * Product Recommendations / suggestions -> Call @actions.suggest_products
-                    |         * Visit Activities / planned activities / surveys / checklists / questions / Option 9 / "9" / 9 / 📝 Visit Activities / 📝 Visit Activities (Fetch planned surveys, checklists, or check completed/pending questions) -> Transition to @subagent.visit_activities
-                    |         * Forecasting / predictive insights / sales forecast / predictive -> Transition to @subagent.forecasting_insights using go_to_forecasting
-                    |         * Record Calculations / calculations / dynamic calculations -> Transition to @subagent.record_calculations_insights using go_to_calculations
+                    |         * Visit Activities / planned activities / surveys / checklists / questions / Option 9 / "9" / 9 / 📝 Visit Activities / 📝 Visit Activities (Fetch planned surveys, checklists, or check completed/pending questions) -> Transition to @subagent.TW_CGC_visit_activities
+                    |         * Forecasting / predictive insights / sales forecast / predictive -> Transition to @subagent.TW_CGC_forecasting_insights using go_to_forecasting
+                    |         * Record Calculations / calculations / dynamic calculations -> Transition to @subagent.TW_CGC_record_calculations_insights using go_to_calculations
                     |
                     |   B. FALLBACK MAPPING:
-                    |      * If no previous list can be identified or input is ambiguous, map the numbers 1 to 10 directly to these default greeting options: 1=Account Summary, 2=Contacts, 3=Promotions, 4=Pre-Visit Brief, 5=Inventory, 6=Order History, 7=Transition immediately to @subagent.visit_updater (using {!@actions.go_to_visit_updater}), 8=Sellable Products, 9=Visit Activities, 10=Switch/Reset Context.
+                    |      * If no previous list can be identified or input is ambiguous, map the numbers 1 to 10 directly to these default greeting options: 1=Account Summary, 2=Contacts, 3=Promotions, 4=Pre-Visit Brief, 5=Inventory, 6=Order History, 7=Transition immediately to @subagent.TW_CGC_visit_updater (using {!@actions.go_to_visit_updater}), 8=Sellable Products, 9=Visit Activities, 10=Switch/Reset Context.
                     |
                     | SECTION 4: SPECIFIC FORMATTING & PRESENTATION RULES
                     | --- WEB FORMATTING (channelType == "web") ---
@@ -585,25 +585,25 @@
                     with deliveryNote = ...
                     with invoiceNote = ...
 
-                switch_visit: @utils.transition to @subagent.clear_context
+                switch_visit: @utils.transition to @subagent.TW_CGC_clear_context
                     description: "Change, switch, or select another Visit or work on a different store."
 
-                back_to_router: @utils.transition to @subagent.clear_context
+                back_to_router: @utils.transition to @subagent.TW_CGC_clear_context
                     description: "Return to the main agent router if the user wants to clear context or switch context."
 
-                go_to_activities: @utils.transition to @subagent.visit_activities
+                go_to_activities: @utils.transition to @subagent.TW_CGC_visit_activities
                     description: "Transition to the Visit Activities subagent to check planned activities, surveys, checklists, or completed/pending questions."
 
-                go_to_create_visit: @utils.transition to @subagent.create_visit
+                go_to_create_visit: @utils.transition to @subagent.TW_CGC_create_visit
                     description: "Transition to the Create Visit Agent (web form) to create, schedule, plan, or add a new Visit."
 
-                go_to_visit_updater: @utils.transition to @subagent.visit_updater
+                go_to_visit_updater: @utils.transition to @subagent.TW_CGC_visit_updater
                     description: "Transition to the Visit Updater subagent to update visit fields."
 
-                go_to_forecasting: @utils.transition to @subagent.forecasting_insights
+                go_to_forecasting: @utils.transition to @subagent.TW_CGC_forecasting_insights
                     description: "Transition to the Forecasting & Predictive Insights Workspace subagent to handle predictions, forecasts, and trends analysis."
 
-                go_to_calculations: @utils.transition to @subagent.record_calculations_insights
+                go_to_calculations: @utils.transition to @subagent.TW_CGC_record_calculations_insights
                     description: "Transition to the Record Calculations & Insights subagent to run dynamic calculations, record ages, averages, and duration queries."
 
                 store_brief: @actions.get_store_brief
@@ -956,11 +956,11 @@
                     message: string
                         description: "Status outcome message."
 
-    subagent visit_activities:
+    subagent TW_CGC_visit_activities:
         label: "Visit Activities"
         description: "Manage and retrieve planned activities, questions, and surveys for the selected visit, and check answered or pending questions."
         before_reasoning:
-            set @variables.activeSubagent = "visit_activities"
+            set @variables.activeSubagent = "TW_CGC_visit_activities"
 
         reasoning:
             instructions: ->
@@ -978,7 +978,7 @@
                     |   * "View today's surveys" / "activity surveys" / "show surveys" -> Call @actions.get_visit_activities with questionOrSurveyFilter = "survey"
                     |   * "See answered or pending questions" / "completed questions" / "unanswered questions" -> Call @actions.get_visit_jobs_status with statusFilter mapped accordingly ("answered", "pending", "all") and questionOrSurveyFilter = "all"
                     |   * "See answered or pending surveys" / "completed surveys" / "unanswered surveys" -> Call @actions.get_visit_jobs_status with statusFilter mapped accordingly ("answered", "pending", "all") and questionOrSurveyFilter = "survey"
-                    |   * "Go back" / "exit activities" / "Return to options" -> Transition to @subagent.visit_intelligence
+                    |   * "Go back" / "exit activities" / "Return to options" -> Transition to @subagent.TW_CGC_visit_intelligence
                     |   * "Switch to another visit" / "change visit" / "reset context" -> Call @actions.switch_visit
                     |
                     | SECTION 2: GREETING & DEFAULT DASHBOARD DISPLAY
@@ -1000,16 +1000,16 @@
                     |      * See answered or pending questions / completed questions / unanswered questions -> Call @actions.get_visit_jobs_status with statusFilter = "all" and questionOrSurveyFilter = "all"
                     |      * Check all questions and survey statuses / statuses / statuses of questions -> Call @actions.get_visit_jobs_status with statusFilter = "all" and questionOrSurveyFilter = "all"
                     |      * Switch to another visit / change visit / reset context -> Call @actions.switch_visit
-                    |      * Go back / exit activities / Return to options -> Transition to @subagent.visit_intelligence
+                    |      * Go back / exit activities / Return to options -> Transition to @subagent.TW_CGC_visit_intelligence
                     |   3. FALLBACK MAPPING FOR DIRECT NUMBER INPUTS:
                     |      - If the user was shown the Planned Activities view (where Option 1 is "See answered or pending questions"):
                     |        * "1" or "2" -> Call @actions.get_visit_jobs_status with statusFilter = "all" and questionOrSurveyFilter = "all"
                     |        * "3" -> Call @actions.switch_visit
-                    |        * "4" -> Transition to @subagent.visit_intelligence
+                    |        * "4" -> Transition to @subagent.TW_CGC_visit_intelligence
                     |      - If the user was shown the Questions/Surveys Status view (where Option 1 is "View today's activities or surveys"):
                     |        * "1" -> Call @actions.get_visit_activities with questionOrSurveyFilter = "all"
                     |        * "2" -> Call @actions.switch_visit
-                    |        * "3" -> Transition to @subagent.visit_intelligence
+                    |        * "3" -> Transition to @subagent.TW_CGC_visit_intelligence
                     |      - If the user inputs "6" or "9" or maps to "Visit Activities" from the parent agent menu, call @actions.get_visit_activities with questionOrSurveyFilter = "all".
                     |   4. Always render the hardcoded Next Steps menu (described in Section 4) at the end of the response.
                     |
@@ -1108,10 +1108,10 @@
                     with actionType = "getNextSteps"
                     with excludeOption = ...
 
-                switch_visit: @utils.transition to @subagent.clear_context
+                switch_visit: @utils.transition to @subagent.TW_CGC_clear_context
                     description: "Change, switch, or select another Visit or work on a different store."
 
-                back_to_intelligence: @utils.transition to @subagent.visit_intelligence
+                back_to_intelligence: @utils.transition to @subagent.TW_CGC_visit_intelligence
                     description: "Return to the main options selection."
 
         actions:
@@ -1177,11 +1177,11 @@
                     message: string
                         description: "Status outcome message."
 
-    subagent forecasting_insights:
+    subagent TW_CGC_forecasting_insights:
         label: "Forecasting & Predictive Insights Workspace"
         description: "Core subagent that handles forecasting requests using Salesforce history."
         before_reasoning:
-            set @variables.activeSubagent = "forecasting_insights"
+            set @variables.activeSubagent = "TW_CGC_forecasting_insights"
         reasoning:
             instructions: ->
                 | You are inside the Forecasting and Predictive Insights subagent.
@@ -1229,7 +1229,7 @@
                     with agentName = "Visit_Intelligence"
                     with actionType = "searchAccounts"
                     with searchQuery = ...
-                go_to_intelligence: @utils.transition to @subagent.visit_intelligence
+                go_to_intelligence: @utils.transition to @subagent.TW_CGC_visit_intelligence
         actions:
             search_accounts:
                 description: "Search for accounts to forecast when no account context is loaded."
@@ -1334,11 +1334,11 @@
                     confidenceLevel: string
                     reasoning: string
 
-    subagent record_calculations_insights:
+    subagent TW_CGC_record_calculations_insights:
         label: "Record Calculations & Insights"
         description: "Perform dynamic SOQL queries to retrieve and calculate record age, durations, aggregations, counts, and comparisons."
         before_reasoning:
-            set @variables.activeSubagent = "record_calculations_insights"
+            set @variables.activeSubagent = "TW_CGC_record_calculations_insights"
         reasoning:
             instructions: ->
                 | You are a Salesforce AI assistant that specializes in answering calculation-based, date-based, duration-based, and record-derived questions using only the data available in the Salesforce organization.
@@ -1403,7 +1403,7 @@
             actions:
                 execute_soql: @actions.execute_soql
                     with query = ...
-                go_to_intelligence: @utils.transition to @subagent.visit_intelligence
+                go_to_intelligence: @utils.transition to @subagent.TW_CGC_visit_intelligence
         actions:
             execute_soql:
                 description: "Run dynamic SOQL query against Salesforce database in User Mode. Returns results serialized as a JSON string."
@@ -1420,11 +1420,11 @@
                     errorMessage: string
                         description: "Error message if the query failed."
 
-    subagent create_visit:
+    subagent TW_CGC_create_visit:
         label: "Create Visit Agent"
         description: "Handle the creation of a new Visit record using conversational multi-step flow."
         before_reasoning:
-            set @variables.activeSubagent = "create_visit"
+            set @variables.activeSubagent = "TW_CGC_create_visit"
 
         reasoning:
             instructions: ->
@@ -1439,7 +1439,7 @@
                     | - ID: {!@variables.visitId}
                     |
                     | I'm loading this visit and returning you to the main menu.
-                    set @variables.activeSubagent = "visit_intelligence"
+                    set @variables.activeSubagent = "TW_CGC_visit_intelligence"
                     set @variables.accountId = ""
                     set @variables.tempAccountId = ""
                     set @variables.tempAccountName = ""
@@ -1454,7 +1454,7 @@
                     set @variables.tempPlaceSuggestions = ""
                     set @variables.tempTemplateSuggestions = ""
                     set @variables.tempOwnerSuggestions = ""
-                    transition to @subagent.agent_router
+                    transition to @subagent.TW_CGC_agent_router
 
                 if @variables.visitId == "":
                     | You are in the Create Visit Agent for mobile. Your goal is to gather all inputs step-by-step. All prompts and choices MUST be processed conversationally in plain text chat (no input cards or forms allowed).
@@ -1687,11 +1687,11 @@
                     assignedUser: string
                         description: "The Assigned User."
 
-    subagent visit_updater:
+    subagent TW_CGC_visit_updater:
         label: "Visit Updater Agent"
         description: "Update the status, owner, notes, start time, or end time of the current visit conversationally using plain text inputs."
         before_reasoning:
-            set @variables.activeSubagent = "visit_updater"
+            set @variables.activeSubagent = "TW_CGC_visit_updater"
             set @variables.tempIsSubmitted = False
             set @variables.tempMessage = ""
 
@@ -1797,7 +1797,7 @@
                     set @variables.tempIsSubmitted = @outputs.success
                     set @variables.tempMessage = @outputs.message
 
-                go_to_intelligence: @utils.transition to @subagent.visit_intelligence
+                go_to_intelligence: @utils.transition to @subagent.TW_CGC_visit_intelligence
 
         actions:
             update_visit_status_mobile_action:
@@ -1932,7 +1932,7 @@
                     visitName: string
                         description: "The Name/Number of the Visit record (e.g. V-00000370)."
 
-    subagent off_topic:
+    subagent TW_CGC_off_topic:
         label: "Off Topic"
         description: "Redirect conversation to relevant topics when user request goes off-topic."
 
@@ -1941,7 +1941,7 @@
                 | You should explain that you are specialized in Salesforce Visit Intelligence, analyzing Visit records, associated Accounts, and related records (Visits, Tasks, Promotions, Out-of-Stock, Retail Stores, Assortments, Store Products, Tactics, and Order History).
                 | Do not answer general knowledge questions. Redirect the conversation to your capabilities.
 
-    subagent ambiguous_question:
+    subagent TW_CGC_ambiguous_question:
         label: "Ambiguous Question"
         description: "Redirect conversation to relevant topics when user request is too ambiguous."
 
@@ -1950,7 +1950,7 @@
                 | Your job is to help the user provide clearer, more focused requests for better assistance.
                 | Ask the user if they would like to see a summary of the current Account, or check details of specific related records.
 
-    subagent clear_context:
+    subagent TW_CGC_clear_context:
         description: "Utility subagent to clear the active Visit and Account context variables before selecting another visit."
         before_reasoning:
             set @variables.visitId = ""
@@ -1962,8 +1962,8 @@
             set @variables.visitSummaryText = ""
             set @variables.lastRecordId = ""
             set @variables.tempCreateVisitWrapper = None
-            set @variables.activeSubagent = "visit_intelligence"
-            transition to @subagent.agent_router
+            set @variables.activeSubagent = "TW_CGC_visit_intelligence"
+            transition to @subagent.TW_CGC_agent_router
 
         actions:
             get_visit_details:
